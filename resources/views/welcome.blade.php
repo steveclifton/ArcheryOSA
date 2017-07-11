@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Home | Archery OSA</title>
+
         {{-- My CSS --}}
         <link rel="stylesheet" href="css/my.css">
         <!-- Tell the browser to be responsive to screen width -->
