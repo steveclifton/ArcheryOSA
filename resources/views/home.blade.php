@@ -96,7 +96,7 @@
                             <div class="box-footer text-black">
                                 <div class="row" >
                                     <div class="col-sm-12">
-                                    <small><u>Upcomming Events</u></small>
+                                    <small><u>Upcoming Events</u></small>
                                         <!-- Progress bars -->
                                         <div class="clearfix">
                                             <span class="pull-left">Test Club Event</span>
