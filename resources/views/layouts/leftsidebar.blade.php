@@ -86,14 +86,15 @@
 
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-cogs"></i> <span>Equipment</span>
+                    <i class="fa fa-cogs"></i> <span>Education</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="margin15"><a href="#"><i class="fa fa-file-text-o"></i>Tuning Guides</a></li>
+                    <li class="margin15"><a href="#"><i class="fa fa-file-text-o"></i>Tuning Charts</a></li>
                     <li class="margin15"><a href="#"><i class="fa fa-file-text-o"></i>Articles</a></li>
+                    <li class="margin15"><a href="#"><i class="fa fa-file-text-o"></i>How To's</a></li>
                 </ul>
             </li>
         </ul>
