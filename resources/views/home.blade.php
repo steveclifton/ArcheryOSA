@@ -69,50 +69,43 @@ $userName = 'Steve Clifton';
                                                 <tr>
                                                     <td class="hidden-xs hidden-sm">Auckland Auckland Club</a></td>
                                                     <td class="visible-xs visible-sm">Auckland</td>
-                                                    <td class="hidden-xs hidden-sm">Double WA 1440</td>
-                                                    <td class="visible-xs visible-sm">Double WA 1440</td>
+                                                    <td class=""><a href="#">Double WA 1440</a></td>
                                                     <td>{{date('d/m/Y', strtotime("-3 days"))}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="hidden-xs hidden-sm">Mt Green Archery Club</a></td>
                                                     <td class="visible-xs visible-sm">Auckland</td>
-                                                    <td class="hidden-xs hidden-sm">Double 720 + Matchplay</td>
-                                                    <td class="visible-xs visible-sm">Double 720 + Matchp..</td>
+                                                    <td class=""><a href="#">Double 720 + Matchplay</a></td>
                                                     <td>{{date('d/m/Y', strtotime("+6 days"))}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="hidden-xs hidden-sm">Dunedin Archery Club</a></td>
                                                     <td class="visible-xs visible-sm">Dunedin</td>
-                                                    <td class="hidden-xs hidden-sm">Double 720</td>
-                                                    <td class="visible-xs visible-sm">Double 720</td>
+                                                    <td class=""><a href="#">Double 720</a></td>
                                                     <td>{{date('d/m/Y', strtotime("+11 days"))}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="hidden-xs hidden-sm">Massey Archery Club</a></td>
                                                     <td class="visible-xs visible-sm">Auckland</td>
-                                                    <td class="hidden-xs hidden-sm">IFAA Target Round</td>
-                                                    <td class="visible-xs visible-sm">IFAA Target R..</td>
+                                                    <td class=""><a href="#">IFAA Target Round</a></td>
                                                     <td>{{date('d/m/Y', strtotime("+14 days"))}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="hidden-xs hidden-sm">Christchurch Archery Club</a></td>
                                                     <td class="visible-xs visible-sm">Christchurch</td>
-                                                    <td class="hidden-xs hidden-sm">Monthly Club Indoor Night</td>
-                                                    <td class="visible-xs visible-sm">Monthly Club Indoor ..</td>
+                                                    <td class=""><a href="#">Monthly Club Indoor Night</a></td>
                                                     <td>{{date('d/m/Y', strtotime("+17 days"))}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="hidden-xs hidden-sm">Riverglade Archery Club</a></td>
                                                     <td class="visible-xs visible-sm">Hamilton</td>
-                                                    <td class="hidden-xs hidden-sm">Burton</td>
-                                                    <td class="visible-xs visible-sm">Burton</td>
+                                                    <td class=""><a href="#">Burton</a></td>
                                                     <td>{{date('d/m/Y', strtotime("+21 days"))}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="hidden-xs hidden-sm">Timaru Archery Club</a></td>
                                                     <td class="visible-xs visible-sm">Timaru</td>
-                                                    <td class="hidden-xs hidden-sm">Double 720</td>
-                                                    <td class="visible-xs visible-sm">Double 720</td>
+                                                    <td class=""><a href="#">Double 720</a></td>
                                                     <td>{{date('d/m/Y', strtotime("+24 days"))}}</td>
                                                 </tr>
                                             </tbody>
