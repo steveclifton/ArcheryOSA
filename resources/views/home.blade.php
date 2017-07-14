@@ -1,5 +1,5 @@
 <?php
-$user = false;
+$user = true;
 $userName = 'Steve Clifton';
 ?>
 <!DOCTYPE html>
