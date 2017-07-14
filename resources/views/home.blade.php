@@ -43,6 +43,7 @@ $userName = 'Steve Clifton';
                     <h1>Dashboard</h1>
                 </section>
                 <!-- Main content -->
+                <div class="container-fixed">
                 <section class="content">
                     <div class="row">
                         <section class="col-md-8 pull-left">
@@ -195,6 +196,9 @@ $userName = 'Steve Clifton';
                         </section>
                     </div>
                 </section>
+
+                </div>
+
             </div>
             @include ('layouts.footer')
         </div>
