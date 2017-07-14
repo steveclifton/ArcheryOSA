@@ -44,7 +44,11 @@ $userName = 'Steve Clifton';
                 </section>
                 <!-- Main content -->
                 <section class="content">
+
+                    {{-- Row 1 --}}
                     <div class="row">
+
+                        {{-- Upcoming Events --}}
                         <section class="col-lg-8">
                             <div class="box box-info">
                                 <div class="box-header with-border">
@@ -52,7 +56,6 @@ $userName = 'Steve Clifton';
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                         </button>
-                                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                                     </div>
                                 </div>
                                 <!-- /.box-header -->
@@ -108,6 +111,12 @@ $userName = 'Steve Clifton';
                                                     <td class=""><a href="#">Double 720</a></td>
                                                     <td>{{date('d/m/Y', strtotime("+24 days"))}}</td>
                                                 </tr>
+                                                <tr>
+                                                    <td class="hidden-xs hidden-sm">Massey Archery Club</a></td>
+                                                    <td class="visible-xs visible-sm">Auckland</td>
+                                                    <td class=""><a href="#">IFAA Hunter Round</a></td>
+                                                    <td>{{date('d/m/Y', strtotime("+34 days"))}}</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -116,6 +125,9 @@ $userName = 'Steve Clifton';
                                 <!-- /.box-footer -->
                             </div>
                         </section>
+
+
+                        {{-- Previous Results --}}
                         <section class="col-lg-4">
                             <div class="box box-primary">
                                 <div class="box-header with-border">
@@ -123,7 +135,6 @@ $userName = 'Steve Clifton';
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                         </button>
-                                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                                     </div>
                                 </div>
                                 <!-- /.box-header -->
@@ -184,9 +195,83 @@ $userName = 'Steve Clifton';
                                     </ul>
                                 </div>
                                 <!-- /.box-footer -->
+                                <div class="box-footer text-center">
+                                  <a href="javascript:;" class="uppercase">View More Results</a>
+                                </div>
                             </div>
                         </section>
+
+
                     </div>
+
+
+                    {{-- Row 2 --}}
+                    <div class="row">
+
+                        {{-- My Events --}}
+                        <section class="col-lg-8">
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">My Events</h3>
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="table-responsive">
+                                        <table class="table no-margin">
+                                            <thead>
+                                                <tr>
+                                                    <th>Status</th>
+                                                    <th>Location</th>
+                                                    <th>Event</th>
+                                                    <th>Start Date</th>
+                                                </tr>
+                                            <tbody>
+                                                <tr>
+                                                    <td><span class="label label-success">Confirmed</span></td>
+                                                    <td class="hidden-xs hidden-sm">Auckland Auckland Club</a></td>
+                                                    <td class="visible-xs visible-sm">Auckland</td>
+                                                    <td class=""><a href="#">Double WA 1440</a></td>
+                                                    <td>{{date('d/m/Y', strtotime("-3 days"))}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="label label-success">Confirmed</span></td>
+                                                    <td class="hidden-xs hidden-sm">Mt Green Archery Club</a></td>
+                                                    <td class="visible-xs visible-sm">Auckland</td>
+                                                    <td class=""><a href="#">Double 720 + Matchplay</a></td>
+                                                    <td>{{date('d/m/Y', strtotime("+6 days"))}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="label label-warning">Pending</span></td>
+                                                    <td class="hidden-xs hidden-sm">Dunedin Archery Club</a></td>
+                                                    <td class="visible-xs visible-sm">Dunedin</td>
+                                                    <td class=""><a href="#">Double 720</a></td>
+                                                    <td>{{date('d/m/Y', strtotime("+11 days"))}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="label label-success">Confirmed</span></td>
+                                                    <td class="hidden-xs hidden-sm">Massey Archery Club</a></td>
+                                                    <td class="visible-xs visible-sm">Auckland</td>
+                                                    <td class=""><a href="#">IFAA Target Round</a></td>
+                                                    <td>{{date('d/m/Y', strtotime("+14 days"))}}</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.table-responsive -->
+                                </div>
+                                <!-- /.box-footer -->
+                            </div>
+                        </section>
+
+
+                    </div>
+
+
                 </section>
             </div>
             @include ('layouts.footer')
