@@ -1,20 +1,30 @@
+
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
         <!-- Sidebar user panel -->
         <div class="user-panel">
+        @if($user)
             <div class="pull-left image">
                 <img src="img/steve160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>Steve Clifton</p>
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                <p>{{$userName}}</p>
             </div>
+        @else
+            <div class="pull-left image">
+                <img src="img/avatargrey160x160.png" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p><a href="#">Sign in</a></p>
+            </div>
+        @endif
         </div>
-        <!-- sidebar menu: : style can be found in sidebar.less -->
-        <ul class="sidebar-menu" data-widget="tree">
-        {{-- <li class="header">ArcheryOSA Navigation</li> --}}
 
+        <ul class="sidebar-menu" data-widget="tree">
+
+
+        @if($user)
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-dashboard"></i> <span>My Dashboard</span>
@@ -26,10 +36,22 @@
                     <li class="active margin15" ><a href="#"><i class="fa fa-bullseye"></i>My Gear</a></li>
                     <li class="active margin15" ><a href="#"><i class="fa fa-bullseye"></i>My Events</a></li>
                     <li class="active margin15" ><a href="#"><i class="fa fa-bullseye"></i>My Results</a></li>
-                    <li class="active margin15" ><a href="#"><i class="fa fa-bullseye"></i>My Records</a></li>
-                    <li class="active margin15" ><a href="#"><i class="fa fa-bullseye"></i>My Coaching</a></li>
                 </ul>
             </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-edit"></i> <span>Training</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="margin15"><a href="#"><i class="fa fa-calendar-check-o"></i>My Diary</a></li>
+                    <li class="margin15"><a href="#"><i class="fa fa-calendar-check-o"></i>My Results</a></li>
+                </ul>
+            </li>
+        @endif
+
 
             <li class="treeview">
                 <a href="#">
@@ -56,18 +78,6 @@
                 </ul>
             </li>
 
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-edit"></i> <span>Training</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li class="margin15"><a href="#"><i class="fa fa-calendar-check-o"></i>My Diary</a></li>
-                    <li class="margin15"><a href="#"><i class="fa fa-calendar-check-o"></i>My Results</a></li>
-                </ul>
-            </li>
 
             <li class="treeview">
                 <a href="#">

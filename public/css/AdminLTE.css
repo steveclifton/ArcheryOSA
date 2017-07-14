@@ -476,7 +476,7 @@ a:focus {
   height: auto;
 }
 .user-panel > .info {
-  padding: 5px 5px 5px 15px;
+  padding: 15px 5px 5px 15px;
   line-height: 1;
   position: absolute;
   left: 55px;

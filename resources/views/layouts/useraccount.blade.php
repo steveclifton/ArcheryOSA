@@ -1,15 +1,15 @@
-<!-- User Account: style can be found in dropdown.less -->
+@if($user)
     <li class="dropdown user user-menu">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
             <img src="img/steve160x160.jpg" class="user-image" alt="User Image">
             <span class="hidden-xs">Steve Clifton</span>
         </a>
         <ul class="dropdown-menu">
-        <!-- User image -->
             <li class="user-header">
                 <img src="img/steve160x160.jpg" class="img-circle" alt="User Image">
                 <p>
-                    Steve Clifton
+                    {{$userName}}
                 </p>
             </li>
             <!-- Menu Body -->
@@ -31,3 +31,27 @@
             </li>
         </ul>
     </li>
+@else
+    <li class="dropdown user user-menu">
+        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+            <img src="img/avatargrey160x160.png" class="user-image" alt="User Image">
+            <span class="hidden-xs">Sign in</span>
+        </a>
+        <ul class="dropdown-menu">
+            <li class="user-header">
+                <img src="img/avatargrey160x160.png" class="img-circle" alt="User Image">
+                <p>
+                    Sign in
+                </p>
+            </li>
+
+            <li class="user-footer">
+                <div class="pull-left">
+                    <input type="text" name="email" placeholder="Email Address">
+                    <input type="password" name="password" placeholder="Password">
+                </div>
+            </li>
+        </ul>
+    </li>
+@endif
+

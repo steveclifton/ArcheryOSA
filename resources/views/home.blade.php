@@ -1,3 +1,10 @@
+<?php
+
+$user = false;
+$userName = 'Steve Clifton';
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -30,13 +37,16 @@
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
 
+                        @if($user)
                             @include('layouts.notification')
 
                             @include('layouts.tasks')
+                        @endif
 
                             @include('layouts.useraccount')
 
                             @include('layouts.rightsidebar')
+
 
                         </ul>
                     </div>
