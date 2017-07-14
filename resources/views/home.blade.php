@@ -45,7 +45,7 @@ $userName = 'Steve Clifton';
                 <!-- Main content -->
                 <section class="content">
                     <div class="row">
-                        <section class="col-lg-8 pull-left">
+                        <section class="col-lg-8">
                             <div class="box box-info">
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Upcoming Events</h3>
@@ -123,7 +123,7 @@ $userName = 'Steve Clifton';
                                 <!-- /.box-footer -->
                             </div>
                         </section>
-                        <section class="col-lg-4 pull-right">
+                        <section class="col-lg-4">
                             <div class="box box-primary">
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Previous Results</h3>
