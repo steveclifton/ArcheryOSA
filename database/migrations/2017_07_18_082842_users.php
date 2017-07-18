@@ -19,7 +19,7 @@ class Users extends Migration
             $table->increments('id');
             $table->string('firstname');
             $table->string('lastname');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('password');
             $table->string('phone')->unique();
             $table->string('image');
