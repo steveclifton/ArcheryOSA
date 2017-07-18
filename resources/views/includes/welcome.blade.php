@@ -2,10 +2,9 @@
 
 @section ('content')
 
-    <?php dd($clubs) ?>
+    {{-- {!! dd($clubs) !!} --}}
     {{-- Row 1 --}}
     <div class="row">
-
         {{-- Upcoming Events --}}
         <section class="col-lg-8">
             <div class="box box-info">

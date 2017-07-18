@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRoundgroupsTable extends Migration
+class CreateRoundsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateRoundgroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('roundgroup', function (Blueprint $table) {
-            $table->increments('roundgroupid');
-            $table->string('roundgroup');
-            $table->text('description');
+        Schema::create('rounds', function (Blueprint $table) {
+            $table->increments('id');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ class CreateRoundgroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roundgroups');
+        Schema::dropIfExists('rounds');
     }
 }

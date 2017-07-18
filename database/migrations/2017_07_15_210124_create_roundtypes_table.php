@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDistrictsTable extends Migration
+class CreateRoundtypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateDistrictsTable extends Migration
      */
     public function up()
     {
-        Schema::create('district', function (Blueprint $table) {
-            $table->increments('districtid');
-            $table->string('name');
+        Schema::create('roundtypes', function (Blueprint $table) {
+            $table->increments('id');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ class CreateDistrictsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('districts');
+        Schema::dropIfExists('roundtypes');
     }
 }

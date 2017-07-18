@@ -4,7 +4,7 @@
     <section class="sidebar">
         <!-- Sidebar user panel -->
         <div class="user-panel">
-        @if($user)
+        @if (Auth::check())
             <div class="pull-left image">
                 <img src="img/steve160x160.jpg" class="img-circle" alt="User Image">
             </div>
@@ -16,7 +16,7 @@
                 <img src="img/avatargrey160x160.png" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p><a href="#">Sign in</a></p>
+                <p><a href="/login">Login</a></p>
             </div>
         @endif
         </div>
@@ -24,7 +24,7 @@
         <ul class="sidebar-menu" data-widget="tree">
 
 
-        @if($user)
+        @if (Auth::check())
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-dashboard"></i> <span>My Dashboard</span>
@@ -49,6 +49,10 @@
                     <li class="margin15"><a href="#"><i class="fa fa-calendar-check-o"></i>My Diary</a></li>
                     <li class="margin15"><a href="#"><i class="fa fa-calendar-check-o"></i>My Results</a></li>
                 </ul>
+            </li>
+        @else
+            <li class="treeview">
+                <li class="margin15"><a href="/register"><i class="fa fa-user-plus"></i>Join ArcheryOSA!</a></li>
             </li>
         @endif
 

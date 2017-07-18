@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Roundgroup extends Model
+class roundgroup extends Model
 {
     //
 }

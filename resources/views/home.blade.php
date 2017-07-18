@@ -1,5 +1,5 @@
 <?php
-$user = true;
+$user = false;
 $userName = 'Steve Clifton';
 ?>
 <!DOCTYPE html>
@@ -12,7 +12,7 @@ $userName = 'Steve Clifton';
         <div class="wrapper">
             <header class="main-header">
                 <!-- Logo -->
-                <a href="javascript:;" class="logo">
+                <a href="/" class="logo">
                     <span class="logo-mini">OSA</span>
                     <span class="logo-lg"><b>Archery</b>OSA</span>
                 </a>
@@ -25,9 +25,10 @@ $userName = 'Steve Clifton';
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
                             @if($user)
-                            @include('layouts.notification')
-                            @include('layouts.tasks')
+                                @include('layouts.notification')
+                                @include('layouts.tasks')
                             @endif
+
                             @include('layouts.useraccount')
                             @include('layouts.rightsidebar')
                         </ul>
