@@ -1,8 +1,10 @@
 <?php
 
-Route::get('/', 'Home@index')->name('home');
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+
+Route::get('/', 'HomeController@index')->name('home');
+
 Route::get('logout', 'Auth\LogoutController@logout');
+Route::get('profile', 'UserController@index');
+Route::post('updateprofile', 'UserController@updateProfile')->name('updateprofile');
