@@ -1,14 +1,14 @@
 @if (Auth::check())
 <li class="dropdown user user-menu">
     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-        <img src="img/steve160x160.jpg" class="user-image" alt="User Image">
-        <span class="hidden-xs">Steve Clifton</span>
+        <img src="/image/{{Auth::user()->image}}" class="user-image" alt="User Image">
+        <span class="hidden-xs">{{ Auth::user()->firstname . " " . Auth::user()->lastname }}</span>
     </a>
     <ul class="dropdown-menu">
         <li class="user-header">
             <img src="img/steve160x160.jpg" class="img-circle" alt="User Image">
             <p>
-                {{$userName}}
+            {{ Auth::user()->firstname . " " . Auth::user()->lastname }}
             </p>
         </li>
 

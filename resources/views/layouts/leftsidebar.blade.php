@@ -6,10 +6,12 @@
         <div class="user-panel">
         @if (Auth::check())
             <div class="pull-left image">
-                <img src="img/steve160x160.jpg" class="img-circle" alt="User Image">
+                <img src="/image/{{Auth::user()->image}}" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>{{$userName}}</p>
+                <p>
+                    {{ Auth::user()->firstname . " " . Auth::user()->lastname }}
+                </p>
             </div>
         @else
             <div class="pull-left image">

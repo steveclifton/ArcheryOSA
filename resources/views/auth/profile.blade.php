@@ -1,8 +1,8 @@
 @extends ('home')
 
 @section ('content')
-{{--
-{!! dd($user->email) !!} --}}
+
+{{-- {!! dd(request()) !!} --}}
 
 {{-- <div class="container"> --}}
     <div class="row">
@@ -10,6 +10,12 @@
             <div class="panel panel-default">
                 <div class="panel-heading">My Profile</div>
                 <div class="panel-body">
+                    @if (session('key'))
+                        <div class="alert alert-success">
+                            {{ session('key') }}
+                        </div>
+                    @endif
+
                     <form class="form-horizontal" method="POST" action="{{ route('updateprofile') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
@@ -26,6 +32,7 @@
                                 @endif
                             </div>
                         </div>
+
                         <div class="form-group{{ $errors->has('lastname') ? ' has-error' : '' }}">
                             <label for="lastname" class="col-md-4 control-label">Last Name</label>
 
@@ -39,7 +46,6 @@
                                 @endif
                             </div>
                         </div>
-
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
@@ -74,7 +80,7 @@
 
                             <div class="col-md-6">
                                 <input id="profileimage" type="file" class="form-control" name="profileimage" onchange="readURL(this);">
-                                <img id="blah" src="#" alt="your image" />
+                                <img id="blah" src="/image/{{ (old('phone')) ? old('phone') : $user->image }}" alt="" style="width: 150px" />
                                 @if ($errors->has('profileimage'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('profileimage') }}</strong>
@@ -82,10 +88,6 @@
                                 @endif
                             </div>
                         </div>
-
-
-
-
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
@@ -95,8 +97,8 @@
                             </div>
                         </div>
 
-
                     </form>
+
                 </div>
             </div>
         </div>

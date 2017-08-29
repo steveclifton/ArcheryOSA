@@ -1,7 +1,3 @@
-<?php
-$user = false;
-$userName = 'Steve Clifton';
-?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -24,7 +20,7 @@ $userName = 'Steve Clifton';
                     </a>
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
-                            @if($user)
+                            @if(Auth::check())
                                 @include('layouts.notification')
                                 @include('layouts.tasks')
                             @endif
