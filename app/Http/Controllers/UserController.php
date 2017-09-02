@@ -22,8 +22,11 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
+
         if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')]) === false) {
-            dd('FAILED TO LOG IN');
+
+            return view ('auth.login')->withErrors(['email'=>' ', 'password'=>'Invalid Email or Password']);
+
         }
 
         return Redirect::route('home');
@@ -36,13 +39,26 @@ class UserController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function register(Request $request)
     {
         $user = new User();
 
-        $user->firstname = $request->input('firstname');
-        $user->lastname = $request->input('lastname');
-        $user->email = $request->input('email');
+        $this->validate($request, [
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'email' => 'required|unique:users,email',
+            'password' => 'min:6|required|confirmed',
+            'password_confirmation' => 'required|same:password'
+        ]);
+
+
+        $user->firstname = htmlentities($request->input('firstname'));
+        $user->lastname = htmlentities($request->input('lastname'));
+        $user->email = htmlentities($request->input('email'));
         $user->password = Hash::make($request->input('password'));
         $user->lastipaddress = $request->ip();
         $user->usertype = 2;
