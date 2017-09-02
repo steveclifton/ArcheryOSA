@@ -25,7 +25,10 @@ class UserController extends Controller
 
         if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')]) === false) {
 
-            return view ('auth.login')->withErrors(['email'=>' ', 'password'=>'Invalid Email or Password']);
+            return Redirect::back()
+                ->withInput()
+                ->withErrors(['email'=>' ', 'password'=>'Invalid Email or Password']);
+
 
         }
 
