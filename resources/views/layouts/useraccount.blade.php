@@ -1,14 +1,22 @@
 @if (Auth::check())
 <li class="dropdown user user-menu">
     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-        <img src="/image/{{Auth::user()->image}}" class="user-image" alt="User Image">
-        <span class="hidden-xs">{{ Auth::user()->firstname . " " . Auth::user()->lastname }}</span>
+        <?php if (!empty(Auth::user()->image)) {  ?>
+            <img src="/image/{{Auth::user()->image}}" class="user-image" >
+        <?php } else { ?>
+            <img src="img/avatargrey160x160.png" class="user-image" >
+        <?php } ?>
+        <span class="hidden-xs">{!! htmlentities(ucfirst(Auth::user()->firstname)) . " " . htmlentities(ucfirst(Auth::user()->lastname)) !!}</span>
     </a>
     <ul class="dropdown-menu">
         <li class="user-header">
-            <img src="img/steve160x160.jpg" class="img-circle" alt="User Image">
+            <?php if (!empty(Auth::user()->image)) {  ?>
+                <img src="/image/{{Auth::user()->image}}" class="img-circle" >
+            <?php } else { ?>
+                <img src="img/avatargrey160x160.png" class="img-circle" >
+            <?php } ?>
             <p>
-            {{ Auth::user()->firstname . " " . Auth::user()->lastname }}
+            {!! htmlentities(ucfirst(Auth::user()->firstname)) . " " . htmlentities(ucfirst(Auth::user()->lastname)) !!}
             </p>
         </li>
 

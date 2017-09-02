@@ -6,11 +6,15 @@
         <div class="user-panel">
         @if (Auth::check())
             <div class="pull-left image">
-                <img src="/image/{{Auth::user()->image}}" class="img-circle" alt="User Image">
+            <?php if (!empty(Auth::user()->image)) {  ?>
+                <img src="/image/{{Auth::user()->image}}" class="img-circle" >
+            <?php } else { ?>
+                <img src="img/avatargrey160x160.png" class="img-circle" >
+            <?php } ?>
             </div>
             <div class="pull-left info">
                 <p>
-                    {{ Auth::user()->firstname . " " . Auth::user()->lastname }}
+                    {!! htmlentities(ucfirst(Auth::user()->firstname)) . " " . htmlentities(ucfirst(Auth::user()->lastname)) !!}
                 </p>
             </div>
         @else
@@ -54,7 +58,7 @@
             </li>
         @else
             <li class="treeview">
-                <li class="margin15"><a href="/register"><i class="fa fa-user-plus"></i>Join ArcheryOSA!</a></li>
+                <li class="margin15"><a href="{{ route('register')}}"><i class="fa fa-user-plus"></i>Join ArcheryOSA!</a></li>
             </li>
         @endif
 

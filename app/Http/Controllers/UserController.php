@@ -4,23 +4,61 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManager;
-use Auth;
 use Image;
 use Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\User;
+use Redirect;
+
 
 class UserController extends Controller
 {
 
-	public function __construct()
-	{
-		$this->middleware('auth');
-	}
-
-
-    public function index()
+    public function getLoginView()
     {
-    	$user = Auth::user();
-    	return view ('auth.profile', compact('user'));
+        return view ('auth.login');
+    }
+
+    public function login(Request $request)
+    {
+        if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')]) === false) {
+            dd('FAILED TO LOG IN');
+        }
+
+        return Redirect::route('home');
+
+    }
+
+    public function getRegisterView()
+    {
+        return view ('auth.register');
+
+    }
+
+    public function register(Request $request)
+    {
+        $user = new User();
+
+        $user->firstname = $request->input('firstname');
+        $user->lastname = $request->input('lastname');
+        $user->email = $request->input('email');
+        $user->password = Hash::make($request->input('password'));
+        $user->lastipaddress = $request->ip();
+        $user->usertype = 2;
+
+        $user->save();
+
+        Auth::login($user);
+
+        return Redirect::route('home');
+
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return Redirect::route('home');
     }
 
 
@@ -56,12 +94,17 @@ class UserController extends Controller
 
         return redirect('/profile')->with('key', 'Update Successful');
     }
-}
+
+    public function forgotpassword()
+    {
+        $user = Auth::user();
+
+        dd($user);
+    }
 
 
+} // classend
 
-// if ( ! request('password') == '') {
-//     $user->password = bcrypt(request('password'));
-// }
+
 
 

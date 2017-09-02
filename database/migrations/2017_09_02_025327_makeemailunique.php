@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRoundgroupsTable extends Migration
+class Makeemailunique extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateRoundgroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('roundgroups', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('email')->unique()->change();
         });
     }
 
@@ -26,6 +25,6 @@ class CreateRoundgroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roundgroups');
+        //
     }
 }
