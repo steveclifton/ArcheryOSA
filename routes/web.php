@@ -21,4 +21,8 @@ Route::middleware(['web'])->group(function() {
 		Route::get('/logout', 'UserController@logout')->name('logout');
 
 	});
+
+	Route::middleware(['admin'])->group(function () {
+	   Route::get('/create-event', 'CreateEventController@getCreateView')->name('create-event');
+    });
 });

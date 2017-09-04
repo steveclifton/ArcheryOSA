@@ -1,3 +1,5 @@
+@include('layouts.title', ['title'=>'Login'])
+
 @extends('home')
 
 @section('content')

@@ -1,3 +1,5 @@
+@include('layouts.title', ['title'=>'Register'])
+
 @extends ('home')
 
 @section ('content')

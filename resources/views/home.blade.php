@@ -2,7 +2,7 @@
 <html>
     <head>
         @include('layouts.head')
-        <title>Home | Archery OSA</title>
+        @include('layouts.title', ['title'=>'Home'])
     </head>
     <body class="hold-transition skin-black sidebar-mini">
         <div class="wrapper">

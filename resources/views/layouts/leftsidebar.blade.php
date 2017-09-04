@@ -73,8 +73,13 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="margin15"><a href="#"><i class="fa fa-calendar-check-o"></i> Upcomming Events</a></li>
-                    <li class="margin15"><a href="#"><i class="fa fa-calendar-check-o"></i> Previous Events</a></li>
+                    @if (Auth::check())
+                        @if(Auth::user()->usertype == 1)
+                            <li class="margin15"><a href="{{route('create-event')}}"><i class="fa fa-calendar-check-o"></i>Create Event</a></li>
+                        @endif
+                    @endif
+                    <li class="margin15"><a href="#"><i class="fa fa-calendar-check-o"></i>Upcomming Events</a></li>
+                    <li class="margin15"><a href="#"><i class="fa fa-calendar-check-o"></i>Previous Events</a></li>
                 </ul>
             </li>
 
@@ -99,10 +104,10 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="margin15"><a href="#"><i class="fa fa-file-text-o"></i> Archery NZ</a></li>
-                    <li class="margin15"><a href="#"><i class="fa fa-file-text-o"></i> NZFAA</a></li>
-                    <li class="margin15"><a href="#"><i class="fa fa-file-text-o"></i> Archery Australia</a></li>
-                    <li class="margin15"><a href="#"><i class="fa fa-file-text-o"></i> World Archery</a></li>
+                    <li class="margin15"><a href="#"><i class="fa fa-file-text-o"></i>Archery NZ</a></li>
+                    <li class="margin15"><a href="#"><i class="fa fa-file-text-o"></i>NZFAA</a></li>
+                    <li class="margin15"><a href="#"><i class="fa fa-file-text-o"></i>Archery Australia</a></li>
+                    <li class="margin15"><a href="#"><i class="fa fa-file-text-o"></i>World Archery</a></li>
                 </ul>
             </li>
 
