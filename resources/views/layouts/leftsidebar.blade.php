@@ -14,7 +14,9 @@
             </div>
             <div class="pull-left info">
                 <p>
+                    <a href="{{route('profile')}}">
                     {!! htmlentities(ucfirst(Auth::user()->firstname)) . " " . htmlentities(ucfirst(Auth::user()->lastname)) !!}
+                    </a>
                 </p>
             </div>
         @else
