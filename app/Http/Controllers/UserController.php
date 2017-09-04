@@ -79,16 +79,14 @@ class UserController extends Controller
 
     }
 
-
     /**
-     * @return mixed
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function logout()
+    public function getProfileView()
     {
-        Auth::logout();
-        return Redirect::route('home');
+        $user = Auth::user();
+        return view('auth.profile', compact('user'));
     }
-
 
     /**
      * @return $this|\Illuminate\Http\RedirectResponse
@@ -127,15 +125,6 @@ class UserController extends Controller
     }
 
 
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function getProfileView()
-    {
-        $user = Auth::user();
-        return view('auth.profile', compact('user'));
-    }
-
 
     public function forgotpassword()
     {
@@ -144,6 +133,14 @@ class UserController extends Controller
         dd($user);
     }
 
+    /**
+     * @return mixed
+     */
+    public function logout()
+    {
+        Auth::logout();
+        return Redirect::route('home');
+    }
 
 } // classend
 

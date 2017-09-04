@@ -24,5 +24,7 @@ Route::middleware(['web'])->group(function() {
 
 	Route::middleware(['admin'])->group(function () {
 	   Route::get('/create-event', 'CreateEventController@getCreateView')->name('create-event');
+	   Route::post('/create-new-event', 'CreateEventController@create')->name('create-new-event');
+
     });
 });
