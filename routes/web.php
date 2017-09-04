@@ -16,7 +16,7 @@ Route::middleware(['web'])->group(function() {
 
 	//auth
 	Route::middleware(['auth'])->group(function () {
-		Route::get('/profile', 'UserController@index');
+		Route::get('/profile', 'UserController@getProfileView')->name('profile');
 		Route::post('/updateprofile', 'UserController@updateProfile')->name('updateprofile');
 		Route::get('/logout', 'UserController@logout')->name('logout');
 

@@ -15,11 +15,18 @@ use Redirect;
 class UserController extends Controller
 {
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getLoginView()
     {
         return view ('auth.login');
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function login(Request $request)
     {
 
@@ -28,14 +35,13 @@ class UserController extends Controller
             return Redirect::back()
                 ->withInput()
                 ->withErrors(['email'=>' ', 'password'=>'Invalid Email or Password']);
-
-
         }
-
         return Redirect::route('home');
-
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getRegisterView()
     {
         return view ('auth.register');
@@ -58,7 +64,6 @@ class UserController extends Controller
             'password_confirmation' => 'required|same:password'
         ]);
 
-
         $user->firstname = htmlentities($request->input('firstname'));
         $user->lastname = htmlentities($request->input('lastname'));
         $user->email = htmlentities($request->input('email'));
@@ -74,6 +79,10 @@ class UserController extends Controller
 
     }
 
+
+    /**
+     * @return mixed
+     */
     public function logout()
     {
         Auth::logout();
@@ -81,6 +90,9 @@ class UserController extends Controller
     }
 
 
+    /**
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
     public function updateProfile()
     {
         $user = Auth::user();
@@ -88,7 +100,7 @@ class UserController extends Controller
         $validator = Validator::make(request()->all(), [
             'firstname' => 'required|max:55',
             'lastname' => 'required|max:55',
-            'email' => 'unique:users,email,'.$user->id, // ignores the current users id
+            'email' => 'unique:users,email,'.$user->userid.',userid', // ignores the current users id
         ]);
 
         if ($validator->fails()) {
@@ -113,6 +125,17 @@ class UserController extends Controller
 
         return redirect('/profile')->with('key', 'Update Successful');
     }
+
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getProfileView()
+    {
+        $user = Auth::user();
+        return view('auth.profile', compact('user'));
+    }
+
 
     public function forgotpassword()
     {
