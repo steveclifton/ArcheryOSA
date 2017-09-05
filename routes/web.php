@@ -25,7 +25,7 @@ Route::middleware(['web'])->group(function() {
 	Route::middleware(['admin'])->group(function () {
 
 	   Route::get('/events', 'EventController@getEventsView')->name('events');
-	   Route::get('/events/create', 'EventController@create')->name('createevent');
+	   Route::get('/events/create', 'EventController@getCreateView')->name('createevent');
 
 
 	   Route::get('/divisions', 'AdminController@getDivisionsView')->name('divisions');

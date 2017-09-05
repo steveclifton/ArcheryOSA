@@ -11,9 +11,9 @@ class EventController extends Controller
         return view('events.events');
     }
 
-    public function create(Request $request)
+    public function getCreateView(Request $request)
     {
-        dd($request);
+        return view('events.createevent');
     }
 }
 
