@@ -9,7 +9,7 @@
             <?php if (!empty(Auth::user()->image)) {  ?>
                 <img src="/image/{{Auth::user()->image}}" class="img-circle" >
             <?php } else { ?>
-                <img src="img/avatargrey160x160.png" class="img-circle" >
+                <img src="{{URL::asset('img/avatargrey160x160.png')}}" class="img-circle" >
             <?php } ?>
             </div>
             <div class="pull-left info">
@@ -21,7 +21,7 @@
             </div>
         @else
             <div class="pull-left image">
-                <img src="img/avatargrey160x160.png" class="img-circle" alt="User Image">
+                <img src="{{URL::asset('img/avatargrey160x160.png')}}" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
                 <p><a href="/login">Login</a></p>
