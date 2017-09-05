@@ -1,5 +1,6 @@
 <!-- jQuery 3 -->
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
+
 <!-- jQuery UI 1.11.4 -->
 <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -37,10 +38,7 @@
 <script src="bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="js/adminlte.min.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="js/pages/dashboard.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="js/demo.js"></script>
+<script src="js/archeryosa.js"></script>
 
 <script>
     $(function () {

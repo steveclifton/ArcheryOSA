@@ -10,7 +10,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Create New Event</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('create-new-event') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('createevent') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('firstname') ? ' has-error' : '' }}">

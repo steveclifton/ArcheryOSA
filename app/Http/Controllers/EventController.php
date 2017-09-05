@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CreateEventController extends Controller
+class EventController extends Controller
 {
-    public function getCreateView()
+    public function getEventsView()
     {
-        return view('events.create-event');
+        return view('events.events');
     }
 
     public function create(Request $request)
@@ -16,3 +16,5 @@ class CreateEventController extends Controller
         dd($request);
     }
 }
+
+

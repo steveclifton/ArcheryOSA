@@ -7,7 +7,7 @@ use Eloquent;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
 
-class User extends Eloquent implements Authenticatable
+class UserTypes extends Eloquent implements Authenticatable
 {
     use AuthenticableTrait;
 

@@ -23,8 +23,13 @@ Route::middleware(['web'])->group(function() {
 	});
 
 	Route::middleware(['admin'])->group(function () {
-	   Route::get('/create-event', 'CreateEventController@getCreateView')->name('create-event');
-	   Route::post('/create-new-event', 'CreateEventController@create')->name('create-new-event');
+
+	   Route::get('/events', 'EventController@getEventsView')->name('events');
+	   Route::get('/events/create', 'EventController@create')->name('createevent');
+
+
+	   Route::get('/divisions', 'AdminController@getDivisionsView')->name('divisions');
+	   Route::get('/divisions?a=create', 'AdminController@getDivisionsCreateView')->name('divisions');
 
     });
 });
