@@ -18,9 +18,11 @@
                             <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
 
                             <div class="input-group-btn" style="padding-left: 20px">
+                                <a href="{{route('createevent')}}">
                                 <button type="submit" class="btn btn-default" id="addevent">
-                                    <a href="{{route('createevent')}}"><i class="fa fa-plus-square"></i></a>
+                                    <i class="fa fa-plus-square"></i>
                                 </button>
+                                </a>
                             </div>
                         </div>
                     </div>
