@@ -32,19 +32,7 @@
         <ul class="sidebar-menu" data-widget="tree">
 
             @if (Auth::check() && Auth::user()->usertype == 1)
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>Admin</span>
-                        <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li class="active margin15" ><a href="{{route('organisations')}}"><i class="fa fa-bullseye"></i>Organisations</a></li>
-                        <li class="active margin15" ><a href="{{route('divisions')}}"><i class="fa fa-bullseye"></i>Divisions</a></li>
-                        <li class="active margin15" ><a href="#"><i class="fa fa-bullseye"></i>Rounds</a></li>
-                    </ul>
-                </li>
+                @include('includes.adminsidebar')
             @endif
 
         @if (Auth::check())
