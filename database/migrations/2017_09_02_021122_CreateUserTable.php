@@ -21,8 +21,10 @@ class CreateUserTable extends Migration
             $table->string('club')->nullable();
             $table->string('phone')->nullable();
             $table->integer('usertype');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('password');
+            $table->string('remember_token')->unique()->nullable();
+            $table->string('image')->unique()->nullable();
             $table->string('lastipaddress');
             $table->timestamps();
         });

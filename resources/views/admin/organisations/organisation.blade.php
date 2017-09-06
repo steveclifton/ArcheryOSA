@@ -37,6 +37,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Description</th>
                             <th>Visible</th>
                         </tr>
 
@@ -44,6 +45,7 @@
                             <tr>
                                 <td>{{$organisation->organisationid}}</td>
                                 <td><a href="{{ route('updateorganisationview', urlencode($organisation->name)) }}">{{$organisation->name}}</a></td>
+                                <td>{!! mb_substr($organisation->description, 0, 60) !!}..</td>
                                 <td>{!! ($organisation->visible) ? '<i class="fa fa-check"></i>' : '';  !!}</td>
                             </tr>
                         @endforeach

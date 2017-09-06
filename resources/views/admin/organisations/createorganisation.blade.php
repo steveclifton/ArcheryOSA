@@ -58,6 +58,96 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('url') ? ' has-error' : '' }}">
+                            <label for="event" class="col-md-4 control-label">URL</label>
+
+                            <div class="col-md-6">
+                                @if (!empty($organisation))
+                                    <input type="text" class="form-control" name="url" value="{{ old('url', $organisation->first()->url) }}" >
+                                @else
+                                    <input type="text" class="form-control" name="url" >
+                                @endif
+
+                                @if ($errors->has('url'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('url') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                            <label for="event" class="col-md-4 control-label">Contact Person</label>
+
+                            <div class="col-md-6">
+                                @if (!empty($organisation))
+                                    <input type="text" class="form-control" name="contactname" value="{{ old('name', $organisation->first()->contactname) }}">
+                                @else
+                                    <input type="text" class="form-control" name="contactname" >
+                                @endif
+
+                                @if ($errors->has('contactname'))
+                                    <span class="help-block">
+                            <strong>{{ $errors->first('contactname') }}</strong>
+                        </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                            <label for="event" class="col-md-4 control-label">Email</label>
+
+                            <div class="col-md-6">
+                                @if (!empty($organisation))
+                                    <input type="email" class="form-control" name="email" value="{{ old('email', $organisation->first()->email) }}">
+                                @else
+                                    <input type="email" class="form-control" name="email" >
+                                @endif
+
+                                @if ($errors->has('email'))
+                                    <span class="help-block">
+                                <strong>{{ $errors->first('email') }}</strong>
+                            </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
+                            <label for="event" class="col-md-4 control-label">Phone</label>
+
+                            <div class="col-md-6">
+                                @if (!empty($organisation))
+                                    <input type="text" class="form-control" name="phone" value="{{ old('phone', $organisation->first()->phone) }}" >
+                                @else
+                                    <input type="text" class="form-control" name="phone" >
+                                @endif
+
+                                @if ($errors->has('phone'))
+                                    <span class="help-block">
+                                <strong>{{ $errors->first('phone') }}</strong>
+                            </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
+                            <label for="event" class="col-md-4 control-label">Description</label>
+
+                            <div class="col-md-6">
+                                @if (!empty($organisation))
+                                    <textarea class="form-control" name="description" required autofocus >{{ old('description', $organisation->first()->description) }}</textarea>
+                                @else
+                                    <textarea class="form-control" name="description" required autofocus></textarea>
+                                @endif
+
+                                @if ($errors->has('description'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('description') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="checkbox">
                                     <label class="col-md-4 control-label">Visible</label>
@@ -71,8 +161,7 @@
                                         ?>
                                         <input type="checkbox" name="visible" {{$status}}>
                                     @else
-                                        <input type="checkbox" name="visible" value="">
-
+                                        <input type="checkbox" name="visible">
                                     @endif
                                 </div>
                             </div>

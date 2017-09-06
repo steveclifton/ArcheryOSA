@@ -21,9 +21,7 @@ class OrganisationController extends Controller
 
     public function updateOrganisation(Request $request)
     {
-
         $organisation = Organisation::where('name', urldecode($request->name))->get();
-
         return view('admin.organisations.createorganisation', compact('organisation'));
     }
 
@@ -42,6 +40,12 @@ class OrganisationController extends Controller
 
         $organisation->name = htmlentities($request->input('name'));
         $organisation->visible = $visible;
+        $organisation->description = htmlentities($request->input('description'));
+        $organisation->url = htmlentities($request->input('url'));
+        $organisation->contactname = htmlentities($request->input('contactname'));
+        $organisation->email = htmlentities($request->input('email'));
+        $organisation->phone = htmlentities($request->input('phone'));
+
         $organisation->save();
 
         return Redirect::route('organisations');
@@ -67,6 +71,11 @@ class OrganisationController extends Controller
             }
 
             $organisation->name = htmlentities($request->input('name'));
+            $organisation->description = htmlentities($request->input('description'));
+            $organisation->url = htmlentities($request->input('url'));
+            $organisation->contactname = htmlentities($request->input('contactname'));
+            $organisation->email = htmlentities($request->input('email'));
+            $organisation->phone = htmlentities($request->input('phone'));
             $organisation->visible = $visible;
             $organisation->save();
 
