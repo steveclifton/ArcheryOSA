@@ -27,9 +27,15 @@ Route::middleware(['web'])->group(function() {
 	   Route::get('/events', 'EventController@getEventsView')->name('events');
 	   Route::get('/events/create', 'EventController@getCreateView')->name('createevent');
 
+	   Route::get('/divisions', 'DivisionController@getDivisionsView')->name('divisions');
+	   Route::get('/divisions/create', 'DivisionController@getDivisionCreateView')->name('createdivision');
 
-	   Route::get('/divisions', 'AdminController@getDivisionsView')->name('divisions');
-	   Route::get('/divisions?a=create', 'AdminController@getDivisionsCreateView')->name('divisions');
+	   Route::get('/organisations', 'OrganisationController@getOrganisationView')->name('organisations');
+	   Route::get('/organisations/create', 'OrganisationController@getOrganisationCreateView')->name('createorganisationview');
+	   Route::get('/organisations/update/{name}', 'OrganisationController@updateOrganisation')->name('updateorganisationview');
+
+	   Route::post('/organisations/update/{name}', 'OrganisationController@update')->name('updateorganisation');
+	   Route::post('/organisations/create', 'OrganisationController@create')->name('createorganisation');
 
     });
 });

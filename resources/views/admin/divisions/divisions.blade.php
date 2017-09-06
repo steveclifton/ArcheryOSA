@@ -1,4 +1,8 @@
-@include('layouts.title', ['title'=>'Events'])
+@section ('dashboard')
+    <h1></h1>
+@endsection
+
+@include('layouts.title', ['title'=>'Divisions'])
 
 @extends ('home')
 
@@ -11,17 +15,17 @@
 
                 <div class="box-header">
 
-                    <h3 class="box-title">Responsive Hover Table</h3>
+                    <h3 class="box-title">Divisions</h3>
 
                     <div class="box-tools">
                         <div class="input-group input-group-sm" style="width: 300px;">
                             <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
 
                             <div class="input-group-btn" style="padding-left: 20px">
-                                <a href="{{route('createevent')}}">
-                                <button type="submit" class="btn btn-default" id="addevent">
-                                    <i class="fa fa-plus-square"></i>
-                                </button>
+                                <a href="{{route('createdivision')}}">
+                                    <button type="submit" class="btn btn-default" id="addevent">
+                                        <i class="fa fa-plus-square"></i>
+                                    </button>
                                 </a>
                             </div>
                         </div>

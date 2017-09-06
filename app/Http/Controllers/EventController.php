@@ -8,12 +8,12 @@ class EventController extends Controller
 {
     public function getEventsView()
     {
-        return view('events.events');
+        return view('admin.events.events');
     }
 
     public function getCreateView(Request $request)
     {
-        return view('events.createevent');
+        return view('admin.events.createevent');
     }
 }
 
