@@ -21,7 +21,7 @@
                         <div class="input-group input-group-sm" style="width: 300px;">
                             <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
 
-                            <div class="input-group-btn" style="padding-left: 20px">
+                            <div class="input-group-btn " style="padding-left: 20px">
                                 <a href="{{route('createorganisationview')}}">
                                     <button type="submit" class="btn btn-default" id="addevent">
                                         <i class="fa fa-plus-square"> Add</i>
