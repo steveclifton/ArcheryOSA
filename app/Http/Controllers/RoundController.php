@@ -58,7 +58,7 @@ class RoundController extends Controller
         }
 
         $this->validate($request, [
-            'name' => 'required|unique:round,name,'. $request->roundid. ',roundid',
+            'name' => 'required|unique:rounds,name,'. $request->roundid. ',roundid',
         ]);
 
         if ($request->roundid == $round->roundid) {
@@ -72,7 +72,6 @@ class RoundController extends Controller
             $round->visible = $visible;
             $round->description = htmlentities($request->input('description'));
             $round->code = htmlentities($request->input('code'));
-            $round->agerange = htmlentities($request->input('agerange'));
 
             $round->save();
 

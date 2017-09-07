@@ -45,7 +45,7 @@
                             <tr>
                                 <td>{{$division->divisionid}}</td>
                                 <td><a href="{{ route('updatedivisionview', urlencode($division->name)) }}">{{$division->name}}</a></td>
-                                <td>{!! mb_substr($division->description, 0, 60) !!}..</td>
+                                <td>{{ (strlen($division->description) > 60) ? mb_substr($division->description, 0, 60) . ".." : $division->description }}</td>
                                 <td>{!! ($division->visible) ? '<i class="fa fa-check"></i>' : '';  !!}</td>
                             </tr>
                         @endforeach

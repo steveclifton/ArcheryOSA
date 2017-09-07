@@ -45,7 +45,7 @@
                             <tr>
                                 <td>{{$round->roundid}}</td>
                                 <td><a href="{{ route('updateroundview', urlencode($round->name)) }}">{{$round->name}}</a></td>
-                                <td>{!! mb_substr($round->description, 0, 60) !!}..</td>
+                                <td>{{ (strlen($round->description) > 60) ? mb_substr($round->description, 0, 60) . ".." : $round->description }}</td>
                                 <td>{!! ($round->visible) ? '<i class="fa fa-check"></i>' : '';  !!}</td>
                             </tr>
                         @endforeach
