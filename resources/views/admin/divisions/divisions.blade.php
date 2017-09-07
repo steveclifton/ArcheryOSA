@@ -10,7 +10,7 @@
 
     {{-- <div class="container"> --}}
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-md-10 col-md-offset-1">
             <div class="box">
 
                 <div class="box-header">
@@ -21,10 +21,10 @@
                         <div class="input-group input-group-sm" style="width: 300px;">
                             <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
 
-                            <div class="input-group-btn" style="padding-left: 20px">
-                                <a href="{{route('createdivision')}}">
+                            <div class="input-group-btn " style="padding-left: 20px">
+                                <a href="{{route('createdivisionview')}}">
                                     <button type="submit" class="btn btn-default" id="addevent">
-                                        <i class="fa fa-plus-square"></i>
+                                        <i class="fa fa-plus-square"> Add</i>
                                     </button>
                                 </a>
                             </div>
@@ -36,25 +36,21 @@
                     <table class="table table-hover">
                         <tr>
                             <th>ID</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                            <th>Location</th>
                             <th>Name</th>
+                            <th>Description</th>
+                            <th>Visible</th>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td><span class="label label-success">Approved</span></td>
-                            <td>17-07-2014</td>
-                            <td>Auckland Archery Club</td>
-                            <td>One Tree Hill Cup</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td><span class="label label-warning">Pending</span></td>
-                            <td>10-07-2014</td>
-                            <td>Mt Green Archery Club</td>
-                            <td>North Island Champs</td>
-                        </tr>
+
+                        @foreach($divisions as $division)
+                            <tr>
+                                <td>{{$division->divisionid}}</td>
+                                <td><a href="{{ route('updatedivisionview', urlencode($division->name)) }}">{{$division->name}}</a></td>
+                                <td>{!! mb_substr($division->description, 0, 60) !!}..</td>
+                                <td>{!! ($division->visible) ? '<i class="fa fa-check"></i>' : '';  !!}</td>
+                            </tr>
+                        @endforeach
+
+
 
                     </table>
                 </div>

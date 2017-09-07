@@ -2,7 +2,7 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Organisations'])
+@include('layouts.title', ['title'=>'Rounds'])
 
 @extends ('home')
 
@@ -15,15 +15,15 @@
 
                 <div class="box-header">
 
-                    <h3 class="box-title">Organsations</h3>
+                    <h3 class="box-title">Rounds</h3>
 
                     <div class="box-tools">
                         <div class="input-group input-group-sm" style="width: 300px;">
                             <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
 
                             <div class="input-group-btn " style="padding-left: 20px">
-                                <a href="{{route('createorganisationview')}}">
-                                    <button type="submit" class="btn btn-default" id="addevent">
+                                <a href="{{route('createroundview')}}">
+                                    <button type="submit" class="btn btn-default">
                                         <i class="fa fa-plus-square"> Add</i>
                                     </button>
                                 </a>
@@ -41,12 +41,12 @@
                             <th>Visible</th>
                         </tr>
 
-                        @foreach($organisations as $organisation)
+                        @foreach($rounds as $round)
                             <tr>
-                                <td>{{$organisation->organisationid}}</td>
-                                <td><a href="{{ route('updateorganisationview', urlencode($organisation->name)) }}">{{$organisation->name}}</a></td>
-                                <td>{!! mb_substr($organisation->description, 0, 60) !!}..</td>
-                                <td>{!! ($organisation->visible) ? '<i class="fa fa-check"></i>' : '';  !!}</td>
+                                <td>{{$round->roundid}}</td>
+                                <td><a href="{{ route('updateroundview', urlencode($round->name)) }}">{{$round->name}}</a></td>
+                                <td>{!! mb_substr($round->description, 0, 60) !!}..</td>
+                                <td>{!! ($round->visible) ? '<i class="fa fa-check"></i>' : '';  !!}</td>
                             </tr>
                         @endforeach
 

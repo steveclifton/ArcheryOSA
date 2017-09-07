@@ -2,7 +2,12 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Organisations'])
+@if(!empty($organisation))
+    @include('layouts.title', ['title'=>'Edit Organisation'])
+@else
+    @include('layouts.title', ['title'=>'Create Organisation'])
+@endif
+
 
 @extends ('home')
 
@@ -76,7 +81,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('contactname') ? ' has-error' : '' }}">
                             <label for="event" class="col-md-4 control-label">Contact Person</label>
 
                             <div class="col-md-6">
