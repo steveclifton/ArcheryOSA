@@ -28,6 +28,11 @@ class CreateRoundsTable extends Migration
             $table->integer('dist4')->nullable();
             $table->integer('dist4max')->nullable();
             $table->integer('totalmax')->nullable();
+            $table->integer('totalhits')->nullable();
+            $table->integer('totalx')->nullable();
+            $table->integer('total10')->nullable();
+
+
 
             $table->tinyInteger('visible')->default(0);
             $table->timestamps();

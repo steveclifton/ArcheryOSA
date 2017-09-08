@@ -20,10 +20,15 @@ class RoundController extends Controller
         return view('admin.rounds.createround');
     }
 
-    public function updateRound(Request $request)
+    public function getUpdateRoundView(Request $request)
     {
         $round = Round::where('name', urldecode($request->name))->get();
-        return view('admin.rounds.createround', compact('round'));
+
+        if ($round->isEmpty()) {
+            return redirect('rounds');
+        }
+
+        return view('admin.rounds.updateround', compact('round'));
     }
 
     public function create(Request $request)
@@ -53,7 +58,11 @@ class RoundController extends Controller
             'dist3max.integer' => 'Invalid max score',
             'dist4.integer' => 'Invalid Distance',
             'dist4max.integer' => 'Invalid max score',
-            'totalmax' => 'Invalid max score'
+            'totalmax' => 'Invalid max score',
+            'totalx' => 'Invalid max x-count',
+            'total10' => 'Invalid max 10-count',
+            'totalx' => 'required|integer|min:0',
+            'total10' => 'required|integer|min:0',
         ]);
 
         $visible = 0;
@@ -75,7 +84,8 @@ class RoundController extends Controller
         $round->dist4 = !empty($request->input('dist4')) ? htmlentities($request->input('dist4')) : null;
         $round->dist4max = !empty($request->input('dist4max')) ? htmlentities($request->input('dist4max')) : null;
         $round->totalmax = htmlentities($request->input('totalmax'));
-
+        $round->totalx = htmlentities($request->input('totalx'));
+        $round->total10 = htmlentities($request->input('total10'));
 
         $round->save();
 
@@ -103,6 +113,8 @@ class RoundController extends Controller
             'dist4' => 'integer|nullable|between:0,100',
             'dist4max' => 'integer|nullable|min:0',
             'totalmax' => 'required|integer|min:0',
+            'totalx' => 'required|integer|min:0',
+            'total10' => 'required|integer|min:0',
 
         ], [
             'dist1.integer' => 'Invalid Distance',
@@ -113,7 +125,9 @@ class RoundController extends Controller
             'dist3max.integer' => 'Invalid max score',
             'dist4.integer' => 'Invalid Distance',
             'dist4max.integer' => 'Invalid max score',
-            'totalmax' => 'Invalid max score'
+            'totalmax' => 'Invalid max score',
+            'totalx' => 'Invalid max x-count',
+            'total10' => 'Invalid max 10-count'
         ]);
 
         if ($request->roundid == $round->roundid) {
@@ -137,6 +151,8 @@ class RoundController extends Controller
             $round->dist4 = !empty($request->input('dist4')) ? htmlentities($request->input('dist4')) : null;
             $round->dist4max = !empty($request->input('dist4max')) ? htmlentities($request->input('dist4max')) : null;
             $round->totalmax = htmlentities($request->input('totalmax'));
+            $round->totalx = htmlentities($request->input('totalx'));
+            $round->total10 = htmlentities($request->input('total10'));
 
 
             $round->save();

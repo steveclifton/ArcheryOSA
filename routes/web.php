@@ -41,7 +41,7 @@ Route::middleware(['web'])->group(function() {
 
         Route::get('/rounds', 'RoundController@getRoundsView')->name('rounds');
         Route::get('/rounds/create', 'RoundController@getRoundCreateView')->name('createroundview');
-        Route::get('/rounds/update/{name}', 'RoundController@updateRound')->name('updateroundview');
+        Route::get('/rounds/update/{name}', 'RoundController@getUpdateRoundView')->name('updateroundview');
         Route::post('/rounds/update/{name}', 'RoundController@update')->name('updateround');
         Route::post('/rounds/create', 'RoundController@create')->name('createround');
 

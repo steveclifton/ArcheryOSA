@@ -2,7 +2,7 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Create Round'])
+@include('layouts.title', ['title'=>'Edit Round'])
 
 @extends ('home')
 
@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Create New Round
+                <div class="panel-heading">Update New Round
                     <a href="{{route('rounds')}}">
                         <button type="submit" class="btn btn-default pull-right">
                             <i class="fa fa-backward" >  Back</i>
@@ -21,14 +21,15 @@
                 </div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('createround') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('updateround', urlencode($round->first()->name)) }}">
                         {{ csrf_field() }}
+                        <input type="text" name="roundid" hidden value="{{$round->first()->roundid}}">
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="event" class="col-md-4 control-label">Name</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="name" required autofocus value="{{ old('name')}}">
+                                <input type="text" class="form-control" name="name" value="{{ old('name', $round->first()->name) }}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -42,7 +43,7 @@
                             <label for="event" class="col-md-4 control-label">Round Code</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="code" required autofocus value="{{ old('code')}}">
+                                <input type="text" class="form-control" name="code" value="{{ old('name', $round->first()->code) }}" required autofocus>
 
                                 @if ($errors->has('code'))
                                     <span class="help-block">
@@ -56,7 +57,7 @@
                             <label for="event" class="col-md-4 control-label">Description</label>
 
                             <div class="col-md-6">
-                                <textarea class="form-control" name="description" required autofocus >{{ old('description')}}</textarea>
+                                <textarea class="form-control" name="description" required autofocus >{{ old('description', $round->first()->description) }}</textarea>
 
                                 @if ($errors->has('description'))
                                     <span class="help-block">
@@ -81,7 +82,7 @@
                             <label for="event" class="col-md-4 control-label">Distance 1</label>
 
                             <div class="col-md-2">
-                                <input type="text" class="form-control" name="dist1" value="{{ old('dist1')}}" required autofocus>
+                                <input type="text" class="form-control" name="dist1" value="{{ old('dist1', $round->first()->dist1) }}"  required autofocus>
 
                                 @if ($errors->has('dist1'))
                                     <span class="help-block">
@@ -95,7 +96,7 @@
                             <label for="event" class="col-md-4 control-label">Distance 1 Max</label>
 
                             <div class="col-md-2">
-                                <input type="text" class="form-control" name="dist1max" value="{{ old('dist1max')}}" required autofocus >
+                                <input type="text" class="form-control" name="dist1max" value="{{ old('dist1max', $round->first()->dist1max) }}" required autofocus >
 
                                 @if ($errors->has('dist1max'))
                                     <span class="help-block">
@@ -109,7 +110,7 @@
                             <label for="event" class="col-md-4 control-label">Distance 2</label>
 
                             <div class="col-md-2">
-                                <input type="text" class="form-control" name="dist2" value="{{ old('dist2')}}">
+                                <input type="text" class="form-control" name="dist2" value="{{ old('dist2', $round->first()->dist2) }}" >
 
                                 @if ($errors->has('dist2'))
                                     <span class="help-block">
@@ -123,7 +124,7 @@
                             <label for="event" class="col-md-4 control-label">Distance 2 Max</label>
 
                             <div class="col-md-2">
-                                <input type="text" class="form-control" name="dist2max" value="{{ old('dist2max')}}">
+                                <input type="text" class="form-control" name="dist2max" value="{{ old('dist2max', $round->first()->dist2max) }}" >
 
                                 @if ($errors->has('dist2max'))
                                     <span class="help-block">
@@ -137,7 +138,7 @@
                             <label for="event" class="col-md-4 control-label">Distance 3</label>
 
                             <div class="col-md-2">
-                                <input type="text" class="form-control" name="dist3" value="{{ old('dist3')}}">
+                                <input type="text" class="form-control" name="dist3" value="{{ old('dist3', $round->first()->dist3) }}" >
 
                                 @if ($errors->has('dist3'))
                                     <span class="help-block">
@@ -151,7 +152,7 @@
                             <label for="event" class="col-md-4 control-label">Distance 3 Max</label>
 
                             <div class="col-md-2">
-                                <input type="text" class="form-control" name="dist3max" value="{{ old('dist3max')}}">
+                                <input type="text" class="form-control" name="dist3max" value="{{ old('dist3max', $round->first()->dist3max) }}" >
 
                                 @if ($errors->has('dist3max'))
                                     <span class="help-block">
@@ -161,11 +162,12 @@
                             </div>
                         </div>
 
+
                         <div class="form-group{{ $errors->has('dist4') ? ' has-error' : '' }}">
                             <label for="event" class="col-md-4 control-label">Distance 4</label>
 
                             <div class="col-md-2">
-                                <input type="text" class="form-control" name="dist4" value="{{ old('dist4')}}" >
+                                <input type="text" class="form-control" name="dist4" value="{{ old('dist4', $round->first()->dist4) }}" >
 
                                 @if ($errors->has('dist4'))
                                     <span class="help-block">
@@ -179,7 +181,7 @@
                             <label for="event" class="col-md-4 control-label">Distance 4 Max</label>
 
                             <div class="col-md-2">
-                                <input type="text" class="form-control" name="dist4max" value="{{ old('dist4max')}}">
+                                <input type="text" class="form-control" name="dist4max" value="{{ old('dist4max', $round->first()->dist4max) }}" >
 
                                 @if ($errors->has('dist4max'))
                                     <span class="help-block">
@@ -193,7 +195,7 @@
                             <label for="event" class="col-md-4 control-label">Max Total</label>
 
                             <div class="col-md-2">
-                                <input type="text" class="form-control" name="totalmax" value="{{ old('totalmax')}}">
+                                <input type="text" class="form-control" name="totalmax" value="{{ old('totalmax', $round->first()->totalmax) }}" >
 
                                 @if ($errors->has('totalmax'))
                                     <span class="help-block">
@@ -207,7 +209,7 @@
                             <label for="event" class="col-md-4 control-label">Max Total X-Count</label>
 
                             <div class="col-md-2">
-                                <input type="text" class="form-control" name="totalx" value="{{ old('totalx')}}">
+                                <input type="text" class="form-control" name="totalx" value="{{ old('totalx', $round->first()->totalx) }}" >
 
                                 @if ($errors->has('totalx'))
                                     <span class="help-block">
@@ -221,7 +223,7 @@
                             <label for="event" class="col-md-4 control-label">Max Total 10-Count</label>
 
                             <div class="col-md-2">
-                                <input type="text" class="form-control" name="total10" value="{{ old('total10')}}">
+                                <input type="text" class="form-control" name="total10" value="{{ old('total10', $round->first()->total10) }}" >
 
                                 @if ($errors->has('total10'))
                                     <span class="help-block">
@@ -236,16 +238,21 @@
                             <div class="checkbox">
                                 <label class="col-md-4 control-label">Visible</label>
                                 <div class="col-md-6">
-                                    <input type="checkbox" name="visible">
+                                    <?php
+                                        $status='';
+                                        if ($round->first()->visible == 1) {
+                                            $status = 'checked';
+                                        }
+                                    ?>
+                                    <input type="checkbox" name="visible" {{$status}}>
                                 </div>
                             </div>
                         </div>
 
-
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Create
+                                    Update
                                 </button>
                             </div>
                         </div>
