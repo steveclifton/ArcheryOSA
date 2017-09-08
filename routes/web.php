@@ -29,13 +29,13 @@ Route::middleware(['web'])->group(function() {
 
         Route::get('/divisions', 'DivisionController@getDivisionsView')->name('divisions');
         Route::get('/divisions/create', 'DivisionController@getDivisionCreateView')->name('createdivisionview');
-        Route::get('/divisions/update/{name}', 'DivisionController@updateDivision')->name('updatedivisionview');
+        Route::get('/divisions/update/{name}', 'DivisionController@getUpdateDivisionView')->name('updatedivisionview');
         Route::post('/divisions/update/{name}', 'DivisionController@update')->name('updatedivision');
         Route::post('/divisions/create', 'DivisionController@create')->name('createdivision');
 
         Route::get('/organisations', 'OrganisationController@getOrganisationView')->name('organisations');
         Route::get('/organisations/create', 'OrganisationController@getOrganisationCreateView')->name('createorganisationview');
-        Route::get('/organisations/update/{name}', 'OrganisationController@updateOrganisation')->name('updateorganisationview');
+        Route::get('/organisations/update/{name}', 'OrganisationController@getUpdateOrganisationView')->name('updateorganisationview');
         Route::post('/organisations/update/{name}', 'OrganisationController@update')->name('updateorganisation');
         Route::post('/organisations/create', 'OrganisationController@create')->name('createorganisation');
 

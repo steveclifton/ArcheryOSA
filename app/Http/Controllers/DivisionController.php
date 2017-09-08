@@ -20,10 +20,15 @@ class DivisionController extends Controller
         return view('admin.divisions.createdivision');
     }
 
-    public function updateDivision(Request $request)
+    public function getUpdateDivisionView(Request $request)
     {
         $division = Division::where('name', urldecode($request->name))->get();
-        return view('admin.divisions.createdivision', compact('division'));
+
+        if ($division->isEmpty()) {
+            return redirect('divisions');
+        }
+
+        return view('admin.divisions.updatedivision', compact('division'));
     }
 
     public function create(Request $request)
@@ -32,6 +37,7 @@ class DivisionController extends Controller
 
         $this->validate($request, [
             'name' => 'required|unique:divisions,name',
+            'code' => 'unique:divisions,code'
         ]);
 
         $visible = 0;
@@ -59,7 +65,8 @@ class DivisionController extends Controller
         }
 
         $this->validate($request, [
-            'name' => 'required|unique:division,name,'. $request->divisionid. ',divisionid',
+            'name' => 'required|unique:divisions,name,'. $request->divisionid. ',divisionid',
+            'code' => 'required|unique:divisions,code,'.$division->code.',code',
         ]);
 
         if ($request->divisionid == $division->divisionid) {

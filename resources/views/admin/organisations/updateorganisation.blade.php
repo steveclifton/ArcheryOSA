@@ -2,20 +2,16 @@
     <h1></h1>
 @endsection
 
-
-@include('layouts.title', ['title'=>'Create Organisation'])
-
-
+@include('layouts.title', ['title'=>'Edit Organisation'])
 
 @extends ('home')
 
 @section ('content')
-{{--{!! dd($organisation); !!}--}}
     {{-- <div class="container"> --}}
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Create New Organisation
+                <div class="panel-heading">Update Organisation
                     <a href="{{route('organisations')}}">
                         <button type="submit" class="btn btn-default pull-right" id="addevent">
                             <i class="fa fa-backward" >  Back</i>
@@ -24,14 +20,16 @@
                 </div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('createorganisation') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('updateorganisation', urlencode($organisation->first()->name)) }}">
                         {{ csrf_field() }}
+
+                        <input type="text" name="organisationid" hidden value="{{$organisation->first()->organisationid}}">
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="event" class="col-md-4 control-label">Organisation Name</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="name" required autofocus>
+                                <input type="text" class="form-control" name="name" value="{{ old('name', $organisation->first()->name) }}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -45,12 +43,12 @@
                             <label for="event" class="col-md-4 control-label">URL</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="url" >
+                                <input type="text" class="form-control" name="url" value="{{ old('url', $organisation->first()->url) }}" >
 
                                 @if ($errors->has('url'))
                                     <span class="help-block">
-                                    <strong>{{ $errors->first('url') }}</strong>
-                                </span>
+                                        <strong>{{ $errors->first('url') }}</strong>
+                                    </span>
                                 @endif
                             </div>
                         </div>
@@ -59,7 +57,7 @@
                             <label for="event" class="col-md-4 control-label">Contact Person</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="contactname" >
+                                <input type="text" class="form-control" name="contactname" value="{{ old('name', $organisation->first()->contactname) }}">
 
                                 @if ($errors->has('contactname'))
                                     <span class="help-block">
@@ -73,7 +71,7 @@
                             <label for="event" class="col-md-4 control-label">Email</label>
 
                             <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" >
+                                <input type="email" class="form-control" name="email" value="{{ old('email', $organisation->first()->email) }}">
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -87,7 +85,7 @@
                             <label for="event" class="col-md-4 control-label">Phone</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="phone" >
+                                <input type="text" class="form-control" name="phone" value="{{ old('phone', $organisation->first()->phone) }}" >
 
                                 @if ($errors->has('phone'))
                                     <span class="help-block">
@@ -101,7 +99,7 @@
                             <label for="event" class="col-md-4 control-label">Description</label>
 
                             <div class="col-md-6">
-                                <textarea class="form-control" name="description" required autofocus></textarea>
+                                <textarea class="form-control" name="description" required autofocus >{{ old('description', $organisation->first()->description) }}</textarea>
 
                                 @if ($errors->has('description'))
                                     <span class="help-block">
@@ -110,12 +108,17 @@
                                 @endif
                             </div>
                         </div>
-
                         <div class="form-group">
                             <div class="checkbox">
-                                    <label class="col-md-4 control-label">Visible</label>
+                                <label class="col-md-4 control-label">Visible</label>
                                 <div class="col-md-6">
-                                    <input type="checkbox" name="visible">
+                                    <?php
+                                        $status='';
+                                        if ($organisation->first()->visible == 1) {
+                                            $status = 'checked';
+                                        }
+                                    ?>
+                                    <input type="checkbox" name="visible" {{$status}}>
                                 </div>
                             </div>
                         </div>
@@ -123,7 +126,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Create
+                                    Update
                                 </button>
                             </div>
                         </div>

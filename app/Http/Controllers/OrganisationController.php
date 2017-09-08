@@ -19,10 +19,15 @@ class OrganisationController extends Controller
         return view('admin.organisations.createorganisation');
     }
 
-    public function updateOrganisation(Request $request)
+    public function getUpdateOrganisationView(Request $request)
     {
         $organisation = Organisation::where('name', urldecode($request->name))->get();
-        return view('admin.organisations.createorganisation', compact('organisation'));
+
+        if ($organisation->isEmpty()) {
+            return redirect('organisations');
+        }
+
+        return view('admin.organisations.updateorganisation', compact('organisation'));
     }
 
     public function create(Request $request)
