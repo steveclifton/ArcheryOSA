@@ -31,6 +31,7 @@ class OrganisationController extends Controller
 
         $this->validate($request, [
             'name' => 'required|unique:organisations,name',
+
         ]);
 
         $visible = 0;
@@ -60,7 +61,7 @@ class OrganisationController extends Controller
         }
 
         $this->validate($request, [
-            'name' => 'required|unique:organisations,name,'. $request->organisationid. ',organisationid',
+            'name' => 'required|unique:organisations,name,'.$organisation->organisationid.',organisationid'
         ]);
 
         if ($request->organisationid == $organisation->organisationid) {

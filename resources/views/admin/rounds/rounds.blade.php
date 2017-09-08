@@ -37,6 +37,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Code</th>
                             <th>Description</th>
                             <th>Visible</th>
                         </tr>
@@ -45,6 +46,7 @@
                             <tr>
                                 <td>{{$round->roundid}}</td>
                                 <td><a href="{{ route('updateroundview', urlencode($round->name)) }}">{{$round->name}}</a></td>
+                                <td>{{$round->code}}</td>
                                 <td>{{ (strlen($round->description) > 60) ? mb_substr($round->description, 0, 60) . ".." : $round->description }}</td>
                                 <td>{!! ($round->visible) ? '<i class="fa fa-check"></i>' : '';  !!}</td>
                             </tr>

@@ -52,7 +52,7 @@
                                             @if (!empty($round))
                                                 <input type="text" class="form-control" name="name" value="{{ old('name', $round->first()->name) }}" required autofocus>
                                             @else
-                                                <input type="text" class="form-control" name="name" required autofocus>
+                                                <input type="text" class="form-control" name="name" required autofocus value="{{ old('name')}}">
                                             @endif
 
                                             @if ($errors->has('name'))
@@ -70,7 +70,7 @@
                                             @if (!empty($round))
                                                 <input type="text" class="form-control" name="code" value="{{ old('name', $round->first()->code) }}" required autofocus>
                                             @else
-                                                <input type="text" class="form-control" name="code" required autofocus>
+                                                <input type="text" class="form-control" name="code" required autofocus value="{{ old('code')}}">
                                             @endif
 
                                             @if ($errors->has('code'))
@@ -88,7 +88,7 @@
                                             @if (!empty($round))
                                                 <textarea class="form-control" name="description" required autofocus >{{ old('description', $round->first()->description) }}</textarea>
                                             @else
-                                                <textarea class="form-control" name="description" required autofocus></textarea>
+                                                <textarea class="form-control" name="description" required autofocus >{{ old('description')}}</textarea>
                                             @endif
 
                                             @if ($errors->has('description'))
@@ -115,9 +115,9 @@
 
                                         <div class="col-md-2">
                                             @if (!empty($round))
-                                                <input type="text" class="form-control" name="dist1" value="{{ old('dist1', $round->first()->dist1) }}" >
+                                                <input type="text" class="form-control" name="dist1" value="{{ old('dist1', $round->first()->dist1) }}"  required autofocus>
                                             @else
-                                                <input type="text" class="form-control" name="dist1" >
+                                                <input type="text" class="form-control" name="dist1" value="{{ old('dist1')}}" required autofocus>
                                             @endif
 
                                             @if ($errors->has('dist1'))
@@ -133,9 +133,9 @@
 
                                         <div class="col-md-2">
                                             @if (!empty($round))
-                                                <input type="text" class="form-control" name="dist1max" value="{{ old('dist1max', $round->first()->dist1max) }}" >
+                                                <input type="text" class="form-control" name="dist1max" value="{{ old('dist1max', $round->first()->dist1max) }}" required autofocus >
                                             @else
-                                                <input type="text" class="form-control" name="dist1max" >
+                                                <input type="text" class="form-control" name="dist1max" value="{{ old('dist1max')}}" required autofocus >
                                             @endif
 
                                             @if ($errors->has('dist1max'))
@@ -153,7 +153,7 @@
                                             @if (!empty($round))
                                                 <input type="text" class="form-control" name="dist2" value="{{ old('dist2', $round->first()->dist2) }}" >
                                             @else
-                                                <input type="text" class="form-control" name="dist2" >
+                                                <input type="text" class="form-control" name="dist2" value="{{ old('dist2')}}">
                                             @endif
 
                                             @if ($errors->has('dist2'))
@@ -171,7 +171,7 @@
                                             @if (!empty($round))
                                                 <input type="text" class="form-control" name="dist2max" value="{{ old('dist2max', $round->first()->dist2max) }}" >
                                             @else
-                                                <input type="text" class="form-control" name="dist2max" >
+                                                <input type="text" class="form-control" name="dist2max" value="{{ old('dist2max')}}">
                                             @endif
 
                                             @if ($errors->has('dist2max'))
@@ -189,7 +189,7 @@
                                             @if (!empty($round))
                                                 <input type="text" class="form-control" name="dist3" value="{{ old('dist3', $round->first()->dist3) }}" >
                                             @else
-                                                <input type="text" class="form-control" name="dist3" >
+                                                <input type="text" class="form-control" name="dist3" value="{{ old('dist3')}}">
                                             @endif
 
                                             @if ($errors->has('dist3'))
@@ -207,7 +207,7 @@
                                             @if (!empty($round))
                                                 <input type="text" class="form-control" name="dist3max" value="{{ old('dist3max', $round->first()->dist3max) }}" >
                                             @else
-                                                <input type="text" class="form-control" name="dist3max" >
+                                                <input type="text" class="form-control" name="dist3max" value="{{ old('dist3max')}}">
                                             @endif
 
                                             @if ($errors->has('dist3max'))
@@ -225,7 +225,7 @@
                                             @if (!empty($round))
                                                 <input type="text" class="form-control" name="dist4" value="{{ old('dist4', $round->first()->dist4) }}" >
                                             @else
-                                                <input type="text" class="form-control" name="dist4" >
+                                                <input type="text" class="form-control" name="dist4" value="{{ old('dist4')}}" >
                                             @endif
 
                                             @if ($errors->has('dist4'))
@@ -243,7 +243,7 @@
                                             @if (!empty($round))
                                                 <input type="text" class="form-control" name="dist4max" value="{{ old('dist4max', $round->first()->dist4max) }}" >
                                             @else
-                                                <input type="text" class="form-control" name="dist4max" >
+                                                <input type="text" class="form-control" name="dist4max" value="{{ old('dist4max')}}">
                                             @endif
 
                                             @if ($errors->has('dist4max'))
@@ -261,7 +261,7 @@
                                             @if (!empty($round))
                                                 <input type="text" class="form-control" name="totalmax" value="{{ old('totalmax', $round->first()->totalmax) }}" >
                                             @else
-                                                <input type="text" class="form-control" name="totalmax" >
+                                                <input type="text" class="form-control" name="totalmax" value="{{ old('totalmax')}}">
                                             @endif
 
                                             @if ($errors->has('totalmax'))

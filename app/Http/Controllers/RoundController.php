@@ -32,6 +32,28 @@ class RoundController extends Controller
 
         $this->validate($request, [
             'name' => 'required|unique:rounds,name',
+            'unit' => 'required',
+            'code' => 'required',
+            'dist1' => 'required|integer|between:0,100',
+            'dist1max' => 'required|integer|min:0',
+            'dist2' => 'integer|nullable|between:0,100',
+            'dist2max' => 'integer|nullable|min:0',
+            'dist3' => 'integer|nullable|between:0,100',
+            'dist3max' => 'integer|nullable|min:0',
+            'dist4' => 'integer|nullable|between:0,100',
+            'dist4max' => 'integer|nullable|min:0',
+            'totalmax' => 'required|integer|min:0',
+
+        ], [
+            'dist1.integer' => 'Invalid Distance',
+            'dist1max.integer' => 'Invalid max score',
+            'dist2.integer' => 'Invalid Distance',
+            'dist2max.integer' => 'Invalid max score',
+            'dist3.integer' => 'Invalid Distance',
+            'dist3max.integer' => 'Invalid max score',
+            'dist4.integer' => 'Invalid Distance',
+            'dist4max.integer' => 'Invalid max score',
+            'totalmax' => 'Invalid max score'
         ]);
 
         $visible = 0;
@@ -40,8 +62,19 @@ class RoundController extends Controller
         }
 
         $round->name = htmlentities($request->input('name'));
+        $round->unit = htmlentities($request->input('unit'));
+        $round->code = htmlentities($request->input('code'));
         $round->visible = $visible;
-        $round->description = htmlentities($request->input('round'));
+        $round->description = htmlentities($request->input('description'));
+        $round->dist1 = htmlentities($request->input('dist1'));
+        $round->dist1max = htmlentities($request->input('dist1max'));
+        $round->dist2 = !empty($request->input('dist2')) ? htmlentities($request->input('dist2')) : null;
+        $round->dist2max = !empty($request->input('dist2max')) ? htmlentities($request->input('dist2max')) : null;
+        $round->dist3 = !empty($request->input('dist3')) ? htmlentities($request->input('dist3')) : null;
+        $round->dist3max = !empty($request->input('dist3max')) ? htmlentities($request->input('dist3max')) : null;
+        $round->dist4 = !empty($request->input('dist4')) ? htmlentities($request->input('dist4')) : null;
+        $round->dist4max = !empty($request->input('dist4max')) ? htmlentities($request->input('dist4max')) : null;
+        $round->totalmax = htmlentities($request->input('totalmax'));
 
 
         $round->save();
@@ -58,7 +91,29 @@ class RoundController extends Controller
         }
 
         $this->validate($request, [
-            'name' => 'required|unique:rounds,name,'. $request->roundid. ',roundid',
+            'name' => 'required|unique:rounds,name,'.$round->roundid.',roundid',
+            'unit' => 'required',
+            'code' => 'required',
+            'dist1' => 'required|integer|between:0,100',
+            'dist1max' => 'required|integer|min:0',
+            'dist2' => 'integer|nullable|between:0,100',
+            'dist2max' => 'integer|nullable|min:0',
+            'dist3' => 'integer|nullable|between:0,100',
+            'dist3max' => 'integer|nullable|min:0',
+            'dist4' => 'integer|nullable|between:0,100',
+            'dist4max' => 'integer|nullable|min:0',
+            'totalmax' => 'required|integer|min:0',
+
+        ], [
+            'dist1.integer' => 'Invalid Distance',
+            'dist1max.integer' => 'Invalid max score',
+            'dist2.integer' => 'Invalid Distance',
+            'dist2max.integer' => 'Invalid max score',
+            'dist3.integer' => 'Invalid Distance',
+            'dist3max.integer' => 'Invalid max score',
+            'dist4.integer' => 'Invalid Distance',
+            'dist4max.integer' => 'Invalid max score',
+            'totalmax' => 'Invalid max score'
         ]);
 
         if ($request->roundid == $round->roundid) {
@@ -69,9 +124,20 @@ class RoundController extends Controller
             }
 
             $round->name = htmlentities($request->input('name'));
+            $round->unit = htmlentities($request->input('unit'));
+            $round->code = htmlentities($request->input('code'));
             $round->visible = $visible;
             $round->description = htmlentities($request->input('description'));
-            $round->code = htmlentities($request->input('code'));
+            $round->dist1 = htmlentities($request->input('dist1'));
+            $round->dist1max = htmlentities($request->input('dist1max'));
+            $round->dist2 = !empty($request->input('dist2')) ? htmlentities($request->input('dist2')) : null;
+            $round->dist2max = !empty($request->input('dist2max')) ? htmlentities($request->input('dist2max')) : null;
+            $round->dist3 = !empty($request->input('dist3')) ? htmlentities($request->input('dist3')) : null;
+            $round->dist3max = !empty($request->input('dist3max')) ? htmlentities($request->input('dist3max')) : null;
+            $round->dist4 = !empty($request->input('dist4')) ? htmlentities($request->input('dist4')) : null;
+            $round->dist4max = !empty($request->input('dist4max')) ? htmlentities($request->input('dist4max')) : null;
+            $round->totalmax = htmlentities($request->input('totalmax'));
+
 
             $round->save();
 
