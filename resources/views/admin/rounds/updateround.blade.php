@@ -7,6 +7,7 @@
 @extends ('home')
 
 @section ('content')
+    {{--{!! dd(old('unit', $round->first()->unit)) !!}--}}
 
     {{-- <div class="container"> --}}
     <div class="row">
@@ -70,8 +71,9 @@
                         <div class="form-group{{ $errors->has('unit') ? ' has-error' : '' }}">
                             <label for="event" class="col-md-4 control-label">Round Code</label>
 
+                            <input type="text" hidden id="roundsunitvalue" value="{{old('unit', $round->first()->unit) }}">
                             <div class="col-md-4">
-                                <select name="unit" class="form-control">
+                                <select name="unit" class="form-control" id="roundsunit">
                                     <option value="m">Meters</option>
                                     <option value="y">Yards</option>
                                 </select>

@@ -46,5 +46,12 @@ Route::middleware(['web'])->group(function() {
         Route::post('/rounds/create', 'RoundController@create')->name('createround');
 
 
+        Route::get('/clubs', 'ClubController@getClubView')->name('clubs');
+        Route::get('/clubs/create', 'ClubController@getClubCreateView')->name('createclubview');
+        Route::get('/clubs/update/{name}', 'ClubController@getUpdateClubView')->name('updateclubview');
+        Route::post('/clubs/update/{name}', 'ClubController@update')->name('updateclub');
+        Route::post('/clubs/create', 'ClubController@create')->name('createclub');
+
+
     });
 });

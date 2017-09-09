@@ -20,7 +20,7 @@
                 <li class="active margin15" ><a href="{{route('organisations')}}"><i class="fa fa-bullseye"></i>Organisations</a></li>
                 <li class="active margin15" ><a href="{{route('divisions')}}"><i class="fa fa-bullseye"></i>Divisions</a></li>
                 <li class="active margin15" ><a href="{{route('rounds')}}"><i class="fa fa-bullseye"></i>Rounds</a></li>
-                <li class="active margin15" ><a href="{{route('organisations')}}"><i class="fa fa-bullseye"></i>Clubs</a></li>
+                <li class="active margin15" ><a href="{{route('clubs')}}"><i class="fa fa-bullseye"></i>Clubs</a></li>
 
                 {{--<li class="active margin15" ><a href="#"><i class="fa fa-bullseye"></i>Rounds</a></li>--}}
                 {{--<li class="active margin15"><a href="#"><i class="fa fa-circle-o"></i>Users</a></li>--}}
