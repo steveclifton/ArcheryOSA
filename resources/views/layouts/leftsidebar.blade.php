@@ -136,7 +136,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="margin15"><a href="#"><i class="fa fa-user-o"></i>Clubs</a></li>
+                    <li class="margin15"><a href="{{route('public.clubs')}}"><i class="fa fa-user-o"></i>Clubs</a></li>
                     <li class="margin15"><a href="#"><i class="fa fa-user-o"></i>National Bodies</a></li>
                 </ul>
             </li>

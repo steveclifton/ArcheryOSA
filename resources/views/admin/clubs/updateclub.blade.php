@@ -20,7 +20,7 @@
                 </div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('updateclub', urlencode($club->first()->name)) }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('updateclub', urlencode($club->first()->name)) }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <input type="text" name="clubid" hidden value="{{$club->first()->clubid}}">
@@ -169,6 +169,23 @@
                                 @endif
                             </div>
                         </div>
+
+                        <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+                            <label for="image" class="col-md-4 control-label">Logo</label>
+                            <div class="col-md-6">
+                                <input id="image" type="file" class="form-control" name="clubimage">
+                                @if (!empty( $club->first()->image))
+                                <img id="blah" src="/content/clubs/200/{{ (old('image')) ? old('image') : $club->first()->image }}" alt="" style="width: 150px" />
+                                @endif
+                            @if ($errors->has('image'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('image') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
                         <div class="form-group">
                             <div class="checkbox">
                                 <label class="col-md-4 control-label">Visible</label>

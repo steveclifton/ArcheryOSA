@@ -2,11 +2,14 @@
 
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/clubs', 'ClubController@getPublicViewClubs')->name('public.clubs');
+
 
 Route::middleware(['web'])->group(function() {
 
 	// Guest
 	Route::middleware(['guest'])->group(function () {
+
 		Route::get('/login', 'UserController@getLoginView')->name('login');
 		Route::post('/login', 'UserController@login');
 
@@ -14,7 +17,7 @@ Route::middleware(['web'])->group(function() {
 		Route::post('/register', 'UserController@register');
 	});
 
-	//auth
+	// Auth
 	Route::middleware(['auth'])->group(function () {
 		Route::get('/profile', 'UserController@getProfileView')->name('profile');
 		Route::post('/updateprofile', 'UserController@updateProfile')->name('updateprofile');
@@ -22,36 +25,35 @@ Route::middleware(['web'])->group(function() {
 
 	});
 
+	// Admin
 	Route::middleware(['admin'])->group(function () {
 
-        Route::get('/events', 'EventController@getEventsView')->name('events');
-        Route::get('/events/create', 'EventController@getCreateView')->name('createevent');
+        Route::get('/admin/events', 'EventController@getEventsView')->name('events');
+        Route::get('/admin/events/create', 'EventController@getCreateView')->name('createevent');
 
-        Route::get('/divisions', 'DivisionController@getDivisionsView')->name('divisions');
-        Route::get('/divisions/create', 'DivisionController@getDivisionCreateView')->name('createdivisionview');
-        Route::get('/divisions/update/{name}', 'DivisionController@getUpdateDivisionView')->name('updatedivisionview');
-        Route::post('/divisions/update/{name}', 'DivisionController@update')->name('updatedivision');
-        Route::post('/divisions/create', 'DivisionController@create')->name('createdivision');
+        Route::get('/admin/divisions', 'DivisionController@getDivisionsView')->name('divisions');
+        Route::get('/admin/divisions/create', 'DivisionController@getDivisionCreateView')->name('createdivisionview');
+        Route::get('/admin/divisions/update/{name}', 'DivisionController@getUpdateDivisionView')->name('updatedivisionview');
+        Route::post('/admin/divisions/update/{name}', 'DivisionController@update')->name('updatedivision');
+        Route::post('/admin/divisions/create', 'DivisionController@create')->name('createdivision');
 
-        Route::get('/organisations', 'OrganisationController@getOrganisationView')->name('organisations');
-        Route::get('/organisations/create', 'OrganisationController@getOrganisationCreateView')->name('createorganisationview');
-        Route::get('/organisations/update/{name}', 'OrganisationController@getUpdateOrganisationView')->name('updateorganisationview');
-        Route::post('/organisations/update/{name}', 'OrganisationController@update')->name('updateorganisation');
-        Route::post('/organisations/create', 'OrganisationController@create')->name('createorganisation');
+        Route::get('/admin/organisations', 'OrganisationController@getOrganisationView')->name('organisations');
+        Route::get('/admin/organisations/create', 'OrganisationController@getOrganisationCreateView')->name('createorganisationview');
+        Route::get('/admin/organisations/update/{name}', 'OrganisationController@getUpdateOrganisationView')->name('updateorganisationview');
+        Route::post('/admin/organisations/update/{name}', 'OrganisationController@update')->name('updateorganisation');
+        Route::post('/admin/organisations/create', 'OrganisationController@create')->name('createorganisation');
 
-        Route::get('/rounds', 'RoundController@getRoundsView')->name('rounds');
-        Route::get('/rounds/create', 'RoundController@getRoundCreateView')->name('createroundview');
-        Route::get('/rounds/update/{name}', 'RoundController@getUpdateRoundView')->name('updateroundview');
-        Route::post('/rounds/update/{name}', 'RoundController@update')->name('updateround');
-        Route::post('/rounds/create', 'RoundController@create')->name('createround');
+        Route::get('/admin/rounds', 'RoundController@getRoundsView')->name('rounds');
+        Route::get('/admin/rounds/create', 'RoundController@getRoundCreateView')->name('createroundview');
+        Route::get('/admin/rounds/update/{name}', 'RoundController@getUpdateRoundView')->name('updateroundview');
+        Route::post('/admin/rounds/update/{name}', 'RoundController@update')->name('updateround');
+        Route::post('/admin/rounds/create', 'RoundController@create')->name('createround');
 
-
-        Route::get('/clubs', 'ClubController@getClubView')->name('clubs');
-        Route::get('/clubs/create', 'ClubController@getClubCreateView')->name('createclubview');
-        Route::get('/clubs/update/{name}', 'ClubController@getUpdateClubView')->name('updateclubview');
-        Route::post('/clubs/update/{name}', 'ClubController@update')->name('updateclub');
-        Route::post('/clubs/create', 'ClubController@create')->name('createclub');
-
+        Route::get('/admin/clubs', 'ClubController@getClubView')->name('clubs');
+        Route::get('/admin/clubs/create', 'ClubController@getClubCreateView')->name('createclubview');
+        Route::get('/admin/clubs/update/{name}', 'ClubController@getUpdateClubView')->name('updateclubview');
+        Route::post('/admin/clubs/update/{name}', 'ClubController@update')->name('updateclub');
+        Route::post('/admin/clubs/create', 'ClubController@create')->name('createclub');
 
     });
 });

@@ -5,9 +5,16 @@ namespace App\Http\Controllers;
 use App\Club;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Image;
 
 class ClubController extends Controller
 {
+    public function getPublicViewClubs()
+    {
+        $clubs = Club::orderBy('clubid', 'desc')->get();
+        return view('includes.clubs', compact('clubs'));
+    }
+
     public function getClubView()
     {
         $clubs = Club::orderBy('clubid', 'desc')->get();
@@ -36,7 +43,6 @@ class ClubController extends Controller
 
         $this->validate($request, [
             'name' => 'required|unique:clubs,name',
-
         ]);
 
         $visible = 0;
@@ -51,6 +57,19 @@ class ClubController extends Controller
         $club->contactname = htmlentities($request->input('contactname'));
         $club->email = htmlentities($request->input('email'));
         $club->phone = htmlentities($request->input('phone'));
+
+//        dd(request());
+
+        if (request()->hasFile('clubimage')) {
+            $image = request()->file('clubimage');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = public_path('/content/clubs/original/' . $filename);
+            Image::make($image)->save($location);
+            $location = public_path('/content/clubs/200/' . $filename);
+            Image::make($image)->resize(200,200)->save($location);
+            $club->image = $filename;
+        }
+
 
         $club->save();
 
@@ -87,6 +106,17 @@ class ClubController extends Controller
             $club->country = htmlentities($request->input('country'));
             $club->phone = htmlentities($request->input('phone'));
             $club->visible = $visible;
+
+            if (request()->hasFile('clubimage')) {
+                $image = request()->file('clubimage');
+                $filename = time() . '.' . $image->getClientOriginalExtension();
+                $location = public_path('/content/clubs/original/' . $filename);
+                Image::make($image)->save($location);
+                $location = public_path('/content/clubs/200/' . $filename);
+                Image::make($image)->resize(200,200)->save($location);
+                $club->image = $filename;
+            }
+
             $club->save();
 
             return Redirect::route('clubs');

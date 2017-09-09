@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('createclub') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('createclub') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -162,6 +162,18 @@
                                 @if ($errors->has('description'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('description') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+                            <label for="image" class="col-md-4 control-label">Logo</label>
+                            <div class="col-md-6">
+                                <input id="image" type="file" class="form-control" name="clubimage">
+                                @if ($errors->has('image'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('image') }}</strong>
                                     </span>
                                 @endif
                             </div>
