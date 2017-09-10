@@ -56,6 +56,10 @@ class ClubController extends Controller
         $club->url = htmlentities($request->input('url'));
         $club->contactname = htmlentities($request->input('contactname'));
         $club->email = htmlentities($request->input('email'));
+        $club->street = htmlentities($request->input('street'));
+        $club->suburb = htmlentities($request->input('suburb'));
+        $club->city = htmlentities($request->input('city'));
+        $club->country = htmlentities($request->input('country'));
         $club->phone = htmlentities($request->input('phone'));
 
 //        dd(request());
