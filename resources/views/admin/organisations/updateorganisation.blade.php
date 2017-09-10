@@ -39,6 +39,21 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label for="event" class="col-md-4 control-label">Parent Organisation</label>
+
+                            <div class="col-md-6">
+                                <input type="text" hidden id="organisationvalue" value="{{old('organisation', $organisation->first()->parentorganisationid) }}">
+                                <select name="parentorganisationid" class="form-control" id="organisationselect">
+                                    <option value="null">None</option>
+                                    @foreach ($organisations as $organisation)
+                                        <option value="{{$organisation->organisationid}}">{{$organisation->name}}</option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('url') ? ' has-error' : '' }}">
                             <label for="event" class="col-md-4 control-label">URL</label>
 

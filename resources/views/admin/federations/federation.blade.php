@@ -15,7 +15,7 @@
 
                 <div class="box-header">
 
-                    <h3 class="box-title">Federations</h3>
+                    <h3 class="box-title">International Federations</h3>
 
                     <div class="box-tools">
                         <div class="input-group input-group-sm" style="width: 300px;">

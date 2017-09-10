@@ -16,18 +16,20 @@ class OrganisationController extends Controller
 
     public function getOrganisationCreateView()
     {
-        return view('admin.organisations.createorganisation');
+        $organisations = Organisation::where('visible', 1)->get();
+        return view('admin.organisations.createorganisation', compact('organisations'));
     }
 
     public function getUpdateOrganisationView(Request $request)
     {
         $organisation = Organisation::where('name', urldecode($request->name))->get();
+        $organisations = Organisation::where('visible', 1)->get();
 
         if ($organisation->isEmpty()) {
             return redirect('organisations');
         }
 
-        return view('admin.organisations.updateorganisation', compact('organisation'));
+        return view('admin.organisations.updateorganisation', compact('organisation', 'organisations'));
     }
 
     public function create(Request $request)
@@ -43,9 +45,14 @@ class OrganisationController extends Controller
         if (!empty($request->input('visible'))) {
             $visible = 1;
         }
+        $parentOrganisationid = null;
+        if ($request->input('parentorganisationid') != 'null') {
+            $parentOrganisationid = 1;
+        }
 
         $organisation->name = htmlentities($request->input('name'));
         $organisation->visible = $visible;
+        $organisation->parentorganisationid = $parentOrganisationid;
         $organisation->description = htmlentities($request->input('description'));
         $organisation->url = htmlentities($request->input('url'));
         $organisation->contactname = htmlentities($request->input('contactname'));
@@ -76,7 +83,13 @@ class OrganisationController extends Controller
                 $visible = 1;
             }
 
+            $parentOrganisationid = null;
+            if ($request->input('parentorganisationid') != 'null') {
+                $parentOrganisationid = 1;
+            }
+
             $organisation->name = htmlentities($request->input('name'));
+            $organisation->parentorganisationid = $parentOrganisationid;
             $organisation->description = htmlentities($request->input('description'));
             $organisation->url = htmlentities($request->input('url'));
             $organisation->contactname = htmlentities($request->input('contactname'));

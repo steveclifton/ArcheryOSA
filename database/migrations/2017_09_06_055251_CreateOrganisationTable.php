@@ -15,7 +15,7 @@ class CreateOrganisationTable extends Migration
     {
         Schema::create('organisations', function (Blueprint $table) {
             $table->increments('organisationid');
-            $table->integer('federationid')->nullable();
+            $table->string('parentorganisationid')->nullable();
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('url')->nullable();

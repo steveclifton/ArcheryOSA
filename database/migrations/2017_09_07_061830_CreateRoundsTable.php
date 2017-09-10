@@ -15,7 +15,7 @@ class CreateRoundsTable extends Migration
     {
         Schema::create('rounds', function (Blueprint $table) {
             $table->increments('roundid');
-            $table->integer('federationid')->nullable();
+            $table->integer('organisationid')->nullable();
             $table->string('name');
             $table->string('code');
             $table->string('unit');
