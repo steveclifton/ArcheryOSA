@@ -8,4 +8,7 @@ $(document).ready(function() {
     var selectedValueClubOrganisation = $('#organisationvalue').val();
     $('#organisationselect option[value=' + selectedValueClubOrganisation +']').attr('selected','selected');
 
+    var selectedValueDivisionOrganisation = $('#organisationvalue').val();
+    $('#organisationselect option[value=' + selectedValueDivisionOrganisation +']').attr('selected','selected');
+
 });

@@ -29,7 +29,7 @@ class UserController extends Controller
     public function login(Request $request)
     {
 
-        if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')]) === false) {
+        if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')], true) === false) {
 
             return Redirect::back()
                 ->withInput()

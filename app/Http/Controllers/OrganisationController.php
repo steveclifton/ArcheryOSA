@@ -47,7 +47,7 @@ class OrganisationController extends Controller
         }
         $parentOrganisationid = null;
         if ($request->input('parentorganisationid') != 'null') {
-            $parentOrganisationid = 1;
+            $parentOrganisationid = htmlentities($request->input('parentorganisationid'));
         }
 
         $organisation->name = htmlentities($request->input('name'));
@@ -85,7 +85,7 @@ class OrganisationController extends Controller
 
             $parentOrganisationid = null;
             if ($request->input('parentorganisationid') != 'null') {
-                $parentOrganisationid = 1;
+                $parentOrganisationid = htmlentities($request->input('parentorganisationid'));
             }
 
             $organisation->name = htmlentities($request->input('name'));

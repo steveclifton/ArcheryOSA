@@ -15,7 +15,11 @@
                         @foreach($clubs as $club)
                         <li class="item">
                             <div class="product-img">
-                                <img src="content/clubs/200/{{$club->image}}">
+                                @if (!empty($club->image))
+                                    <img src="content/clubs/200/{{$club->image}}">
+                                @else
+                                    <img src="image/200.png">
+                                @endif
                             </div>
                             <div class="product-info">
                                 <a href="{{$club->url}}" target="_blank" class="product-title">{{ $club->name }}</a>

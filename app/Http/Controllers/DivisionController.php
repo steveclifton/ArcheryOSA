@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Division;
+use App\Organisation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -17,18 +18,21 @@ class DivisionController extends Controller
 
     public function getDivisionCreateView()
     {
-        return view('admin.divisions.createdivision');
+        $organisations = Organisation::where('visible', 1)->get();
+
+        return view('admin.divisions.createdivision', compact('organisations'));
     }
 
     public function getUpdateDivisionView(Request $request)
     {
         $division = Division::where('name', urldecode($request->name))->get();
+        $organisations = Organisation::where('visible', 1)->get();
 
         if ($division->isEmpty()) {
             return redirect('divisions');
         }
 
-        return view('admin.divisions.updatedivision', compact('division'));
+        return view('admin.divisions.updatedivision', compact('division', 'organisations'));
     }
 
     public function create(Request $request)
@@ -45,8 +49,14 @@ class DivisionController extends Controller
             $visible = 1;
         }
 
+        $parentOrganisationid = null;
+        if ($request->input('parentorganisationid') != 'null') {
+            $parentOrganisationid = htmlentities($request->input('parentorganisationid'));
+        }
+
         $division->name = htmlentities($request->input('name'));
         $division->visible = $visible;
+        $division->parentorganisationid = $parentOrganisationid;
         $division->description = htmlentities($request->input('description'));
         $division->code = htmlentities($request->input('code'));
         $division->agerange = htmlentities($request->input('agerange'));
@@ -76,8 +86,14 @@ class DivisionController extends Controller
                 $visible = 1;
             }
 
+            $parentOrganisationid = null;
+            if ($request->input('parentorganisationid') != 'null') {
+                $parentOrganisationid = htmlentities($request->input('parentorganisationid'));
+            }
+
             $division->name = htmlentities($request->input('name'));
             $division->visible = $visible;
+            $division->parentorganisationid = $parentOrganisationid;
             $division->description = htmlentities($request->input('description'));
             $division->code = htmlentities($request->input('code'));
             $division->agerange = htmlentities($request->input('agerange'));
