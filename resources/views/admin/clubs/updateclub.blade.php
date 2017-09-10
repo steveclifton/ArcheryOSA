@@ -139,7 +139,7 @@
 
 
                         <div class="form-group{{ $errors->has('country') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Round Code</label>
+                            <label for="event" class="col-md-4 control-label">Country</label>
 
                             <input type="text" hidden id="clubscountryvalue" value="{{old('country', $club->first()->country) }}">
                             <div class="col-md-4">

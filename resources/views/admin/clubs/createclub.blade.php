@@ -140,7 +140,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('country') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Round Code</label>
+                            <label for="event" class="col-md-4 control-label">Country</label>
 
                             <div class="col-md-4">
                                 <select name="country" class="form-control" id="clubscountry">
@@ -154,7 +154,7 @@
                                 @endif
                             </div>
                         </div>
-                        
+
 
                         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                             <label for="event" class="col-md-4 control-label">Description</label>
