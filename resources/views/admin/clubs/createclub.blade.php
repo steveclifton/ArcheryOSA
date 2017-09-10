@@ -140,11 +140,13 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('country') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">country</label>
+                            <label for="event" class="col-md-4 control-label">Round Code</label>
 
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="country" >
-
+                            <div class="col-md-4">
+                                <select name="country" class="form-control" id="clubscountry">
+                                    <option value="nz">New Zealand</option>
+                                    <option value="au">Australia</option>
+                                </select>
                                 @if ($errors->has('country'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('country') }}</strong>
@@ -152,6 +154,7 @@
                                 @endif
                             </div>
                         </div>
+                        
 
                         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                             <label for="event" class="col-md-4 control-label">Description</label>
