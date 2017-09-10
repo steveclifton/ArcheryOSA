@@ -113,7 +113,7 @@ class UserController extends Controller
         if (request()->hasFile('profileimage')) {
            $image = request()->file('profileimage');
            $filename = time() . '.' . $image->getClientOriginalExtension();
-           $location = public_path('image/' . $filename);
+           $location = public_path('content/profile/' . $filename);
            Image::make($image)->resize(200,200)->save($location);
            $user->image = $filename;
         }

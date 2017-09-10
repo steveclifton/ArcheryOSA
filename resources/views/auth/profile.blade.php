@@ -82,7 +82,7 @@
 
                             <div class="col-md-6">
                                 <input id="profileimage" type="file" class="form-control" name="profileimage" onchange="readURL(this);">
-                                <img id="blah" src="/image/{{ (old('image')) ? old('image') : $user->image }}" alt="" style="width: 150px" />
+                                <img id="blah" src="/content/profile/{{ (old('image')) ? old('image') : $user->image }}" alt="" style="width: 150px" />
                                 @if ($errors->has('profileimage'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('profileimage') }}</strong>

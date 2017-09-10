@@ -7,9 +7,9 @@
         @if (Auth::check())
             <div class="pull-left image">
             <?php if (!empty(Auth::user()->image)) {  ?>
-                <img src="/image/{{Auth::user()->image}}" class="img-circle" >
+                <img src="/content/profile/{{Auth::user()->image}}" class="img-circle" >
             <?php } else { ?>
-                <img src="{{URL::asset('img/avatargrey160x160.png')}}" class="img-circle" >
+                <img src="{{URL::asset('image/avatargrey160x160.png')}}" class="img-circle" >
             <?php } ?>
             </div>
             <div class="pull-left info">
