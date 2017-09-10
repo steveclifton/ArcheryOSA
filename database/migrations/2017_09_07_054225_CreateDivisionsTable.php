@@ -15,6 +15,7 @@ class CreateDivisionsTable extends Migration
     {
         Schema::create('divisions', function (Blueprint $table) {
             $table->increments('divisionid');
+            $table->integer('federationid')->nullable();
             $table->string('name');
             $table->string('code');
             $table->string('agerange');

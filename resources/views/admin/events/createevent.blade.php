@@ -44,6 +44,19 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label for="event" class="col-md-4 control-label">Select Divisions<h6>Ctrl/Cmd+click multiple<br> divisions</h6></label>
+
+                            <div class="col-md-6">
+                            <select multiple="" class="form-control">
+                                @foreach ($divisions as $division)
+                                    <option value="{{$division->divisionid}}">{{$division->name}}</option>
+                                @endforeach
+
+                            </select>
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('location') ? ' has-error' : '' }}">
                             <label for="location" class="col-md-4 control-label">Location</label>
 

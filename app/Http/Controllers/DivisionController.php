@@ -90,6 +90,4 @@ class DivisionController extends Controller
 
     }
 
-
-
 }

@@ -3,20 +3,20 @@
 @endsection
 
 
-@include('layouts.title', ['title'=>'Create Club'])
+@include('layouts.title', ['title'=>'Create Federation'])
 
 
 
 @extends ('home')
 
 @section ('content')
-{{--{!! dd($club); !!}--}}
+{{--{!! dd($federation); !!}--}}
     {{-- <div class="container"> --}}
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Create New Club
-                    <a href="{{route('clubs')}}">
+                <div class="panel-heading">Create New Federation
+                    <a href="{{route('federations')}}">
                         <button type="submit" class="btn btn-default pull-right" id="addevent">
                             <i class="fa fa-backward" >  Back</i>
                         </button>
@@ -24,11 +24,11 @@
                 </div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('createclub') }}" enctype="multipart/form-data">
+                    <form class="form-horizontal" method="POST" action="{{ route('createfederation') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Club Name</label>
+                            <label for="event" class="col-md-4 control-label">Federation Name</label>
 
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="name" required autofocus>
@@ -38,20 +38,6 @@
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                                 @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="event" class="col-md-4 control-label">Parent Organisation</label>
-
-                            <div class="col-md-6">
-                                <select name="organisationid" class="form-control">
-                                    <option value="null">None</option>
-                                    @foreach ($organisations as $organisation)
-                                        <option value="{{$organisation->organisationid}}">{{$organisation->name}}</option>
-                                    @endforeach
-
-                                </select>
                             </div>
                         </div>
 
@@ -111,65 +97,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('street') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Street</label>
-
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="street" >
-
-                                @if ($errors->has('street'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('street') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('suburb') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Suburb</label>
-
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="suburb" >
-
-                                @if ($errors->has('suburb'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('suburb') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">City</label>
-
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="city" >
-
-                                @if ($errors->has('city'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('city') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('country') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Country</label>
-
-                            <div class="col-md-4">
-                                <select name="country" class="form-control" id="clubscountry">
-                                    <option value="nz">New Zealand</option>
-                                    <option value="au">Australia</option>
-                                </select>
-                                @if ($errors->has('country'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('country') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-
                         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                             <label for="event" class="col-md-4 control-label">Description</label>
 
@@ -179,18 +106,6 @@
                                 @if ($errors->has('description'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('description') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
-                            <label for="image" class="col-md-4 control-label">Logo</label>
-                            <div class="col-md-6">
-                                <input id="image" type="file" class="form-control" name="clubimage">
-                                @if ($errors->has('image'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('image') }}</strong>
                                     </span>
                                 @endif
                             </div>

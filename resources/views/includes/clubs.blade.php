@@ -18,7 +18,7 @@
                                 <img src="content/clubs/200/{{$club->image}}">
                             </div>
                             <div class="product-info">
-                                <a href="javascript:;" class="product-title">{{ $club->name }}</a>
+                                <a href="{{$club->url}}" target="_blank" class="product-title">{{ $club->name }}</a>
                                 <span class="product-description">
 
                                 </span>

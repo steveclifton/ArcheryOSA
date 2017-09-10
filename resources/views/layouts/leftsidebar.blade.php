@@ -114,6 +114,8 @@
                 </ul>
             </li>
 
+
+
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-cogs"></i> <span>Education</span>
@@ -140,6 +142,29 @@
                     <li class="margin15"><a href="#"><i class="fa fa-user-o"></i>National Bodies</a></li>
                 </ul>
             </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-shopping-cart"></i> <span>Shop</span>
+                        <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-shopping-cart"></i> <span>New Zealand</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="margin15"><a href="#"><i class="fa fa-file-text-o"></i>Pats-Archery</a></li>
+                            </ul>
+                        </li>
+                        <li class="margin15"><a href="#"><i class="fa fa-file-text-o"></i>Pats-Archery</a></li>
+                    </ul>
+                </li>
         </ul>
     </section>
     <!-- /.sidebar -->

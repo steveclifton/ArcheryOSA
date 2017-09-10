@@ -17,6 +17,7 @@
             </a>
 
             <ul class="treeview-menu">
+                <li class="active margin15" ><a href="{{route('federations')}}"><i class="fa fa-bullseye"></i>Federations</a></li>
                 <li class="active margin15" ><a href="{{route('organisations')}}"><i class="fa fa-bullseye"></i>Organisations</a></li>
                 <li class="active margin15" ><a href="{{route('divisions')}}"><i class="fa fa-bullseye"></i>Divisions</a></li>
                 <li class="active margin15" ><a href="{{route('rounds')}}"><i class="fa fa-bullseye"></i>Rounds</a></li>

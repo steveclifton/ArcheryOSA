@@ -1,8 +1,11 @@
 $(document).ready(function() {
-    var selectedValue = $('#roundsunitvalue').val();
-    $('#roundsunit option[value=' + selectedValue +']').attr('selected','selected');
+    var selectedValueRound = $('#roundsunitvalue').val();
+    $('#roundsunit option[value=' + selectedValueRound +']').attr('selected','selected');
 
-    var selectedValue = $('#clubscountryvalue').val();
-    $('#clubscountry option[value=' + selectedValue +']').attr('selected','selected');
+    var selectedValueClubCountry = $('#clubscountryvalue').val();
+    $('#clubscountry option[value=' + selectedValueClubCountry +']').attr('selected','selected');
+
+    var selectedValueClubOrganisation = $('#organisationvalue').val();
+    $('#organisationselect option[value=' + selectedValueClubOrganisation +']').attr('selected','selected');
 
 });

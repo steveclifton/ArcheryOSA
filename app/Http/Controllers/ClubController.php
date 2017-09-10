@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Club;
+use App\Organisation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Image;
@@ -11,7 +12,7 @@ class ClubController extends Controller
 {
     public function getPublicViewClubs()
     {
-        $clubs = Club::orderBy('clubid', 'desc')->get();
+        $clubs = Club::where('visible', 1)->orderBy('clubid', 'desc')->get();
         return view('includes.clubs', compact('clubs'));
     }
 
@@ -23,18 +24,20 @@ class ClubController extends Controller
 
     public function getClubCreateView()
     {
-        return view('admin.clubs.createclub');
+        $organisations = Organisation::where('visible', 1)->get();
+        return view('admin.clubs.createclub', compact('organisations'));
     }
 
     public function getUpdateClubView(Request $request)
     {
         $club = Club::where('name', urldecode($request->name))->get();
+        $organisations = Organisation::where('visible', 1)->get();
 
         if ($club->isEmpty()) {
             return redirect('clubs');
         }
 
-        return view('admin.clubs.updateclub', compact('club'));
+        return view('admin.clubs.updateclub', compact('club', 'organisations'));
     }
 
     public function create(Request $request)
@@ -52,6 +55,8 @@ class ClubController extends Controller
 
         $club->name = htmlentities($request->input('name'));
         $club->visible = $visible;
+        $club->organisationid = htmlentities($request->input('organisationid'));
+
         $club->description = htmlentities($request->input('description'));
         $club->url = htmlentities($request->input('url'));
         $club->contactname = htmlentities($request->input('contactname'));
@@ -101,6 +106,7 @@ class ClubController extends Controller
 
             $club->name = htmlentities($request->input('name'));
             $club->description = htmlentities($request->input('description'));
+            $club->organisationid = htmlentities($request->input('organisationid'));
             $club->url = htmlentities($request->input('url'));
             $club->contactname = htmlentities($request->input('contactname'));
             $club->email = htmlentities($request->input('email'));

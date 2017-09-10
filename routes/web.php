@@ -43,6 +43,12 @@ Route::middleware(['web'])->group(function() {
         Route::post('/admin/organisations/update/{name}', 'OrganisationController@update')->name('updateorganisation');
         Route::post('/admin/organisations/create', 'OrganisationController@create')->name('createorganisation');
 
+        Route::get('/admin/federations', 'FederationController@getFederationView')->name('federations');
+        Route::get('/admin/federations/create', 'FederationController@getFederationCreateView')->name('createfederationview');
+        Route::get('/admin/federations/update/{name}', 'FederationController@getUpdateFederationView')->name('updatefederationview');
+        Route::post('/admin/federations/update/{name}', 'FederationController@update')->name('updatefederation');
+        Route::post('/admin/federations/create', 'FederationController@create')->name('createfederation');
+
         Route::get('/admin/rounds', 'RoundController@getRoundsView')->name('rounds');
         Route::get('/admin/rounds/create', 'RoundController@getRoundCreateView')->name('createroundview');
         Route::get('/admin/rounds/update/{name}', 'RoundController@getUpdateRoundView')->name('updateroundview');
