@@ -3,7 +3,6 @@
 @section ('content')
 
     <div class="row">
-         {{--{!! dd($clubs) !!}--}}
         <section class="col-lg-10 col-md-offset-1">
             <div class="box box-primary">
                 <div class="box-header with-border">
@@ -21,7 +20,7 @@
                             <div class="product-info">
                                 <a href="javascript:;" class="product-title">{{ $club->name }}</a>
                                 <span class="product-description">
-                          
+
                                 </span>
                             </div>
                         </li>
