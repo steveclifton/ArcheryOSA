@@ -11,4 +11,29 @@ $(document).ready(function() {
     var selectedValueDivisionOrganisation = $('#organisationvalue').val();
     $('#organisationselect option[value=' + selectedValueDivisionOrganisation +']').attr('selected','selected');
 
+    var selectedValueDivisionOrganisation = $('#organisationvalue').val();
+    $('#organisationselect option[value=' + selectedValueDivisionOrganisation +']').attr('selected','selected');
+
+    $('#divisionselect').find('label').each(function () {
+        if ($(this).data('orgid') != 'null') {
+            $(this).css({'color': 'lightgrey'});
+            $(this).find('input').attr("disabled", true);
+        }
+    });
+
+    $('#organisationselect').on('change', function() {
+        var value = this.value;
+
+        $('#divisionselect').find('label').each(function () {
+            if ($(this).data('orgid') == value) {
+                $(this).css({'color':'black'});
+                $(this).find('input').removeAttr("disabled");
+            } else {
+                $(this).css({'color':'lightgrey'});
+                $(this).find('input').attr("disabled", true);
+            }
+
+            // console.log(this.value);
+        });
+    });
 });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Organisation;
 use App\Round;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -17,18 +18,22 @@ class RoundController extends Controller
 
     public function getRoundCreateView()
     {
-        return view('admin.rounds.createround');
+        $organisations = Organisation::where('visible', 1)->get();
+        return view('admin.rounds.createround', compact('organisations'));
     }
 
     public function getUpdateRoundView(Request $request)
     {
         $round = Round::where('name', urldecode($request->name))->get();
 
+        $organisations = Organisation::where('visible', 1)->get();
+
+
         if ($round->isEmpty()) {
             return redirect('rounds');
         }
 
-        return view('admin.rounds.updateround', compact('round'));
+        return view('admin.rounds.updateround', compact('round', 'organisations'));
     }
 
     public function create(Request $request)
@@ -73,6 +78,7 @@ class RoundController extends Controller
         $round->name = htmlentities($request->input('name'));
         $round->unit = htmlentities($request->input('unit'));
         $round->code = htmlentities($request->input('code'));
+        $round->organisationid = htmlentities($request->input('parentorganisationid'));
         $round->visible = $visible;
         $round->description = htmlentities($request->input('description'));
         $round->dist1 = htmlentities($request->input('dist1'));
@@ -140,6 +146,7 @@ class RoundController extends Controller
             $round->name = htmlentities($request->input('name'));
             $round->unit = htmlentities($request->input('unit'));
             $round->code = htmlentities($request->input('code'));
+            $round->organisationid = htmlentities($request->input('parentorganisationid'));
             $round->visible = $visible;
             $round->description = htmlentities($request->input('description'));
             $round->dist1 = htmlentities($request->input('dist1'));

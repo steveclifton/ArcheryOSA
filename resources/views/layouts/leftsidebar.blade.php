@@ -78,7 +78,7 @@
                 <ul class="treeview-menu">
                     @if (Auth::check())
                         @if(Auth::user()->usertype == 1)
-                            <li class="margin15"><a href="{{route('events')}}"><i class="fa fa-calendar-check-o"></i>Events</a></li>
+                            <li class="margin15"><a href="{{route('events')}}"><i class="fa fa-cog"></i>Manage Events</a></li>
                         @endif
                     @endif
                     <li class="margin15"><a href="#"><i class="fa fa-calendar-check-o"></i>Upcomming Events</a></li>

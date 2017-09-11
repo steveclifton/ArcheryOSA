@@ -45,7 +45,7 @@
 
                             <div class="col-md-6">
 
-                                <select name="parentorganisationid" class="form-control" id="organisationselect">
+                                <select name="organisationid" class="form-control" id="organisationselect">
                                     <option value="null">None</option>
                                     @foreach ($organisations as $organisation)
                                         <option value="{{$organisation->organisationid}}">{{$organisation->name}}</option>

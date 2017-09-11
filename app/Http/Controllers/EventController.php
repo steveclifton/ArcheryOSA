@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Division;
+use App\Organisation;
 use App\Round;
 use Illuminate\Http\Request;
 
@@ -13,14 +14,15 @@ class EventController extends Controller
         return view('admin.events.events');
     }
 
-    public function getCreateView(Request $request)
+    public function getCreateView()
     {
         $divisions = Division::where('visible', 1)->get();
+        $organisations = Organisation::where('visible', 1)->get();
         $rounds = Round::where('visible', 1)->get();
 
 
 
-        return view('admin.events.createevent', compact('divisions', 'rounds'));
+        return view('admin.events.createevent', compact('divisions', 'rounds', 'organisations'));
     }
 
 

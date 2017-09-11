@@ -49,14 +49,14 @@ class DivisionController extends Controller
             $visible = 1;
         }
 
-        $parentOrganisationid = null;
-        if ($request->input('parentorganisationid') != 'null') {
-            $parentOrganisationid = htmlentities($request->input('parentorganisationid'));
+        $organisationid = null;
+        if ($request->input('organisationid') != 'null') {
+            $organisationid = htmlentities($request->input('organisationid'));
         }
 
         $division->name = htmlentities($request->input('name'));
         $division->visible = $visible;
-        $division->parentorganisationid = $parentOrganisationid;
+        $division->organisationid = $organisationid;
         $division->description = htmlentities($request->input('description'));
         $division->code = htmlentities($request->input('code'));
         $division->agerange = htmlentities($request->input('agerange'));
@@ -86,14 +86,14 @@ class DivisionController extends Controller
                 $visible = 1;
             }
 
-            $parentOrganisationid = null;
-            if ($request->input('parentorganisationid') != 'null') {
-                $parentOrganisationid = htmlentities($request->input('parentorganisationid'));
+            $organisationid = null;
+            if ($request->input('organisationid') != 'null') {
+                $organisationid = htmlentities($request->input('organisationid'));
             }
 
             $division->name = htmlentities($request->input('name'));
             $division->visible = $visible;
-            $division->parentorganisationid = $parentOrganisationid;
+            $division->organisationid = $organisationid;
             $division->description = htmlentities($request->input('description'));
             $division->code = htmlentities($request->input('code'));
             $division->agerange = htmlentities($request->input('agerange'));

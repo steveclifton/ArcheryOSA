@@ -45,8 +45,8 @@
                             <label for="event" class="col-md-4 control-label">Parent Organisation <h6>Select an organisation<br> the division belongs to</h6></label>
 
                             <div class="col-md-6">
-                                <input type="text" hidden id="organisationvalue" value="{{old('parentorganisation', $division->first()->parentorganisationid) }}">
-                                <select name="parentorganisationid" class="form-control" id="organisationselect">
+                                <input type="text" hidden id="organisationvalue" value="{{old('organisation', $division->first()->organisationid) }}">
+                                <select name="organisationid" class="form-control" id="organisationselect">
                                     <option value="null">None</option>
                                     @foreach ($organisations as $organisation)
                                         <option value="{{$organisation->organisationid}}">{{$organisation->name}}</option>

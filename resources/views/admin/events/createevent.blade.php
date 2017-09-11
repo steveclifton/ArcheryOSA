@@ -45,15 +45,38 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="event" class="col-md-4 control-label">Select Divisions<h6>Ctrl/Cmd+click multiple<br> divisions</h6></label>
+                            <label for="event" class="col-md-4 control-label">Parent Organisation</label>
 
                             <div class="col-md-6">
-                            <select multiple="" class="form-control">
-                                @foreach ($divisions as $division)
-                                    <option value="{{$division->divisionid}}">{{$division->name}}</option>
-                                @endforeach
 
-                            </select>
+                                <select name="parentorganisationid" class="form-control" id="organisationselect">
+                                    <option value="null">None</option>
+                                    @foreach ($organisations as $organisation)
+                                        <option value="{{$organisation->organisationid}}">{{$organisation->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group" style="">
+                            <label for="event" class="col-md-4 control-label">Select Divisions</label>
+
+                            <div class="col-md-6">
+                                <div style="overflow-y:scroll; height:200px; margin-bottom:10px;" id="divisionselect">
+
+                                    <label class="form-check-label" style="margin-left: 10px" data-orgid="null">
+                                        <input class="form-check-input" type="checkbox" name="divisions[]" value="null" >
+                                        Open
+                                    </label><br>
+                                    @foreach ($divisions as $division)
+                                        <label class="form-check-label" style="margin-left: 10px" data-orgid="{{$division->parentorganisationid}}">
+                                            <input class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" >
+                                             {{$division->name}}
+                                        </label><br>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
 
