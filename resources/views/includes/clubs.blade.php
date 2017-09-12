@@ -2,6 +2,7 @@
 
 @section ('content')
 
+    {!! phpinfo(); !!}
     <div class="row">
         <section class="col-lg-10 col-md-offset-1">
             <div class="box box-primary">
