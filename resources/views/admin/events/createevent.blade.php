@@ -50,7 +50,7 @@
                             <div class="col-md-6">
 
                                 <select name="parentorganisationid" class="form-control" id="organisationselect">
-                                    <option value="null">None</option>
+                                    <option value="0">None</option>
                                     @foreach ($organisations as $organisation)
                                         <option value="{{$organisation->organisationid}}">{{$organisation->name}}</option>
                                     @endforeach
@@ -66,12 +66,12 @@
                             <div class="col-md-6">
                                 <div style="overflow-y:scroll; height:200px; margin-bottom:10px;" id="divisionselect">
 
-                                    <label class="form-check-label" style="margin-left: 10px" data-orgid="null">
+                                    <label class="form-check-label" style="margin-left: 10px" data-orgid="0">
                                         <input class="form-check-input" type="checkbox" name="divisions[]" value="null" >
                                         Open
                                     </label><br>
                                     @foreach ($divisions as $division)
-                                        <label class="form-check-label" style="margin-left: 10px" data-orgid="{{$division->parentorganisationid}}">
+                                        <label class="form-check-label" style="margin-left: 10px" data-orgid="{{$division->organisationid}}">
                                             <input class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" >
                                              {{$division->name}}
                                         </label><br>

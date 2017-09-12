@@ -15,7 +15,7 @@ $(document).ready(function() {
     $('#organisationselect option[value=' + selectedValueDivisionOrganisation +']').attr('selected','selected');
 
     $('#divisionselect').find('label').each(function () {
-        if ($(this).data('orgid') != 'null') {
+        if ($(this).data('orgid') != '0') {
             $(this).css({'color': 'lightgrey'});
             $(this).find('input').attr("disabled", true);
         }
