@@ -34,7 +34,7 @@
                             <label for="name" class="col-md-4 control-label">Event Name</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') ?? $event->first()->name }}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -49,7 +49,7 @@
                             <label for="hostclub" class="col-md-4 control-label">Host Club</label>
 
                             <div class="col-md-6">
-                                <input id="hostclub" type="text" class="form-control" name="hostclub" value="{{ old('hostclub') }}" required autofocus>
+                                <input id="hostclub" type="text" class="form-control" name="hostclub" value="{{ old('hostclub') ?? $event->first()->hostclub }}" required autofocus>
 
                                 @if ($errors->has('hostclub'))
                                     <span class="help-block">
@@ -64,7 +64,7 @@
                             <label for="location" class="col-md-4 control-label">Location</label>
 
                             <div class="col-md-6">
-                                <input id="location" type="text" class="form-control" name="location" value="{{ old('location') }}" required autofocus>
+                                <input id="location" type="text" class="form-control" name="location" value="{{ old('location') ?? $event->first()->location }}" required autofocus>
 
                                 @if ($errors->has('location'))
                                     <span class="help-block">
@@ -79,7 +79,7 @@
                             <label for="contact" class="col-md-4 control-label">Contact Person</label>
 
                             <div class="col-md-6">
-                                <input id="contact" type="text" class="form-control" name="contact" value="{{ old('contact') }}" required autofocus>
+                                <input id="contact" type="text" class="form-control" name="contact" value="{{ old('contact') ?? $event->first()->contact }}" required autofocus>
 
                                 @if ($errors->has('contact'))
                                     <span class="help-block">
@@ -94,7 +94,7 @@
                             <label for="email" class="col-md-4 control-label">Contact E-Mail</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') ?? $event->first()->email }}" required autofocus>
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -109,7 +109,7 @@
                             <label for="cost" class="col-md-4 control-label">Cost</label>
 
                             <div class="col-md-6">
-                                <input id="cost" type="text" class="form-control" name="cost" value="{{ old('cost') }}" required autofocus>
+                                <input id="cost" type="text" class="form-control" name="cost" value="{{ old('cost') ?? $event->first()->cost }}" required autofocus>
 
                                 @if ($errors->has('cost'))
                                     <span class="help-block">
@@ -125,9 +125,7 @@
                             <label for="schedule" class="col-md-4 control-label">Schedule</label>
 
                             <div class="col-md-6">
-                                <textarea rows="5" id="schedule" type="text" class="form-control" name="schedule" >
-                                    {{ old('schedule') }}
-                                </textarea>
+                                <textarea rows="5" id="schedule" type="text" class="form-control" name="schedule" >{{ old('schedule') ?? $event->first()->schedule }}</textarea>
                                 @if ($errors->has('schedule'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('schedule') }}</strong>

@@ -30,7 +30,7 @@ class EventController extends Controller
 
     public function getUpdateEventView(Request $request)
     {
-        $event = Event::where('name', urlencode($request->name))->get();
+        $event = Event::where('eventid', urlencode($request->eventid))->get();
         //dd($event);
         if ($event->isEmpty()) {
             return redirect('divisions');
@@ -71,18 +71,18 @@ class EventController extends Controller
         $event = new Event();
         $event->name = htmlentities($request->input('name'));
         $event->email = htmlentities($request->input('email'));
-        $event->contactname = htmlentities($request->input('contactname'));
+        $event->contactname = htmlentities($request->input('contact'));
         $event->startdate = htmlentities($date[0]);
         $event->enddate = htmlentities($date[1]);
         $event->daycount = htmlentities($datediff);
         $event->hostclub = htmlentities($request->input('hostclub'));
         $event->location = htmlentities($request->input('location'));
         $event->cost = htmlentities($request->input('cost'));
-        $event->schedule = htmlentities($request->input('schedule'));
+        $event->schedule = htmlentities(trim($request->input('schedule')));
         $event->visible = $visible;
         $event->save();
 
-        return Redirect::route('updateeventview', ['name' => urlencode($event->name)]);
+        return Redirect::route('updateeventview', ['eventid' => urlencode($event->eventid)]);
     }
 
     public function update(Request $request)

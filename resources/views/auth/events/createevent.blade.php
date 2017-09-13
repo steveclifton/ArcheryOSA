@@ -125,9 +125,7 @@
                             <label for="schedule" class="col-md-4 control-label">Schedule</label>
 
                             <div class="col-md-6">
-                                <textarea rows="5" id="schedule" type="text" class="form-control" name="schedule" >
-                                    {{ old('schedule') }}
-                                </textarea>
+                                <textarea rows="5" id="schedule" type="text" class="form-control" name="schedule" >{{ old('schedule') }}</textarea>
                                 @if ($errors->has('schedule'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('schedule') }}</strong>
