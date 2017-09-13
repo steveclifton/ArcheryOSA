@@ -16,20 +16,15 @@
 <!-- Bootstrap 3.3.7 -->
 <script src="{{URL::asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 <!-- Morris.js charts -->
-<script src="{{URL::asset('bower_components/raphael/raphael.min.js')}}"></script>
-<script src="{{URL::asset('bower_components/morris.js/morris.min.js')}}"></script>
+{{--<script src="{{URL::asset('bower_components/raphael/raphael.min.js')}}"></script>--}}
+{{--<script src="{{URL::asset('bower_components/morris.js/morris.min.js')}}"></script>--}}
 <!-- Sparkline -->
-<script src="{{URL::asset('bower_components/jquery-sparkline/dist/jquery.sparkline.min.js')}}"></script>
+{{--<script src="{{URL::asset('bower_components/jquery-sparkline/dist/jquery.sparkline.min.js')}}"></script>--}}
 <!-- jvectormap -->
-<script src="{{URL::asset('plugins/jvectormap/jquery-jvectormap-1.2.2.min.js')}}"></script>
-<script src="{{URL::asset('plugins/jvectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
+{{--<script src="{{URL::asset('plugins/jvectormap/jquery-jvectormap-1.2.2.min.js')}}"></script>--}}
+{{--<script src="{{URL::asset('plugins/jvectormap/jquery-jvectormap-world-mill-en.js')}}"></script>--}}
 <!-- jQuery Knob Chart -->
 <script src="{{URL::asset('bower_components/jquery-knob/dist/jquery.knob.min.js')}}"></script>
-<!-- daterangepicker -->
-<script src="{{URL::asset('bower_components/moment/min/moment.min.js')}}"></script>
-<script src="{{URL::asset('bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
-<!-- datepicker -->
-<script src="{{URL::asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
 <!-- Bootstrap WYSIHTML5 -->
 <script src="{{URL::asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
 <!-- Slimscroll -->
@@ -40,18 +35,3 @@
 <script src="{{URL::asset('js/adminlte.min.js')}}"></script>
 <script src="{{URL::asset('js/archeryosa.js')}}"></script>
 
-<script>
-    $(function () {
-        //Initialize Select2 Elements
-        $('.select2').select2();
-
-        //Date range picker
-        $('#reservation').daterangepicker();
-        //Date range picker with time picker
-        $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'DD/MM/YYYY h:mm A' });
-
-
-    });
-
-
-</script>

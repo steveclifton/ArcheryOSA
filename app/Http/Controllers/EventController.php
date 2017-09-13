@@ -5,34 +5,56 @@ namespace App\Http\Controllers;
 use App\Division;
 use App\Organisation;
 use App\Round;
+use App\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class EventController extends Controller
 {
     public function getEventsView()
     {
-        return view('admin.events.events');
+        return view('auth.events.events');
     }
 
     public function getCreateView()
     {
-        $divisions = Division::where('visible', 1)->get();
+        $divisions = Division::where('visible', 1)->orderBy('organisationid')->get();
         $organisations = Organisation::where('visible', 1)->get();
+        $page_id = -1;
         $rounds = Round::where('visible', 1)->get();
 
 
 
-        return view('admin.events.createevent', compact('divisions', 'rounds', 'organisations'));
+        return view('auth.events.createevent', compact('divisions', 'rounds', 'organisations', 'rounds', 'page_id'));
+    }
+
+    public function getUpdateEventView(Request $request)
+    {
+        $event = Event::where('name', urlencode($request->name))->get();
+        //dd($event);
+        if ($event->isEmpty()) {
+            return redirect('divisions');
+        }
+
+        $rounds = Round::where('visible', 1)->get();
+        $divisions = Division::where('visible', 1)->orderBy('organisationid')->get();
+        $organisations = Organisation::where('visible', 1)->get();
+
+        return view('auth.events.updateevent', compact('divisions', 'organisations', 'rounds', 'event'));
     }
 
 
     public function create(Request $request)
     {
-        $event = new Event();
 
         $this->validate($request, [
-            'name' => 'required|unique:events,name',
-            'code' => 'unique:events,code'
+            'name' => 'required',
+            'datetime' => 'required',
+            'hostclub' => 'required',
+            'location' => 'required',
+            'contact' => 'required',
+            'email' => 'required',
+            'cost' => 'required',
         ]);
 
         $visible = 0;
@@ -40,15 +62,27 @@ class EventController extends Controller
             $visible = 1;
         }
 
-        $event->name = htmlentities($request->input('name'));
-        $event->visible = $visible;
-        $event->description = htmlentities($request->input('description'));
-        $event->code = htmlentities($request->input('code'));
-        $event->agerange = htmlentities($request->input('agerange'));
+        // format the date
+        $date = explode(' - ', $request->datetime);
+        $datediff = date_diff(date_create($date[0]), date_create($date[1]));
+        $datediff = $datediff->days + 1;
 
+
+        $event = new Event();
+        $event->name = htmlentities($request->input('name'));
+        $event->email = htmlentities($request->input('email'));
+        $event->contactname = htmlentities($request->input('contactname'));
+        $event->startdate = htmlentities($date[0]);
+        $event->enddate = htmlentities($date[1]);
+        $event->daycount = htmlentities($datediff);
+        $event->hostclub = htmlentities($request->input('hostclub'));
+        $event->location = htmlentities($request->input('location'));
+        $event->cost = htmlentities($request->input('cost'));
+        $event->schedule = htmlentities($request->input('schedule'));
+        $event->visible = $visible;
         $event->save();
 
-        return Redirect::route('events');
+        return Redirect::route('updateeventview', ['name' => urlencode($event->name)]);
     }
 
     public function update(Request $request)

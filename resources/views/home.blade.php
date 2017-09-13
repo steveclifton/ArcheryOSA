@@ -3,6 +3,7 @@
     <head>
         @include('layouts.head')
         @include('layouts.title', ['title'=>'Home'])
+        @include('layouts.scripts')
     </head>
     <body class="hold-transition skin-black sidebar-mini">
         <div class="wrapper">
@@ -50,7 +51,7 @@
             </div>
             @include ('layouts.footer')
         </div>
-        @include('layouts.scripts')
+
     </body>
 </html>
 

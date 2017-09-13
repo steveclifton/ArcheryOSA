@@ -14,6 +14,17 @@ $(document).ready(function() {
     var selectedValueDivisionOrganisation = $('#organisationvalue').val();
     $('#organisationselect option[value=' + selectedValueDivisionOrganisation +']').attr('selected','selected');
 
+
+
+    // Hide the round info on page load
+    // $('#eventform').ready(function () {
+    //     if ($('#pageid').val() == -1) {
+    //         $('#dailydetails').hide();
+    //         $('#savebutton').hide();
+    //     }
+    // });
+
+
     $('#divisionselect').find('label').each(function () {
         if ($(this).data('orgid') != '0') {
             $(this).css({'color': 'lightgrey'});
@@ -25,6 +36,10 @@ $(document).ready(function() {
         var value = this.value;
 
         $('#divisionselect').find('label').each(function () {
+            // Remove all checked fields
+            $(this).find('input').prop("checked", false);
+
+
             if ($(this).data('orgid') == value) {
                 $(this).css({'color':'black'});
                 $(this).find('input').removeAttr("disabled");
@@ -36,4 +51,8 @@ $(document).ready(function() {
             // console.log(this.value);
         });
     });
+
+
+
+
 });

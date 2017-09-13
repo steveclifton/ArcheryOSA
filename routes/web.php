@@ -29,7 +29,10 @@ Route::middleware(['web'])->group(function() {
 	Route::middleware(['admin'])->group(function () {
 
         Route::get('/admin/events', 'EventController@getEventsView')->name('events');
-        Route::get('/admin/events/create', 'EventController@getCreateView')->name('createevent');
+        Route::get('/admin/events/create', 'EventController@getCreateView')->name('createeventview');
+        Route::get('/admin/events/update/{name}', 'EventController@getUpdateEventView')->name('updateeventview');
+        Route::post('/admin/events/update/{name}', 'EventController@update')->name('updateevent');
+        Route::post('/admin/events/create', 'EventController@create')->name('createevent');
 
         Route::get('/admin/divisions', 'DivisionController@getDivisionsView')->name('divisions');
         Route::get('/admin/divisions/create', 'DivisionController@getDivisionCreateView')->name('createdivisionview');
