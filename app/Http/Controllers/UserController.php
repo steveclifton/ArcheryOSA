@@ -90,28 +90,24 @@ class UserController extends Controller
     /**
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function updateProfile()
+    public function updateProfile(Request $request)
     {
         $user = Auth::user();
 
-        $validator = Validator::make(request()->all(), [
+        $this->validate($request, [
             'firstname' => 'required|max:55',
             'lastname' => 'required|max:55',
             'email' => 'unique:users,email,'.$user->userid.',userid', // ignores the current users id
         ]);
 
-        if ($validator->fails()) {
-            return redirect('/profile')->withErrors($validator)->withInput();
-        }
 
         $user->email = request('email');
         $user->firstname = request('firstname');
         $user->lastname = request('lastname');
         $user->phone = request('phone');
 
-
-        if (request()->hasFile('profileimage')) {
-           $image = request()->file('profileimage');
+        if ($request->hasFile('profileimage')) {
+           $image = $request->file('profileimage');
            $filename = time() . '.' . $image->getClientOriginalExtension();
            $location = public_path('content/profile/' . $filename);
            Image::make($image)->resize(200,200)->save($location);

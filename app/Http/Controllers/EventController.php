@@ -67,6 +67,11 @@ class EventController extends Controller
         $datediff = date_diff(date_create($date[0]), date_create($date[1]));
         $datediff = $datediff->days + 1;
 
+        if ($datediff > 9) {
+            $dateError = true;
+            //return Redirect::back()->withInput(Request::all());
+        }
+
 
         $event = new Event();
         $event->name = htmlentities($request->input('name'));
