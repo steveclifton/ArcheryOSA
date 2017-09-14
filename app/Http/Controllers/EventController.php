@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Division;
 use App\Organisation;
 use App\Round;
 use App\Event;
+use App\Rules\MaxEventDays;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -49,7 +51,7 @@ class EventController extends Controller
 
         $this->validate($request, [
             'name' => 'required',
-            'datetime' => 'required',
+            'datetime' => ['required', new MaxEventDays],
             'hostclub' => 'required',
             'location' => 'required',
             'contact' => 'required',
@@ -62,24 +64,17 @@ class EventController extends Controller
             $visible = 1;
         }
 
-        // format the date
-        $date = explode(' - ', $request->datetime);
-        $datediff = date_diff(date_create($date[0]), date_create($date[1]));
-        $datediff = $datediff->days + 1;
-
-        if ($datediff > 9) {
-            $dateError = true;
-            //return Redirect::back()->withInput(Request::all());
-        }
-
+        $date = explode(' - ', $request->input('datetime'));
+        $startdate = Carbon::parse($date[0]);
+        $enddate = Carbon::parse($date[1]);
 
         $event = new Event();
         $event->name = htmlentities($request->input('name'));
         $event->email = htmlentities($request->input('email'));
         $event->contactname = htmlentities($request->input('contact'));
-        $event->startdate = htmlentities($date[0]);
-        $event->enddate = htmlentities($date[1]);
-        $event->daycount = htmlentities($datediff);
+        $event->startdate = htmlentities($startdate);
+        $event->enddate = htmlentities($enddate);
+        $event->daycount = htmlentities($startdate->diffInDays($enddate));
         $event->hostclub = htmlentities($request->input('hostclub'));
         $event->location = htmlentities($request->input('location'));
         $event->cost = htmlentities($request->input('cost'));

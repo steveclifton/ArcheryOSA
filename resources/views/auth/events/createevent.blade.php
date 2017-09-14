@@ -24,14 +24,16 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <?php if (!empty($dateError)) { ?>
-                                        <span class="help-block">
-                                            <strong>{{ 'Please select less than 10 days for the event' }}</strong>
-                                        </span>
-                                   <?php } ?>
+
                                     <input type="text" name="datetime" class="form-control pull-right" id="reservation" required autofocus>
                                 </div>
+                                @if ($errors->has('datetime'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('datetime') }}</strong>
+                                    </span>
+                                @endif
                             </div>
+
                         </div>
 
 
