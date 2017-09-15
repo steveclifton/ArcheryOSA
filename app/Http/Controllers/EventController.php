@@ -65,13 +65,15 @@ class EventController extends Controller
         }
 
         $date = explode(' - ', $request->input('datetime'));
-        $startdate = Carbon::parse($date[0]);
-        $enddate = Carbon::parse($date[1]);
+        $startdate = Carbon::createFromFormat('d/m/Y', $date[0]);
+        $enddate = Carbon::createFromFormat('d/m/Y', $date[1]);
+
+        //dd($startdate, $enddate, $startdate->diffInDays($enddate));
 
         $event = new Event();
         $event->name = htmlentities($request->input('name'));
         $event->email = htmlentities($request->input('email'));
-        $event->contactname = htmlentities($request->input('contact'));
+        $event->contact = htmlentities($request->input('contact'));
         $event->startdate = htmlentities($startdate);
         $event->enddate = htmlentities($enddate);
         $event->daycount = htmlentities($startdate->diffInDays($enddate));

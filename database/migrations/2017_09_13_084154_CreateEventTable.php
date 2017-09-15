@@ -17,7 +17,7 @@ class CreateEventTable extends Migration
             $table->increments('eventid');
             $table->string('name');
             $table->string('email')->nullable();
-            $table->string('contactname')->nullable();
+            $table->string('contact')->nullable();
             $table->string('startdate');
             $table->string('enddate');
             $table->string('daycount');

@@ -26,8 +26,8 @@ class MaxEventDays implements Rule
     public function passes($attribute, $value)
     {
         $date = explode(' - ', $value);
-        $startdate = Carbon::parse($date[0]);
-        $enddate = Carbon::parse($date[1]);
+        $startdate = Carbon::createFromFormat('d/m/Y', $date[0]);
+        $enddate = Carbon::createFromFormat('d/m/Y', $date[1]);
 
         if ($startdate->diffInDays($enddate) > 9) {
             return false;

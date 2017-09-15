@@ -164,12 +164,11 @@
             //Initialize Select2 Elements
             $('.select2').select2();
 
-            //Date range picker
-            $('#reservation').daterangepicker();
-
             //Date range picker with time picker
-            $('#reservationtime').daterangepicker({
-                format: 'DD/MM/YYYY h:mm A'
+            $('#reservation').daterangepicker({
+                locale: {
+                    format: 'DD/MM/YYYY'
+                },
             });
         });
 

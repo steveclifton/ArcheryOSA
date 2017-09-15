@@ -219,13 +219,13 @@
 
             //Date range picker
             $('#reservation').daterangepicker({
-                "startDate": "<?php echo $event->first()->startdate ?>",
-                "endDate": "<?php echo $event->first()->enddate ?>"
+                locale: {
+                    format: 'DD/MM/YYYY'
+                },
+                "startDate": "<?php echo date('d/m/Y', strtotime($event->first()->startdate)) ?>",
+                "endDate": "<?php echo date('d/m/Y', strtotime($event->first()->enddate)) ?>"
             });
-            //Date range picker with time picker
-            $('#reservationtime').daterangepicker({
-                format: 'DD/MM/YYYY'
-            });
+
         });
 
     </script>
