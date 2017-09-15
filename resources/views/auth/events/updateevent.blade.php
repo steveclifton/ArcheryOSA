@@ -139,7 +139,7 @@
 
                             <div class="form-group">
                                 <hr>
-                                <a href="{{route('updatedayevent', $eventday->eventdayid)}}">
+                                <a href="{{route('updateeventdayview', $eventday->eventdayid)}}">
                                     <label for="eventday" class="col-md-4 control-label">{{$eventday->name}}</label>
 
                                     <div class="col-md-4">

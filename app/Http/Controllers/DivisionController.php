@@ -86,8 +86,8 @@ class DivisionController extends Controller
                 $visible = 1;
             }
 
-            $organisationid = null;
-            if ($request->input('organisationid') != 'null') {
+            $organisationid = 0;
+            if ($request->input('organisationid') != '0') {
                 $organisationid = htmlentities($request->input('organisationid'));
             }
 

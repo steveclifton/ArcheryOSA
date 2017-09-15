@@ -19,8 +19,8 @@ class CreateEventDayTable extends Migration
             $table->string('name');
             $table->string('location')->nullable();
             $table->text('schedule')->nullable();
-            $table->string('roundid')->nullable();
-            $table->string('organisationid')->nullable();
+            $table->string('roundid')->nullable()->default('0');
+            $table->string('organisationid')->nullable()->default('0');
             $table->string('divisions')->nullable();
             $table->tinyInteger('visible')->default(0);
             $table->timestamps();

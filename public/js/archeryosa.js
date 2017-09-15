@@ -11,9 +11,11 @@ $(document).ready(function() {
     var selectedValueDivisionOrganisation = $('#organisationvalue').val();
     $('#organisationselect option[value=' + selectedValueDivisionOrganisation +']').attr('selected','selected');
 
-    var selectedValueDivisionOrganisation = $('#organisationvalue').val();
-    $('#organisationselect option[value=' + selectedValueDivisionOrganisation +']').attr('selected','selected');
+    var selectedValueOrganisation = $('#organisationvalueeventday').val();
+    $('#organisationselecteventday option[value=' + selectedValueOrganisation +']').attr('selected','selected');
 
+    var selectedValueRound = $('#roundsvalue').val();
+    $('#roundselect option[value=' + selectedValueRound +']').attr('selected','selected');
 
 
     // Hide the round info on page load
@@ -26,14 +28,15 @@ $(document).ready(function() {
 
 
     $('#divisionselect').find('label').each(function () {
-        if ($(this).data('orgid') != '0') {
+        if ($(this).data('orgid') != $('#organisationvalueeventday').val()) {
             $(this).css({'color': 'lightgrey'});
             $(this).find('input').attr("disabled", true);
         }
     });
 
-    $('#organisationselect').on('change', function() {
+    $('#organisationselecteventday').on('change', function() {
         var value = this.value;
+        console.log(value);
 
         $('#divisionselect').find('label').each(function () {
             // Remove all checked fields

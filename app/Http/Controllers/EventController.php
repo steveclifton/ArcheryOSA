@@ -40,17 +40,12 @@ class EventController extends Controller
         }
 
         $eventdays = EventDay::where('eventid', $request->eventid)->get();
-        $rounds = Round::where('visible', 1)->get();
-        $divisions = Division::where('visible', 1)->orderBy('organisationid')->get();
-        $organisations = Organisation::where('visible', 1)->get();
 
-        return view('auth.events.updateevent', compact('divisions', 'organisations', 'rounds', 'event', 'eventdays'));
+
+        return view('auth.events.updateevent', compact('event', 'eventdays'));
     }
 
-    public function getUpdateDayEventView(Request $request)
-    {
-        dd($request);
-    }
+
 
 
     public function create(Request $request)
