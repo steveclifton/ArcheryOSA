@@ -17,7 +17,7 @@
                     <form class="form-horizontal" method="POST" action="{{ route('createevent') }}" id="eventform">
                         {{ csrf_field() }}
 
-                        <div class="form-group">
+                        <div class="form-group {{ $errors->has('eventerror') ? ' has-error' : '' }}">
                             <label for="datetime" class="col-md-4 control-label">Date range:</label>
                             <div class="col-md-6">
                                 <div class="input-group">
@@ -30,6 +30,24 @@
                                 @if ($errors->has('datetime'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('datetime') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
+                        <div class="form-group {{ $errors->has('eventerror') ? ' has-error' : '' }}" id="eventtype">
+                            <label for="eventtype" class="col-md-4 control-label">Event Type</label>
+
+                            <div class="col-md-6">
+
+                                <select name="eventtype" class="form-control" id="eventtype">
+                                    <option value="0">Single Event</option>
+                                    <option value="1">Weekly League</option>
+                                </select>
+                                @if ($errors->has('eventerror'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('eventerror') }}</strong>
                                     </span>
                                 @endif
                             </div>

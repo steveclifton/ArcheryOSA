@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Create New Event</div>
+                <div class="panel-heading">Update Event</div>
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('createevent') }}" id="eventform">
                         {{ csrf_field() }}
@@ -190,15 +190,17 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="col-md-6 col-md-offset-4">
 
-                                    <button type="submit" class="btn btn-primary" id="savebutton" value="save" name="submit">
-                                        Save
-                                    </button>
-                                </div>
-                            </div>
                         @endfor
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+
+                                <button type="submit" class="btn btn-primary" id="savebutton" value="save" name="submit">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
 
 
                     </form>

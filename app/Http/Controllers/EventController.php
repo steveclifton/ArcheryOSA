@@ -10,6 +10,7 @@ use App\Event;
 use App\Rules\MaxEventDays;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
 {
@@ -49,9 +50,21 @@ class EventController extends Controller
     public function create(Request $request)
     {
 
-        $this->validate($request, [
+//        $this->validate($request, [
+//            'name' => 'required',
+//            'datetime' => ['required', new MaxEventDays],
+//            'eventtype' => 'required',
+//            'hostclub' => 'required',
+//            'location' => 'required',
+//            'contact' => 'required',
+//            'email' => 'required',
+//            'cost' => 'required',
+//        ]);
+
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'datetime' => ['required', new MaxEventDays],
+            'datetime' => 'required',
+            'eventtype' => 'required',
             'hostclub' => 'required',
             'location' => 'required',
             'contact' => 'required',
@@ -59,24 +72,40 @@ class EventController extends Controller
             'cost' => 'required',
         ]);
 
+        // Format date
+        $date = explode(' - ', $request->input('datetime'));
+        $startdate = Carbon::createFromFormat('d/m/Y', $date[0]);
+        $enddate = Carbon::createFromFormat('d/m/Y', $date[1]);
+
+        $dayCount = $startdate->diffInDays($enddate);
+        if ($dayCount === 0) {
+            $dayCount++;
+        }
+
+        // Validate that event is more than 10 days and is not a single event
+        $validator->after(function ($validator) use ($startdate, $enddate, $request) {
+            if ($startdate->diffInDays($enddate) > 9 && $request->input('eventtype') == 0) {
+                $validator->errors()->add('eventerror', 'Single Events cannot be more than 10 days');
+            }
+        })->validate();
+
+
         $visible = 0;
         if (!empty($request->input('visible'))) {
             $visible = 1;
         }
 
-        $date = explode(' - ', $request->input('datetime'));
-        $startdate = Carbon::createFromFormat('d/m/Y', $date[0]);
-        $enddate = Carbon::createFromFormat('d/m/Y', $date[1]);
 
-        //dd($startdate, $enddate, $startdate->diffInDays($enddate));
+
 
         $event = new Event();
         $event->name = htmlentities($request->input('name'));
         $event->email = htmlentities($request->input('email'));
         $event->contact = htmlentities($request->input('contact'));
+        $event->eventtype = htmlentities($request->input('eventtype'));
         $event->startdate = htmlentities($startdate);
         $event->enddate = htmlentities($enddate);
-        $event->daycount = htmlentities($startdate->diffInDays($enddate));
+        $event->daycount = htmlentities($dayCount);
         $event->hostclub = htmlentities($request->input('hostclub'));
         $event->location = htmlentities($request->input('location'));
         $event->cost = htmlentities($request->input('cost'));
