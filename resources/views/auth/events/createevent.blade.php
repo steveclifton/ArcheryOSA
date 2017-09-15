@@ -160,6 +160,15 @@
                         </div>
 
                         <div class="form-group">
+                            <div class="checkbox">
+                                <label class="col-md-4 control-label">Visible</label>
+                                <div class="col-md-6">
+                                    <input type="checkbox" name="visible">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary" id="createbutton" value="create" name="submit">
                                     Add Rounds

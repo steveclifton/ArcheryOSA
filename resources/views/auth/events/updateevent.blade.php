@@ -2,7 +2,7 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Create Event'])
+@include('layouts.title', ['title'=>'Update Event'])
 
 @extends ('home')
 
@@ -14,7 +14,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Update Event</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('createevent') }}" id="eventform">
+                    <form class="form-horizontal" method="POST" action="{{ route('updateevent', $event->first()->eventid) }}" id="eventformupdate">
                         {{ csrf_field() }}
 
                         <div class="form-group">
@@ -134,63 +134,34 @@
                             </div>
                         </div>
 
-                        @if ($event->first()->eventtype == 0)
-                            @for ($i = 0; $i < $event->first()->daycount; $i++)
-                                <div id="dailydetails">
-                                    <hr>
-                                    <h3>Day {{$i + 1}}</h3>
-                                    <div class="form-group" id="roundelement">
-                                        <label for="event" class="col-md-4 control-label">Round</label>
+                        <label for="schedule" class="col-md-4 control-label">Event Days</label><br>
+                        @foreach ($eventdays as $eventday)
 
-                                        <div class="col-md-6">
+                            <div class="form-group">
+                                <hr>
+                                <a href="{{route('updatedayevent', $eventday->eventdayid)}}">
+                                    <label for="eventday" class="col-md-4 control-label">{{$eventday->name}}</label>
+                                </a>
+                            </div>
+                        @endforeach
+                        <hr>
 
-                                            <select name="roundid" class="form-control" id="roundselect">
-                                                <option value="0">None</option>
-                                                @foreach ($rounds as $round)
-                                                    <option value="{{$round->organisationid}}">{{$round->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group" id="organisationelement">
-                                        <label for="event" class="col-md-4 control-label">Parent Organisation</label>
-
-                                        <div class="col-md-6">
-
-                                            <select name="parentorganisationid" class="form-control" id="organisationselect">
-                                                <option value="0">None</option>
-                                                @foreach ($organisations as $organisation)
-                                                    <option value="{{$organisation->organisationid}}">{{$organisation->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group" id="divisionelement">
-                                        <label for="event" class="col-md-4 control-label">Select Divisions</label>
-
-                                        <div class="col-md-6">
-                                            <div style="overflow-y:scroll; height:200px; margin-bottom:10px;" id="divisionselect">
-
-                                                <label class="form-check-label" style="margin-left: 10px" data-orgid="0">
-                                                    <input class="form-check-input" type="checkbox" name="divisions[]" value="null" >
-                                                    Open
-                                                </label><br>
-                                                @foreach ($divisions as $division)
-                                                    <label class="form-check-label" style="margin-left: 10px" data-orgid="{{$division->organisationid}}">
-                                                        <input class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" >
-                                                        {{$division->name}}
-                                                    </label><br>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label class="col-md-4 control-label">Visible</label>
+                                <div class="col-md-6">
+                                    @if (!empty($event))
+                                        <?php
+                                        $status='';
+                                        if ($event->first()->visible == 1) {
+                                            $status = 'checked';
+                                        }
+                                        ?>
+                                        <input type="checkbox" name="visible" {{$status}}>
+                                    @endif
                                 </div>
-                            @endfor
-                        @endif
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
