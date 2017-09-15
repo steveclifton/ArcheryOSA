@@ -141,6 +141,14 @@
                                 <hr>
                                 <a href="{{route('updatedayevent', $eventday->eventdayid)}}">
                                     <label for="eventday" class="col-md-4 control-label">{{$eventday->name}}</label>
+
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="cost" disabled placeholder="{{$eventday->name ?? ''}}"> {{--Update to be event round --}}
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" name="cost" disabled placeholder="{{ '105 Entries' ?? ''}}">{{--Update to be user count --}}
+                                    </div>
+
                                 </a>
                             </div>
                         @endforeach
