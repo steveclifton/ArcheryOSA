@@ -16,7 +16,9 @@ class EventController extends Controller
 {
     public function getEventsView()
     {
-        return view('auth.events.events');
+        $events = Event::orderBy('eventid', 'desc')->get();
+
+        return view('auth.events.events', compact('events'));
     }
 
     public function getCreateView()

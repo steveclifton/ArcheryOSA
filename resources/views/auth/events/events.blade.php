@@ -36,25 +36,20 @@
                     <table class="table table-hover">
                         <tr>
                             <th>ID</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                            <th>Location</th>
                             <th>Name</th>
+                            <th>Location</th>
+                            <th>Visible</th>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td><span class="label label-success">Approved</span></td>
-                            <td>17-07-2014</td>
-                            <td>Auckland Archery Club</td>
-                            <td>One Tree Hill Cup</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td><span class="label label-warning">Pending</span></td>
-                            <td>10-07-2014</td>
-                            <td>Mt Green Archery Club</td>
-                            <td>North Island Champs</td>
-                        </tr>
+
+                        @foreach($events as $event)
+                            <tr>
+                                <td>{{$event->eventid}}</td>
+                                <td><a href="{{ route('updateeventview', urlencode($event->eventid)) }}">{{$event->name}}</a></td>
+                                <td>{{ (strlen($event->location) > 60) ? mb_substr($event->location, 0, 60) . ".." : $event->location }}</td>
+                                <td>{!! ($event->visible) ? '<i class="fa fa-check"></i>' : '';  !!}</td>
+                            </tr>
+                        @endforeach
+
 
                     </table>
                 </div>
