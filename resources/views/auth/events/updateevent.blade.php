@@ -12,10 +12,18 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Update Event</div>
+                <div class="panel-heading">Update Event
+                    <a href="{{route('events')}}">
+                        <button type="submit" class="btn btn-default pull-right" id="addevent">
+                            <i class="fa fa-backward" >  Back</i>
+                        </button>
+                    </a>
+                </div>
+
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('updateevent', $event->first()->eventid) }}" id="eventformupdate">
                         {{ csrf_field() }}
+                        <input type="hidden" name="eventid" value="{{ $event->first()->eventid }}">
 
                         <div class="form-group">
                             <label for="datetime" class="col-md-4 control-label">Date range:</label>
@@ -27,6 +35,25 @@
                                     <input type="text" name="datetime" class="form-control pull-right" id="reservation" required autofocus>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="form-group {{ $errors->has('eventerror') ? ' has-error' : '' }}" id="eventtype">
+                            <label for="eventtype" class="col-md-4 control-label">Event Type</label>
+
+                            <div class="col-md-6">
+                                <input type="hidden" id="eventtypevalue" value="{{ $event->first()->eventtype }}">
+
+                                <select name="eventtype" class="form-control" id="eventtypeid">
+                                    <option value="0">Single Event</option>
+                                    <option value="1">Weekly League</option>
+                                </select>
+                                @if ($errors->has('eventerror'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('eventerror') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
                         </div>
 
 
@@ -134,26 +161,6 @@
                             </div>
                         </div>
 
-                        <label for="schedule" class="col-md-4 control-label">Event Days</label><br>
-                        @foreach ($eventdays as $eventday)
-
-                            <div class="form-group">
-                                <hr>
-                                <a href="{{route('updateeventdayview', $eventday->eventdayid)}}">
-                                    <label for="eventday" class="col-md-4 control-label">{{$eventday->name}}</label>
-
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" name="cost" disabled placeholder="{{$eventday->name ?? ''}}"> {{--Update to be event round --}}
-                                    </div>
-                                    <div class="col-md-2">
-                                        <input type="text" class="form-control" name="cost" disabled placeholder="{{ '105 Entries' ?? ''}}">{{--Update to be user count --}}
-                                    </div>
-
-                                </a>
-                            </div>
-                        @endforeach
-                        <hr>
-
                         <div class="form-group">
                             <div class="checkbox">
                                 <label class="col-md-4 control-label">Visible</label>
@@ -173,12 +180,44 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-
                                 <button type="submit" class="btn btn-primary" id="savebutton" value="save" name="submit">
                                     Save
                                 </button>
+                                <button type="submit" class="btn btn-success" id="savebutton" value="createeventday" name="submit">
+                                    Add Event Session
+                                </button>
                             </div>
                         </div>
+
+                        <hr>
+
+
+                        @foreach ($eventdays as $eventday)
+
+                        <div class="form-group">
+                            <a href="{{route('updateeventdayview', $eventday->eventdayid)}}">
+                                <label for="eventday" class="col-md-4 control-label">{{$eventday->name}}</label>
+                            </a>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="cost" disabled placeholder="{{$eventday->name ?? ''}}">Round
+                                </div>
+
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control" name="cost" disabled placeholder="{{ '105 Entries' ?? ''}}">User count
+                                </div>
+                        </div>
+
+                        <hr>
+                        @endforeach
+
+
+
+
+                        {{--<label for="schedule" class="col-md-4 control-label">Event Days</label><br>--}}
+
+                        {{--<hr>--}}
+
+
 
 
                     </form>

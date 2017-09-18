@@ -43,7 +43,6 @@ class EventController extends Controller
 
         $eventdays = EventDay::where('eventid', $request->eventid)->get();
 
-
         return view('auth.events.updateevent', compact('event', 'eventdays'));
     }
 
@@ -100,19 +99,23 @@ class EventController extends Controller
         $event->visible = $visible;
         $event->save();
 
-        for ($i = 1; $i <= $dayCount; $i++) {
-            $eventday = new EventDay();
-            $eventday->eventid = $event->eventid;
-            $eventday->name = 'Day ' . $i;
-            $eventday->visible = 1;
-            $eventday->save();
-        }
+//        for ($i = 1; $i <= $dayCount; $i++) {
+//            $eventday = new EventDay();
+//            $eventday->eventid = $event->eventid;
+//            $eventday->name = 'Day ' . $i;
+//            $eventday->visible = 1;
+//            $eventday->save();
+//        }
 
         return Redirect::route('updateeventview', ['eventid' => urlencode($event->eventid)]);
     }
 
     public function update(Request $request)
     {
+        // Used for adding days to the event
+        if ($request->input('submit') == 'createeventday') {
+            return Redirect::route('createeventdayview', $request->input('eventid'));
+        }
 
         $event = Event::where('eventid', $request->eventid)->first();
 
@@ -136,9 +139,8 @@ class EventController extends Controller
         $startdate = Carbon::createFromFormat('d/m/Y', $date[0]);
         $enddate = Carbon::createFromFormat('d/m/Y', $date[1]);
 
-        $dayCount = $startdate->diffInDays($enddate) + 1; // add 1 day to represent the actual number of competing days
-
-
+        // add 1 day to represent the actual number of competing days
+        $dayCount = $startdate->diffInDays($enddate) + 1;
         if ($dayCount === 0) {
             $dayCount++;
         }
@@ -147,6 +149,7 @@ class EventController extends Controller
         $validator->after(function ($validator) use ($startdate, $enddate, $request) {
             if ($startdate->diffInDays($enddate) > 9 && $request->input('eventtype') == 0) {
                 $validator->errors()->add('eventerror', 'Single Events cannot be more than 10 days');
+
             }
         })->validate();
 
@@ -157,7 +160,6 @@ class EventController extends Controller
                 $visible = 1;
             }
 
-            $event = new Event();
             $event->name = htmlentities($request->input('name'));
             $event->email = htmlentities($request->input('email'));
             $event->contact = htmlentities($request->input('contact'));
@@ -172,13 +174,8 @@ class EventController extends Controller
             $event->visible = $visible;
             $event->save();
 
-
             return Redirect::route('events');
         }
-
-
-
-
 
     }
 

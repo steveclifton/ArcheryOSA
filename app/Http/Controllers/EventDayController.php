@@ -12,8 +12,18 @@ use Illuminate\Support\Facades\Redirect;
 
 class EventDayController extends Controller
 {
+    public function getCreateEventDayFunction($eventid)
+    {
+        $rounds = Round::where('visible', 1)->get();
+        $divisions = Division::where('visible', 1)->orderBy('organisationid')->get();
+        $organisations = Organisation::where('visible', 1)->get();
+
+        return view('auth.events.createeventday', compact('eventid', 'rounds', 'divisions', 'organisations'));
+    }
+
     public function getUpdateDayEventView(Request $request)
     {
+
         $eventday = EventDay::where('eventdayid', $request->eventdayid)->get();
 
         if ($eventday->isEmpty()) {
@@ -25,6 +35,34 @@ class EventDayController extends Controller
         $organisations = Organisation::where('visible', 1)->get();
 
         return view('auth.events.updateeventday', compact('divisions', 'organisations', 'rounds', 'eventday'));
+    }
+
+    public function create(Request $request)
+    {
+
+        $eventday = new EventDay();
+        $this->validate($request, [
+            'name' => 'required',
+            'eventid' => 'required',
+            'location' => 'required',
+            'roundid' => 'required',
+            'organisationid' => 'required',
+            'divisions' => 'required'
+        ]);
+
+
+        $eventday->name = htmlentities($request->input('name'));
+        $eventday->eventid = htmlentities($request->input('eventid'));
+        $eventday->location = htmlentities($request->input('location'));
+        $eventday->organisationid = htmlentities($request->input('organisationid'));
+        $eventday->roundid = htmlentities($request->input('roundid'));
+        $eventday->divisions = serialize($request->input('divisions'));
+        $eventday->schedule = htmlentities($request->input('schedule'));
+        $eventday->visible = 1;
+        $eventday->save();
+
+        return Redirect::route('updateeventview', ['eventid' => urlencode($eventday->eventid)]);
+
     }
 
     public function update(Request $request)

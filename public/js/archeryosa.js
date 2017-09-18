@@ -17,6 +17,10 @@ $(document).ready(function() {
     var selectedValueRound = $('#roundsvalue').val();
     $('#roundselect option[value=' + selectedValueRound +']').attr('selected','selected');
 
+    var selectedEventType = $('#eventtypevalue').val();
+    console.log(selectedEventType);
+    $('#eventtypeid option[value=' + selectedEventType +']').attr('selected','selected');
+
 
     // Hide the round info on page load
     // $('#eventform').ready(function () {

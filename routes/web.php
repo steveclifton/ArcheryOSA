@@ -30,12 +30,21 @@ Route::middleware(['web'])->group(function() {
 
         Route::get('/admin/events', 'EventController@getEventsView')->name('events');
         Route::get('/admin/events/create', 'EventController@getCreateView')->name('createeventview');
-        Route::get('/admin/events/update/{eventid}', 'EventController@getUpdateEventView')->name('updateeventview');//updatedayevent
-        Route::post('/admin/events/update/{name}', 'EventController@update')->name('updateevent');
+        Route::get('/admin/events/update/{eventid}', 'EventController@getUpdateEventView')->name('updateeventview');
+        Route::post('/admin/events/update/{eventid}', 'EventController@update')->name('updateevent');
         Route::post('/admin/events/create', 'EventController@create')->name('createevent');
 
-        Route::get('/admin/events/update/dayevent/{eventdayid}', 'EventDayController@getUpdateDayEventView')->name('updateeventdayview');
-        Route::post('/admin/events/update/dayevent/{eventdayid}', 'EventDayController@update')->name('updateeventday');
+
+
+
+        Route::get('/admin/events/create/eventday/{eventid}', 'EventDayController@getCreateEventDayFunction')->name('createeventdayview');
+        Route::post('/admin/events/create/eventday/', 'EventDayController@create')->name('createeventday');
+
+        Route::get('/admin/events/update/eventday/{eventdayid}', 'EventDayController@getUpdateDayEventView')->name('updateeventdayview');
+        Route::post('/admin/events/update/eventday/{eventdayid}', 'EventDayController@update')->name('updateeventday');
+
+
+
 
         Route::get('/admin/divisions', 'DivisionController@getDivisionsView')->name('divisions');
         Route::get('/admin/divisions/create', 'DivisionController@getDivisionCreateView')->name('createdivisionview');

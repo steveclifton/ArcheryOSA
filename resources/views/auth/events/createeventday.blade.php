@@ -2,7 +2,7 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Update Event Day'])
+@include('layouts.title', ['title'=>'Create Event Session'])
 
 @extends ('home')
 
@@ -12,18 +12,17 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Update Event Day</div>
-
+                <div class="panel-heading">Create Event Session</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('updateeventday', $eventday->first()->eventdayid ) }}" id="eventdayform">
+                    <form class="form-horizontal" method="POST" action="{{ route('createeventday') }}" id="eventdayform">
                         {{ csrf_field() }}
 
-
+                        <input type="hidden" name="eventid" value="{{$eventid}}" >
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Event Day Name</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') ?? $eventday->first()->name }}" required autofocus>
+                                <input id="name" type="text" class="form-control" name="name"  required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -38,7 +37,7 @@
                             <label for="location" class="col-md-4 control-label">Location</label>
 
                             <div class="col-md-6">
-                                <input id="location" type="text" class="form-control" name="location" value="{{ old('location') ?? $eventday->first()->location }}" required autofocus>
+                                <input id="location" type="text" class="form-control" name="location"  required autofocus>
 
                                 @if ($errors->has('location'))
                                     <span class="help-block">
@@ -54,7 +53,7 @@
                             <label for="event" class="col-md-4 control-label">Round</label>
 
                             <div class="col-md-6">
-                                <input type="text" hidden id="roundsvalue" value="{{$eventday->first()->roundid}}">
+                                <input type="text" hidden id="roundsvalue" >
 
                                 <select name="roundid" class="form-control" id="roundselect">
                                     <option value="0">None</option>
@@ -70,7 +69,7 @@
                             <label for="event" class="col-md-4 control-label">Parent Organisation</label>
 
                             <div class="col-md-6">
-                                <input type="text" hidden id="organisationvalueeventday" value="{{$eventday->first()->organisationid}}">
+                                <input type="text" hidden id="organisationvalueeventday" >
 
                                 <select name="organisationid" class="form-control" id="organisationselecteventday">
                                     <option value="0">None</option>
@@ -93,18 +92,9 @@
                                         Open
                                     </label><br>
                                     @foreach ($divisions as $division)
-                                        <label class="form-check-label" style="margin-left: 10px" data-orgid="{{$division->organisationid}}">
-                                            <?php
-                                                $checked = '';
-                                                if (!empty($eventday->first()->divisions)) {
-                                                    if (in_array($division->divisionid, unserialize($eventday->first()->divisions))) {
-                                                        $checked = 'checked';
-                                                    }
-                                                }
-                                            ?>
+                                        <label class="form-check-label" style="margin-left: 10px" >
 
-
-                                            <input class="form-check-input" type="checkbox" {{$checked}} name="divisions[]" value="{{$division->divisionid}}" >
+                                            <input class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" >
                                             {{$division->name}}
                                         </label><br>
                                     @endforeach
@@ -117,7 +107,7 @@
                             <label for="schedule" class="col-md-4 control-label">Schedule</label>
 
                             <div class="col-md-6">
-                                <textarea rows="5" id="schedule" type="text" class="form-control" name="schedule" >{{ old('schedule') ?? $eventday->first()->schedule }}</textarea>
+                                <textarea rows="5" id="schedule" type="text" class="form-control" name="schedule" ></textarea>
                                 @if ($errors->has('schedule'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('schedule') }}</strong>
@@ -125,10 +115,6 @@
                                 @endif
                             </div>
                         </div>
-
-
-                        {{--Show those people who are enetered for this event day--}}
-
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">

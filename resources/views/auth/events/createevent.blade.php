@@ -12,7 +12,13 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Create New Event</div>
+                <div class="panel-heading">Create New Event
+                    <a href="{{route('events')}}">
+                        <button type="submit" class="btn btn-default pull-right" id="addevent">
+                            <i class="fa fa-backward" >  Back</i>
+                        </button>
+                    </a>
+                </div>
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('createevent') }}" id="eventform">
                         {{ csrf_field() }}
