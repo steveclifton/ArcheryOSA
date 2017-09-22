@@ -17,6 +17,7 @@ class CreateEventRoundTable extends Migration
             $table->increments('eventroundid');
             $table->string('eventid');
             $table->string('name');
+            $table->string('startdate');
             $table->string('location')->nullable();
             $table->text('schedule')->nullable();
             $table->string('roundid')->nullable()->default('0');

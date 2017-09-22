@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Division;
+use App\Event;
 use App\EventRound;
 use App\Organisation;
 use App\Round;
@@ -16,8 +17,13 @@ class EventRoundController extends Controller
         $rounds = Round::where('visible', 1)->get();
         $divisions = Division::where('visible', 1)->orderBy('organisationid')->get();
         $organisations = Organisation::where('visible', 1)->get();
+        $event = Event::where('eventid', $eventid);
 
-        return view('auth.events.createeventround', compact('eventid', 'rounds', 'divisions', 'organisations'));
+        $startdate = $event->first()->startdate;
+        $enddate = $event->first()->enddate;
+
+
+        return view('auth.events.createeventround', compact('eventid', 'rounds', 'divisions', 'organisations', 'startdate', 'enddate'));
     }
 
     public function getUpdateRoundEventView(Request $request)
