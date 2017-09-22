@@ -2,7 +2,7 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Update Event Day'])
+@include('layouts.title', ['title'=>'Update Event Round'])
 
 @extends ('home')
 
@@ -12,18 +12,24 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Update Event Day</div>
+                <div class="panel-heading">Update Event Round
+                    <a href="{{route('updateeventview', $eventround->first()->eventid)}}">
+                    <button type="submit" class="btn btn-default pull-right" id="addevent">
+                        <i class="fa fa-backward" > Back</i>
+                    </button>
+                    </a>
+                </div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('updateeventday', $eventday->first()->eventdayid ) }}" id="eventdayform">
+                    <form class="form-horizontal" method="POST" action="{{ route('updateeventround', $eventround->first()->eventroundid ) }}" id="eventdayform">
                         {{ csrf_field() }}
 
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Event Day Name</label>
+                            <label for="name" class="col-md-4 control-label">Event Round Name</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') ?? $eventday->first()->name }}" required autofocus>
+                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') ?? $eventround->first()->name }}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -38,7 +44,7 @@
                             <label for="location" class="col-md-4 control-label">Location</label>
 
                             <div class="col-md-6">
-                                <input id="location" type="text" class="form-control" name="location" value="{{ old('location') ?? $eventday->first()->location }}" required autofocus>
+                                <input id="location" type="text" class="form-control" name="location" value="{{ old('location') ?? $eventround->first()->location }}" required autofocus>
 
                                 @if ($errors->has('location'))
                                     <span class="help-block">
@@ -54,7 +60,7 @@
                             <label for="event" class="col-md-4 control-label">Round</label>
 
                             <div class="col-md-6">
-                                <input type="text" hidden id="roundsvalue" value="{{$eventday->first()->roundid}}">
+                                <input type="text" hidden id="roundsvalue" value="{{$eventround->first()->roundid}}">
 
                                 <select name="roundid" class="form-control" id="roundselect">
                                     <option value="0">None</option>
@@ -70,9 +76,9 @@
                             <label for="event" class="col-md-4 control-label">Parent Organisation</label>
 
                             <div class="col-md-6">
-                                <input type="text" hidden id="organisationvalueeventday" value="{{$eventday->first()->organisationid}}">
+                                <input type="text" hidden id="organisationvalueeventround" value="{{$eventround->first()->organisationid}}">
 
-                                <select name="organisationid" class="form-control" id="organisationselecteventday">
+                                <select name="organisationid" class="form-control" id="organisationselecteventround">
                                     <option value="0">None</option>
                                     @foreach ($organisations as $organisation)
                                         <option value="{{$organisation->organisationid}}">{{$organisation->name}}</option>
@@ -96,8 +102,8 @@
                                         <label class="form-check-label" style="margin-left: 10px" data-orgid="{{$division->organisationid}}">
                                             <?php
                                                 $checked = '';
-                                                if (!empty($eventday->first()->divisions)) {
-                                                    if (in_array($division->divisionid, unserialize($eventday->first()->divisions))) {
+                                                if (!empty($eventround->first()->divisions)) {
+                                                    if (in_array($division->divisionid, unserialize($eventround->first()->divisions))) {
                                                         $checked = 'checked';
                                                     }
                                                 }
@@ -117,7 +123,7 @@
                             <label for="schedule" class="col-md-4 control-label">Schedule</label>
 
                             <div class="col-md-6">
-                                <textarea rows="5" id="schedule" type="text" class="form-control" name="schedule" >{{ old('schedule') ?? $eventday->first()->schedule }}</textarea>
+                                <textarea rows="5" id="schedule" type="text" class="form-control" name="schedule" >{{ old('schedule') ?? $eventround->first()->schedule }}</textarea>
                                 @if ($errors->has('schedule'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('schedule') }}</strong>

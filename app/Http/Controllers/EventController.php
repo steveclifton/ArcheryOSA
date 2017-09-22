@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\EventDay;
+use App\EventRound;
 use Carbon\Carbon;
 use App\Division;
 use App\Organisation;
@@ -41,9 +41,9 @@ class EventController extends Controller
             return redirect('divisions');
         }
 
-        $eventdays = EventDay::where('eventid', $request->eventid)->get();
+        $eventrounds = EventRound::where('eventid', $request->eventid)->get();
 
-        return view('auth.events.updateevent', compact('event', 'eventdays'));
+        return view('auth.events.updateevent', compact('event', 'eventrounds'));
     }
 
 
@@ -113,8 +113,8 @@ class EventController extends Controller
     public function update(Request $request)
     {
         // Used for adding days to the event
-        if ($request->input('submit') == 'createeventday') {
-            return Redirect::route('createeventdayview', $request->input('eventid'));
+        if ($request->input('submit') == 'createeventround') {
+            return Redirect::route('createeventroundview', $request->input('eventid'));
         }
 
         $event = Event::where('eventid', $request->eventid)->first();

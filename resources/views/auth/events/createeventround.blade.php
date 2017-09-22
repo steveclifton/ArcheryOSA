@@ -2,7 +2,7 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Create Event Session'])
+@include('layouts.title', ['title'=>'Create Event Round'])
 
 @extends ('home')
 
@@ -12,9 +12,15 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Create Event Session</div>
+                <div class="panel-heading">Create Event Round
+                    <a href="{{route('updateeventview', $eventid)}}">
+                        <button type="submit" class="btn btn-default pull-right" id="addevent">
+                            <i class="fa fa-backward" > Back</i>
+                        </button>
+                    </a>
+                </div>
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('createeventday') }}" id="eventdayform">
+                    <form class="form-horizontal" method="POST" action="{{ route('createeventround') }}" id="eventdayform">
                         {{ csrf_field() }}
 
                         <input type="hidden" name="eventid" value="{{$eventid}}" >
@@ -53,7 +59,6 @@
                             <label for="event" class="col-md-4 control-label">Round</label>
 
                             <div class="col-md-6">
-                                <input type="text" hidden id="roundsvalue" >
 
                                 <select name="roundid" class="form-control" id="roundselect">
                                     <option value="0">None</option>
@@ -69,9 +74,8 @@
                             <label for="event" class="col-md-4 control-label">Parent Organisation</label>
 
                             <div class="col-md-6">
-                                <input type="text" hidden id="organisationvalueeventday" >
 
-                                <select name="organisationid" class="form-control" id="organisationselecteventday">
+                                <select name="organisationid" class="form-control" id="organisationselecteventround">
                                     <option value="0">None</option>
                                     @foreach ($organisations as $organisation)
                                         <option value="{{$organisation->organisationid}}">{{$organisation->name}}</option>
@@ -85,14 +89,14 @@
                             <label for="event" class="col-md-4 control-label">Select Divisions</label>
 
                             <div class="col-md-6">
-                                <div style="overflow-y:scroll; height:200px; margin-bottom:10px;" id="divisionselect">
+                                <div style="overflow-y:scroll; height:200px; margin-bottom:10px;" id="divisionselectcreate">
 
                                     <label class="form-check-label" style="margin-left: 10px" data-orgid="0">
                                         <input class="form-check-input" type="checkbox" name="divisions[]" value="0" >
                                         Open
                                     </label><br>
                                     @foreach ($divisions as $division)
-                                        <label class="form-check-label" style="margin-left: 10px" >
+                                        <label class="form-check-label" style="margin-left: 10px" data-orgid="{{$division->organisationid}}">
 
                                             <input class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" >
                                             {{$division->name}}
@@ -100,6 +104,7 @@
                                     @endforeach
                                 </div>
                             </div>
+
                         </div>
 
 

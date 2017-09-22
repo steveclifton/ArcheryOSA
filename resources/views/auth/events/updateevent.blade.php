@@ -183,7 +183,7 @@
                                 <button type="submit" class="btn btn-primary" id="savebutton" value="save" name="submit">
                                     Save
                                 </button>
-                                <button type="submit" class="btn btn-success" id="savebutton" value="createeventday" name="submit">
+                                <button type="submit" class="btn btn-success" id="savebutton" value="createeventround" name="submit">
                                     Add Event Session
                                 </button>
                             </div>
@@ -192,14 +192,14 @@
                         <hr>
 
 
-                        @foreach ($eventdays as $eventday)
+                        @foreach ($eventrounds as $eventround)
 
                         <div class="form-group">
-                            <a href="{{route('updateeventdayview', $eventday->eventdayid)}}">
-                                <label for="eventday" class="col-md-4 control-label">{{$eventday->name}}</label>
+                            <a href="{{route('updateeventroundview', $eventround->eventroundid)}}">
+                                <label for="eventround" class="col-md-4 control-label">{{$eventround->name}}</label>
                             </a>
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control" name="cost" disabled placeholder="{{$eventday->name ?? ''}}">Round
+                                    <input type="text" class="form-control" name="cost" disabled placeholder="{{$eventround->name ?? ''}}">Round
                                 </div>
 
                                 <div class="col-md-2">

@@ -11,41 +11,38 @@ $(document).ready(function() {
     var selectedValueDivisionOrganisation = $('#organisationvalue').val();
     $('#organisationselect option[value=' + selectedValueDivisionOrganisation +']').attr('selected','selected');
 
-    var selectedValueOrganisation = $('#organisationvalueeventday').val();
-    $('#organisationselecteventday option[value=' + selectedValueOrganisation +']').attr('selected','selected');
+    var selectedValueOrganisation = $('#organisationvalueeventround').val();
+    $('#organisationselecteventround option[value=' + selectedValueOrganisation +']').attr('selected','selected');
 
     var selectedValueRound = $('#roundsvalue').val();
     $('#roundselect option[value=' + selectedValueRound +']').attr('selected','selected');
 
     var selectedEventType = $('#eventtypevalue').val();
-    console.log(selectedEventType);
     $('#eventtypeid option[value=' + selectedEventType +']').attr('selected','selected');
 
 
-    // Hide the round info on page load
-    // $('#eventform').ready(function () {
-    //     if ($('#pageid').val() == -1) {
-    //         $('#dailydetails').hide();
-    //         $('#savebutton').hide();
-    //     }
-    // });
-
-
+    // This will work for when you are updating an eventround
     $('#divisionselect').find('label').each(function () {
-        if ($(this).data('orgid') != $('#organisationvalueeventday').val()) {
+        if ($(this).data('orgid') != $('#organisationvalueeventround').val()) {
             $(this).css({'color': 'lightgrey'});
             $(this).find('input').attr("disabled", true);
         }
     });
 
-    $('#organisationselecteventday').on('change', function() {
+    $('#divisionselectcreate').find('label').each(function () {
+        if ($(this).data('orgid') != 0) {
+            $(this).css({'color': 'lightgrey'});
+            $(this).find('input').attr("disabled", true);
+        }
+    });
+
+    $('#organisationselecteventround').on('change', function() {
         var value = this.value;
         console.log(value);
-
+        // For update
         $('#divisionselect').find('label').each(function () {
             // Remove all checked fields
             $(this).find('input').prop("checked", false);
-
 
             if ($(this).data('orgid') == value) {
                 $(this).css({'color':'black'});
@@ -54,8 +51,20 @@ $(document).ready(function() {
                 $(this).css({'color':'lightgrey'});
                 $(this).find('input').attr("disabled", true);
             }
+        });
 
-            // console.log(this.value);
+        // For Create
+        $('#divisionselectcreate').find('label').each(function () {
+            // Remove all checked fields
+            $(this).find('input').prop("checked", false);
+
+            if ($(this).data('orgid') == value) {
+                $(this).css({'color':'black'});
+                $(this).find('input').removeAttr("disabled");
+            } else {
+                $(this).css({'color':'lightgrey'});
+                $(this).find('input').attr("disabled", true);
+            }
         });
     });
 

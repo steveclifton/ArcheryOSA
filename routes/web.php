@@ -37,11 +37,11 @@ Route::middleware(['web'])->group(function() {
 
 
 
-        Route::get('/admin/events/create/eventday/{eventid}', 'EventDayController@getCreateEventDayFunction')->name('createeventdayview');
-        Route::post('/admin/events/create/eventday/', 'EventDayController@create')->name('createeventday');
+        Route::get('/admin/events/create/eventround/{eventid}', 'EventRoundController@getCreateEventRoundView')->name('createeventroundview');
+        Route::post('/admin/events/create/eventround/', 'EventRoundController@create')->name('createeventround');
 
-        Route::get('/admin/events/update/eventday/{eventdayid}', 'EventDayController@getUpdateDayEventView')->name('updateeventdayview');
-        Route::post('/admin/events/update/eventday/{eventdayid}', 'EventDayController@update')->name('updateeventday');
+        Route::get('/admin/events/update/eventround/{eventroundid}', 'EventRoundController@getUpdateRoundEventView')->name('updateeventroundview');
+        Route::post('/admin/events/update/eventround/{eventroundid}', 'EventRoundController@update')->name('updateeventround');
 
 
 
