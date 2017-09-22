@@ -14,13 +14,26 @@ use Redirect;
 class UserController extends Controller
 {
 
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function getLoginView()
+
+
+    public function PUBLIC_getRegisterView()
+    {
+        return view ('auth.register');
+    }
+
+    public function PUBLIC_getLoginView()
     {
         return view ('auth.login');
     }
+
+    /*****************************************************
+     *                                                   *
+     *                ADMIN / AUTH METHODS               *
+     *                                                   *
+     *****************************************************/
+
+
+
 
     /**
      * @param Request $request
@@ -38,14 +51,7 @@ class UserController extends Controller
         return Redirect::route('home');
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function getRegisterView()
-    {
-        return view ('auth.register');
 
-    }
 
     /**
      * @param Request $request

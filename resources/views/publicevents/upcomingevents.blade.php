@@ -2,7 +2,7 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Events'])
+@include('layouts.title', ['title'=>'Upcoming Events'])
 
 @extends ('home')
 
@@ -15,7 +15,7 @@
 
                 <div class="box-header">
 
-                    <h3 class="box-title">Events</h3>
+                    <h3 class="box-title">Upcoming Events</h3>
 
                     <div class="box-tools">
                         <div class="input-group input-group-sm" style="width: 300px;">
@@ -42,24 +42,31 @@
                                 <td>{{date('d F Y', strtotime($event->closeentry))}}</td>
                                 <td>{{date('d F Y', strtotime($event->startdate)) }}</td>
                                 <?php
-                                    switch ($event->status) :
-                                        case 'open' :
-                                            $colour = 'limegreen';
-                                            break;
-                                        case 'closed' :
-                                            $colour = 'grey';
-                                            break;
-                                        case 'waitlist' :
-                                            $colour = 'orange';
-                                            break;
-                                        case 'pending' :
-                                            $colour = 'orange';
-                                            break;
-                                        case 'cancelled' :
-                                            $colour = 'red';
-                                            break;
-                                    endswitch;
+                                switch ($event->status) :
+                                    case 'open' :
+                                        $colour = 'limegreen';
+                                        break;
+                                    case 'entriesclosed' :
+                                        $colour = 'orange';
+                                        break;
+                                    case 'completed' :
+                                        $colour = 'red';
+                                        break;
+                                    case 'closed' :
+                                        $colour = 'grey';
+                                        break;
+                                    case 'waitlist' :
+                                        $colour = 'orange';
+                                        break;
+                                    case 'pending' :
+                                        $colour = 'orange';
+                                        break;
+                                    case 'cancelled' :
+                                        $colour = 'red';
+                                        break;
+                                endswitch;
                                 ?>
+
                                 <td style="color: {{$colour}}">{!! ucwords($event->status) !!}</td>
                             </tr>
                         @endforeach

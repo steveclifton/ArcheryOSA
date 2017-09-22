@@ -97,8 +97,9 @@
                                 <input type="text" hidden id="eventstatus" value="{{ old('status') ?? $event->first()->status }}">
 
                                 <select name="status" class="form-control" id="eventstatusselect">
-                                    <option value="open">Open</option>
-                                    <option value="closed">Closed</option>
+                                    <option value="open" selected>Open</option>
+                                    <option value="entriesclosed" >Entries Closed</option>
+                                    <option value="completed">Completed</option>
                                     <option value="waitlist">Wait Listed</option>
                                     <option value="pending">Pending</option>
                                     <option value="cancelled">Cancelled</option>

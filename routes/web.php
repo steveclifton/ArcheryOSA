@@ -3,7 +3,8 @@
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/clubs', 'ClubController@PUBLIC_getViewClubs')->name('public.clubs');
-Route::get('/upcomingevents', 'EventController@PUBLIC_getAllUpcomingEventsView')->name('public.events');
+Route::get('/upcomingevents', 'EventController@PUBLIC_getAllUpcomingEventsView');
+Route::get('/previousevents', 'EventController@PUBLIC_getAllPreviousEventsView');
 
 
 Route::middleware(['web'])->group(function() {
@@ -11,10 +12,10 @@ Route::middleware(['web'])->group(function() {
 	// Guest
 	Route::middleware(['guest'])->group(function () {
 
-		Route::get('/login', 'UserController@getLoginView')->name('login');
+		Route::get('/login', 'UserController@PUBLIC_getLoginView')->name('login');
 		Route::post('/login', 'UserController@login');
 
-		Route::get('/register', 'UserController@getRegisterView')->name('register');
+		Route::get('/register', 'UserController@PUBLIC_getRegisterView')->name('register');
 		Route::post('/register', 'UserController@register');
 	});
 

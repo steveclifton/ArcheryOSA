@@ -18,8 +18,18 @@ class EventController extends Controller
 
     public function PUBLIC_getAllUpcomingEventsView()
     {
-        $events = Event::where('visible', 1)->orderby('startdate', 'descending')->get();
-        return view('includes.upcomingevents', compact('events'));
+        // TODO Need to update this to be everything not cancelled/completed
+
+
+
+        $events = Event::where('visible', 1)->where('status', 'open')->orderby('startdate', 'descending')->get();
+        return view('publicevents.upcomingevents', compact('events'));
+    }
+
+    public function PUBLIC_getAllPreviousEventsView()
+    {
+        $events = Event::where('visible', 1)->where('status', 'completed')->orderby('startdate', 'descending')->get();
+        return view('publicevents.previousevents', compact('events'));
     }
 
 
@@ -30,6 +40,7 @@ class EventController extends Controller
     *                ADMIN / AUTH METHODS               *
     *                                                   *
     *****************************************************/
+
     public function getEventsView()
     {
         $events = Event::orderBy('eventid', 'desc')->get();
