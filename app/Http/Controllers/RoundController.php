@@ -9,6 +9,17 @@ use Illuminate\Support\Facades\Redirect;
 
 class RoundController extends Controller
 {
+
+
+
+
+
+    /*****************************************************
+     *                                                   *
+     *                ADMIN / AUTH METHODS               *
+     *                                                   *
+     *****************************************************/
+
     public function getRoundsView()
     {
         $rounds = Round::orderBy('roundid', 'desc')->get();

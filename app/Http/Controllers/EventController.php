@@ -9,11 +9,27 @@ use App\Organisation;
 use App\Round;
 use App\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
 {
+
+    public function PUBLIC_getAllUpcomingEventsView()
+    {
+        $events = Event::where('visible', 1)->orderby('startdate', 'descending')->get();
+        return view('includes.upcomingevents', compact('events'));
+    }
+
+
+
+
+    /****************************************************
+    *                                                   *
+    *                ADMIN / AUTH METHODS               *
+    *                                                   *
+    *****************************************************/
     public function getEventsView()
     {
         $events = Event::orderBy('eventid', 'desc')->get();
@@ -27,8 +43,6 @@ class EventController extends Controller
         $organisations = Organisation::where('visible', 1)->get();
         $page_id = -1;
         $rounds = Round::where('visible', 1)->get();
-
-
 
         return view('auth.events.createevent', compact('divisions', 'rounds', 'organisations', 'rounds', 'page_id'));
     }
@@ -49,6 +63,7 @@ class EventController extends Controller
 
 
 
+
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -60,6 +75,7 @@ class EventController extends Controller
             'contact' => 'required',
             'email' => 'required',
             'cost' => 'required',
+            'status' => 'required'
         ]);
 
         // Format date
@@ -85,10 +101,14 @@ class EventController extends Controller
         }
 
         $event = new Event();
+
         $event->name = htmlentities($request->input('name'));
         $event->email = htmlentities($request->input('email'));
         $event->contact = htmlentities($request->input('contact'));
         $event->eventtype = htmlentities($request->input('eventtype'));
+        $event->status = htmlentities($request->input('status'));
+        $event->createdby = Auth::user()->userid;
+
         $event->startdate = htmlentities($startdate);
         $event->enddate = htmlentities($enddate);
         $event->daycount = htmlentities($dayCount);
@@ -98,14 +118,6 @@ class EventController extends Controller
         $event->schedule = htmlentities(trim($request->input('schedule')));
         $event->visible = $visible;
         $event->save();
-
-//        for ($i = 1; $i <= $dayCount; $i++) {
-//            $eventday = new EventDay();
-//            $eventday->eventid = $event->eventid;
-//            $eventday->name = 'Day ' . $i;
-//            $eventday->visible = 1;
-//            $eventday->save();
-//        }
 
         return Redirect::route('updateeventview', ['eventid' => urlencode($event->eventid)]);
     }
@@ -132,6 +144,7 @@ class EventController extends Controller
             'contact' => 'required',
             'email' => 'required',
             'cost' => 'required',
+            'status' => 'required'
         ]);
 
         // Format date
@@ -164,6 +177,7 @@ class EventController extends Controller
             $event->email = htmlentities($request->input('email'));
             $event->contact = htmlentities($request->input('contact'));
             $event->eventtype = htmlentities($request->input('eventtype'));
+            $event->status = htmlentities($request->input('status'));
             $event->startdate = htmlentities($startdate);
             $event->enddate = htmlentities($enddate);
             $event->daycount = htmlentities($dayCount);

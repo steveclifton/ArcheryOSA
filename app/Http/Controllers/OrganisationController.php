@@ -8,6 +8,18 @@ use Illuminate\Support\Facades\Redirect;
 
 class OrganisationController extends Controller
 {
+
+
+
+
+
+    /*****************************************************
+     *                                                   *
+     *                ADMIN / AUTH METHODS               *
+     *                                                   *
+     *****************************************************/
+
+
     public function getOrganisationView()
     {
         $organisations = Organisation::orderBy('organisationid', 'desc')->get();

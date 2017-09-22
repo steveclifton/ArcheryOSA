@@ -26,7 +26,7 @@
                         <input type="hidden" name="eventid" value="{{ $event->first()->eventid }}">
 
                         <div class="form-group">
-                            <label for="datetime" class="col-md-4 control-label">Date range:</label>
+                            <label for="datetime" class="col-md-4 control-label">Dates:</label>
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <div class="input-group-addon">
@@ -37,8 +37,27 @@
                             </div>
                         </div>
 
+                        Update this to be a single date picker, dates must be between those selected above
+                        <div class="form-group {{ $errors->has('eventerror') ? ' has-error' : '' }}">
+                            <label for="datetime" class="col-md-4 control-label">Entries Close:</label>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+
+                                    <input type="text" name="closeentry" class="form-control pull-right" id="closeentry" required autofocus>
+                                </div>
+                                @if ($errors->has('datetime'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('datetime') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group {{ $errors->has('eventerror') ? ' has-error' : '' }}" id="eventtype">
-                            <label for="eventtype" class="col-md-4 control-label">Event Type</label>
+                            <label for="eventtype" class="col-md-4 control-label">Type</label>
 
                             <div class="col-md-6">
                                 <input type="hidden" id="eventtypevalue" value="{{ $event->first()->eventtype }}">
@@ -58,7 +77,7 @@
 
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Event Name</label>
+                            <label for="name" class="col-md-4 control-label">Name</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name') ?? $event->first()->name }}" required autofocus>
@@ -70,6 +89,23 @@
                                 @endif
                             </div>
                         </div>
+
+                        <div class="form-group" id="status">
+                            <label for="event" class="col-md-4 control-label">Status</label>
+
+                            <div class="col-md-6">
+                                <input type="text" hidden id="eventstatus" value="{{ old('status') ?? $event->first()->status }}">
+
+                                <select name="status" class="form-control" id="eventstatusselect">
+                                    <option value="open">Open</option>
+                                    <option value="closed">Closed</option>
+                                    <option value="waitlist">Wait Listed</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                        </div>
+
 
 
                         <div class="form-group{{ $errors->has('hostclub') ? ' has-error' : '' }}">
@@ -244,6 +280,12 @@
                 },
                 "startDate": "<?php echo date('d/m/Y', strtotime($event->first()->startdate)) ?>",
                 "endDate": "<?php echo date('d/m/Y', strtotime($event->first()->enddate)) ?>"
+            });
+
+            $('#closeentry').daterangepicker({
+                locale: {
+                    format: 'DD/MM/YYYY'
+                },
             });
 
         });

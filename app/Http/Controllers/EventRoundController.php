@@ -12,6 +12,18 @@ use Illuminate\Support\Facades\Redirect;
 
 class EventRoundController extends Controller
 {
+
+
+
+
+
+    /*****************************************************
+     *                                                   *
+     *                ADMIN / AUTH METHODS               *
+     *                                                   *
+     *****************************************************/
+
+
     public function getCreateEventRoundView($eventid)
     {
         $rounds = Round::where('visible', 1)->get();

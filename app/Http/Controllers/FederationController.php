@@ -8,6 +8,19 @@ use Illuminate\Support\Facades\Redirect;
 
 class FederationController extends Controller
 {
+
+
+
+
+
+
+    /*****************************************************
+     *                                                   *
+     *                ADMIN / AUTH METHODS               *
+     *                                                   *
+     *****************************************************/
+
+
     public function getFederationView()
     {
         $federations = Federation::orderBy('federationid', 'desc')->get();

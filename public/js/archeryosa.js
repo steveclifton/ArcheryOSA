@@ -20,6 +20,9 @@ $(document).ready(function() {
     var selectedEventType = $('#eventtypevalue').val();
     $('#eventtypeid option[value=' + selectedEventType +']').attr('selected','selected');
 
+    var selectedValueEventStatus = $('#eventstatus').val();
+    $('#eventstatusselect option[value=' + selectedValueEventStatus +']').attr('selected','selected');
+
 
     // This will work for when you are updating an eventround
     $('#divisionselect').find('label').each(function () {

@@ -24,7 +24,7 @@
                         {{ csrf_field() }}
 
                         <div class="form-group {{ $errors->has('eventerror') ? ' has-error' : '' }}">
-                            <label for="datetime" class="col-md-4 control-label">Date range:</label>
+                            <label for="datetime" class="col-md-4 control-label">Dates:</label>
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <div class="input-group-addon">
@@ -41,9 +41,28 @@
                             </div>
                         </div>
 
+                        Update this to be a single date picker, dates must be between those selected above
+                        <div class="form-group {{ $errors->has('eventerror') ? ' has-error' : '' }}">
+                            <label for="datetime" class="col-md-4 control-label">Entries Close:</label>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+
+                                    <input type="text" name="closeentry" class="form-control pull-right" id="closeentry" required autofocus>
+                                </div>
+                                @if ($errors->has('datetime'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('datetime') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
 
                         <div class="form-group {{ $errors->has('eventerror') ? ' has-error' : '' }}" id="eventtype">
-                            <label for="eventtype" class="col-md-4 control-label">Event Type</label>
+                            <label for="eventtype" class="col-md-4 control-label">Type</label>
 
                             <div class="col-md-6">
 
@@ -62,7 +81,7 @@
 
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Event Name</label>
+                            <label for="name" class="col-md-4 control-label">Name</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
@@ -72,6 +91,21 @@
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                                 @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="status">
+                            <label for="event" class="col-md-4 control-label">Status</label>
+
+                            <div class="col-md-6">
+
+                                <select name="status" class="form-control" id="eventstatus">
+                                    <option value="open" selected>Open</option>
+                                    <option value="closed" >Closed</option>
+                                    <option value="waitlist" >Wait Listed</option>
+                                    <option value="pending" >Pending</option>
+                                    <option value="cancelled" >Cancelled</option>
+                                </select>
                             </div>
                         </div>
 
@@ -165,6 +199,8 @@
                             </div>
                         </div>
 
+
+
                         <div class="form-group">
                             <div class="checkbox">
                                 <label class="col-md-4 control-label">Visible</label>
@@ -203,6 +239,14 @@
                     format: 'DD/MM/YYYY'
                 },
             });
+
+            $('#closeentry').daterangepicker({
+                locale: {
+                    format: 'DD/MM/YYYY'
+                },
+            });
+
+
         });
 
     </script>

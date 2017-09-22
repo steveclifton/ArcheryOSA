@@ -10,11 +10,21 @@ use Image;
 
 class ClubController extends Controller
 {
-    public function getPublicViewClubs()
+    public function PUBLIC_getViewClubs()
     {
         $clubs = Club::where('visible', 1)->orderBy('clubid', 'desc')->get();
         return view('includes.clubs', compact('clubs'));
     }
+
+
+
+
+    /*****************************************************
+     *                                                   *
+     *                ADMIN / AUTH METHODS               *
+     *                                                   *
+     *****************************************************/
+
 
     public function getClubView()
     {

@@ -9,6 +9,19 @@ use Illuminate\Support\Facades\Redirect;
 
 class DivisionController extends Controller
 {
+
+
+
+
+
+
+    /****************************************************
+     *                                                   *
+     *                ADMIN / AUTH METHODS               *
+     *                                                   *
+     *****************************************************/
+
+
     public function getDivisionsView()
     {
         $divisions = Division::orderBy('divisionid', 'desc')->get();

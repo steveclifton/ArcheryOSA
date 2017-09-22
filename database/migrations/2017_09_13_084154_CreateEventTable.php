@@ -18,10 +18,13 @@ class CreateEventTable extends Migration
             $table->string('name');
             $table->string('email')->nullable();
             $table->string('eventtype')->nullable();
+            $table->string('status');
+            $table->string('closeentry');
             $table->string('contact')->nullable();
             $table->string('startdate');
             $table->string('enddate');
             $table->string('daycount');
+            $table->string('createdby');
             $table->string('hostclub')->nullable();
             $table->string('location')->nullable();
             $table->string('cost')->nullable();

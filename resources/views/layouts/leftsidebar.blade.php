@@ -81,7 +81,7 @@
                             <li class="margin15"><a href="{{route('events')}}"><i class="fa fa-cog"></i>Manage Events</a></li>
                         @endif
                     @endif
-                    <li class="margin15"><a href="#"><i class="fa fa-calendar-check-o"></i>Upcomming Events</a></li>
+                    <li class="margin15"><a href="/upcomingevents"><i class="fa fa-calendar-check-o"></i>Upcomming Events</a></li>
                     <li class="margin15"><a href="#"><i class="fa fa-calendar-check-o"></i>Previous Events</a></li>
                 </ul>
             </li>
