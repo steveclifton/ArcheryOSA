@@ -87,7 +87,7 @@
                             <label for="event" class="col-md-4 control-label">Description</label>
 
                             <div class="col-md-6">
-                                <textarea class="form-control" name="description" required autofocus></textarea>
+                                <textarea class="form-control" name="description" autofocus></textarea>
 
                                 @if ($errors->has('description'))
                                     <span class="help-block">

@@ -35,17 +35,17 @@
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover">
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Description</th>
+                            <th style="width: 35%">Name</th>
+                            <th style="width: 25%">Code</th>
+                            <td>Parent Organisation</td>
                             <th>Visible</th>
                         </tr>
 
                         @foreach($divisions as $division)
                             <tr>
-                                <td>{{$division->divisionid}}</td>
                                 <td><a href="{{ route('updatedivisionview', urlencode($division->name)) }}">{{$division->name}}</a></td>
-                                <td>{{ (strlen($division->description) > 60) ? mb_substr($division->description, 0, 60) . ".." : $division->description }}</td>
+                                <td>{{ $division->code }}</td>
+                                <td>{{ $division->organsationname }}</td>
                                 <td>{!! ($division->visible) ? '<i class="fa fa-check"></i>' : '';  !!}</td>
                             </tr>
                         @endforeach

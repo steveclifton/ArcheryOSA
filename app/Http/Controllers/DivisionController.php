@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Division;
 use App\Organisation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class DivisionController extends Controller
@@ -24,8 +25,10 @@ class DivisionController extends Controller
 
     public function getDivisionsView()
     {
-        $divisions = Division::orderBy('divisionid', 'desc')->get();
-
+        $divisions = DB::select("SELECT d.*, o.`name` as organsationname 
+                            FROM `divisions` d
+                            JOIN `organisations` o using (`organisationid`)
+                            ");
         return view('admin.divisions.divisions', compact('divisions'));
     }
 
