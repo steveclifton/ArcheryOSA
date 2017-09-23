@@ -27,8 +27,10 @@ class DivisionController extends Controller
     {
         $divisions = DB::select("SELECT d.*, o.`name` as organsationname 
                             FROM `divisions` d
-                            JOIN `organisations` o using (`organisationid`)
+                            LEFT JOIN `organisations` o using (`organisationid`)
+                            ORDER BY o.`name` ASC
                             ");
+        
         return view('admin.divisions.divisions', compact('divisions'));
     }
 

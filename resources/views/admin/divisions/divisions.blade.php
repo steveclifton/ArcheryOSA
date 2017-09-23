@@ -37,7 +37,7 @@
                         <tr>
                             <th style="width: 35%">Name</th>
                             <th style="width: 25%">Code</th>
-                            <td>Parent Organisation</td>
+                            <th>Parent Organisation</th>
                             <th>Visible</th>
                         </tr>
 
