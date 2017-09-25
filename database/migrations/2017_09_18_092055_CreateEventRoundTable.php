@@ -23,6 +23,7 @@ class CreateEventRoundTable extends Migration
             $table->string('roundid')->nullable()->default('0');
             $table->string('organisationid')->nullable()->default('0');
             $table->string('divisions')->nullable();
+            $table->tinyInteger('deleted')->default(0);
             $table->tinyInteger('visible')->default(0);
             $table->timestamps();
         });

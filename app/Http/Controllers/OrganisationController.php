@@ -28,14 +28,14 @@ class OrganisationController extends Controller
 
     public function getOrganisationCreateView()
     {
-        $organisations = Organisation::where('visible', 1)->get();
+        $organisations = Organisation::where('visible', 1)->where('deleted', 0)->get();
         return view('admin.organisations.createorganisation', compact('organisations'));
     }
 
     public function getUpdateOrganisationView(Request $request)
     {
         $organisation = Organisation::where('name', urldecode($request->name))->get();
-        $organisations = Organisation::where('visible', 1)->get();
+        $organisations = Organisation::where('visible', 1)->where('deleted', 0)->get();
 
         if ($organisation->isEmpty()) {
             return redirect('organisations');

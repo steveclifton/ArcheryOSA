@@ -22,6 +22,7 @@ class CreateFederationTable extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->string('contactname')->nullable();
+            $table->tinyInteger('deleted')->default(0);
             $table->tinyInteger('visible')->default(0);
             $table->timestamps();
         });

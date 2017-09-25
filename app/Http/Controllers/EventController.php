@@ -22,13 +22,23 @@ class EventController extends Controller
 
 
 
-        $events = Event::where('visible', 1)->where('status', 'open')->orderby('startdate', 'descending')->get();
+        $events = Event::where('visible', 1)
+                    ->where('status', 'open')
+                    ->where('deleted', 0)
+                    ->orderby('startdate', 'descending')
+                    ->get();
+
         return view('publicevents.upcomingevents', compact('events'));
     }
 
     public function PUBLIC_getAllPreviousEventsView()
     {
-        $events = Event::where('visible', 1)->where('status', 'completed')->orderby('startdate', 'descending')->get();
+        $events = Event::where('visible', 1)
+                    ->where('deleted', 0)
+                    ->where('status', 'completed')
+                    ->orderby('startdate', 'descending')
+                    ->get();
+
         return view('publicevents.previousevents', compact('events'));
     }
 
@@ -50,10 +60,10 @@ class EventController extends Controller
 
     public function getCreateView()
     {
-        $divisions = Division::where('visible', 1)->orderBy('organisationid')->get();
-        $organisations = Organisation::where('visible', 1)->get();
+        $divisions = Division::where('visible', 1)->where('deleted', 0)->orderBy('organisationid')->get();
+        $organisations = Organisation::where('visible', 1)->where('deleted', 0)->get();
         $page_id = -1;
-        $rounds = Round::where('visible', 1)->get();
+        $rounds = Round::where('visible', 1)->where('deleted', 0)->get();
 
         return view('auth.events.createevent', compact('divisions', 'rounds', 'organisations', 'rounds', 'page_id'));
     }

@@ -12,7 +12,7 @@ class ClubController extends Controller
 {
     public function PUBLIC_getViewClubs()
     {
-        $clubs = Club::where('visible', 1)->orderBy('clubid', 'desc')->get();
+        $clubs = Club::where('visible', 1)->where('deleted', 0)->orderBy('clubid', 'desc')->get();
         return view('includes.clubs', compact('clubs'));
     }
 
@@ -34,14 +34,14 @@ class ClubController extends Controller
 
     public function getClubCreateView()
     {
-        $organisations = Organisation::where('visible', 1)->get();
+        $organisations = Organisation::where('visible', 1)->where('deleted', 0)->get();
         return view('admin.clubs.createclub', compact('organisations'));
     }
 
     public function getUpdateClubView(Request $request)
     {
         $club = Club::where('name', urldecode($request->name))->get();
-        $organisations = Organisation::where('visible', 1)->get();
+        $organisations = Organisation::where('visible', 1)->where('deleted', 0)->get();
 
         if ($club->isEmpty()) {
             return redirect('clubs');

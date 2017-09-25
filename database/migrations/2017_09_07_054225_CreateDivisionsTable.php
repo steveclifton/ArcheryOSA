@@ -21,6 +21,7 @@ class CreateDivisionsTable extends Migration
             $table->string('agerange');
             $table->text('description')->nullable();
             $table->string('image')->nullable();
+            $table->tinyInteger('deleted')->default(0);
             $table->tinyInteger('visible')->default(0);
             $table->timestamps();
         });

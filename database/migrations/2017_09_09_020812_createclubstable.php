@@ -27,6 +27,7 @@ class CreateClubsTable extends Migration
             $table->string('city')->nullable();
             $table->string('country')->nullable();
             $table->string('contactname')->nullable();
+            $table->tinyInteger('deleted')->default(0);
             $table->tinyInteger('visible')->default(0);
             $table->timestamps();
         });

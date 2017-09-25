@@ -28,15 +28,16 @@ class DivisionController extends Controller
         $divisions = DB::select("SELECT d.*, o.`name` as organsationname 
                             FROM `divisions` d
                             LEFT JOIN `organisations` o using (`organisationid`)
+                            WHERE d.`deleted` = 0
                             ORDER BY o.`name` ASC
                             ");
-        
+
         return view('admin.divisions.divisions', compact('divisions'));
     }
 
     public function getDivisionCreateView()
     {
-        $organisations = Organisation::where('visible', 1)->get();
+        $organisations = Organisation::where('visible', 1)->where('deleted', 0)->get();
 
         return view('admin.divisions.createdivision', compact('organisations'));
     }
@@ -44,7 +45,7 @@ class DivisionController extends Controller
     public function getUpdateDivisionView(Request $request)
     {
         $division = Division::where('name', urldecode($request->name))->get();
-        $organisations = Organisation::where('visible', 1)->get();
+        $organisations = Organisation::where('visible', 1)->where('deleted', 0)->get();
 
         if ($division->isEmpty()) {
             return redirect('divisions');

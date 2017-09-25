@@ -29,6 +29,7 @@ class CreateEventTable extends Migration
             $table->string('location')->nullable();
             $table->string('cost')->nullable();
             $table->text('schedule')->nullable();
+            $table->tinyInteger('deleted')->default(0);
             $table->tinyInteger('visible')->default(0);
             $table->timestamps();
         });

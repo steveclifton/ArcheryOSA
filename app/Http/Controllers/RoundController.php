@@ -29,7 +29,7 @@ class RoundController extends Controller
 
     public function getRoundCreateView()
     {
-        $organisations = Organisation::where('visible', 1)->get();
+        $organisations = Organisation::where('visible', 1)->where('deleted', 0)->get();
         return view('admin.rounds.createround', compact('organisations'));
     }
 
@@ -37,7 +37,7 @@ class RoundController extends Controller
     {
         $round = Round::where('name', urldecode($request->name))->get();
 
-        $organisations = Organisation::where('visible', 1)->get();
+        $organisations = Organisation::where('visible', 1)->where('deleted', 0)->get();
 
 
         if ($round->isEmpty()) {
