@@ -41,22 +41,16 @@
                             </div>
                         </div>
 
-                        Update this to be a single date picker, dates must be between those selected above
                         <div class="form-group {{ $errors->has('eventerror') ? ' has-error' : '' }}">
-                            <label for="datetime" class="col-md-4 control-label">Entries Close:</label>
+                            <label class="col-md-4 control-label">Entries Close:</label>
+
                             <div class="col-md-6">
-                                <div class="input-group">
+                                <div class="input-group date">
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-
-                                    <input type="text" name="closeentry" class="form-control pull-right" id="closeentry" required autofocus>
+                                    <input type="text" name="closeentry" class="form-control pull-right" id="closeentry" >
                                 </div>
-                                @if ($errors->has('datetime'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('datetime') }}</strong>
-                                    </span>
-                                @endif
                             </div>
                         </div>
 
@@ -241,11 +235,10 @@
                 },
             });
 
-            $('#closeentry').daterangepicker({
-                locale: {
-                    format: 'DD/MM/YYYY'
-                },
-            });
+            $('#closeentry').datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true
+            }).datepicker("update");
 
 
         });

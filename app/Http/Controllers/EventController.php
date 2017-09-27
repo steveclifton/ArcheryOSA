@@ -96,13 +96,15 @@ class EventController extends Controller
             'contact' => 'required',
             'email' => 'required',
             'cost' => 'required',
-            'status' => 'required'
+            'status' => 'required',
+            'closeentry' => 'required'
         ]);
 
         // Format date
         $date = explode(' - ', $request->input('datetime'));
         $startdate = Carbon::createFromFormat('d/m/Y', $date[0]);
         $enddate = Carbon::createFromFormat('d/m/Y', $date[1]);
+        $closeentry = Carbon::createFromFormat('d/m/Y', $request->input('closeentry'));
 
         $dayCount = $startdate->diffInDays($enddate) + 1; // add 1 day to represent the actual number of competing days
 
@@ -132,6 +134,7 @@ class EventController extends Controller
 
         $event->startdate = htmlentities($startdate);
         $event->enddate = htmlentities($enddate);
+        $event->closeentry = htmlentities($closeentry);
         $event->daycount = htmlentities($dayCount);
         $event->hostclub = htmlentities($request->input('hostclub'));
         $event->location = htmlentities($request->input('location'));
@@ -165,14 +168,15 @@ class EventController extends Controller
             'contact' => 'required',
             'email' => 'required',
             'cost' => 'required',
-            'status' => 'required'
+            'status' => 'required',
+            'closeentry' => 'required'
         ]);
 
         // Format date
         $date = explode(' - ', $request->input('datetime'));
         $startdate = Carbon::createFromFormat('d/m/Y', $date[0]);
         $enddate = Carbon::createFromFormat('d/m/Y', $date[1]);
-
+        $closeentry = Carbon::createFromFormat('d/m/Y', $request->input('closeentry'));
         // add 1 day to represent the actual number of competing days
         $dayCount = $startdate->diffInDays($enddate) + 1;
         if ($dayCount === 0) {
@@ -198,6 +202,7 @@ class EventController extends Controller
             $event->email = htmlentities($request->input('email'));
             $event->contact = htmlentities($request->input('contact'));
             $event->eventtype = htmlentities($request->input('eventtype'));
+            $event->closeentry = htmlentities($closeentry);
             $event->status = htmlentities($request->input('status'));
             $event->startdate = htmlentities($startdate);
             $event->enddate = htmlentities($enddate);
