@@ -7,7 +7,7 @@
 @extends ('home')
 
 @section ('content')
-{{--    {!! dd($event->first()->startdate) !!}--}}
+    {!! dd($event->first()->startdate) !!}
     {{-- <div class="container"> --}}
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
