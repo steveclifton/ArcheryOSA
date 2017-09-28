@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\EventRound;
 use Carbon\Carbon;
 use App\Division;
@@ -18,26 +19,27 @@ class EventController extends Controller
 
     public function PUBLIC_getAllUpcomingEventsView()
     {
-        // TODO Need to update this to be everything not cancelled/completed
 
-
-
-        $events = Event::where('visible', 1)
-                    ->where('status', 'open')
-                    ->where('deleted', 0)
-                    ->orderby('startdate', 'descending')
-                    ->get();
+        $events = DB::select("SELECT *
+                        FROM `events`
+                        WHERE `deleted` = 0
+                        AND `status` IN ('open', 'waitlist', 'pending')
+                        AND `visible` = 1
+                        ORDER BY `startdate` DESC
+                        ");
 
         return view('publicevents.upcomingevents', compact('events'));
     }
 
     public function PUBLIC_getAllPreviousEventsView()
     {
-        $events = Event::where('visible', 1)
-                    ->where('deleted', 0)
-                    ->where('status', 'completed')
-                    ->orderby('startdate', 'descending')
-                    ->get();
+        $events = DB::select("SELECT *
+                        FROM `events`
+                        WHERE `deleted` = 0
+                        AND `status` IN ('completed')
+                        AND `visible` = 1
+                        ORDER BY `startdate` DESC
+                        ");
 
         return view('publicevents.previousevents', compact('events'));
     }
