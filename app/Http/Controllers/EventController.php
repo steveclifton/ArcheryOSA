@@ -78,6 +78,7 @@ class EventController extends Controller
 
         $eventrounds = EventRound::where('eventid', $request->eventid)->get();
 
+        dd($event);
         return view('auth.events.updateevent', compact('event', 'eventrounds'));
     }
 
