@@ -95,7 +95,7 @@
 
                                 <select name="status" class="form-control" id="eventstatus">
                                     <option value="open" selected>Open</option>
-                                    <option value="entriesclosed" >Entries Closed</option>
+                                    <option value="entries-closed" >Entries Closed</option>
                                     <option value="completed">Completed</option>
                                     <option value="waitlist">Wait Listed</option>
                                     <option value="pending">Pending</option>

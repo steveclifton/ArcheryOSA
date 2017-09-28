@@ -7,7 +7,6 @@
 @extends ('home')
 
 @section ('content')
-
     {{-- <div class="container"> --}}
     <div class="row">
         <div class="col-xs-12">
@@ -46,11 +45,12 @@
                                 <td><a href="{{ route('updateeventview', urlencode($event->eventid)) }}">{{$event->name}}</a></td>
                                 <td>{{ (strlen($event->location) > 60) ? mb_substr($event->location, 0, 60) . ".." : $event->location }}</td>
                                 <?php
+                                    
                                 switch ($event->status) :
                                     case 'open' :
                                         $colour = 'limegreen';
                                         break;
-                                    case 'entriesclosed' :
+                                    case 'entries-closed' :
                                         $colour = 'orange';
                                         break;
                                     case 'completed' :
@@ -70,6 +70,8 @@
                                         break;
                                 endswitch;
                                 ?>
+
+
 
                                 <td style="color: {{$colour}}">{!! ucwords($event->status) !!}</td>
 
