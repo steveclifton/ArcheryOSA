@@ -280,6 +280,11 @@
                 autoclose : true
             });
 
+            $('#closeentry').datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true
+            }).datepicker("update", "<?php echo date('d/m/Y', strtotime($event->first()->closeentry)) ?>");
+
 
         });
 
