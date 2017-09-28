@@ -70,6 +70,7 @@ class EventController extends Controller
 
     public function getUpdateEventView(Request $request)
     {
+        dd(phpinfo());
         $event = Event::where('eventid', urlencode($request->eventid))->get();
 
         if ($event->isEmpty()) {
