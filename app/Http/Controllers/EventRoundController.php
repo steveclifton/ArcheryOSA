@@ -116,7 +116,8 @@ class EventRoundController extends Controller
             'location' => 'required',
             'roundid' => 'required',
             'organisationid' => 'required',
-            'divisions' => 'required'
+            'divisions' => 'required',
+            'date' => 'required'
         ]);
 
 //        dd('here');
@@ -129,6 +130,7 @@ class EventRoundController extends Controller
             $eventround->roundid = htmlentities($request->input('roundid'));
             $eventround->divisions = serialize($request->input('divisions'));
             $eventround->schedule = htmlentities($request->input('schedule'));
+            $eventround->date = htmlentities($request->input('date'));
 
             $eventround->save();
 

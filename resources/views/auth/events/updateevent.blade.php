@@ -10,7 +10,7 @@
     {{--    {!! dd($event->first()->startdate) !!}--}}
     {{-- <div class="container"> --}}
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">Update Event
                     <a href="{{route('events')}}">
@@ -235,26 +235,17 @@
                                 <a href="{{route('updateeventroundview', $eventround->eventroundid)}}">
                                     <label for="eventround" class="col-md-4 control-label">{{$eventround->name}}</label>
                                 </a>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <input type="text" class="form-control" name="cost" disabled placeholder="{{$eventround->name ?? ''}}">Round
                                 </div>
 
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" name="cost" disabled placeholder="{{ '105 Entries' ?? ''}}">User count
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" name="cost" disabled placeholder="{{ date('d-m-Y', strtotime($eventround->date))}}">Date
                                 </div>
                             </div>
 
                             <hr>
                         @endforeach
-
-
-
-
-                        {{--<label for="schedule" class="col-md-4 control-label">Event Days</label><br>--}}
-
-                        {{--<hr>--}}
-
-
 
 
                     </form>
