@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEventRoundTable extends Migration
+class Useroranisationtable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,9 @@ class CreateEventRoundTable extends Migration
      */
     public function up()
     {
-        Schema::create('eventrounds', function (Blueprint $table) {
-            $table->increments('eventroundid');
+        Schema::create('userorganisation', function (Blueprint $table) {
             $table->string('eventid');
-            $table->string('name');
-            $table->string('date')->nullable();
-            $table->string('location')->nullable();
-            $table->text('schedule')->nullable();
-            $table->string('roundid')->nullable()->default('0');
-            $table->string('organisationid')->nullable()->default('0');
-            $table->string('divisions')->nullable();
+
             $table->tinyInteger('deleted')->default(0);
             $table->tinyInteger('visible')->default(0);
             $table->timestamps();

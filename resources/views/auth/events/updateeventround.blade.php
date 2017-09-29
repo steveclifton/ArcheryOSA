@@ -39,6 +39,21 @@
                             </div>
                         </div>
 
+                        <div class="form-group" id="date">
+                            <label for="event" class="col-md-4 control-label">Date</label>
+
+                            <div class="col-md-6">
+
+                                <input type="text" hidden id="dateeventroundval" value="{{ date('d-m-Y', strtotime($eventround->first()->date)) }}">
+
+                                <select name="date" class="form-control" id="dateselect">
+                                    @foreach ($daterange as $date)
+                                        <option value="{{$date->format("d-m-Y")}}">{{$date->format("d-m-Y")}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
 
                         <div class="form-group{{ $errors->has('location') ? ' has-error' : '' }}">
                             <label for="location" class="col-md-4 control-label">Location</label>
@@ -142,6 +157,9 @@
                                 <button type="submit" class="btn btn-primary" id="savebutton" value="save" name="submit">
                                     Save
                                 </button>
+                                <a href="{{ route('deleteeventround', $eventround->first()->eventroundid) }}" class="btn btn-danger pull-right" role="button" id="deleteBtn">
+                                    Delete
+                                </a>
                             </div>
                         </div>
 

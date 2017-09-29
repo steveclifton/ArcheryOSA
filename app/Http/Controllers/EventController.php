@@ -45,13 +45,13 @@ class EventController extends Controller
     }
 
 
-
-
     /****************************************************
     *                                                   *
     *                ADMIN / AUTH METHODS               *
     *                                                   *
     *****************************************************/
+
+
 
     public function getEventsView()
     {
@@ -219,6 +219,17 @@ class EventController extends Controller
 
             return Redirect::route('events');
         }
+
+    }
+
+    public function delete(Request $request)
+    {
+        $event = Event::find($request->eventid);
+        $event->delete();
+
+        $events = Event::orderBy('eventid', 'desc')->get();
+
+        return view('auth.events.events', compact('events'));
 
     }
 

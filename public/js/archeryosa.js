@@ -23,6 +23,9 @@ $(document).ready(function() {
     var selectedValueEventStatus = $('#eventstatus').val();
     $('#eventstatusselect option[value=' + selectedValueEventStatus +']').attr('selected','selected');
 
+    var dateEventRoundValue = $('#dateeventroundval').val();
+    $('#dateselect option[value=' + dateEventRoundValue +']').attr('selected','selected');
+
 
     // This will work for when you are updating an eventround
     $('#divisionselect').find('label').each(function () {
@@ -71,6 +74,17 @@ $(document).ready(function() {
         });
     });
 
+
+    $("a#deleteBtn").click(function(){
+        event.stopPropagation();
+
+        if (!confirm("Do you want to delete?")) {
+            event.preventDefault();
+        }
+
+
+
+    });
 
 
 

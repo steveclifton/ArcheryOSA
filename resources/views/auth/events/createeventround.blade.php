@@ -37,28 +37,22 @@
                                 @endif
                             </div>
                         </div>
-                        {!! date('d-m-Y', strtotime($startdate)) !!} {!! date('d-m-Y', strtotime($enddate)) !!}
-                        {!! var_dump(date_diff(date_create(date('d-m-Y', strtotime($startdate))), date_create(date('d-m-Y', strtotime($enddate))))) !!}
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Event Date</label>
+
+
+                        <div class="form-group" id="date">
+                            <label for="event" class="col-md-4 control-label">Date</label>
 
                             <div class="col-md-6">
-                                <select name="date" class="form-control" id="rounddate">
-                                    <option value="0">None</option>
 
-                                    @foreach (range(date('d-m-Y', strtotime($startdate)), date('d-m-Y', strtotime($enddate))) as $date)
-                                        <option value="{{$date}}">{{$date}}</option>
+                                <select name="date" class="form-control" id="dateselect">
+                                    @foreach ($daterange as $date)
+                                        <option value="{{$date->format("d-m-Y")}}">{{$date->format("d-m-Y")}}</option>
                                     @endforeach
                                 </select>
-
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
                             </div>
                         </div>
+
 
 
 

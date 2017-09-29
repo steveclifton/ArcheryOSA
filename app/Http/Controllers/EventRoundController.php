@@ -9,7 +9,9 @@ use App\Organisation;
 use App\Round;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-
+use DateTime;
+use DateInterval;
+use DatePeriod;
 class EventRoundController extends Controller
 {
 
@@ -31,11 +33,16 @@ class EventRoundController extends Controller
         $organisations = Organisation::where('visible', 1)->where('deleted', 0)->get();
         $event = Event::where('eventid', $eventid);
 
-        $startdate = $event->first()->startdate;
-        $enddate = $event->first()->enddate;
+        $end = new DateTime( $event->first()->enddate );
+        $end->add(new DateInterval('P1D'));
 
+        $daterange = new DatePeriod(
+            new DateTime( $event->first()->startdate ),
+            new DateInterval('P1D'),
+            $end
+        );
 
-        return view('auth.events.createeventround', compact('eventid', 'rounds', 'divisions', 'organisations', 'startdate', 'enddate'));
+        return view('auth.events.createeventround', compact('eventid', 'event', 'rounds', 'divisions', 'organisations', 'daterange'));
     }
 
     public function getUpdateRoundEventView(Request $request)
@@ -47,11 +54,21 @@ class EventRoundController extends Controller
             return redirect('divisions');
         }
 
+        $event = Event::find($eventround->first()->eventid);
         $rounds = Round::where('visible', 1)->where('deleted', 0)->get();
         $divisions = Division::where('visible', 1)->where('deleted', 0)->orderBy('organisationid')->get();
         $organisations = Organisation::where('visible', 1)->where('deleted', 0)->get();
 
-        return view('auth.events.updateeventround', compact('divisions', 'organisations', 'rounds', 'eventround'));
+        $end = new DateTime( $event->first()->enddate );
+        $end->add(new DateInterval('P1D'));
+
+        $daterange = new DatePeriod(
+            new DateTime( $event->first()->startdate ),
+            new DateInterval('P1D'),
+            $end
+        );
+
+        return view('auth.events.updateeventround', compact('divisions', 'organisations', 'rounds', 'eventround', 'daterange'));
     }
 
     public function create(Request $request)
@@ -65,7 +82,8 @@ class EventRoundController extends Controller
             'location' => 'required',
             'roundid' => 'required',
             'organisationid' => 'required',
-            'divisions' => 'required'
+            'divisions' => 'required',
+            'date' => 'required'
         ]);
 
 
@@ -76,6 +94,7 @@ class EventRoundController extends Controller
         $eventround->roundid = htmlentities($request->input('roundid'));
         $eventround->divisions = serialize($request->input('divisions'));
         $eventround->schedule = htmlentities($request->input('schedule'));
+        $eventround->date = htmlentities($request->input('date'));
         $eventround->visible = 1;
         $eventround->save();
 
@@ -86,7 +105,7 @@ class EventRoundController extends Controller
     public function update(Request $request)
     {
 
-        $eventround = EventDay::where('eventroundid', $request->eventroundid)->first();
+        $eventround = EventRound::where('eventroundid', $request->eventroundid)->first();
 
         if (is_null($eventround)) {
             return Redirect::route('eventrounds');
@@ -117,6 +136,15 @@ class EventRoundController extends Controller
         }
 
         return Redirect::route('events');
+
+    }
+
+    public function delete(Request $request)
+    {
+        $eventround = EventRound::find($request->eventroundid);
+        $eventround->delete();
+
+        return Redirect::route('updateeventview', ['eventid' => urlencode($eventround->eventid)]);
 
     }
 
