@@ -224,12 +224,15 @@ class EventController extends Controller
 
     public function delete(Request $request)
     {
-        $event = Event::find($request->eventid);
-        $event->delete();
 
-        $events = Event::orderBy('eventid', 'desc')->get();
+        if (!empty($request->eventid) || !empty($request->eventname)) {
+            $event = Event::where('eventid', $request->eventid)->where('name', urldecode($request->eventname) );
+            $event->first()->delete();
+            return Redirect::route('events');
+        }
 
-        return view('auth.events.events', compact('events'));
+        return Redirect::route('home');
+
 
     }
 

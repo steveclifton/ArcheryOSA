@@ -157,7 +157,7 @@
                                 <button type="submit" class="btn btn-primary" id="savebutton" value="save" name="submit">
                                     Save
                                 </button>
-                                <a href="{{ route('deleteeventround', $eventround->first()->eventroundid) }}" class="btn btn-danger pull-right" role="button" id="deleteBtn">
+                                <a href="{!! route('deleteeventround', [$eventround->first()->eventroundid, urlencode($eventround->first()->name)]) !!}" class="btn btn-danger pull-right" role="button" id="deleteBtn">
                                     Delete
                                 </a>
                             </div>

@@ -120,8 +120,6 @@ class EventRoundController extends Controller
             'date' => 'required'
         ]);
 
-//        dd('here');
-
         if ($request->eventroundid == $eventround->eventroundid) {
 
             $eventround->name = htmlentities($request->input('name'));
@@ -143,10 +141,21 @@ class EventRoundController extends Controller
 
     public function delete(Request $request)
     {
-        $eventround = EventRound::find($request->eventroundid);
-        $eventround->delete();
 
-        return Redirect::route('updateeventview', ['eventid' => urlencode($eventround->eventid)]);
+        if (!empty($request->eventroundid) || !empty($request->eventroundname)) {
+            // find record
+            $eventround = EventRound::where('eventroundid', $request->eventroundid)->where('name', urldecode($request->eventroundname) );
+
+            $eventid = $eventround->first()->eventid;
+
+            // delete record
+            $eventround->first()->delete();
+
+            return Redirect::route('updateeventview', ['eventid' => $eventid]);
+        }
+
+
+        return Redirect::route('home');
 
     }
 

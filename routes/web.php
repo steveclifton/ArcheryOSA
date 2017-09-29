@@ -38,14 +38,14 @@ Route::middleware(['web'])->group(function() {
         Route::get('/admin/events/update/{eventid}', 'EventController@getUpdateEventView')->name('updateeventview');
         Route::post('/admin/events/update/{eventid}', 'EventController@update')->name('updateevent');
         Route::post('/admin/events/create', 'EventController@create')->name('createevent');
-        Route::get('/admin/events/delete/{eventid}', 'EventController@delete')->name('deleteevent');
+        Route::get('/admin/events/delete/{eventid}/{eventname}', 'EventController@delete')->name('deleteevent');
 
         // Event Rounds
         Route::get('/admin/events/create/eventround/{eventid}', 'EventRoundController@getCreateEventRoundView')->name('createeventroundview');
         Route::post('/admin/events/create/eventround/', 'EventRoundController@create')->name('createeventround');
         Route::get('/admin/events/update/eventround/{eventroundid}', 'EventRoundController@getUpdateRoundEventView')->name('updateeventroundview');
         Route::post('/admin/events/update/eventround/{eventroundid}', 'EventRoundController@update')->name('updateeventround');
-        Route::get('/admin/eventround/delete/{eventroundid}', 'EventRoundController@delete')->name('deleteeventround');
+        Route::get('/admin/eventround/delete/{eventroundid}/{eventroundname}', 'EventRoundController@delete')->name('deleteeventround');
 
         // Divisions
         Route::get('/admin/divisions', 'DivisionController@getDivisionsView')->name('divisions');

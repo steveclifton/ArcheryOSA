@@ -219,7 +219,7 @@
                                 <button type="submit" class="btn btn-success" id="savebutton" value="createeventround" name="submit">
                                     Add Event Session
                                 </button>
-                                <a href="{{ route('deleteevent', $event->first()->eventid) }}" class="btn btn-danger pull-right" role="button" id="deleteBtn">
+                                <a href="{!! route('deleteevent', [$event->first()->eventid, urlencode($event->first()->name)]) !!}" class="btn btn-danger pull-right" role="button" id="deleteBtn">
                                     Delete
                                 </a>
                             </div>
