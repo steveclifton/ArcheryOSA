@@ -175,7 +175,7 @@
                             <label for="event" class="col-md-4 control-label">Description</label>
 
                             <div class="col-md-6">
-                                <textarea class="form-control" name="description" required autofocus >{{ old('description', $club->first()->description) }}</textarea>
+                                <textarea class="form-control" name="description">{{ old('description', $club->first()->description) }}</textarea>
 
                                 @if ($errors->has('description'))
                                     <span class="help-block">

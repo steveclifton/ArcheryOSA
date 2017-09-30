@@ -74,7 +74,7 @@
                             <label for="event" class="col-md-4 control-label">Code</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="code" value="{{ old('name', $division->first()->code) }}">
+                                <input type="text" class="form-control" name="code" value="{{ old('code', $division->first()->code) }}">
 
                                 @if ($errors->has('code'))
                                     <span class="help-block">

@@ -59,7 +59,7 @@
                             <label for="event" class="col-md-4 control-label">Round Code</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="code" value="{{ old('name', $round->first()->code) }}" required autofocus>
+                                <input type="text" class="form-control" name="code" value="{{ old('code', $round->first()->code) }}" required autofocus>
 
                                 @if ($errors->has('code'))
                                     <span class="help-block">
