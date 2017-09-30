@@ -221,6 +221,10 @@
                                 <button type="submit" class="btn btn-primary">
                                     Update
                                 </button>
+                                <a href="{!! route('deleteclub', [$club->first()->clubid, urlencode($club->first()->name)]) !!}" class="btn btn-danger pull-right" role="button" id="deleteBtn">
+                                    Delete
+                                </a>
+
                             </div>
                         </div>
                     </form>

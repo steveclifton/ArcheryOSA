@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Organisation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class OrganisationController extends Controller
@@ -22,7 +23,11 @@ class OrganisationController extends Controller
 
     public function getOrganisationView()
     {
-        $organisations = Organisation::orderBy('organisationid', 'desc')->get();
+        $organisations = DB::select('SELECT o.*, o1.`name` as parentname
+                                FROM `organisations` o
+                                LEFT JOIN `organisations` o1 ON (o.`parentorganisationid` = o1.`organisationid`)
+                                ORDER BY `name` ASC
+                            ');
         return view('admin.organisations.organisation', compact('organisations'));
     }
 
@@ -113,6 +118,18 @@ class OrganisationController extends Controller
             return Redirect::route('organisations');
         }
 
+
+    }
+
+    public function delete(Request $request)
+    {
+        if (!empty($request->organisationid) || !empty($request->name)) {
+            $organisation = Organisation::where('organisationid', $request->organisationid)->where('name', urldecode($request->organisationname) );
+            $organisation->first()->delete();
+            return Redirect::route('organisations');
+        }
+
+        return Redirect::route('home');
 
     }
 }

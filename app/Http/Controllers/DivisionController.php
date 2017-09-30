@@ -125,4 +125,16 @@ class DivisionController extends Controller
 
     }
 
+    public function delete(Request $request)
+    {
+        if (!empty($request->divisionid) || !empty($request->divisionname)) {
+            $division = Division::where('divisionid', $request->divisionid)->where('name', urldecode($request->divisionname) );
+            $division->first()->delete();
+            return Redirect::route('divisions');
+        }
+
+        return Redirect::route('home');
+
+    }
+
 }

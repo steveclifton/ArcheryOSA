@@ -101,7 +101,10 @@ class EventController extends Controller
             'cost' => 'required',
             'status' => 'required',
             'closeentry' => 'required'
-        ]);
+        ], [
+            'closeentry.required' => 'Entries Close date must be entered'
+        ])->validate();
+
 
         // Format date
         $date = explode(' - ', $request->input('datetime'));
@@ -110,8 +113,6 @@ class EventController extends Controller
         $closeentry = Carbon::createFromFormat('d/m/Y', $request->input('closeentry'));
 
         $dayCount = $startdate->diffInDays($enddate) + 1; // add 1 day to represent the actual number of competing days
-
-
 
         // Validate that event is more than 10 days and is not a single event
         $validator->after(function ($validator) use ($startdate, $enddate, $request) {
@@ -133,7 +134,8 @@ class EventController extends Controller
         $event->contact = htmlentities($request->input('contact'));
         $event->eventtype = htmlentities($request->input('eventtype'));
         $event->status = htmlentities($request->input('status'));
-        $event->createdby = Auth::user()->userid;
+
+        $event->createdby = Auth::user()->userid; // set the created by as the person who is logged in
 
         $event->startdate = htmlentities($startdate);
         $event->enddate = htmlentities($enddate);
@@ -173,7 +175,9 @@ class EventController extends Controller
             'cost' => 'required',
             'status' => 'required',
             'closeentry' => 'required'
-        ]);
+        ], [
+            'closeentry.required' => 'Entries Close date must be entered'
+        ])->validate();
 
         // Format date
         $date = explode(' - ', $request->input('datetime'));
@@ -190,7 +194,6 @@ class EventController extends Controller
         $validator->after(function ($validator) use ($startdate, $enddate, $request) {
             if ($startdate->diffInDays($enddate) > 9 && $request->input('eventtype') == 0) {
                 $validator->errors()->add('eventerror', 'Single Events cannot be more than 10 days');
-
             }
         })->validate();
 
@@ -227,6 +230,10 @@ class EventController extends Controller
 
         if (!empty($request->eventid) || !empty($request->eventname)) {
             $event = Event::where('eventid', $request->eventid)->where('name', urldecode($request->eventname) );
+
+            $eventrounds = EventRound::where('eventid', $request->eventid)->get();
+            dd($eventrounds);
+
             $event->first()->delete();
             return Redirect::route('events');
         }

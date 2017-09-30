@@ -46,8 +46,8 @@
                                 <input type="text" hidden id="organisationvalue" value="{{old('organisation', $organisation->first()->parentorganisationid) }}">
                                 <select name="parentorganisationid" class="form-control" id="organisationselect">
                                     <option value="null">None</option>
-                                    @foreach ($organisations as $organisation)
-                                        <option value="{{$organisation->organisationid}}">{{$organisation->name}}</option>
+                                    @foreach ($organisations as $org)
+                                        <option value="{{$org->organisationid}}">{{$org->name}}</option>
                                     @endforeach
 
                                 </select>
@@ -143,6 +143,9 @@
                                 <button type="submit" class="btn btn-primary">
                                     Update
                                 </button>
+                                <a href="{!! route('deleteorganisation', [$organisation->first()->organisationid, urlencode($organisation->first()->name)]) !!}" class="btn btn-danger pull-right" role="button" id="deleteBtn">
+                                    Delete
+                                </a>
                             </div>
                         </div>
                     </form>

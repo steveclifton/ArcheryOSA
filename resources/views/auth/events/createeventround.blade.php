@@ -7,8 +7,7 @@
 @extends ('home')
 
 @section ('content')
-{{--    {!! dd($event->first()->startdate) !!}--}}
-    {{-- <div class="container"> --}}
+
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
@@ -19,16 +18,20 @@
                         </button>
                     </a>
                 </div>
+
+
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('createeventround') }}" id="eventdayform">
                         {{ csrf_field() }}
 
                         <input type="hidden" name="eventid" value="{{$eventid}}" >
+
+
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Event Round Name</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name"  required autofocus>
+                                <input id="name" type="text" class="form-control" name="name" value="{{old('name')}}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -40,17 +43,21 @@
 
 
 
-                        <div class="form-group" id="date">
+                        <div class="form-group {{ $errors->has('date') ? ' has-error' : '' }}" id="date">
                             <label for="event" class="col-md-4 control-label">Date</label>
-
                             <div class="col-md-6">
 
-                                <select name="date" class="form-control" id="dateselect">
+                                <select name="date" class="form-control" id="dateselect" required autofocus>
                                     @foreach ($daterange as $date)
                                         <option value="{{$date->format("d-m-Y")}}">{{$date->format("d-m-Y")}}</option>
                                     @endforeach
                                 </select>
                             </div>
+                            @if ($errors->has('date'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('date') }}</strong>
+                                </span>
+                            @endif
                         </div>
 
 
@@ -61,7 +68,7 @@
                             <label for="location" class="col-md-4 control-label">Location</label>
 
                             <div class="col-md-6">
-                                <input id="location" type="text" class="form-control" name="location"  required autofocus>
+                                <input id="location" type="text" class="form-control" name="location" value="{{old('location')}}" required autofocus>
 
                                 @if ($errors->has('location'))
                                     <span class="help-block">
@@ -73,22 +80,29 @@
 
 
 
-                        <div class="form-group" id="roundelement">
+                        <div class="form-group {{ $errors->has('roundid') ? ' has-error' : '' }}" id="roundelement">
                             <label for="event" class="col-md-4 control-label">Round</label>
 
                             <div class="col-md-6">
 
-                                <select name="roundid" class="form-control" id="roundselect">
-                                    <option value="0">None</option>
+                                <select name="roundid" class="form-control" id="roundselect" required autofocus>
+                                    <option disabled selected>Select Round</option>
                                     @foreach ($rounds as $round)
                                         <option value="{{$round->roundid}}">{{$round->name}}</option>
                                     @endforeach
                                 </select>
+                                @if ($errors->has('roundid'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('roundid') }}</strong>
+                                    </span>
+                                @endif
+
                             </div>
+
                         </div>
 
 
-                        <div class="form-group" id="organisationelement">
+                        <div class="form-group {{ $errors->has('organisationid') ? ' has-error' : '' }}" id="organisationelement">
                             <label for="event" class="col-md-4 control-label">Parent Organisation</label>
 
                             <div class="col-md-6">
@@ -99,11 +113,17 @@
                                         <option value="{{$organisation->organisationid}}">{{$organisation->name}}</option>
                                     @endforeach
                                 </select>
+                                @if ($errors->has('organisationid'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('organisationid') }}</strong>
+                                </span>
+                                @endif
                             </div>
+
                         </div>
 
 
-                        <div class="form-group" id="divisionelement">
+                        <div class="form-group {{ $errors->has('divisions') ? ' has-error' : '' }}" id="divisionelement">
                             <label for="event" class="col-md-4 control-label">Select Divisions</label>
 
                             <div class="col-md-6">
@@ -115,14 +135,19 @@
                                     </label><br>
                                     @foreach ($divisions as $division)
                                         <label class="form-check-label" style="margin-left: 10px" data-orgid="{{$division->organisationid}}">
-
                                             <input class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" >
                                             {{$division->name}}
                                         </label><br>
                                     @endforeach
                                 </div>
-                            </div>
 
+                                @if ($errors->has('divisions'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('divisions') }}</strong>
+                                    </span>
+                                @endif
+
+                            </div>
                         </div>
 
 
@@ -153,9 +178,6 @@
             </div>
         </div>
     </div>
-    {{-- </div> --}}
-
-
 
 @endsection
 

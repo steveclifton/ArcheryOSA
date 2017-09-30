@@ -53,6 +53,7 @@ Route::middleware(['web'])->group(function() {
         Route::get('/admin/divisions/update/{name}', 'DivisionController@getUpdateDivisionView')->name('updatedivisionview');
         Route::post('/admin/divisions/update/{name}', 'DivisionController@update')->name('updatedivision');
         Route::post('/admin/divisions/create', 'DivisionController@create')->name('createdivision');
+        Route::get('/admin/divisions/delete/{divisionid}/{divisionname}', 'DivisionController@delete')->name('deletedivision');
 
         // Organisations
         Route::get('/admin/organisations', 'OrganisationController@getOrganisationView')->name('organisations');
@@ -60,6 +61,7 @@ Route::middleware(['web'])->group(function() {
         Route::get('/admin/organisations/update/{name}', 'OrganisationController@getUpdateOrganisationView')->name('updateorganisationview');
         Route::post('/admin/organisations/update/{name}', 'OrganisationController@update')->name('updateorganisation');
         Route::post('/admin/organisations/create', 'OrganisationController@create')->name('createorganisation');
+        Route::get('/admin/organisations/delete/{organisationid}/{organisationname}', 'OrganisationController@delete')->name('deleteorganisation');
 
         // Federations
         Route::get('/admin/federations', 'FederationController@getFederationView')->name('federations');
@@ -74,6 +76,7 @@ Route::middleware(['web'])->group(function() {
         Route::get('/admin/rounds/update/{name}', 'RoundController@getUpdateRoundView')->name('updateroundview');
         Route::post('/admin/rounds/update/{name}', 'RoundController@update')->name('updateround');
         Route::post('/admin/rounds/create', 'RoundController@create')->name('createround');
+        Route::get('/admin/rounds/delete/{roundid}/{roundname}', 'RoundController@delete')->name('deleteround');
 
         // Clubs
         Route::get('/admin/clubs', 'ClubController@getClubView')->name('clubs');
@@ -81,6 +84,8 @@ Route::middleware(['web'])->group(function() {
         Route::get('/admin/clubs/update/{name}', 'ClubController@getUpdateClubView')->name('updateclubview');
         Route::post('/admin/clubs/update/{name}', 'ClubController@update')->name('updateclub');
         Route::post('/admin/clubs/create', 'ClubController@create')->name('createclub');
+        Route::get('/admin/clubs/delete/{clubid}/{clubname}', 'ClubController@delete')->name('deleteclub');
+
 
     });
 });

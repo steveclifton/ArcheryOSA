@@ -64,6 +64,8 @@ class RoundController extends Controller
             'dist4' => 'integer|nullable|between:0,100',
             'dist4max' => 'integer|nullable|min:0',
             'totalmax' => 'required|integer|min:0',
+            'totalx' => 'required|integer|min:0',
+            'total10' => 'required|integer|min:0',
 
         ], [
             'dist1.integer' => 'Invalid Distance',
@@ -74,11 +76,11 @@ class RoundController extends Controller
             'dist3max.integer' => 'Invalid max score',
             'dist4.integer' => 'Invalid Distance',
             'dist4max.integer' => 'Invalid max score',
-            'totalmax' => 'Invalid max score',
-            'totalx' => 'Invalid max x-count',
-            'total10' => 'Invalid max 10-count',
-            'totalx' => 'required|integer|min:0',
-            'total10' => 'required|integer|min:0',
+            'totalmax.integer' => 'Invalid max score',
+            'totalx.integer' => 'Invalid max x-count',
+            'total10.integer' => 'Invalid max 10-count',
+            'totalx.integer' => 'Invalid count',
+            'total10.integer' => 'Invalid count',
         ]);
 
         $visible = 0;
@@ -178,6 +180,18 @@ class RoundController extends Controller
             return Redirect::route('rounds');
         }
 
+
+    }
+
+    public function delete(Request $request)
+    {
+        if (!empty($request->roundid) || !empty($request->name)) {
+            $round = Round::where('roundid', $request->roundid)->where('name', urldecode($request->roundname) );
+            $round->first()->delete();
+            return Redirect::route('rounds');
+        }
+
+        return Redirect::route('home');
 
     }
 

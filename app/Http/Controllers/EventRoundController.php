@@ -73,7 +73,6 @@ class EventRoundController extends Controller
 
     public function create(Request $request)
     {
-
         $eventround = new EventRound();
 
         $this->validate($request, [
@@ -84,8 +83,9 @@ class EventRoundController extends Controller
             'organisationid' => 'required',
             'divisions' => 'required',
             'date' => 'required'
+        ], [
+            'roundid.required' => 'Please select a round',
         ]);
-
 
         $eventround->name = htmlentities($request->input('name'));
         $eventround->eventid = htmlentities($request->input('eventid'));

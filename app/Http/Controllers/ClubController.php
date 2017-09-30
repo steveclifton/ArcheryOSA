@@ -144,5 +144,17 @@ class ClubController extends Controller
 
 
     }
+
+    public function delete(Request $request)
+    {
+        if (!empty($request->clubid) || !empty($request->clubname)) {
+            $club = Club::where('clubid', $request->clubid)->where('name', urldecode($request->clubname) );
+            $club->first()->delete();
+            return Redirect::route('clubs');
+        }
+
+        return Redirect::route('home');
+
+    }
 }
 

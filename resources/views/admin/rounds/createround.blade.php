@@ -24,11 +24,12 @@
                     <form class="form-horizontal" method="POST" action="{{ route('createround') }}">
                         {{ csrf_field() }}
 
+
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="event" class="col-md-4 control-label">Name</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="name" required autofocus value="{{ old('name')}}">
+                                <input type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus >
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">

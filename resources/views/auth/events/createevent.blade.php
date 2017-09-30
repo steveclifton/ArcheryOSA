@@ -19,6 +19,7 @@
                         </button>
                     </a>
                 </div>
+
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('createevent') }}" id="eventform">
                         {{ csrf_field() }}
@@ -41,7 +42,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group {{ $errors->has('eventerror') ? ' has-error' : '' }}">
+                        <div class="form-group {{ $errors->has('closeentry') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Entries Close:</label>
 
                             <div class="col-md-6">
@@ -51,11 +52,16 @@
                                     </div>
                                     <input type="text" name="closeentry" class="form-control pull-right" id="closeentry" >
                                 </div>
+                                @if ($errors->has('closeentry'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('closeentry') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
 
-                        <div class="form-group {{ $errors->has('eventerror') ? ' has-error' : '' }}" id="eventtype">
+                        <div class="form-group {{ $errors->has('eventtype') ? ' has-error' : '' }}" id="eventtype">
                             <label for="eventtype" class="col-md-4 control-label">Type</label>
 
                             <div class="col-md-6">
@@ -64,9 +70,9 @@
                                     <option value="0">Single Event</option>
                                     <option value="1">Weekly League</option>
                                 </select>
-                                @if ($errors->has('eventerror'))
+                                @if ($errors->has('eventtype'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('eventerror') }}</strong>
+                                        <strong>{{ $errors->first('eventtype') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -204,6 +210,7 @@
                                 </div>
                             </div>
                         </div>
+
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">

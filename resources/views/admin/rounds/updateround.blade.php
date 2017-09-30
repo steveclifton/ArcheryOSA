@@ -271,6 +271,9 @@
                                 <button type="submit" class="btn btn-primary">
                                     Update
                                 </button>
+                                <a href="{!! route('deleteround', [$round->first()->roundid, urlencode($round->first()->name)]) !!}" class="btn btn-danger pull-right" role="button" id="deleteBtn">
+                                    Delete
+                                </a>
                             </div>
                         </div>
                     </form>
