@@ -90,7 +90,7 @@ class EventController extends Controller
 
     public function create(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        Validator::make($request->all(), [
             'name' => 'required',
             'datetime' => 'required',
             'eventtype' => 'required',
@@ -115,11 +115,11 @@ class EventController extends Controller
         $dayCount = $startdate->diffInDays($enddate) + 1; // add 1 day to represent the actual number of competing days
 
         // Validate that event is more than 10 days and is not a single event
-        $validator->after(function ($validator) use ($startdate, $enddate, $request) {
-            if ($startdate->diffInDays($enddate) > 9 && $request->input('eventtype') == 0) {
-                $validator->errors()->add('eventerror', 'Single Events cannot be more than 10 days');
-            }
-        })->validate();
+//        $validator->after(function ($validator) use ($startdate, $enddate, $request) {
+//            if ($startdate->diffInDays($enddate) > 9 && $request->input('eventtype') == 0) {
+//                $validator->errors()->add('eventerror', 'Single Events cannot be more than 10 days');
+//            }
+//        })->validate();
 
 
         $visible = 0;
@@ -134,9 +134,7 @@ class EventController extends Controller
         $event->contact = htmlentities($request->input('contact'));
         $event->eventtype = htmlentities($request->input('eventtype'));
         $event->status = htmlentities($request->input('status'));
-
         $event->createdby = Auth::user()->userid; // set the created by as the person who is logged in
-
         $event->startdate = htmlentities($startdate);
         $event->enddate = htmlentities($enddate);
         $event->closeentry = htmlentities($closeentry);
@@ -164,7 +162,7 @@ class EventController extends Controller
             return Redirect::route('events');
         }
 
-        $validator = Validator::make($request->all(), [
+        Validator::make($request->all(), [
             'name' => 'required',
             'datetime' => 'required',
             'eventtype' => 'required',
@@ -191,11 +189,11 @@ class EventController extends Controller
         }
 
         // Validate that event is more than 10 days and is not a single event
-        $validator->after(function ($validator) use ($startdate, $enddate, $request) {
-            if ($startdate->diffInDays($enddate) > 9 && $request->input('eventtype') == 0) {
-                $validator->errors()->add('eventerror', 'Single Events cannot be more than 10 days');
-            }
-        })->validate();
+//        $validator->after(function ($validator) use ($startdate, $enddate, $request) {
+//            if ($startdate->diffInDays($enddate) > 9 && $request->input('eventtype') == 0) {
+//                $validator->errors()->add('eventerror', 'Single Events cannot be more than 10 days');
+//            }
+//        })->validate();
 
         if ($request->eventid == $event->eventid) {
 
@@ -229,10 +227,12 @@ class EventController extends Controller
     {
 
         if (!empty($request->eventid) || !empty($request->eventname)) {
-            $event = Event::where('eventid', $request->eventid)->where('name', urldecode($request->eventname) );
+            $event = Event::where('eventid', $request->eventid)->where('name', urldecode($request->eventname))->take(1);
 
             $eventrounds = EventRound::where('eventid', $request->eventid)->get();
-            dd($eventrounds);
+            foreach ($eventrounds as $round) {
+                $round->delete();
+            }
 
             $event->first()->delete();
             return Redirect::route('events');

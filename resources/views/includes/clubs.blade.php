@@ -34,9 +34,9 @@
                     </ul>
                 </div>
                 <!-- /.box-footer -->
-                <div class="box-footer text-center">
-                    <a href="javascript:;" class="uppercase">View More Results</a>
-                </div>
+                {{--<div class="box-footer text-center">--}}
+                    {{--<a href="javascript:;" class="uppercase">View More Results</a>--}}
+                {{--</div>--}}
             </div>
         </section>
     </div>

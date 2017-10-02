@@ -227,7 +227,7 @@
 
 
                         <hr>
-
+                        <h3>Event Rounds</h3>
 
                         @foreach ($eventrounds as $eventround)
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Image;
 use Validator;
 use Illuminate\Support\Facades\Auth;
@@ -90,7 +91,16 @@ class UserController extends Controller
     public function getProfileView()
     {
         $user = Auth::user();
-        return view('auth.profile', compact('user'));
+        $organisations = DB::select("SELECT *
+                                    FROM `userorganisations`
+                                    JOIN `organisations`
+                                    USING (`organisationid`)
+                                    WHERE `userid` = '". Auth::id() ."'
+        
+        ");
+
+
+        return view('auth.profile', compact('user', 'organisations'));
     }
 
     /**
@@ -98,6 +108,11 @@ class UserController extends Controller
      */
     public function updateProfile(Request $request)
     {
+        // Used for adding days to the event
+        if ($request->input('submit') == 'add') {
+            return Redirect::route('createorganisationuser');
+        }
+
         $user = Auth::user();
 
         $this->validate($request, [

@@ -21,6 +21,7 @@
                     <form class="form-horizontal" method="POST" action="{{ route('updateprofile') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
+
                         <div class="form-group{{ $errors->has('firstname') ? ' has-error' : '' }}">
                             <label for="firstname" class="col-md-4 control-label">First Name</label>
 
@@ -91,10 +92,35 @@
                             </div>
                         </div>
 
+                        <hr>
+
+                        @if (!empty($organisations))
+                            <h4>Organisation IDs</h4>
+                        @endif
+                        @foreach ($organisations as $organisation)
+
+                            <div class="form-group">
+                                <a href="{{route('updateprofile', $organisation->userorganisationid)}}">
+                                    <label for="organsationname" class="col-md-4 control-label">{{$organisation->name}}</label>
+                                </a>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="cost" disabled placeholder="{{$organisation->id ?? ''}}">Organisation ID
+                                </div>
+
+                            </div>
+
+                            <hr>
+                        @endforeach
+
+
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary" value="update" name="submit">
                                     Update
+                                </button>
+
+                                <button type="submit" class="btn btn-success" value="add" name="submit">
+                                    Add Organisation ID
                                 </button>
                             </div>
                         </div>

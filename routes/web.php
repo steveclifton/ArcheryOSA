@@ -24,6 +24,8 @@ Route::middleware(['web'])->group(function() {
 		Route::get('/profile', 'UserController@getProfileView')->name('profile');
 		Route::post('/updateprofile', 'UserController@updateProfile')->name('updateprofile');
 		Route::get('/logout', 'UserController@logout')->name('logout');
+		Route::get('/updateprofile/addorganisation', 'UserOrganisationController@getCreateView')->name('createorganisationuser');
+		Route::post('/updateprofile/addorganisation/submit', 'UserOrganisationController@create')->name('createorguserassoc');
 
 		Route::get('/event/register/{eventid}', 'EventRegistrationController@PUBLIC_registerForEvent');
 		Route::post('/event/register/{eventid}', 'EventRegistrationController@eventRegister')->name('eventregistration');

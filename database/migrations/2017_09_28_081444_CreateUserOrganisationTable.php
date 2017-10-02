@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Useroranisationtable extends Migration
+class CreateUserOrganisationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class Useroranisationtable extends Migration
      */
     public function up()
     {
-        Schema::create('userorganisation', function (Blueprint $table) {
-            $table->string('eventid');
-
-            $table->tinyInteger('deleted')->default(0);
+        Schema::create('userorganisations', function (Blueprint $table) {
+            $table->increments('userorganisationid');
+            $table->string('userid');
+            $table->string('organisationid');
+            $table->string('id');
             $table->tinyInteger('visible')->default(0);
             $table->timestamps();
         });

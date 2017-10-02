@@ -28,9 +28,9 @@ class EventRoundController extends Controller
 
     public function getCreateEventRoundView($eventid)
     {
-        $rounds = Round::where('visible', 1)->where('deleted', 0)->get();
-        $divisions = Division::where('visible', 1)->where('deleted', 0)->orderBy('organisationid')->get();
-        $organisations = Organisation::where('visible', 1)->where('deleted', 0)->get();
+        $rounds = Round::where('visible', 1)->get();
+        $divisions = Division::where('visible', 1)->orderBy('organisationid')->get();
+        $organisations = Organisation::where('visible', 1)->get();
         $event = Event::where('eventid', $eventid);
 
         $end = new DateTime( $event->first()->enddate );
