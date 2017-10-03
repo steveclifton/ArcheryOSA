@@ -119,6 +119,7 @@ class UserController extends Controller
             'firstname' => 'required|max:55',
             'lastname' => 'required|max:55',
             'email' => 'unique:users,email,'.$user->userid.',userid', // ignores the current users id
+            'profileimage' => 'image',
         ]);
 
 
@@ -128,11 +129,16 @@ class UserController extends Controller
         $user->phone = request('phone');
 
         if ($request->hasFile('profileimage')) {
-           $image = $request->file('profileimage');
-           $filename = time() . '.' . $image->getClientOriginalExtension();
-           $location = public_path('content/profile/' . $filename);
-           Image::make($image)->resize(200,200)->save($location);
-           $user->image = $filename;
+            //clean up old image
+            if (empty($user->image) !== true) {
+                unlink(public_path('content/profile/' . $user->image));
+            }
+
+            $image = $request->file('profileimage');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = public_path('content/profile/' . $filename);
+            Image::make($image)->resize(200,200)->save($location);
+            $user->image = $filename;
         }
 
         $user->save();
