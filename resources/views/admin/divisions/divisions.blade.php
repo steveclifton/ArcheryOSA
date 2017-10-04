@@ -43,7 +43,7 @@
 
                         @foreach($divisions as $division)
                             <tr>
-                                <td><a href="{{ route('updatedivisionview', urlencode($division->name)) }}">{{$division->name}}</a></td>
+                                <td><a href="{{ route('updatedivisionview', rawurlencode($division->name)) }}">{{$division->name}}</a></td>
                                 <td>{{ $division->code }}</td>
                                 <td>{{ $division->organsationname }}</td>
                                 <td>{!! ($division->visible) ? '<i class="fa fa-check"></i>' : '';  !!}</td>

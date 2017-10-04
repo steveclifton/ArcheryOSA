@@ -26,6 +26,8 @@ $(document).ready(function() {
     var dateEventRoundValue = $('#dateeventroundval').val();
     $('#dateselect option[value=' + dateEventRoundValue +']').attr('selected','selected');
 
+    var userOrganisationValue = $('#organisationvalue').val();
+    $('#organisationselecteventround option[value=' + userOrganisationValue +']').attr('selected','selected');
 
     // This will work for when you are updating an eventround
     $('#divisionselect').find('label').each(function () {

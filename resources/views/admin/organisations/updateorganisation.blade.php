@@ -20,6 +20,9 @@
                 </div>
 
                 <div class="panel-body">
+                    <h3 style="text-align: center;font-weight: bold;">{{$organisation->first()->name}}</h3><br>
+
+
                     <form class="form-horizontal" method="POST" action="{{ route('updateorganisation', urlencode($organisation->first()->name)) }}">
                         {{ csrf_field() }}
 

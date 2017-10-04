@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Update Event
+                <div class="panel-heading"> Update Event
                     <a href="{{route('events')}}">
                         <button type="submit" class="btn btn-default pull-right" id="addevent">
                             <i class="fa fa-backward" >  Back</i>
@@ -21,6 +21,7 @@
                 </div>
 
                 <div class="panel-body">
+                    <h3 style="text-align: center;font-weight: bold;">{{$event->first()->name}}</h3><br>
                     <form class="form-horizontal" method="POST" action="{{ route('updateevent', $event->first()->eventid) }}" id="eventformupdate">
                         {{ csrf_field() }}
                         <input type="hidden" name="eventid" value="{{ $event->first()->eventid }}">
@@ -211,23 +212,12 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary" id="savebutton" value="save" name="submit">
-                                    Save
-                                </button>
-                                <button type="submit" class="btn btn-success" id="savebutton" value="createeventround" name="submit">
-                                    Add Event Session
-                                </button>
-                                <a href="{!! route('deleteevent', [$event->first()->eventid, urlencode($event->first()->name)]) !!}" class="btn btn-danger pull-right" role="button" id="deleteBtn">
-                                    Delete
-                                </a>
-                            </div>
-                        </div>
-
-
                         <hr>
-                        <h3>Event Rounds</h3>
+
+
+                        @if(!$eventrounds->isEmpty())
+                            <h3>Event Rounds</h3>
+                        @endif
 
                         @foreach ($eventrounds as $eventround)
 
@@ -246,6 +236,20 @@
 
                             <hr>
                         @endforeach
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary" id="savebutton" value="save" name="submit">
+                                    Save
+                                </button>
+                                <button type="submit" class="btn btn-success" id="savebutton" value="createeventround" name="submit">
+                                    Add Event Session
+                                </button>
+                                <a href="{!! route('deleteevent', [$event->first()->eventid, urlencode($event->first()->name)]) !!}" class="btn btn-danger pull-right" role="button" id="deleteBtn">
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
 
 
                     </form>

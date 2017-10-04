@@ -44,7 +44,7 @@ class DivisionController extends Controller
 
     public function getUpdateDivisionView(Request $request)
     {
-        $division = Division::where('name', urldecode($request->name))->get();
+        $division = Division::where('name', rawurldecode($request->name))->get();
         $organisations = Organisation::where('visible', 1)->where('deleted', 0)->get();
 
         if ($division->isEmpty()) {

@@ -100,7 +100,7 @@
                         @foreach ($organisations as $organisation)
 
                             <div class="form-group">
-                                <a href="{{route('updateprofile', $organisation->userorganisationid)}}">
+                                <a href="{{route('updateorganisationuser', $organisation->userorganisationid)}}">
                                     <label for="organsationname" class="col-md-4 control-label">{{$organisation->name}}</label>
                                 </a>
                                 <div class="col-md-4">
