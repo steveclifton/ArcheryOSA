@@ -100,9 +100,9 @@ class EventController extends Controller
             'email' => 'required',
             'cost' => 'required',
             'status' => 'required',
-            'closeentry' => 'required'
+//            'closeentry' => 'required'
         ], [
-            'closeentry.required' => 'Entries Close date must be entered'
+//            'closeentry.required' => 'Entries Close date must be entered'
         ])->validate();
 
 
@@ -110,7 +110,11 @@ class EventController extends Controller
         $date = explode(' - ', $request->input('datetime'));
         $startdate = Carbon::createFromFormat('d/m/Y', $date[0]);
         $enddate = Carbon::createFromFormat('d/m/Y', $date[1]);
-        $closeentry = Carbon::createFromFormat('d/m/Y', $request->input('closeentry'));
+
+        $closeentry = '';
+        if (!empty($request->input('closeentry'))) {
+            $closeentry = Carbon::createFromFormat('d/m/Y', $request->input('closeentry'));
+        }
 
         $dayCount = $startdate->diffInDays($enddate) + 1; // add 1 day to represent the actual number of competing days
 
@@ -172,16 +176,21 @@ class EventController extends Controller
             'email' => 'required',
             'cost' => 'required',
             'status' => 'required',
-            'closeentry' => 'required'
+//            'closeentry' => 'required'
         ], [
-            'closeentry.required' => 'Entries Close date must be entered'
+//            'closeentry.required' => 'Entries Close date must be entered'
         ])->validate();
 
         // Format date
         $date = explode(' - ', $request->input('datetime'));
         $startdate = Carbon::createFromFormat('d/m/Y', $date[0]);
         $enddate = Carbon::createFromFormat('d/m/Y', $date[1]);
-        $closeentry = Carbon::createFromFormat('d/m/Y', $request->input('closeentry'));
+
+        $closeentry = '';
+        if (!empty($request->input('closeentry'))) {
+            $closeentry = Carbon::createFromFormat('d/m/Y', $request->input('closeentry'));
+        }
+
         // add 1 day to represent the actual number of competing days
         $dayCount = $startdate->diffInDays($enddate) + 1;
         if ($dayCount === 0) {

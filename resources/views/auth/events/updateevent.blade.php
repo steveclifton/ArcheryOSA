@@ -279,11 +279,12 @@
                 autoclose : true
             });
 
-            $('#closeentry').datepicker({
-                format: 'dd/mm/yyyy',
-                autoclose: true
-            }).datepicker("update", "<?php echo date('d/m/Y', strtotime($event->first()->closeentry)) ?>");
-
+            if ("<?php echo date('d/m/Y', strtotime($event->first()->closeentry)) ?>" != "01/01/1970") {
+                $('#closeentry').datepicker({
+                    format: 'dd/mm/yyyy',
+                    autoclose: true
+                }).datepicker("update", "<?php echo date('d/m/Y', strtotime($event->first()->closeentry)) ?>");
+            }
 
         });
 
