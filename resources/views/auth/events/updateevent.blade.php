@@ -230,7 +230,7 @@
                                 </div>
 
                                 <div class="col-md-3">
-                                    <input type="text" class="form-control" name="cost" disabled placeholder="{{ date('d-m-Y', strtotime($eventround->date))}}">Date
+                                    <input type="text" class="form-control" name="cost" disabled placeholder="{!! ($eventround->date == 'weekly' || $eventround->date == 'daily') ? ucfirst($eventround->date) : date('d-m-Y', strtotime($eventround->date)) !!}">Date
                                 </div>
                             </div>
 

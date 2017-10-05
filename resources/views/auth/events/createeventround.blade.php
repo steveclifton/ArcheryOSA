@@ -64,9 +64,7 @@
                         </div>
 
 
-
-
-
+                        
                         <div class="form-group{{ $errors->has('location') ? ' has-error' : '' }}">
                             <label for="location" class="col-md-4 control-label">Location</label>
 
