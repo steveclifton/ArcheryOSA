@@ -63,7 +63,7 @@ class EventController extends Controller
     public function getCreateView()
     {
         $divisions = Division::where('visible', 1)->where('deleted', 0)->orderBy('organisationid')->get();
-        $organisations = Organisation::where('visible', 1)->where('deleted', 0)->get();
+        $organisations = Organisation::where('visible', 1)->get();
         $page_id = -1;
         $rounds = Round::where('visible', 1)->where('deleted', 0)->get();
 
@@ -79,9 +79,9 @@ class EventController extends Controller
         }
 
         $eventrounds = EventRound::where('eventid', $request->eventid)->get();
+        $organisations = Organisation::where('visible', 1)->get();
 
-
-        return view('auth.events.updateevent', compact('event', 'eventrounds'));
+        return view('auth.events.updateevent', compact('event', 'eventrounds', 'organisations'));
     }
 
 
@@ -138,6 +138,7 @@ class EventController extends Controller
         $event->contact = htmlentities($request->input('contact'));
         $event->eventtype = htmlentities($request->input('eventtype'));
         $event->status = htmlentities($request->input('status'));
+        $event->organisationid = htmlentities($request->input('organisationid'));
         $event->createdby = Auth::user()->userid; // set the created by as the person who is logged in
         $event->startdate = htmlentities($startdate);
         $event->enddate = htmlentities($enddate);
@@ -217,6 +218,7 @@ class EventController extends Controller
             $event->eventtype = htmlentities($request->input('eventtype'));
             $event->closeentry = htmlentities($closeentry);
             $event->status = htmlentities($request->input('status'));
+            $event->organisationid = htmlentities($request->input('organisationid'));
             $event->startdate = htmlentities($startdate);
             $event->enddate = htmlentities($enddate);
             $event->daycount = htmlentities($dayCount);

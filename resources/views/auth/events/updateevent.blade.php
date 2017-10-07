@@ -72,6 +72,27 @@
 
                         </div>
 
+                        <div class="form-group {{ $errors->has('organisation') ? ' has-error' : '' }}" id="organisation">
+                            <label for="organisation" class="col-md-4 control-label">Organisation</label>
+
+                            <div class="col-md-6">
+                                <input type="hidden" id="organisationidvalue" value="{{ $event->first()->organisationid }}">
+
+                                <select name="organisationid" class="form-control" id="organisationselect">
+                                    <option value="0" selected>None</option>
+                                    @foreach ($organisations as $organisation)
+                                        <option value="{{$organisation->organisationid}}">{{$organisation->name}}</option>
+                                    @endforeach
+
+                                </select>
+                                @if ($errors->has('organisation'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('organisation') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Name</label>

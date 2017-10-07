@@ -65,7 +65,6 @@
                             <label for="eventtype" class="col-md-4 control-label">Type</label>
 
                             <div class="col-md-6">
-
                                 <select name="eventtype" class="form-control" id="eventtype">
                                     <option value="0">Single Event</option>
                                     <option value="1">Weekly League</option>
@@ -76,7 +75,25 @@
                                     </span>
                                 @endif
                             </div>
+                        </div>
 
+                        <div class="form-group {{ $errors->has('organisation') ? ' has-error' : '' }}" id="organisation">
+                            <label for="organisation" class="col-md-4 control-label">Organisation</label>
+
+                            <div class="col-md-6">
+                                <select name="organisationid" class="form-control" id="organisation">
+                                    <option value="0" selected>None</option>
+                                    @foreach ($organisations as $organisation)
+                                        <option value="{{$organisation->organisationid}}">{{$organisation->name}}</option>
+                                    @endforeach
+
+                                </select>
+                                @if ($errors->has('organisation'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('organisation') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
                         </div>
 
 

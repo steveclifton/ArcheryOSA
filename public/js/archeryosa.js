@@ -29,6 +29,9 @@ $(document).ready(function() {
     var userOrganisationValue = $('#organisationvalue').val();
     $('#organisationselecteventround option[value=' + userOrganisationValue +']').attr('selected','selected');
 
+    var eventorganisationid = $('#organisationidvalue').val();
+    $('#organisationselect option[value=' + eventorganisationid +']').attr('selected','selected');
+
     // This will work for when you are updating an eventround
     $('#divisionselect').find('label').each(function () {
         if ($(this).data('orgid') != $('#organisationvalueeventround').val()) {
