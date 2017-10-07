@@ -147,6 +147,7 @@ class EventController extends Controller
         $event->hostclub = htmlentities($request->input('hostclub'));
         $event->location = htmlentities($request->input('location'));
         $event->cost = htmlentities($request->input('cost'));
+        $event->bankaccount = htmlentities($request->input('bankaccount'));
         $event->schedule = htmlentities(trim($request->input('schedule')));
         $event->visible = $visible;
         $event->save();
@@ -225,6 +226,7 @@ class EventController extends Controller
             $event->hostclub = htmlentities($request->input('hostclub'));
             $event->location = htmlentities($request->input('location'));
             $event->cost = htmlentities($request->input('cost'));
+            $event->bankaccount = htmlentities($request->input('bankaccount'));
             $event->schedule = htmlentities(trim($request->input('schedule')));
             $event->visible = $visible;
             $event->save();

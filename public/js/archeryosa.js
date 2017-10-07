@@ -29,6 +29,7 @@ $(document).ready(function() {
     var userOrganisationValue = $('#organisationvalue').val();
     $('#organisationselecteventround option[value=' + userOrganisationValue +']').attr('selected','selected');
 
+
     var eventorganisationid = $('#organisationidvalue').val();
     $('#organisationselect option[value=' + eventorganisationid +']').attr('selected','selected');
 

@@ -92,7 +92,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $organisations = DB::select("SELECT *
-                                    FROM `userorganisations`
+                                    FROM `usermemberships`
                                     JOIN `organisations`
                                     USING (`organisationid`)
                                     WHERE `userid` = '". Auth::id() ."'
@@ -110,7 +110,7 @@ class UserController extends Controller
     {
         // Used for adding days to the event
         if ($request->input('submit') == 'add') {
-            return Redirect::route('createorganisationuser');
+            return Redirect::route('createusermembershipview');
         }
 
         $user = Auth::user();

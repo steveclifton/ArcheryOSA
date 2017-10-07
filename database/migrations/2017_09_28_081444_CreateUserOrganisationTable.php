@@ -13,11 +13,11 @@ class CreateUserOrganisationTable extends Migration
      */
     public function up()
     {
-        Schema::create('userorganisations', function (Blueprint $table) {
-            $table->increments('userorganisationid');
+        Schema::create('usermemberships', function (Blueprint $table) {
+            $table->increments('usermembershipid');
             $table->string('userid');
             $table->string('organisationid');
-            $table->string('id');
+            $table->string('membershipcode');
             $table->tinyInteger('visible')->default(0);
             $table->timestamps();
         });

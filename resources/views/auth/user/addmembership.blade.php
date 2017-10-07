@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Add Organisation ID
+                <div class="panel-heading">Add Membership
                     <a href="{{route('profile')}}">
                         <button type="submit" class="btn btn-default pull-right" >
                             <i class="fa fa-backward" > Back</i>
@@ -21,18 +21,14 @@
 
 
                 <div class="panel-body">
-                    {{--<h3 style="text-align: center;font-weight: bold;">{{$userorganisation->first()->name}}</h3><br>--}}
-
-
-                    <form class="form-horizontal" method="POST" action="{{ route('updateorguserassoc') }}" >
+                    <form class="form-horizontal" method="POST" action="{{ route('createorguserassoc') }}" >
                         {{ csrf_field() }}
+
 
                         <div class="form-group {{ $errors->has('organisationid') ? ' has-error' : '' }}" id="organisationelement">
                             <label for="event" class="col-md-4 control-label">Organisation</label>
 
                             <div class="col-md-6">
-                                <input type="hidden" id="organisationvalue" value="{{ $userorganisation->first()->organisationid }}">
-
                                 <select name="organisationid" class="form-control" id="organisationselecteventround" required>
                                     <option value="" disabled selected>Select Organisation</option>
                                     @foreach ($organisations as $organisation)
@@ -47,15 +43,15 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('id') ? ' has-error' : '' }}">
-                            <label for="id" class="col-md-4 control-label">Organisation ID</label>
+                        <div class="form-group{{ $errors->has('membershipcode') ? ' has-error' : '' }}">
+                            <label for="membershipcode" class="col-md-4 control-label">Organisation Code</label>
 
                             <div class="col-md-6">
-                                <input id="id" type="text" class="form-control" name="id" value="{{ old('id') ?? $userorganisation->first()->id }}" required autofocus>
+                                <input id="membershipcode" type="text" class="form-control" name="membershipcode" value="{{old('membershipcode')}}" required autofocus>
 
-                                @if ($errors->has('id'))
+                                @if ($errors->has('membershipcode'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('id') }}</strong>
+                                        <strong>{{ $errors->first('membershipcode') }}</strong>
                                     </span>
                                 @endif
                             </div>

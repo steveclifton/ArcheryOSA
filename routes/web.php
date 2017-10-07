@@ -22,15 +22,15 @@ Route::middleware(['web'])->group(function() {
 	// Auth
 	Route::middleware(['auth'])->group(function () {
 		Route::get('/profile', 'UserController@getProfileView')->name('profile');
-
 		Route::get('/logout', 'UserController@logout')->name('logout');
-        Route::get('/updateprofile/addorganisation', 'UserOrganisationController@getCreateView')->name('createorganisationuser');
-        Route::get('/updateprofile/updateorganisation/{orgid}', 'UserOrganisationController@getUpdateView')->name('updateorganisationuser');
-
-		Route::post('/updateprofile/addorganisation/submit', 'UserOrganisationController@create')->name('createorguserassoc');
-        Route::post('/updateprofile/updateorganisation/submit', 'UserOrganisationController@update')->name('updateorguserassoc');
-
         Route::post('/updateprofile', 'UserController@updateProfile')->name('updateprofile');
+
+        Route::get('/updateprofile/addmembership', 'UserMembershipController@getCreateView')->name('createusermembershipview');
+        Route::get('/updateprofile/updatemembership/{membershipcode}', 'UserMembershipController@getUpdateView')->name('updateusermembershipview');
+
+		Route::post('/updateprofile/addorganisation/submit', 'UserMembershipController@create')->name('createusermembership');
+        Route::post('/updateprofile/updateorganisation/submit/{usermembershipid}', 'UserMembershipController@update')->name('updateusermembership');
+
 
 		Route::get('/event/register/{eventid}', 'EventRegistrationController@PUBLIC_registerForEvent');
 		Route::post('/event/register/{eventid}', 'EventRegistrationController@eventRegister')->name('eventregistration');

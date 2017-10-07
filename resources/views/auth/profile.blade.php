@@ -95,16 +95,16 @@
                         <hr>
 
                         @if (!empty($organisations))
-                            <h4>Organisation IDs</h4>
+                            <h4>Memberships</h4>
                         @endif
                         @foreach ($organisations as $organisation)
 
                             <div class="form-group">
-                                <a href="{{route('updateorganisationuser', $organisation->userorganisationid)}}">
+                                <a href="{{route('updateusermembershipview', $organisation->usermembershipid)}}">
                                     <label for="organsationname" class="col-md-4 control-label">{{$organisation->name}}</label>
                                 </a>
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control" name="cost" disabled placeholder="{{$organisation->id ?? ''}}">Organisation ID
+                                    <input type="text" class="form-control" name="code" disabled placeholder="{{$organisation->membershipcode ?? ''}}">Membership Code
                                 </div>
 
                             </div>
@@ -120,7 +120,7 @@
                                 </button>
 
                                 <button type="submit" class="btn btn-success" value="add" name="submit">
-                                    Add Organisation ID
+                                    Add Membership Code
                                 </button>
                             </div>
                         </div>

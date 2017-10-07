@@ -201,6 +201,20 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('bankaccount') ? ' has-error' : '' }}">
+                            <label for="bankaccount" class="col-md-4 control-label">Bank Account</label>
+
+                            <div class="col-md-6">
+                                <input id="bankaccount" type="text" class="form-control" name="bankaccount" value="{{ old('bankaccount') ?? $event->first()->bankaccount }}" required autofocus>
+
+                                @if ($errors->has('bankaccount'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('bankaccount') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
 
 
                         <div class="form-group{{ $errors->has('schedule') ? ' has-error' : '' }}">

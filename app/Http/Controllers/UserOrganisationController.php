@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Rules\UserOrgIDConflict;
 use App\UserOrganisation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -63,6 +62,9 @@ class UserOrganisationController extends Controller
 
 
         $userorg = UserOrganisation::where('userid', Auth::id())->where('organisationid', $request->organisationid)->first();
+        if (is_null($userorg)) {
+            $userorg = new UserOrganisation();
+        }
 
         $userorg->userid = Auth::id();
         $userorg->organisationid = $request->input('organisationid');
