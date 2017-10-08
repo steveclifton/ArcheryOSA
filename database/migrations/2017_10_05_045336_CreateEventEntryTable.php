@@ -18,12 +18,13 @@ class CreateEventEntryTable extends Migration
             $table->string('eventid');
             $table->string('userid');
             $table->string('fullname')->nullable();
-            $table->string('clubname')->nullable();
+            $table->string('clubid')->nullable();
             $table->string('email')->nullable();
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
             $table->string('divisionid')->nullable();
-            $table->string('id')->nullable();
+            $table->string('membershipcode')->nullable();
+            $table->string('status')->nullable();
             $table->string('enteredbyuserid')->nullable();
             $table->integer('paid')->default(0);
             $table->timestamps();
