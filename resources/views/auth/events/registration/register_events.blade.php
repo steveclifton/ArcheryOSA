@@ -15,9 +15,19 @@
                 <div class="panel-heading">Event Registration
                 </div>
 
+
+
                 <div class="panel-body">
+                    @if(session()->has('message'))
+                        <div class="alert alert-success">
+                            {{ session()->get('message') }}
+                        </div>
+                    @endif
                     <form class="form-horizontal" method="POST" action="{{ route('eventregistration', $lc_event->first()->eventid) }}" id="eventformupdate">
                         {{ csrf_field() }}
+
+                        <input type="text" name="eventid" hidden value="{{$lc_event->first()->eventid}}">
+
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Name</label>
@@ -33,22 +43,20 @@
                             </div>
                         </div>
 
-                        <div class="form-group {{ $errors->has('club') ? ' has-error' : '' }}" id="organisation">
+                        <div class="form-group {{ $errors->has('clubid') ? ' has-error' : '' }}" id="club">
                             <label for="organisation" class="col-md-4 control-label">Club</label>
 
                             <div class="col-md-6">
-                                <input type="text" hidden id="userclubid" value="{{ old('club') }}">
-
-                                <select name="clubid" class="form-control" id="organisation">
+                                <select name="clubid" class="form-control" id="organisation" required autofocus>
                                     <option value="0" selected>None</option>
                                     @foreach ($lc_clubs as $lo_club)
                                         <option value="{{$lo_club->clubid}}">{{$lo_club->name}}</option>
                                     @endforeach
 
                                 </select>
-                                @if ($errors->has('club'))
+                                @if ($errors->has('clubid'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('club') }}</strong>
+                                        <strong>{{ $errors->first('clubid') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -74,7 +82,7 @@
                             <label for="organisation" class="col-md-4 control-label">Division</label>
 
                             <div class="col-md-6">
-                                <select name="divisionid" class="form-control" id="organisation">
+                                <select name="divisionid" class="form-control" id="organisation" required>
                                     <option value="0" selected>None</option>
                                     @foreach ($lc_divisions as $lo_division)
                                         <option value="{{$lo_division->divisionid}}">{{$lo_division->name}}</option>
@@ -89,15 +97,15 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('userorganisationid') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Organisation Member ID</label>
+                        <div class="form-group{{ $errors->has('membershipcode') ? ' has-error' : '' }}">
+                            <label for="name" class="col-md-4 control-label">Membership Code</label>
 
                             <div class="col-md-6">
-                                <input id="id" type="text" class="form-control" name="id" value="{{$ls_userorgid}}" required autofocus>
+                                <input id="membershipcode" type="text" class="form-control" name="membershipcode" value="{{$ls_userorgid}}" required autofocus>
 
-                                @if ($errors->has('name'))
+                                @if ($errors->has('membershipcode'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                                        <strong>{{ $errors->first('membershipcode') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -160,10 +168,6 @@
                                 @endif
                             </div>
                         </div>
-
-
-
-
 
 
                         <div class="form-group">
