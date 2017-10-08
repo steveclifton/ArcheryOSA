@@ -135,7 +135,7 @@ class UserController extends Controller
             }
 
             $image = $request->file('profileimage');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $filename = time() . rand(0,999) . '.' . $image->getClientOriginalExtension();
             $location = public_path('content/profile/' . $filename);
             Image::make($image)->resize(200,200)->save($location);
             $user->image = $filename;
