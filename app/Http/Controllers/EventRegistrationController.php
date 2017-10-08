@@ -10,8 +10,6 @@ use App\Event;
 use App\EventRound;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class EventRegistrationController extends Controller
@@ -67,7 +65,7 @@ class EventRegistrationController extends Controller
         $evententry->phone = htmlentities($request->input('phone'));
         $evententry->address = htmlentities($request->input('address'));
         $evententry->status = 'pending';
-        $evententry->eventid = htmlentities($request->input('eventid'));
+        $evententry->eventid = htmlentities($request->eventid);
 
         $evententry->save();
 
