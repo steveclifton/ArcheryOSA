@@ -1,4 +1,4 @@
-*.rb linguist-language=PHP
+*.php linguist-vendored
 * text=auto
 *.css linguist-vendored
 *.scss linguist-vendored
