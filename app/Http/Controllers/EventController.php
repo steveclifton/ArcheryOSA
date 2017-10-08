@@ -44,6 +44,15 @@ class EventController extends Controller
         return view('publicevents.previousevents', compact('events'));
     }
 
+    public function PUBLIC_getEventDetailsView(Request $request)
+    {
+        $event = Event::where('eventid', $request->eventid)->get()->first();
+        if (is_null($event)) {
+            return Redirect::route('home');
+        }
+
+        return view ('publicevents.eventdetails', compact('event'));
+    }
 
     /****************************************************
     *                                                   *
