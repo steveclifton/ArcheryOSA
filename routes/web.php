@@ -7,11 +7,12 @@ Route::get('/upcomingevents', 'EventController@PUBLIC_getAllUpcomingEventsView')
 Route::get('/previousevents', 'EventController@PUBLIC_getAllPreviousEventsView');
 Route::get('/eventdetails/{eventid}', 'EventController@PUBLIC_getEventDetailsView')->name('eventdetails');
 
+
+
 Route::middleware(['web'])->group(function() {
 
 	// Guest
 	Route::middleware(['guest'])->group(function () {
-
 		Route::get('/login', 'UserController@PUBLIC_getLoginView')->name('login');
 		Route::post('/login', 'UserController@login');
 
@@ -32,7 +33,7 @@ Route::middleware(['web'])->group(function() {
         Route::post('/updateprofile/updateorganisation/submit/{usermembershipid}', 'UserMembershipController@update')->name('updateusermembership');
 
 
-		Route::get('/event/register/{eventid}', 'EventRegistrationController@PUBLIC_registerForEvent');
+		Route::get('/event/register/{eventid}', 'EventRegistrationController@PUBLIC_registerForEvent')->name('eventregistrationview');
 		Route::post('/event/register/{eventid}', 'EventRegistrationController@eventRegister')->name('eventregistration');
 	});
 
