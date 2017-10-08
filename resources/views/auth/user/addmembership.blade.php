@@ -21,7 +21,7 @@
 
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('createorguserassoc') }}" >
+                    <form class="form-horizontal" method="POST" action="{{ route('createusermembership') }}" >
                         {{ csrf_field() }}
 
 
