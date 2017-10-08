@@ -28,7 +28,8 @@
 
                                 @foreach($events as $event)
                                     <tr>
-                                        <td><a href="/event/register/{{ urlencode($event->eventid) }}">{{$event->name}}</a></td>
+
+                                        <td><a href="{{route('eventdetails', $event->eventid)}}">{{$event->name}}</a></td>
                                         <td>{{ (strlen($event->location) > 60) ? mb_substr($event->location, 0, 60) . ".." : $event->location }}</td>
                                         <td><?= !empty($event->closeentry) ? date('d-m-Y', strtotime($event->closeentry)) : ''  ?></td>
                                         <td>{{date('d-m-Y', strtotime($event->startdate)) }}</td>
