@@ -48,11 +48,11 @@
                             <div class="col-md-6">
 
                                 <select name="date" class="form-control" id="dateselect" required autofocus>
-                                    <option value="" disabled selected>Please select option</option>
-                                    <option value="daily">Daily</option>
-                                    <option value="weekly">Weekly</option>
+                                    <option value="">Please select option</option>
+                                    <option @if (old('date') === 'daily') selected @endif value="daily">Daily</option>
+                                    <option @if (old('date') === 'weekly') selected @endif value="weekly">Weekly</option>
                                     @foreach ($daterange as $date)
-                                        <option value="{{$date->format("d-m-Y")}}">{{$date->format("d-m-Y")}}</option>
+                                        <option @if (old('date') === $date->format("d-m-Y")) selected @endif value="{{$date->format("d-m-Y")}}">{{$date->format("d-m-Y")}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -64,7 +64,7 @@
                         </div>
 
 
-                        
+
                         <div class="form-group{{ $errors->has('location') ? ' has-error' : '' }}">
                             <label for="location" class="col-md-4 control-label">Location</label>
 
@@ -87,9 +87,9 @@
                             <div class="col-md-6">
 
                                 <select name="roundid" class="form-control" id="roundselect" required autofocus>
-                                    <option disabled selected>Select Round</option>
+                                    <option value="">Select Round</option>
                                     @foreach ($rounds as $round)
-                                        <option value="{{$round->roundid}}">{{$round->name}}</option>
+                                        <option @if (old('roundid') == $round->roundid) selected @endif value="{{$round->roundid}}">{{$round->name}}</option>
                                     @endforeach
                                 </select>
                                 @if ($errors->has('roundid'))
