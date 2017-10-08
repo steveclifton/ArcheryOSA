@@ -28,8 +28,8 @@
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover">
                         <tr>
-                            <th style="width: 17%;">Name</th>
-                            <th style="width: 40%">Location</th>
+                            <th style="width: 25%;">Name</th>
+                            <th style="width: 30%">Location</th>
                             <th>Enteries Close</th>
                             <th>Start</th>
                             <th>Status</th>
@@ -37,9 +37,11 @@
 
                         @foreach($events as $event)
                             <tr>
+
+
                                 <td><a href="/event/register/{{ urlencode($event->eventid) }}">{{$event->name}}</a></td>
                                 <td>{{ (strlen($event->location) > 60) ? mb_substr($event->location, 0, 60) . ".." : $event->location }}</td>
-                                <td>{{date('d F Y', strtotime($event->closeentry))}}</td>
+                                <td><?= !empty($event->closeentry) ? date('d F Y', strtotime($event->closeentry)) : ''  ?></td>
                                 <td>{{date('d F Y', strtotime($event->startdate)) }}</td>
                                 <?php
                                     switch ($event->status) :
