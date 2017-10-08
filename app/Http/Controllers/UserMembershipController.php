@@ -39,7 +39,7 @@ class UserMembershipController extends Controller
             'membershipcode' => 'required|unique:usermemberships,membershipcode,usermembershipid,organisationid'
         ], [
             'membershipcode.unique' => 'The Membership Code is already in use, please contact ArcheryOSA'
-        ]);
+        ])->validate();
 
         $userorg = new UserMemberships();
 
