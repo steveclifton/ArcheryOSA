@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-9">
 
                     <div>
                         <div class="box box-info">
@@ -21,10 +21,17 @@
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">
-                                <h3>Outdoor League Series 2017</h3>
+                                <a href="{{route('eventregistrationview', $event->eventid)}}" class="btn btn-success pull-right" role="button">
+                                    <i class="fa fa-bullseye" aria-hidden="true"></i> Enter
+                                </a>
+                                <h3>{{$event->name}}</h3>
                                 <div class="table-responsive">
-                                    <table class="table no-margin">
+                                    <table class="table">
                                         <tbody>
+                                            <tr>
+                                                <th>Status</th>
+                                                <td><strong>ENTERED OR NOT ENTERED</strong></td>
+                                            </tr>
                                             <tr>
                                                 <th>Start Date</th>
                                                 <td>{{ date('d F Y', strtotime($event->startdate)) }}</td>
@@ -35,7 +42,16 @@
                                             </tr>
                                             <tr>
                                                 <th>Round(s)</th>
-                                                <td></td>
+                                                <td>
+                                                        {{$eventround->name}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Distances</th>
+                                                <td>
+                                                    {{$distances}}
+
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <th>Event Type</th>
@@ -58,34 +74,21 @@
                                                 <td>{{ ucwords($event->location) }}</td>
                                             </tr>
                                             <tr>
-                                                <th>Schedule</th>
-                                                <td>{{ $event->schedule }}</td>
-                                            </tr>
-                                            <tr>
                                                 <th>Cost</th>
-                                                <td>{{ $event->cost }}</td>
+                                                <td>${{ $event->cost }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Bank Details</th>
                                                 <td>{{ $event->bank }}</td>
                                             </tr>
+                                            <tr>
+                                                <th>Schedule</th>
+                                                <td>{!! nl2br($event->schedule) !!}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
 
-                                    <div class="form-group">
 
-                                        <div class="col-md-6 col-md-offset-4">
-
-                                            <button type="submit" class="btn btn-primary" id="savebutton" value="save" name="submit">
-                                                Update
-                                            </button>
-
-                                            <a href="{{route('eventregistrationview', $event->eventid)}}" class="btn btn-success" role="button">Enter</a>
-
-
-                                        </div>
-
-                                    </div>
 
                                 </div>
                                 <!-- /.table-responsive -->
@@ -98,7 +101,7 @@
                 </div>
 
                 {{--Previous Events--}}
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">Current Entries</h3>
@@ -106,18 +109,16 @@
 
                         <div class="box-body">
                             <ul class="products-list product-list-in-box">
-                                <li class="item">
-                                    <div class="product-img">
-                                        <img src="../content/clubs/aac.jpg">
-                                    </div>
-                                    <div class="product-info">
-                                        <a href="javascript:;" class="product-title">WA 720</a>
-                                        <span class="product-description">
-                                    Auckland Archery Club
-                                    <a href="#"><span class="label label-success pull-right">Results</span></a>
-                                </span>
-                                    </div>
-                                </li>
+
+                                @foreach (range(1,10) as $number)
+                                    <li class="item">
+
+                                        {{'Steve Clifton'}}
+                                        
+                                        <span class="label label-info">Compound</span>
+                                    </li>
+                                @endforeach
+
                             </ul>
                         </div>
 
