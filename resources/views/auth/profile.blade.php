@@ -21,7 +21,6 @@
                     <form class="form-horizontal" method="POST" action="{{ route('updateprofile') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
-
                         <div class="form-group{{ $errors->has('firstname') ? ' has-error' : '' }}">
                             <label for="firstname" class="col-md-4 control-label">First Name</label>
 
@@ -82,8 +81,11 @@
                             <label for="profileimage" class="col-md-4 control-label">Profile Image</label>
 
                             <div class="col-md-6">
-                                <input id="profileimage" type="file" class="form-control" name="profileimage" onchange="readURL(this);">
-                                <img id="blah" src="/content/profile/{{ (old('image')) ? old('image') : $user->image }}" alt="" style="width: 150px" />
+                                <input id="profileimage" type="file" class="form-control" name="profileimage">
+                                @if (!empty($user->image))
+                                    <img id="blah" src="/content/profile/{{ (old('image')) ? old('image') : $user->image }}" alt="" style="width: 150px" />
+                                @endif
+
                                 @if ($errors->has('profileimage'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('profileimage') }}</strong>
@@ -115,11 +117,11 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary" value="update" name="submit">
+                                <button type="submit" class="btn btn-success" value="update" name="submit">
                                     Update
                                 </button>
 
-                                <button type="submit" class="btn btn-success" value="add" name="submit">
+                                <button type="submit" class="btn btn-primary" value="add" name="submit">
                                     Add Membership Code
                                 </button>
                             </div>
@@ -132,21 +134,5 @@
         </div>
     </div>
 
-    <script type="text/javascript">
-        function readURL(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        $('#blah')
-                            .attr('src', e.target.result)
-                            .width(150)
-                            .height(150);
-                    };
-
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
-    </script>
 {{-- </div> --}}
 @endsection
