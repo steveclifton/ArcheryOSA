@@ -114,7 +114,7 @@
                                     <li class="item">
 
                                         {{'Steve Clifton'}}
-                                        
+
                                         <span class="label label-info">Compound</span>
                                     </li>
                                 @endforeach
