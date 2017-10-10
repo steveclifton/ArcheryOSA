@@ -75,7 +75,7 @@ class UserController extends Controller
         $user->email = htmlentities($request->input('email'));
         $user->password = Hash::make($request->input('password'));
         $user->lastipaddress = $request->ip();
-        $user->usertype = 2;
+        $user->usertype = 3;
 
         $user->save();
 
