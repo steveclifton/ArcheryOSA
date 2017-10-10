@@ -274,10 +274,10 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary" id="savebutton" value="save" name="submit">
+                                <button type="submit" class="btn btn-success" id="savebutton" value="save" name="submit">
                                     Save
                                 </button>
-                                <button type="submit" class="btn btn-success" id="savebutton" value="createeventround" name="submit">
+                                <button type="submit" class="btn btn-primary" id="savebutton" value="createeventround" name="submit">
                                     Add Event Session
                                 </button>
                                 <a href="{!! route('deleteevent', [$event->first()->eventid, urlencode($event->first()->name)]) !!}" class="btn btn-danger pull-right" role="button" id="deleteBtn">
