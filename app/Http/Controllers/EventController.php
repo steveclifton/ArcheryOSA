@@ -47,11 +47,19 @@ class EventController extends Controller
     public function PUBLIC_getEventDetailsView(Request $request)
     {
         $event = Event::where('eventid', $request->eventid)->get()->first();
+        $eventround = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`
+            FROM `eventrounds` er 
+            JOIN `rounds` r USING (`roundid`)
+            WHERE er.`eventid` = $request->eventid
+            ")[0];
+
+        $distances = $this->makeDistanceString($eventround);
+
         if (is_null($event)) {
             return Redirect::route('home');
         }
 
-        return view ('publicevents.eventdetails', compact('event'));
+        return view ('publicevents.eventdetails', compact('event', 'eventround', 'distances'));
     }
 
     /****************************************************
@@ -157,7 +165,7 @@ class EventController extends Controller
         $event->location = htmlentities($request->input('location'));
         $event->cost = htmlentities($request->input('cost'));
         $event->bankaccount = htmlentities($request->input('bankaccount'));
-        $event->schedule = htmlentities(trim($request->input('schedule')));
+        $event->schedule = htmlentities($request->input('schedule'));
         $event->visible = $visible;
         $event->save();
 
@@ -208,12 +216,6 @@ class EventController extends Controller
             $dayCount++;
         }
 
-        // Validate that event is more than 10 days and is not a single event
-//        $validator->after(function ($validator) use ($startdate, $enddate, $request) {
-//            if ($startdate->diffInDays($enddate) > 9 && $request->input('eventtype') == 0) {
-//                $validator->errors()->add('eventerror', 'Single Events cannot be more than 10 days');
-//            }
-//        })->validate();
 
         if ($request->eventid == $event->eventid) {
 
@@ -263,6 +265,22 @@ class EventController extends Controller
         return Redirect::route('home');
 
 
+    }
+
+    private function makeDistanceString($event)
+    {
+        $distances = '';
+        for ($i = 1; $i <= 4; $i++) {
+            if (!empty ($event->{'dist' . $i})) {
+                $distances .= $event->{'dist' . $i} . 'm';
+            }
+
+            $j = $i + 1;
+            if (!empty($event->{'dist' . $j})) {
+                $distances .= ',';
+            }
+        }
+        return $distances;
     }
 
 
