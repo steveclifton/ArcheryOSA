@@ -98,7 +98,7 @@
                             <label for="name" class="col-md-4 control-label">Membership Code</label>
 
                             <div class="col-md-6">
-                                <input id="membershipcode" type="text" class="form-control" name="membershipcode" value="{{ $eventregistration->divisionid }}" required autofocus>
+                                <input id="membershipcode" type="text" class="form-control" name="membershipcode" value="{{ $eventregistration->membershipcode }}" required autofocus>
 
                                 @if ($errors->has('membershipcode'))
                                     <span class="help-block">
