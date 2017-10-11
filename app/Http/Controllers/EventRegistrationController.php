@@ -78,8 +78,6 @@ class EventRegistrationController extends Controller
             return Redirect::route('eventdetails', $request->eventid)->with('failure', 'Already Registered.');
         }
 
-
-
         $evententry = new EventEntry();
 
         $evententry->fullname = htmlentities($request->input('name'));
@@ -88,15 +86,49 @@ class EventRegistrationController extends Controller
         $evententry->email = htmlentities($request->input('email'));
         $evententry->divisionid = htmlentities($request->input('divisionid'));
         $evententry->membershipcode = htmlentities($request->input('membershipcode'));
-        $evententry->enteredbyuserid = Auth::user()->userid; // set the created by as the person who is logged in
+        $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
         $evententry->phone = htmlentities($request->input('phone'));
         $evententry->address = htmlentities($request->input('address'));
         $evententry->status = 'pending';
         $evententry->eventid = htmlentities($request->eventid);
 
         $evententry->save();
-        return Redirect::route('eventdetails', $request->eventid)->with('message', 'Registration Successful');
 
+        return Redirect::route('eventdetails', $request->eventid)->with('message', 'Registration Successful');
+    }
+
+    public function updateEventRegistration(Request $request)
+    {
+        Validator::make($request->all(), [
+            'name' => 'required',
+            'clubid' => 'required',
+            'email' => 'required',
+            'divisionid' => 'required',
+        ], [
+            // custom messages
+        ])->validate();
+
+        $evententry = EventEntry::where('userid', Auth::id())->where('eventid', $request->eventid)->get()->first();
+
+        if (is_null($evententry)) {
+            $evententry = new EventEntry();
+        }
+
+
+        $evententry->fullname = htmlentities($request->input('name'));
+        $evententry->userid = Auth::id();
+        $evententry->clubid = htmlentities($request->input('clubid'));
+        $evententry->email = htmlentities($request->input('email'));
+        $evententry->divisionid = htmlentities($request->input('divisionid'));
+        $evententry->membershipcode = htmlentities($request->input('membershipcode'));
+        $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
+        $evententry->phone = htmlentities($request->input('phone'));
+        $evententry->address = htmlentities($request->input('address'));
+        $evententry->eventid = htmlentities($request->eventid);
+        $evententry->status = $evententry->status ?? 'pending';
+
+        $evententry->save();
+        return Redirect::route('eventdetails', $request->eventid)->with('message', 'Update Successful');
 
     }
 
