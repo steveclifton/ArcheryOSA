@@ -18,15 +18,15 @@
 
 
                 <div class="panel-body">
-                    @if(session()->has('message'))
-                        <div class="alert alert-success">
-                            {{ session()->get('message') }}
-                        </div>
-                    @endif
+
                     <form class="form-horizontal" method="POST" action="{{ route('eventregistration', $lc_event->first()->eventid) }}" id="eventformupdate">
                         {{ csrf_field() }}
 
                         <input type="text" name="eventid" hidden value="{{$lc_event->first()->eventid}}">
+                        <input type="text" name="userid" hidden value="{{ Auth::id() }}">
+
+
+                        {{--Here you can choose to enrol others for the events--}}
 
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
