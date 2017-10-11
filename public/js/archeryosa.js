@@ -29,9 +29,15 @@ $(document).ready(function() {
     var userOrganisationValue = $('#organisationvalue').val();
     $('#organisationselecteventround option[value=' + userOrganisationValue +']').attr('selected','selected');
 
-
     var eventorganisationid = $('#organisationidvalue').val();
     $('#organisationselect option[value=' + eventorganisationid +']').attr('selected','selected');
+
+    var clubvalue = $('#userclubvalue').val();
+    $('#clubselect option[value=' + clubvalue +']').attr('selected','selected');
+
+    var divisionvalue = $('#userdivisionvalue').val();
+    $('#divisionselect option[value=' + divisionvalue +']').attr('selected','selected');
+
 
     // This will work for when you are updating an eventround
     $('#divisionselect').find('label').each(function () {
@@ -87,10 +93,9 @@ $(document).ready(function() {
         if (!confirm("Do you want to delete?")) {
             event.preventDefault();
         }
-
-
-
     });
+
+
 
 
 
