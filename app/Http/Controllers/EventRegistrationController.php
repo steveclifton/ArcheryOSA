@@ -10,12 +10,13 @@ use App\Event;
 use App\EventRound;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class EventRegistrationController extends Controller
 {
 
-    public function PUBLIC_registerForEvent(Request $request)
+    public function getRegisterForEventView(Request $request)
     {
         $lc_event = Event::where('eventid', urlencode($request->eventid))->get();
         $lc_eventrounds = EventRound::where('eventid', $lc_event->first()->eventid)->get();
@@ -36,6 +37,25 @@ class EventRegistrationController extends Controller
         return view('auth.events.registration.register_events', compact('lc_event', 'lc_eventrounds', 'lc_clubs', 'lc_divisions', 'ls_userorgid'));
     }
 
+    public function getUpdateEventRegistrationView(Request $request)
+    {
+        $eventregistration = EventEntry::where('eventid', $request->eventid)->where('userid', Auth::id())->get()->first();
+
+        if (is_null($eventregistration)) {
+            return Redirect::route('eventdetails', $request->eventid)->with('failure', 'Unable to find registration, please contact ArcheryOSA Admin');
+        }
+
+        $event = Event::where('eventid', urlencode($request->eventid))->get()->first();
+        $lc_eventrounds = EventRound::where('eventid', $event->eventid)->get();
+
+        $divisions = Division::whereIn('divisionid', $this->processEventRoundDivisions($lc_eventrounds))->get(); // collection array of divisions
+        $clubs = Club::where('organisationid', $event->organisationid)->get();
+
+
+        return view('auth.events.registration.update_register_events', compact('event', 'eventregistration', 'lc_eventrounds', 'clubs', 'divisions'));
+
+    }
+
 
 
 
@@ -51,6 +71,13 @@ class EventRegistrationController extends Controller
         ], [
             // custom messages
         ])->validate();
+
+        $alreadyentered = EventEntry::where('userid', Auth::id())->where('eventid', $request->eventid)->get()->first();
+
+        if (!is_null($alreadyentered)) {
+            return Redirect::route('eventdetails', $request->eventid)->with('failure', 'Already Registered.');
+        }
+
 
 
         $evententry = new EventEntry();
@@ -68,8 +95,7 @@ class EventRegistrationController extends Controller
         $evententry->eventid = htmlentities($request->eventid);
 
         $evententry->save();
-
-        return redirect()->back()->with('message', 'Registration Successful');
+        return Redirect::route('eventdetails', $request->eventid)->with('message', 'Registration Successful');
 
 
     }
