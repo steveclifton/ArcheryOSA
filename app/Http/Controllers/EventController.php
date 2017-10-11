@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\EventEntry;
 use Illuminate\Support\Facades\DB;
 use App\EventRound;
 use Carbon\Carbon;
@@ -55,11 +56,13 @@ class EventController extends Controller
 
         $distances = $this->makeDistanceString($eventround);
 
+        $userevententry = EventEntry::where('userid', Auth::id())->get()->first();
+
         if (is_null($event)) {
             return Redirect::route('home');
         }
 
-        return view ('publicevents.eventdetails', compact('event', 'eventround', 'distances'));
+        return view ('publicevents.eventdetails', compact('event', 'eventround', 'distances', 'userevententry'));
     }
 
     /****************************************************
