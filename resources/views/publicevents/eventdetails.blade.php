@@ -13,6 +13,15 @@
         <div class="col-xs-12">
             <div class="row">
                 <div class="col-md-9">
+                    @if(session()->has('message'))
+                        <div class="alert alert-success">
+                            {{ session()->get('message') }}
+                        </div>
+                    @elseif (session()->has('failure'))
+                        <div class="alert alert-danger">
+                            {{ session()->get('failure') }}
+                        </div>
+                    @endif
 
                     <div>
                         <div class="box box-info">
@@ -21,16 +30,33 @@
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">
-                                <a href="{{route('eventregistrationview', $event->eventid)}}" class="btn btn-success pull-right" role="button">
-                                    <i class="fa fa-bullseye" aria-hidden="true"></i> Enter
-                                </a>
+
+                                @if (is_null($userevententry))
+                                    <a href="{{route('eventregistrationview', $event->eventid)}}" class="btn btn-success pull-right" role="button">
+                                        <i class="fa fa-bullseye" aria-hidden="true"></i> Enter
+                                    </a>
+                                @else
+                                    <a href="{{ route('updateeventregistrationview', $event->eventid) }}" class="btn btn-warning pull-right" role="button">
+                                        <i class="fa fa-bullseye" aria-hidden="true"></i> Update
+                                    </a>
+                                @endif
+
+
                                 <h3>{{$event->name}}</h3>
                                 <div class="table-responsive">
                                     <table class="table">
                                         <tbody>
                                             <tr>
                                                 <th>Status</th>
-                                                <td><strong>ENTERED OR NOT ENTERED</strong></td>
+                                                <td>
+                                                    <strong>
+                                                        @if (is_null($userevententry))
+                                                            {{'Not Entered'}}
+                                                        @else
+                                                            {{'Entered'}}
+                                                        @endif
+                                                    </strong>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <th>Start Date</th>
