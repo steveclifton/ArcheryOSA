@@ -33,9 +33,14 @@ Route::middleware(['web'])->group(function() {
         Route::post('/updateprofile/updateorganisation/submit/{usermembershipid}', 'UserMembershipController@update')->name('updateusermembership');
 
 
-		Route::get('/event/register/{eventid}', 'EventRegistrationController@PUBLIC_registerForEvent')->name('eventregistrationview');
+		Route::get('/event/register/{eventid}', 'EventRegistrationController@getRegisterForEventView')->name('eventregistrationview');
 		Route::post('/event/register/{eventid}', 'EventRegistrationController@eventRegister')->name('eventregistration');
-	});
+
+        Route::get('/event/register/update/{eventid}', 'EventRegistrationController@getUpdateEventRegistrationView')->name('updateeventregistrationview');
+        Route::post('/event/register/update/{eventid}', 'EventRegistrationController@updateEventRegister')->name('updateeventregistration');
+
+
+    });
 
 	// Admin
 	Route::middleware(['admin'])->group(function () {
