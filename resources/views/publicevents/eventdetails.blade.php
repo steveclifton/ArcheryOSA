@@ -139,9 +139,12 @@
                                 @foreach (range(1,10) as $number)
                                     <li class="item">
 
+                                        <span style="padding-right: 10%">
+                                            <span class="label label-info">Compound</span>
+                                        </span>
+
                                         {{'Steve Clifton'}}
 
-                                        <span class="label label-info">Compound</span>
                                     </li>
                                 @endforeach
 
