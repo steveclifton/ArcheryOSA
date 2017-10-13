@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use Redirect;
-
+use App\Http\Requests\Users\RegisterValidator;
 
 class UserController extends Controller
 {
@@ -58,17 +58,17 @@ class UserController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function register(Request $request)
+    public function register(RegisterValidator $request)
     {
         $user = new User();
 
-        $this->validate($request, [
-            'firstname' => 'required',
-            'lastname' => 'required',
-            'email' => 'required|unique:users,email',
-            'password' => 'min:6|required|confirmed',
-            'password_confirmation' => 'required|same:password'
-        ]);
+        // $this->validate($request, [
+        //     'firstname' => 'required',
+        //     'lastname' => 'required',
+        //     'email' => 'required|unique:users,email',
+        //     'password' => 'min:6|required|confirmed',
+        //     'password_confirmation' => 'required|same:password'
+        // ]);
 
         $user->firstname = htmlentities($request->input('firstname'));
         $user->lastname = htmlentities($request->input('lastname'));
