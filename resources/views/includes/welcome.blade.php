@@ -122,13 +122,12 @@
                     <ul class="products-list product-list-in-box">
                         <li class="item">
                             <div class="product-img">
-                                <img src="content/clubs/aac.jpg">
+                                {{--<img src="content/clubs/aac.jpg">--}}
                             </div>
                             <div class="product-info">
-                                <a href="javascript:;" class="product-title">WA 720</a>
+                                <a href="javascript:;" class="product-title">Empty</a>
                                 <span class="product-description">
-                                    Auckland Archery Club
-                                    <a href="#"><span class="label label-success pull-right">Results</span></a>
+                                    <a href="#"><span class="label label-success pull-right"></span></a>
                                 </span>
                             </div>
                         </li>
@@ -136,9 +135,9 @@
                 </div>
 
                 <!-- /.box-footer -->
-                <div class="box-footer text-center">
-                    <a href="javascript:;" class="uppercase">View More Results</a>
-                </div>
+                {{--<div class="box-footer text-center">--}}
+                    {{--<a href="javascript:;" class="uppercase">View More Results</a>--}}
+                {{--</div>--}}
             </div>
         </div>
 
