@@ -48,6 +48,7 @@ class EventController extends Controller
     public function PUBLIC_getEventDetailsView(Request $request)
     {
         $event = Event::where('eventid', $request->eventid)->get()->first();
+
         if (is_null($event)) {
             return Redirect::route('home');
         }
@@ -59,6 +60,7 @@ class EventController extends Controller
             LIMIT 1
             ", ['eventid' => $request->eventid]);
 
+
         if (empty($eventround[0])) {
             return Redirect::route('home');
         }
@@ -68,9 +70,6 @@ class EventController extends Controller
 
         $userevententry = EventEntry::where('userid', Auth::id())->get()->first();
 
-        if (is_null($userevententry)) {
-            return Redirect::route('home');
-        }
 
         return view ('publicevents.eventdetails', compact('event', 'eventround', 'distances', 'userevententry'));
     }
@@ -260,7 +259,7 @@ class EventController extends Controller
                         $round->delete();
                     }
                 }
-                
+
                 $event->first()->delete();
             }
 
