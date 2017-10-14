@@ -48,17 +48,27 @@ class EventController extends Controller
     public function PUBLIC_getEventDetailsView(Request $request)
     {
         $event = Event::where('eventid', $request->eventid)->get()->first();
+        if (is_null($event)) {
+            return Redirect::route('home');
+        }
+
         $eventround = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`
             FROM `eventrounds` er 
             JOIN `rounds` r USING (`roundid`)
-            WHERE er.`eventid` = $request->eventid
-            ")[0];
+            WHERE er.`eventid` = :eventid 
+            LIMIT 1
+            ", ['eventid' => $request->eventid]);
+
+        if (empty($eventround[0])) {
+            return Redirect::route('home');
+        }
+        $eventround = $eventround[0];
 
         $distances = $this->makeDistanceString($eventround);
 
         $userevententry = EventEntry::where('userid', Auth::id())->get()->first();
 
-        if (is_null($event)) {
+        if (is_null($userevententry)) {
             return Redirect::route('home');
         }
 
@@ -84,10 +94,9 @@ class EventController extends Controller
     {
         $divisions = Division::where('visible', 1)->where('deleted', 0)->orderBy('organisationid')->get();
         $organisations = Organisation::where('visible', 1)->get();
-        $page_id = -1;
         $rounds = Round::where('visible', 1)->where('deleted', 0)->get();
 
-        return view('auth.events.createevent', compact('divisions', 'rounds', 'organisations', 'rounds', 'page_id'));
+        return view('auth.events.createevent', compact('divisions', 'rounds', 'organisations', 'rounds'));
     }
 
     public function getUpdateEventView(Request $request)
