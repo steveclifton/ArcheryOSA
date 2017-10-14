@@ -12,6 +12,12 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">Update Event Registration
+
+                    <a href="{{route('eventdetails', $event->eventid)}}">
+                        <button type="submit" class="btn btn-default pull-right" id="addevent">
+                            <i class="fa fa-backward" >  Back</i>
+                        </button>
+                    </a>
                 </div>
 
                 <div class="panel-body">
@@ -169,8 +175,8 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary" value="create" name="submit">
-                                    Enter
+                                <button type="submit" class="btn btn-warning" value="create" name="submit">
+                                    Update
                                 </button>
                             </div>
                         </div>
