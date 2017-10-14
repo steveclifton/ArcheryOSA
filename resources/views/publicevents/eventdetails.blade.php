@@ -157,7 +157,7 @@
 
                         <!-- /.box-footer -->
                         <div class="box-footer text-center">
-                            <a href="javascript:;" class="uppercase">View More Results</a>
+                            <a href="javascript:;" class="uppercase">View More Entries</a>
                         </div>
                     </div>
                 </div>
