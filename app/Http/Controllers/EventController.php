@@ -76,6 +76,9 @@ class EventController extends Controller
             WHERE u.`eventid` = :eventid
             ", ['eventid' => $request->eventid]);
 
+        foreach ($users as $user) {
+            $user->label = $this->getLabel($user->division);
+        }
 
         return view ('publicevents.eventdetails', compact('event', 'eventround', 'distances', 'userevententry', 'users'));
     }
@@ -291,6 +294,23 @@ class EventController extends Controller
             }
         }
         return $distances;
+    }
+
+    private function getLabel($division) {
+        switch (strtolower($division)) {
+            case 'compound' :
+                return 'label-primary';
+                break;
+            case 'recurve' :
+                return 'label-success';
+                break;
+            case 'longbow' :
+                return 'label-info';
+                break;
+            default :
+                return 'label-warning';
+                break;
+        }
     }
 
 

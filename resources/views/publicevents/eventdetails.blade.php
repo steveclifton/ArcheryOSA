@@ -144,7 +144,7 @@
                                     <li class="item">
 
                                         <span style="padding-right: 10%">
-                                            <span class="label label-info">{{$user->division}}</span>
+                                            <span class="label {{ $user->label }}">{{$user->division}}</span>
                                         </span>
 
                                         {{$user->fullname}}
