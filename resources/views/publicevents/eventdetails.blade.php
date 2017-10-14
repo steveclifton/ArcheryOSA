@@ -49,13 +49,17 @@
                                             <tr>
                                                 <th>Status</th>
                                                 <td>
-                                                    <strong>
+
                                                         @if (is_null($userevententry))
+                                                        <strong style="color: red">
                                                             {{'Not Entered'}}
+                                                        </strong>
                                                         @else
+                                                        <strong style="color: green">
                                                             {{'Entered'}}
+                                                        </strong>
                                                         @endif
-                                                    </strong>
+
                                                 </td>
                                             </tr>
                                             <tr>
