@@ -51,12 +51,12 @@
                                                 <td>
 
                                                         @if (is_null($userevententry))
-                                                        <strong style="color: red">
+                                                        <strong>
                                                             {{'Not Entered'}}
                                                         </strong>
                                                         @else
-                                                        <strong style="color: green">
-                                                            {{'Entered'}}
+                                                        <strong style="color: limegreen">
+                                                            {!! ucwords($userevententry->status) !!}
                                                         </strong>
                                                         @endif
 
@@ -140,14 +140,14 @@
                         <div class="box-body">
                             <ul class="products-list product-list-in-box">
 
-                                @foreach (range(1,10) as $number)
+                                @foreach ($users as $user)
                                     <li class="item">
 
                                         <span style="padding-right: 10%">
-                                            <span class="label label-info">Compound</span>
+                                            <span class="label label-info">{{$user->division}}</span>
                                         </span>
 
-                                        {{'Steve Clifton'}}
+                                        {{$user->fullname}}
 
                                     </li>
                                 @endforeach

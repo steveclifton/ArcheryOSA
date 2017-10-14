@@ -70,8 +70,14 @@ class EventController extends Controller
 
         $userevententry = EventEntry::where('userid', Auth::id())->get()->first();
 
+        $users = DB::select("SELECT u.`fullname`, d.`name` as division
+            FROM `evententry` u
+            LEFT JOIN `divisions` d ON (u.`divisionid` = d.`divisionid`)
+            WHERE u.`eventid` = :eventid
+            ", ['eventid' => $request->eventid]);
 
-        return view ('publicevents.eventdetails', compact('event', 'eventround', 'distances', 'userevententry'));
+
+        return view ('publicevents.eventdetails', compact('event', 'eventround', 'distances', 'userevententry', 'users'));
     }
 
     /****************************************************
