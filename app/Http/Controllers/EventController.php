@@ -104,10 +104,11 @@ class EventController extends Controller
         $event = Event::where('eventid', urlencode($request->eventid))->get();
 
         if ($event->isEmpty()) {
-            return redirect('divisions');
+            return redirect('home');
         }
 
         $eventrounds = EventRound::where('eventid', $request->eventid)->get();
+
         $organisations = Organisation::where('visible', 1)->get();
 
         return view('auth.events.updateevent', compact('event', 'eventrounds', 'organisations'));
@@ -129,9 +130,6 @@ class EventController extends Controller
             'email' => 'required',
             'cost' => 'required',
             'status' => 'required',
-//            'closeentry' => 'required'
-        ], [
-//            'closeentry.required' => 'Entries Close date must be entered'
         ])->validate();
 
 
@@ -146,14 +144,6 @@ class EventController extends Controller
         }
 
         $dayCount = $startdate->diffInDays($enddate) + 1; // add 1 day to represent the actual number of competing days
-
-        // Validate that event is more than 10 days and is not a single event
-//        $validator->after(function ($validator) use ($startdate, $enddate, $request) {
-//            if ($startdate->diffInDays($enddate) > 9 && $request->input('eventtype') == 0) {
-//                $validator->errors()->add('eventerror', 'Single Events cannot be more than 10 days');
-//            }
-//        })->validate();
-
 
         $visible = 0;
         if (!empty($request->input('visible'))) {
@@ -207,9 +197,6 @@ class EventController extends Controller
             'email' => 'required',
             'cost' => 'required',
             'status' => 'required',
-//            'closeentry' => 'required'
-        ], [
-//            'closeentry.required' => 'Entries Close date must be entered'
         ])->validate();
 
         // Format date
@@ -265,12 +252,18 @@ class EventController extends Controller
         if (!empty($request->eventid) || !empty($request->eventname)) {
             $event = Event::where('eventid', $request->eventid)->where('name', urldecode($request->eventname))->take(1);
 
-            $eventrounds = EventRound::where('eventid', $request->eventid)->get();
-            foreach ($eventrounds as $round) {
-                $round->delete();
+            if (!is_null($event)) {
+                $eventrounds = EventRound::where('eventid', $request->eventid)->get();
+
+                foreach ($eventrounds as $round) {
+                    if (!is_null($round)) {
+                        $round->delete();
+                    }
+                }
+                
+                $event->first()->delete();
             }
 
-            $event->first()->delete();
             return Redirect::route('events');
         }
 
