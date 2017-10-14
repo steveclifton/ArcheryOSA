@@ -32,7 +32,7 @@
                                         <i class="fa fa-calendar"></i>
                                     </div>
 
-                                    <input type="text" name="datetime" class="form-control pull-right" id="reservation" required autofocus>
+                                    <input type="text" name="datetime" class="form-control pull-right" id="reservation" required>
                                 </div>
                                 @if ($errors->has('datetime'))
                                     <span class="help-block">
