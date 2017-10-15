@@ -40,6 +40,8 @@ Route::middleware(['web'])->group(function() {
         Route::post('/event/register/update/{eventid}', 'EventRegistrationController@updateEventRegistration')->name('updateeventregistration');
 
 
+
+
     });
 
 	// Admin
@@ -59,6 +61,8 @@ Route::middleware(['web'])->group(function() {
         Route::get('/admin/events/update/eventround/{eventroundid}', 'EventRoundController@getUpdateRoundEventView')->name('updateeventroundview');
         Route::post('/admin/events/update/eventround/{eventroundid}', 'EventRoundController@update')->name('updateeventround');
         Route::get('/admin/eventround/delete/{eventroundid}/{eventroundname}', 'EventRoundController@delete')->name('deleteeventround');
+
+        Route::post('/admin/events/updateregistration/{eventid}', 'EventRegistrationController@updateEventEntryStatus')->name('updateregistrationstatus');
 
         // Divisions
         Route::get('/admin/divisions', 'DivisionController@getDivisionsView')->name('divisions');
