@@ -30,13 +30,13 @@
                             <!-- /.box-header -->
                             <div class="box-body">
 
-                                @if (is_null($userevententry))
-                                    <a href="{{route('eventregistrationview', $event->eventid)}}" class="btn btn-success pull-right" role="button">
-                                        <i class="fa fa-bullseye" aria-hidden="true"></i> Enter
-                                    </a>
-                                @else
+                                @if (!is_null($userevententry))
                                     <a href="{{ route('updateeventregistrationview', $event->eventid) }}" class="btn btn-warning pull-right" role="button">
                                         <i class="fa fa-bullseye" aria-hidden="true"></i> Update
+                                    </a>
+                                @else
+                                    <a href="{{route('eventregistrationview', $event->eventid)}}" class="btn btn-success pull-right" role="button">
+                                        <i class="fa fa-bullseye" aria-hidden="true"></i> Enter
                                     </a>
                                 @endif
                                 <h3>{{$event->name}}</h3>
@@ -44,20 +44,14 @@
                                     <table class="table">
                                         <tbody>
                                             <tr>
-                                                <th>Status</th>
-                                                <td>
-
-                                                        @if (is_null($userevententry))
-                                                        <strong>
-                                                            {{'Not Entered'}}
-                                                        </strong>
-                                                        @else
+                                                @if (!is_null($userevententry))
+                                                    <th>Status</th>
+                                                    <td>
                                                         <strong style="color: limegreen">
                                                             {!! ucwords($userevententry->status) !!}
                                                         </strong>
-                                                        @endif
-
-                                                </td>
+                                                    </td>
+                                                @endif
                                             </tr>
                                             <tr>
                                                 <th>Start Date</th>
