@@ -22,7 +22,6 @@
                             {{ session()->get('failure') }}
                         </div>
                     @endif
-
                     <div>
                         <div class="box box-info">
                             <div class="box-header with-border">
@@ -40,8 +39,6 @@
                                         <i class="fa fa-bullseye" aria-hidden="true"></i> Update
                                     </a>
                                 @endif
-
-
                                 <h3>{{$event->name}}</h3>
                                 <div class="table-responsive">
                                     <table class="table">
@@ -117,19 +114,13 @@
                                             </tr>
                                         </tbody>
                                     </table>
-
-
-
                                 </div>
                                 <!-- /.table-responsive -->
                             </div>
                             <!-- /.box-footer -->
                         </div>
                     </div>
-
-
                 </div>
-
                 {{--Previous Events--}}
                 <div class="col-md-3">
                     <div class="box box-primary">
@@ -161,14 +152,12 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-
-            </div>
-            <!-- /.box -->
         </div>
     </div>
-    {{-- </div> --}}
+
+
+
 
 @endsection
 
