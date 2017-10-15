@@ -70,6 +70,7 @@
                                                         <select name="userpaid[]" id="userpaidselect">
                                                             <option value="0" <?= ($user->paid == 0) ? 'selected' : '' ?>>No</option>
                                                             <option value="1" <?= ($user->paid == 1) ? 'selected' : '' ?>>Yes</option>
+                                                            <option value="2" <?= ($user->paid == 2) ? 'selected' : '' ?>>N/A</option>
                                                         </select>
                                                     </td>
                                                 </tr>

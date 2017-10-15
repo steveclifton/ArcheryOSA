@@ -46,7 +46,7 @@
 
                                             @if (!is_null($userevententry))
                                                 <tr>
-                                                    <th>Status</th>
+                                                    <th style="width: 25%">Status</th>
                                                     <td>
                                                         <strong style="color: limegreen">
                                                             {!! ucwords($userevententry->status) !!}
@@ -57,66 +57,81 @@
 
                                             @if (!is_null($userevententry))
                                                 <tr>
-                                                    <th>Paid</th>
+                                                    <th style="width: 25%">Paid</th>
                                                     <td>
                                                         <strong <?= ($userevententry->paid == 1) ? 'style="color: limegreen"' : '' ?> >
-                                                            <?= ($userevententry->paid == 1) ? 'Paid' : 'Not Paid' ?>
+                                                            @php
+                                                            switch ($userevententry->paid) {
+                                                                case '0' :
+                                                                    echo 'Not Paid';
+                                                                    break;
+                                                                case '1' :
+                                                                    echo 'Paid';
+                                                                    break;
+                                                                case '2' :
+                                                                    echo 'N/A';
+                                                                    break;
+                                                                default :
+                                                                    echo '';
+                                                                    break;
+                                                            }
+                                                            @endphp
                                                         </strong>
                                                     </td>
                                                 </tr>
                                             @endif
 
                                             <tr>
-                                                <th>Start Date</th>
+                                                <th style="width: 25%">Start Date</th>
                                                 <td>{{ date('d F Y', strtotime($event->startdate)) }}</td>
                                             </tr>
                                             <tr>
-                                                <th>End Date</th>
+                                                <th style="width: 25%">End Date</th>
                                                 <td>{{ date('d F Y', strtotime($event->enddate)) }}</td>
                                             </tr>
                                             <tr>
-                                                <th>Round(s)</th>
+                                                <th style="width: 25%">Round(s)</th>
                                                 <td>
                                                         {{$eventround->name}}
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th>Distances</th>
+                                                <th style="width: 25%">Distances</th>
                                                 <td>
                                                     {{$distances}}
 
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th>Event Type</th>
+                                                <th style="width: 25%">Event Type</th>
                                                 <td>{!! ($event->eventtype == 1) ? 'Multi-week event' : 'Competition' !!}</td>
                                             </tr>
                                             <tr>
-                                                <th>Contact Name</th>
+                                                <th style="width: 25%">Contact Name</th>
                                                 <td>{{ $event->contact }}</td>
                                             </tr>
                                             <tr>
-                                                <th>Email</th>
+                                                <th style="width: 25%">Email</th>
                                                 <td>{{ $event->email }}</td>
                                             </tr>
                                             <tr>
-                                                <th>Host Club</th>
+                                                <th style="width: 25%">Host Club</th>
                                                 <td>{{ $event->hostclub }}</td>
                                             </tr>
                                             <tr>
-                                                <th>Location</th>
+                                                <th style="width: 25%">Location</th>
                                                 <td>{{ ucwords($event->location) }}</td>
                                             </tr>
                                             <tr>
-                                                <th>Cost</th>
+                                                <th style="width: 25%">Cost</th>
                                                 <td>${{ $event->cost }}</td>
                                             </tr>
                                             <tr>
-                                                <th>Bank Details</th>
+                                                <th style="width: 25%">Bank Details</th>
                                                 <td>{{ $event->bank }}</td>
                                             </tr>
                                             <tr>
-                                                <th>Schedule</th>
+                                                <th style="width: 25%">Schedule</th>
                                                 <td></td>
                                             </tr>
                                         </tbody>
