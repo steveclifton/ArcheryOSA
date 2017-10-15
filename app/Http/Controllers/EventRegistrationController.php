@@ -90,7 +90,7 @@ class EventRegistrationController extends Controller
         $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
         $evententry->phone = htmlentities($request->input('phone'));
         $evententry->address = htmlentities($request->input('address'));
-        $evententry->status = '1';
+        $evententry->entrystatusid = '1';
         $evententry->eventid = htmlentities($request->eventid);
 
         $evententry->save();
@@ -126,7 +126,7 @@ class EventRegistrationController extends Controller
         $evententry->phone = htmlentities($request->input('phone'));
         $evententry->address = htmlentities($request->input('address'));
         $evententry->eventid = htmlentities($request->eventid);
-        $evententry->status = $evententry->status ?? '1';
+        $evententry->entrystatusid = $evententry->entrystatusid ?? '1';
 
         $evententry->save();
         return Redirect::route('eventdetails', $request->eventid)->with('message', 'Update Successful');
@@ -147,19 +147,20 @@ class EventRegistrationController extends Controller
 
     public function updateEventEntryStatus(Request $request)
     {
+
         $userids = $request->input('userid');
         $userstatus = $request->input('userstatus');
         $userpaid = $request->input('userpaid');
 
         for ($i = 0; $i < count($userids); $i++) {
-            $evententry = EventEntry::where('userid', $userids[$i])->get()->first();
+            $evententry = EventEntry::where('userid', $userids[$i])->where('eventid', $request->eventid)->get()->first();
 
             if (is_null($evententry)) {
                 continue;
             }
 
             $evententry->paid = intval($userpaid[$i]) ?: 0;
-            $evententry->status = intval($userstatus[$i]) ?: 0;
+            $evententry->entrystatusid = intval($userstatus[$i]) ?: 0;
             $evententry->save();
         }
 
