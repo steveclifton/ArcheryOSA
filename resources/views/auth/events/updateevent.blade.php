@@ -7,8 +7,68 @@
 @extends ('home')
 
 @section ('content')
-    {{--    {!! dd($event->first()->startdate) !!}--}}
-    {{-- <div class="container"> --}}
+
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="row">
+                <div class="col-md-12">
+                    <div>
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Event Entries</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="table-responsive">
+                                    <form class="form-horizontal" method="POST" action="" id="eventformupdate">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>Archers Name</th>
+                                                <th>Club</th>
+                                                <th>Division</th>
+                                                <th>Status</th>
+                                                <th>Paid</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($users as $user)
+                                                <tr>
+                                                    <td>{{$user->fullname}}</td>
+                                                    <td>{{$user->club}}</td>
+                                                    <td>{{$user->division}}</td>
+                                                    <td>
+                                                        <input type="hidden" value="{{$user->status}}">
+                                                        <select name="userstatus" id="userentrystatus">
+                                                            @foreach($entrystatus as $status)
+                                                                <option value="{{$status->entrystatusid}}">{{$status->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="hidden" value="{{$user->paid}}">
+                                                        <select name="userpaid" id="userpaidselect">
+                                                            <option value="0">No</option>
+                                                            <option value="1">Yes</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
