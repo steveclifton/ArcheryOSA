@@ -19,11 +19,6 @@ use App\Classes\UserExtended;
 
 class EventController extends Controller
 {
-    private $entrystatus = [
-        'pending' => 'Pending',
-        'approved' => 'Approved',
-    ];
-
     public function PUBLIC_getAllUpcomingEventsView()
     {
 
@@ -130,7 +125,7 @@ class EventController extends Controller
         $organisations = Organisation::where('visible', 1)->get();
 
 
-        $users = DB::select("SELECT ee.`fullname`, ee.`status`, ee.`clubid` as club, ee.`paid`, d.`name` as division
+        $users = DB::select("SELECT ee.`userid`, ee.`fullname`, ee.`status`, ee.`clubid` as club, ee.`paid`, d.`name` as division
             FROM `evententry` ee
             LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
             LEFT JOIN `clubs` c ON(c.`clubid` = ee.`clubid`)
@@ -277,7 +272,8 @@ class EventController extends Controller
             $event->visible = $visible;
             $event->save();
 
-            return Redirect::route('events');
+            return Redirect::route('updateevent', $request->eventid)->with('message', 'Update Successful');
+
         }
 
     }
