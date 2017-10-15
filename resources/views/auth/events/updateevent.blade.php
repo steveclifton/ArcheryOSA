@@ -60,7 +60,7 @@
                                                     <td>
                                                         <select name="userstatus[]" id="userstatusselect">
                                                             @foreach($entrystatus as $status)
-                                                                <option value="{{$status->entrystatusid}}" <?= ($user->status == $status->entrystatusid) ? 'selected' : '' ?>>
+                                                                <option value="{{$status->entrystatusid}}" <?= ($user->entrystatusid == $status->entrystatusid) ? 'selected' : '' ?>>
                                                                     {{$status->name}}
                                                                 </option>
                                                             @endforeach
