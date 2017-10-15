@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\EntryStatus;
 use App\EventEntry;
 use Illuminate\Support\Facades\DB;
 use App\EventRound;
@@ -14,9 +15,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use App\Classes\UserExtended;
 
 class EventController extends Controller
 {
+    private $entrystatus = [
+        'pending' => 'Pending',
+        'approved' => 'Approved',
+    ];
 
     public function PUBLIC_getAllUpcomingEventsView()
     {
@@ -70,17 +76,21 @@ class EventController extends Controller
 
         $userevententry = EventEntry::where('userid', Auth::id())->get()->first();
 
-        $users = DB::select("SELECT u.`fullname`, d.`name` as division
-            FROM `evententry` u
-            LEFT JOIN `divisions` d ON (u.`divisionid` = d.`divisionid`)
-            WHERE u.`eventid` = :eventid
+        $users = DB::select("SELECT ee.`fullname`, ee.`status`, ee.`clubid` as club, ee.`paid`, d.`name` as division
+            FROM `evententry` ee
+            LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
+            LEFT JOIN `clubs` c ON(c.`clubid` = ee.`clubid`)
+            WHERE ee.`eventid` = :eventid
             ", ['eventid' => $request->eventid]);
 
         foreach ($users as $user) {
             $user->label = $this->getLabel($user->division);
         }
 
-        return view ('publicevents.eventdetails', compact('event', 'eventround', 'distances', 'userevententry', 'users'));
+
+        $entrystatus = EntryStatus::get();
+
+        return view ('publicevents.eventdetails', compact('event', 'eventround', 'distances', 'userevententry', 'users', 'entrystatus'));
     }
 
     /****************************************************
@@ -119,7 +129,25 @@ class EventController extends Controller
 
         $organisations = Organisation::where('visible', 1)->get();
 
-        return view('auth.events.updateevent', compact('event', 'eventrounds', 'organisations'));
+
+        $users = DB::select("SELECT ee.`fullname`, ee.`status`, ee.`clubid` as club, ee.`paid`, d.`name` as division
+            FROM `evententry` ee
+            LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
+            LEFT JOIN `clubs` c ON(c.`clubid` = ee.`clubid`)
+            WHERE ee.`eventid` = :eventid
+            ", ['eventid' => $request->eventid]);
+
+        foreach ($users as $user) {
+            $user->label = $this->getLabel($user->division);
+        }
+
+
+        $entrystatus = EntryStatus::get();
+
+
+
+
+        return view('auth.events.updateevent', compact('event', 'eventrounds', 'organisations', 'users', 'entrystatus'));
     }
 
 
