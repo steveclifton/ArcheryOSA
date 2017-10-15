@@ -31,7 +31,7 @@
                             <label for="event" class="col-md-4 control-label">Organisation Name</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="name" required autofocus>
+                                <input type="text" class="form-control" name="name" required autofocus value="{{ old('name') }}">
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -49,7 +49,7 @@
                                 <select name="parentorganisationid" class="form-control" id="organisationselect">
                                     <option value="null">None</option>
                                     @foreach ($organisations as $organisation)
-                                        <option value="{{$organisation->organisationid}}">{{$organisation->name}}</option>
+                                        <option value="{{$organisation->organisationid}}" {{ ( old('parentorganisationid') == $organisation->organisationid ) ? 'selected' : '' }}>{{$organisation->name}}</option>
                                     @endforeach
 
                                 </select>
@@ -60,7 +60,7 @@
                             <label for="event" class="col-md-4 control-label">URL</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="url" >
+                                <input type="text" class="form-control" name="url" value="{{ old('url') }}">
 
                                 @if ($errors->has('url'))
                                     <span class="help-block">
@@ -74,7 +74,7 @@
                             <label for="event" class="col-md-4 control-label">Contact Person</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="contactname" >
+                                <input type="text" class="form-control" name="contactname" value="{{ old('contactname') }}">
 
                                 @if ($errors->has('contactname'))
                                     <span class="help-block">
@@ -88,7 +88,7 @@
                             <label for="event" class="col-md-4 control-label">Email</label>
 
                             <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" >
+                                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -102,7 +102,7 @@
                             <label for="event" class="col-md-4 control-label">Phone</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="phone" >
+                                <input type="text" class="form-control" name="phone" value="{{ old('phone') }}">
 
                                 @if ($errors->has('phone'))
                                     <span class="help-block">
@@ -116,7 +116,7 @@
                             <label for="event" class="col-md-4 control-label">Description</label>
 
                             <div class="col-md-6">
-                                <textarea class="form-control" name="description" required autofocus></textarea>
+                                <textarea class="form-control" name="description" required autofocus >{{ old('description') }}</textarea>
 
                                 @if ($errors->has('description'))
                                     <span class="help-block">
