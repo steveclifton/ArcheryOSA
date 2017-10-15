@@ -69,7 +69,11 @@ class EventController extends Controller
 
         $distances = $this->makeDistanceString($eventround);
 
-        $userevententry = EventEntry::where('userid', Auth::id())->get()->first();
+        $userevententry = EventEntry::where('userid', Auth::id())->where('eventid', $request->eventid)->get()->first();
+
+        if (!is_null($userevententry)) {
+            $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->status)->pluck('name')->first();
+        }
 
         $users = DB::select("SELECT ee.`fullname`, ee.`status`, ee.`clubid` as club, ee.`paid`, d.`name` as division
             FROM `evententry` ee
@@ -84,6 +88,7 @@ class EventController extends Controller
 
 
         $entrystatus = EntryStatus::get();
+
 
         return view ('publicevents.eventdetails', compact('event', 'eventround', 'distances', 'userevententry', 'users', 'entrystatus'));
     }
