@@ -43,16 +43,29 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <tbody>
-                                            <tr>
-                                                @if (!is_null($userevententry))
+
+                                            @if (!is_null($userevententry))
+                                                <tr>
                                                     <th>Status</th>
                                                     <td>
                                                         <strong style="color: limegreen">
                                                             {!! ucwords($userevententry->status) !!}
                                                         </strong>
                                                     </td>
-                                                @endif
-                                            </tr>
+                                                </tr>
+                                            @endif
+
+                                            @if (!is_null($userevententry))
+                                                <tr>
+                                                    <th>Paid</th>
+                                                    <td>
+                                                        <strong <?= ($userevententry->paid == 1) ? 'style="color: limegreen"' : '' ?> >
+                                                            <?= ($userevententry->paid == 1) ? 'Paid' : 'Not Paid' ?>
+                                                        </strong>
+                                                    </td>
+                                                </tr>
+                                            @endif
+
                                             <tr>
                                                 <th>Start Date</th>
                                                 <td>{{ date('d F Y', strtotime($event->startdate)) }}</td>
@@ -104,14 +117,13 @@
                                             </tr>
                                             <tr>
                                                 <th>Schedule</th>
-                                                <td>{!! nl2br($event->schedule) !!}</td>
+                                                <td></td>
                                             </tr>
                                         </tbody>
                                     </table>
+                                    {!! nl2br($event->schedule) !!}
                                 </div>
-                                <!-- /.table-responsive -->
                             </div>
-                            <!-- /.box-footer -->
                         </div>
                     </div>
                 </div>
