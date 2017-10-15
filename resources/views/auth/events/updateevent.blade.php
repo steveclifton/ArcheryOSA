@@ -10,6 +10,20 @@
 
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
+        @if(session()->has('message'))
+            <div class="alert alert-success">
+                {{ session()->get('message') }}
+            </div>
+        @elseif (session()->has('failure'))
+            <div class="alert alert-danger">
+                {{ session()->get('failure') }}
+            </div>
+        @endif
+    </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
             <div class="row">
                 <div class="col-md-12">
                     <div>
@@ -23,7 +37,9 @@
                             </div>
                             <div class="box-body">
                                 <div class="table-responsive">
-                                    <form class="form-horizontal" method="POST" action="" id="eventformupdate">
+                                    <form class="form-horizontal" method="POST" action="{{route('updateregistrationstatus', $event->first()->eventid)}}" id="eventformupdate">
+                                        {{ csrf_field() }}
+
                                         <table class="table">
                                             <thead>
                                             <tr>
@@ -36,29 +52,34 @@
                                             </thead>
                                             <tbody>
                                             @foreach($users as $user)
-                                                <tr>
+                                                <tr onmouseover="this.style.backgroundColor='lightgrey'" onmouseout="this.style.backgroundColor='White'">
+                                                    <input type="hidden" name="userid[]" value="{{$user->userid}}">
                                                     <td>{{$user->fullname}}</td>
                                                     <td>{{$user->club}}</td>
                                                     <td>{{$user->division}}</td>
                                                     <td>
-                                                        <input type="hidden" value="{{$user->status}}">
-                                                        <select name="userstatus" id="userentrystatus">
+                                                        <select name="userstatus[]" id="userstatusselect">
                                                             @foreach($entrystatus as $status)
-                                                                <option value="{{$status->entrystatusid}}">{{$status->name}}</option>
+                                                                <option value="{{$status->entrystatusid}}" <?= ($user->status == $status->entrystatusid) ? 'selected' : '' ?>>
+                                                                    {{$status->name}}
+                                                                </option>
                                                             @endforeach
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <input type="hidden" value="{{$user->paid}}">
-                                                        <select name="userpaid" id="userpaidselect">
-                                                            <option value="0">No</option>
-                                                            <option value="1">Yes</option>
+                                                        <select name="userpaid[]" id="userpaidselect">
+                                                            <option value="0" <?= ($user->paid == 0) ? 'selected' : '' ?>>No</option>
+                                                            <option value="1" <?= ($user->paid == 1) ? 'selected' : '' ?>>Yes</option>
                                                         </select>
                                                     </td>
                                                 </tr>
                                             @endforeach
                                             </tbody>
                                         </table>
+
+                                        <button type="submit" class="btn btn-success pull-right" value="update" name="update">
+                                            Update
+                                        </button>
                                     </form>
                                 </div>
                             </div>
