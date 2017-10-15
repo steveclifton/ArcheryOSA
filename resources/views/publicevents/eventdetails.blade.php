@@ -43,29 +43,16 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <tbody>
-
-                                            @if (!is_null($userevententry))
-                                                <tr>
+                                            <tr>
+                                                @if (!is_null($userevententry))
                                                     <th>Status</th>
                                                     <td>
                                                         <strong style="color: limegreen">
                                                             {!! ucwords($userevententry->status) !!}
                                                         </strong>
                                                     </td>
-                                                </tr>
-                                            @endif
-
-                                            @if (!is_null($userevententry))
-                                                <tr>
-                                                    <th>Paid</th>
-                                                    <td>
-                                                        <strong <?= ($userevententry->paid == 1) ? 'style="color: limegreen"' : '' ?> >
-                                                            <?= ($userevententry->paid == 1) ? 'Paid' : 'Not Paid' ?>
-                                                        </strong>
-                                                    </td>
-                                                </tr>
-                                            @endif
-
+                                                @endif
+                                            </tr>
                                             <tr>
                                                 <th>Start Date</th>
                                                 <td>{{ date('d F Y', strtotime($event->startdate)) }}</td>
