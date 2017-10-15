@@ -72,10 +72,10 @@ class EventController extends Controller
         $userevententry = EventEntry::where('userid', Auth::id())->where('eventid', $request->eventid)->get()->first();
 
         if (!is_null($userevententry)) {
-            $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->status)->pluck('name')->first();
+            $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
         }
 
-        $users = DB::select("SELECT ee.`fullname`, ee.`status`, ee.`clubid` as club, ee.`paid`, d.`name` as division
+        $users = DB::select("SELECT ee.`fullname`, ee.`entrystatusid`, ee.`clubid` as club, ee.`paid`, d.`name` as division
             FROM `evententry` ee
             LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
             LEFT JOIN `clubs` c ON(c.`clubid` = ee.`clubid`)
@@ -130,7 +130,7 @@ class EventController extends Controller
         $organisations = Organisation::where('visible', 1)->get();
 
 
-        $users = DB::select("SELECT ee.`userid`, ee.`fullname`, ee.`status`, ee.`clubid` as club, ee.`paid`, d.`name` as division
+        $users = DB::select("SELECT ee.`userid`, ee.`fullname`, ee.`entrystatusid`, ee.`clubid` as club, ee.`paid`, d.`name` as division
             FROM `evententry` ee
             LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
             LEFT JOIN `clubs` c ON(c.`clubid` = ee.`clubid`)
