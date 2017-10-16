@@ -48,7 +48,8 @@
 
                             <div class="col-md-6">
                                 <select name="clubid" class="form-control" id="organisation" required autofocus>
-                                    <option value="0" selected>None</option>
+                                    <option value="0">None</option>
+
                                     @foreach ($lc_clubs as $lo_club)
                                         <option value="{{$lo_club->clubid}}">{{$lo_club->name}}</option>
                                     @endforeach
@@ -83,7 +84,7 @@
 
                             <div class="col-md-6">
                                 <select name="divisionid" class="form-control" id="organisation" required>
-                                    <option value="0" selected>None</option>
+                                    <option value="" disabled selected>Please select</option>
                                     @foreach ($lc_divisions as $lo_division)
                                         <option value="{{$lo_division->divisionid}}">{{$lo_division->name}}</option>
                                     @endforeach
