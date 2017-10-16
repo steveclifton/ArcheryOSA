@@ -70,7 +70,7 @@ class EventRegistrationController extends Controller
             'email' => 'required',
             'divisionid' => 'required',
         ], [
-            // custom messages
+            'divisionid.required' => 'Division is required'
         ])->validate();
 
         $alreadyentered = EventEntry::where('userid', Auth::id())->where('eventid', $request->eventid)->get()->first();
