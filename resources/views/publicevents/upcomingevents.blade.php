@@ -19,8 +19,7 @@
 
                     <div class="box-tools">
                         <div class="input-group input-group-sm" style="width: 300px;">
-                            <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-
+                            {{--<input type="text" name="table_search" class="form-control pull-right" placeholder="Search">--}}
                         </div>
                     </div>
                 </div>
@@ -28,18 +27,20 @@
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover">
                         <tr>
-                            <th style="width: 25%;">Name</th>
+                            <th style="width: 25%;" >Name</th>
                             <th style="width: 30%">Location</th>
-                            <th>Enteries Close</th>
+                            <th class="hidden-xs hidden-sm">Enteries Close</th>
                             <th>Start</th>
                             <th>Status</th>
                         </tr>
 
                         @foreach($events as $event)
                             <tr>
-                                <td><a href="/eventdetails/{{ urlencode($event->eventid) }}">{{$event->name}}</a></td>
-                                <td>{{ (strlen($event->location) > 60) ? mb_substr($event->location, 0, 60) . ".." : $event->location }}</td>
-                                <td><?= !empty($event->closeentry) ? date('d F Y', strtotime($event->closeentry)) : ''  ?></td>
+                                <td>
+                                    <a href="/eventdetails/{{ urlencode($event->eventid) }}">{{$event->name}}</a>
+                                </td>
+                                <td>{{ (strlen($event->location) > 30) ? mb_substr($event->location, 0, 30) . ".." : $event->location }}</td>
+                                <td class="hidden-xs hidden-sm"><?= !empty($event->closeentry) ? date('d F Y', strtotime($event->closeentry)) : ''  ?></td>
                                 <td>{{date('d F Y', strtotime($event->startdate)) }}</td>
                                 <?php
                                     switch ($event->status) :
