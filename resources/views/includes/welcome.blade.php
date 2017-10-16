@@ -54,7 +54,7 @@
                                                     break;
                                             endswitch;
                                         ?>
-                                        <td style="color: {{$colour}}">{!! ucwords($event->status) !!}</td>
+                                        <td style="color: {{$colour}}"><strong>{!! ucwords($event->status) !!}</strong></td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -88,10 +88,64 @@
                                     <tbody>
                                         @foreach($userevents as $event)
                                             <tr>
-                                                <td><a href="{{route('eventdetails', $event->eventid)}}">{!! ucwords($event->usereventstatus) !!}</a></td>
+                                                <td>
+                                                    <a href="{{route('eventdetails', $event->eventid)}}">{!! ucwords($event->name) !!}</a>
+                                                </td>
                                                 <td>{{date('d/m/Y', strtotime($event->startdate))}}</td>
-                                                <td>{!! ucwords($event->eventstatus) !!}</td>
-                                                <td>{!! ucwords($event->usereventstatus) !!}</td>
+
+                                                <?php
+                                                    switch ($event->eventstatus) :
+                                                        case 'open' :
+                                                            $colour = 'limegreen';
+                                                            break;
+                                                        case 'entriesclosed' :
+                                                            $colour = 'orange';
+                                                            break;
+                                                        case 'completed' :
+                                                            $colour = 'red';
+                                                            break;
+                                                        case 'closed' :
+                                                            $colour = 'grey';
+                                                            break;
+                                                        case 'waitlist' :
+                                                            $colour = 'orange';
+                                                            break;
+                                                        case 'pending' :
+                                                            $colour = 'orange';
+                                                            break;
+                                                        case 'cancelled' :
+                                                            $colour = 'red';
+                                                            break;
+                                                        default :
+                                                            $colour = 'black';
+                                                            break;
+                                                    endswitch;
+                                                ?>
+                                                <td style="color: {{$colour}}">
+                                                    <strong>{!! ucwords($event->eventstatus) !!}</strong>
+                                                </td>
+                                                <?php
+                                                    switch ($event->usereventstatus) {
+                                                        case 'pending' :
+                                                            $label = 'label label-warning';
+                                                            break;
+                                                        case 'entered' :
+                                                            $label = 'label label-success';
+                                                            break;
+                                                        case 'waitlist' :
+                                                            $label = 'label label-primary';
+                                                            break;
+                                                        case 'rejected' :
+                                                            $label = 'label label-danger';
+                                                            break;
+                                                        default :
+                                                            $label = 'label label-primary';
+                                                            break;
+                                                    }
+                                                ?>
+                                                <td>
+                                                    <span class="{{$label}}">{!! ucwords($event->usereventstatus) !!}</span>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -113,9 +167,9 @@
                 <div class="box-body">
                     <ul class="products-list product-list-in-box">
                         <li class="item">
-                            <div class="product-img">
+                            {{--<div class="product-img">--}}
                                 {{--<img src="content/clubs/aac.jpg">--}}
-                            </div>
+                            {{--</div>--}}
                             <div class="product-info">
                                 <a href="javascript:;" class="product-title">Empty</a>
                                 <span class="product-description">
