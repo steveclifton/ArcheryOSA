@@ -1,11 +1,8 @@
 @extends ('home')
 
 @section ('content')
-
-
     <div class="row">
         <div class="col-md-8">
-
             {{--Upcoming Events--}}
             <div>
                 <div class="box box-info">
@@ -17,54 +14,49 @@
                         <div class="table-responsive">
                             <table class="table no-margin">
                                 <thead>
-                                <tr>
-                                    <th style="width: 25%;">Name</th>
-                                    <th style="width: 30%">Location</th>
-                                    <th>Enteries Close</th>
-                                    <th>Start</th>
-                                    <th>Status</th>
-                                </tr>
-                                <tbody>
-
-                                @foreach($events as $event)
                                     <tr>
-
+                                        <th style="width: 25%;">Name</th>
+                                        <th style="width: 30%">Location</th>
+                                        <th>Enteries Close</th>
+                                        <th>Start</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($events as $event)
+                                    <tr>
                                         <td><a href="{{route('eventdetails', $event->eventid)}}">{{$event->name}}</a></td>
                                         <td>{{ (strlen($event->location) > 60) ? mb_substr($event->location, 0, 60) . ".." : $event->location }}</td>
                                         <td><?= !empty($event->closeentry) ? date('d-m-Y', strtotime($event->closeentry)) : ''  ?></td>
                                         <td>{{date('d-m-Y', strtotime($event->startdate)) }}</td>
                                         <?php
-                                        switch ($event->status) :
-                                            case 'open' :
-                                                $colour = 'limegreen';
-                                                break;
-                                            case 'entriesclosed' :
-                                                $colour = 'orange';
-                                                break;
-                                            case 'completed' :
-                                                $colour = 'red';
-                                                break;
-                                            case 'closed' :
-                                                $colour = 'grey';
-                                                break;
-                                            case 'waitlist' :
-                                                $colour = 'orange';
-                                                break;
-                                            case 'pending' :
-                                                $colour = 'orange';
-                                                break;
-                                            case 'cancelled' :
-                                                $colour = 'red';
-                                                break;
-                                        endswitch;
+                                            switch ($event->status) :
+                                                case 'open' :
+                                                    $colour = 'limegreen';
+                                                    break;
+                                                case 'entriesclosed' :
+                                                    $colour = 'orange';
+                                                    break;
+                                                case 'completed' :
+                                                    $colour = 'red';
+                                                    break;
+                                                case 'closed' :
+                                                    $colour = 'grey';
+                                                    break;
+                                                case 'waitlist' :
+                                                    $colour = 'orange';
+                                                    break;
+                                                case 'pending' :
+                                                    $colour = 'orange';
+                                                    break;
+                                                case 'cancelled' :
+                                                    $colour = 'red';
+                                                    break;
+                                            endswitch;
                                         ?>
-
                                         <td style="color: {{$colour}}">{!! ucwords($event->status) !!}</td>
                                     </tr>
-
-
                                 @endforeach
-
                                 </tbody>
                             </table>
                         </div>
@@ -87,25 +79,25 @@
                                 <table class="table no-margin">
                                     <thead>
                                         <tr>
-                                            <th>Status</th>
-                                            <th>Location</th>
-                                            <th>Event</th>
-                                            <th>Start Date</th>
+                                            <th>Name</th>
+                                            <th>Date</th>
+                                            <th>Event Status</th>
+                                            <th>Entry Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td><span class="label label-success">Confirmed</span></td>
-                                            <td class="hidden-xs hidden-sm">Auckland Auckland Club</td>
-                                            <td class="visible-xs visible-sm">Auckland</td>
-                                            <td class=""><a href="#">Double WA 1440</a></td>
-                                            <td>{{date('d/m/Y', strtotime("-3 days"))}}</td>
-                                        </tr>
+                                        @foreach($userevents as $event)
+                                            <tr>
+                                                <td><a href="{{route('eventdetails', $event->eventid)}}">{!! ucwords($event->usereventstatus) !!}</a></td>
+                                                <td>{{date('d/m/Y', strtotime($event->startdate))}}</td>
+                                                <td>{!! ucwords($event->eventstatus) !!}</td>
+                                                <td>{!! ucwords($event->usereventstatus) !!}</td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-
                     </div>
                 @endif
             </div>
@@ -140,11 +132,7 @@
                 {{--</div>--}}
             </div>
         </div>
-
     </div>
-
-
-
 
 @endsection
 
