@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Mail\Welcome;
+use Carbon\Carbon;
 use Image;
 use Validator;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use App\User;
 use Redirect;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Users\RegisterValidator;
 
 class UserController extends Controller
@@ -62,14 +65,6 @@ class UserController extends Controller
     {
         $user = new User();
 
-        // $this->validate($request, [
-        //     'firstname' => 'required',
-        //     'lastname' => 'required',
-        //     'email' => 'required|unique:users,email',
-        //     'password' => 'min:6|required|confirmed',
-        //     'password_confirmation' => 'required|same:password'
-        // ]);
-
         $user->firstname = htmlentities($request->input('firstname'));
         $user->lastname = htmlentities($request->input('lastname'));
         $user->email = htmlentities($request->input('email'));
@@ -80,6 +75,8 @@ class UserController extends Controller
         $user->save();
 
         Auth::login($user);
+
+        $this->sendWelcomeEmail();
 
         return Redirect::route('home');
 
@@ -108,6 +105,7 @@ class UserController extends Controller
      */
     public function updateProfile(Request $request)
     {
+
         // Used for adding days to the event
         if ($request->input('submit') == 'add') {
             return Redirect::route('createusermembershipview');
@@ -162,6 +160,15 @@ class UserController extends Controller
     {
         Auth::logout();
         return Redirect::route('home');
+    }
+
+
+    public function sendWelcomeEmail()
+    {
+        //$when = Carbon::now()->addMinutes(1);
+
+        Mail::to(Auth::user()->email)
+            ->send(new Welcome(ucwords(Auth::user()->firstname)));
     }
 
 } // classend
