@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\EventEntry;
+use App\Mail\EntryConfirmation;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Club;
@@ -11,6 +12,7 @@ use App\Event;
 use App\EventRound;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -95,6 +97,12 @@ class EventRegistrationController extends Controller
 
         $evententry->save();
 
+
+        $eventname = Event::where('eventid', $request->eventid)->pluck('name')->first();
+        $this->sendEventEntryConfirmation($eventname);
+
+
+
         return Redirect::route('eventdetails', $request->eventid)->with('message', 'Registration Successful');
     }
 
@@ -129,6 +137,9 @@ class EventRegistrationController extends Controller
         $evententry->entrystatusid = $evententry->entrystatusid ?? '1';
 
         $evententry->save();
+
+
+
         return Redirect::route('eventdetails', $request->eventid)->with('message', 'Update Successful');
 
     }
@@ -167,5 +178,10 @@ class EventRegistrationController extends Controller
         return Redirect::route('updateevent', $request->eventid)->with('message', 'Update Successful');
     }
 
+    private function sendEventEntryConfirmation($eventname)
+    {
+        Mail::to(Auth::user()->email)
+            ->send(new EntryConfirmation(ucwords($eventname)));
+    }
 }
 
