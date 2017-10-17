@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Users\RegisterValidator;
+use App\Http\Requests\Users\UpdateProfileValidator;
 
 class UserController extends Controller
 {
@@ -63,14 +64,15 @@ class UserController extends Controller
      */
     public function register(RegisterValidator $request)
     {
-        $user = new User();
 
-        $user->firstname = htmlentities($request->input('firstname'));
-        $user->lastname = htmlentities($request->input('lastname'));
-        $user->email = htmlentities($request->input('email'));
-        $user->password = Hash::make($request->input('password'));
-        $user->lastipaddress = $request->ip();
-        $user->usertype = 3;
+        $user                   = new User();
+        $user->firstname        = htmlentities($request->input('firstname'));
+        $user->lastname         = htmlentities($request->input('lastname'));
+        $user->email            = htmlentities($request->input('email'));
+        $user->password         = Hash::make($request->input('password'));
+        $user->lastipaddress    = $request->ip();
+        $user->usertype         = 3;
+
 
         $user->save();
 
@@ -103,7 +105,7 @@ class UserController extends Controller
     /**
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function updateProfile(Request $request)
+    public function updateProfile(UpdateProfileValidator $request)
     {
 
         // Used for adding days to the event
@@ -111,20 +113,11 @@ class UserController extends Controller
             return Redirect::route('createusermembershipview');
         }
 
-        $user = Auth::user();
-
-        $this->validate($request, [
-            'firstname' => 'required|max:55',
-            'lastname' => 'required|max:55',
-            'email' => 'unique:users,email,'.$user->userid.',userid', // ignores the current users id
-            'profileimage' => 'image',
-        ]);
-
-
-        $user->email = request('email');
-        $user->firstname = request('firstname');
-        $user->lastname = request('lastname');
-        $user->phone = request('phone');
+        $user               = Auth::user();
+        $user->email        = request('email');
+        $user->firstname    = request('firstname');
+        $user->lastname     = request('lastname');
+        $user->phone        = request('phone');
 
         if ($request->hasFile('profileimage')) {
             //clean up old image
