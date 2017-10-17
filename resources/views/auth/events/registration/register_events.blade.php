@@ -19,10 +19,10 @@
 
                 <div class="panel-body">
 
-                    <form class="form-horizontal" method="POST" action="{{ route('eventregistration', $lc_event->first()->eventid) }}" id="eventformupdate">
+                    <form class="form-horizontal" method="POST" action="{{ route('eventregistration', $event->first()->eventid) }}" id="eventformupdate">
                         {{ csrf_field() }}
 
-                        <input type="text" name="eventid" hidden value="{{$lc_event->first()->eventid}}">
+                        <input type="text" name="eventid" hidden value="{{$event->first()->eventid}}">
                         <input type="text" name="userid" hidden value="{{ Auth::id() }}">
 
 
@@ -50,8 +50,8 @@
                                 <select name="clubid" class="form-control" id="organisation" required autofocus>
                                     <option value="0">None</option>
 
-                                    @foreach ($lc_clubs as $lo_club)
-                                        <option value="{{$lo_club->clubid}}">{{$lo_club->name}}</option>
+                                    @foreach ($clubs as $club)
+                                        <option value="{{$club->clubid}}">{{$club->name}}</option>
                                     @endforeach
 
                                 </select>
@@ -85,8 +85,8 @@
                             <div class="col-md-6">
                                 <select name="divisionid" class="form-control" id="organisation" required>
                                     <option value="" disabled selected>Please select</option>
-                                    @foreach ($lc_divisions as $lo_division)
-                                        <option value="{{$lo_division->divisionid}}">{{$lo_division->name}}</option>
+                                    @foreach ($divisions as $division)
+                                        <option value="{{$division->divisionid}}">{{$division->name}}</option>
                                     @endforeach
 
                                 </select>
@@ -99,10 +99,10 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('membershipcode') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Membership Code</label>
+                            <label for="name" class="col-md-4 control-label">{{$organisationname}} Membership Code</label>
 
                             <div class="col-md-6">
-                                <input id="membershipcode" type="text" class="form-control" name="membershipcode" value="{{$ls_userorgid}}" required autofocus>
+                                <input id="membershipcode" type="text" class="form-control" name="membershipcode" value="{{$userorgid}}" required autofocus>
 
                                 @if ($errors->has('membershipcode'))
                                     <span class="help-block">
@@ -145,7 +145,7 @@
                             <label for="name" class="col-md-4 control-label">Cost</label>
 
                             <div class="col-md-6">
-                                <input id="cost" type="text" class="form-control" name="cost" value="${{$lc_event->first()->cost}}" disabled>
+                                <input id="cost" type="text" class="form-control" name="cost" value="${{$event->first()->cost}}" disabled>
 
                                 @if ($errors->has('cost'))
                                     <span class="help-block">
@@ -160,7 +160,7 @@
                             <label for="name" class="col-md-4 control-label">Events Bank Account</label>
 
                             <div class="col-md-6">
-                                <input id="bankaccount" type="text" class="form-control" name="bankaccount" value="{{$lc_event->first()->bankaccount}}" disabled>
+                                <input id="bankaccount" type="text" class="form-control" name="bankaccount" value="{{$event->first()->bankaccount}}" disabled>
 
                                 @if ($errors->has('bankaccount'))
                                     <span class="help-block">
@@ -178,29 +178,6 @@
                                 </button>
                             </div>
                         </div>
-
-
-
-
-
-
-                        {{--@foreach ($eventrounds as $eventround)--}}
-
-                            {{--<div class="form-group">--}}
-                                {{--<a href="{{route('updateeventroundview', $eventround->eventroundid)}}">--}}
-                                    {{--<label for="eventround" class="col-md-4 control-label">{{$eventround->name}}</label>--}}
-                                {{--</a>--}}
-                                {{--<div class="col-md-4">--}}
-                                    {{--<input type="text" class="form-control" name="cost" disabled placeholder="{{$eventround->name ?? ''}}">Round--}}
-                                {{--</div>--}}
-
-                                {{--<div class="col-md-2">--}}
-                                    {{--<input type="text" class="form-control" name="cost" disabled placeholder="{{ '105 Entries' ?? ''}}">User count--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-
-                            {{--<hr>--}}
-                        {{--@endforeach--}}
 
                     </form>
                 </div>
