@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\EventEntry;
 use App\Mail\EntryConfirmation;
+use App\Organisation;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Club;
@@ -21,23 +22,28 @@ class EventRegistrationController extends Controller
 
     public function getRegisterForEventView(Request $request)
     {
-        $lc_event = Event::where('eventid', urlencode($request->eventid))->get();
-        $lc_eventrounds = EventRound::where('eventid', $lc_event->first()->eventid)->get();
+        $event = Event::where('eventid', urlencode($request->eventid))->get();
+        $eventround = EventRound::where('eventid', $event->first()->eventid)->get();
 
-        $lc_divisions = Division::whereIn('divisionid', $this->processEventRoundDivisions($lc_eventrounds))->get(); // collection array of divisions
-        $lc_clubs = Club::where('organisationid', $lc_event->first()->organisationid)->get();
+        $divisions = Division::whereIn('divisionid', $this->processEventRoundDivisions($eventround))->get(); // collection array of divisions
+        $clubs = Club::where('organisationid', $event->first()->organisationid)->get();
 
-        $la_userorganisationid = DB::select("SELECT `membershipcode`
+        $organisationids = DB::select("SELECT `membershipcode`
                                             FROM `usermemberships`
                                             WHERE `userid` = " . Auth::user()->userid . "
-                                            AND `organisationid` = '". $lc_event->first()->organisationid ."'
+                                            AND `organisationid` = '". $event->first()->organisationid ."'
                                             LIMIT 1
                                         ");
 
-        $ls_userorgid = $la_userorganisationid[0]->membershipcode ?? ''; // set the userorganisationid to be the return or an empty string
+        $userorgid = $organisationids[0]->membershipcode ?? ''; // set the userorganisationid to be the return or an empty string
 
+        $organisationname = Organisation::where('organisationid', $event->first()->organisationid)->pluck('name')->first();
 
-        return view('auth.events.registration.register_events', compact('lc_event', 'lc_eventrounds', 'lc_clubs', 'lc_divisions', 'ls_userorgid'));
+        if (is_null($organisationname)) {
+            $organisationname = '';
+        }
+
+        return view('auth.events.registration.register_events', compact('event', 'eventround', 'clubs', 'divisions', 'userorgid', 'organisationname'));
     }
 
     public function getUpdateEventRegistrationView(Request $request)
@@ -54,8 +60,13 @@ class EventRegistrationController extends Controller
         $divisions = Division::whereIn('divisionid', $this->processEventRoundDivisions($lc_eventrounds))->get(); // collection array of divisions
         $clubs = Club::where('organisationid', $event->organisationid)->get();
 
+        $organisationname = Organisation::where('organisationid', $event->organisationid)->pluck('name')->first();
 
-        return view('auth.events.registration.update_register_events', compact('event', 'eventregistration', 'lc_eventrounds', 'clubs', 'divisions'));
+        if (is_null($organisationname)) {
+            $organisationname = '';
+        }
+
+        return view('auth.events.registration.update_register_events', compact('event', 'eventregistration', 'lc_eventrounds', 'clubs', 'divisions', 'organisationname'));
 
     }
 
