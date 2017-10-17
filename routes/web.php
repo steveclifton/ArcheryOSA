@@ -1,11 +1,13 @@
 <?php
 
 
+
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/clubs', 'ClubController@PUBLIC_getViewClubs')->name('public.clubs');
 Route::get('/upcomingevents', 'EventController@PUBLIC_getAllUpcomingEventsView')->name('upcomingevents');
 Route::get('/previousevents', 'EventController@PUBLIC_getAllPreviousEventsView');
 Route::get('/eventdetails/{eventid}', 'EventController@PUBLIC_getEventDetailsView')->name('eventdetails');
+
 
 
 
@@ -18,7 +20,15 @@ Route::middleware(['web'])->group(function() {
 
 		Route::get('/register', 'UserController@PUBLIC_getRegisterView')->name('register');
 		Route::post('/register', 'UserController@register');
-	});
+
+        Route::get('/resetpassword', 'PasswordResetController@PUBLIC_getPasswordResetView')->name('passwordresetview');
+        Route::post('/resetpassword', 'PasswordResetController@resetpassword')->name('resetpassword');
+
+        Route::post('/updatepassword', 'PasswordResetController@updatepassword')->name('updatepassword');
+        Route::get('/updatepassword/{hash}', 'PasswordResetController@PUBLIC_getResetPasswordView');
+
+
+    });
 
 	// Auth
 	Route::middleware(['auth'])->group(function () {

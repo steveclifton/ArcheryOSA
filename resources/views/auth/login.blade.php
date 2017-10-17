@@ -51,7 +51,7 @@
                                     Login
                                 </button>
 
-                                <a class="btn btn-link" href="reset-password">
+                                <a class="btn btn-link" href="resetpassword">
                                     Forgot Your Password?
                                 </a>
                             </div>
