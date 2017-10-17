@@ -102,7 +102,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('membershipcode') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Membership Code</label>
+                            <label for="name" class="col-md-4 control-label">{{$organisationname}} Membership Code</label>
 
                             <div class="col-md-6">
                                 <input id="membershipcode" type="text" class="form-control" name="membershipcode" value="{{ $eventregistration->membershipcode }}" required autofocus>
