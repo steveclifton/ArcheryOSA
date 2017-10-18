@@ -29,7 +29,8 @@ class RegisterValidator extends Request
             'lastname' => 'required',
             'email' => 'email|required|unique:users,email',
             'password' => 'min:6|required|confirmed',
-            'password_confirmation' => 'required|same:password'
+            'password_confirmation' => 'required|same:password',
+            'g-recaptcha-response' => 'required|recaptcha'
         ];
     }
 }

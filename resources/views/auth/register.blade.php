@@ -69,11 +69,20 @@
                             </div>
                         </div>
 
+
                         <div class="form-group">
                             <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-left: 30%">
+                            <div class="col-md-6">
+                                <div class="g-recaptcha"
+                                     data-sitekey="{{env('GOOGLE_RECAPTCHA_KEY')}}">
+                                </div>
                             </div>
                         </div>
 
