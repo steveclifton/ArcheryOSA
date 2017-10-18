@@ -65,6 +65,9 @@ class UserController extends Controller
     public function register(RegisterValidator $request)
     {
 
+
+
+
         $user                   = new User();
         $user->firstname        = htmlentities($request->input('firstname'));
         $user->lastname         = htmlentities($request->input('lastname'));
