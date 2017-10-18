@@ -12,3 +12,4 @@ yarn-error.log
 .env
 
 /public/content/profile/
+/xpages/

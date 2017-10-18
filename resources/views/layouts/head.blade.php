@@ -33,3 +33,5 @@
 	<link rel="stylesheet" href="{{URL::asset('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic')}}">
 	<!-- Bootstrap time Picker -->
 	<link rel="stylesheet" href="{{URL::asset('../../plugins/timepicker/bootstrap-timepicker.min.css')}}">
+
+	<script src='https://www.google.com/recaptcha/api.js'></script>
