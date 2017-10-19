@@ -19,10 +19,10 @@
 
                 <div class="panel-body">
 
-                    <form class="form-horizontal" method="POST" action="{{ route('eventregistration', $event->first()->eventid) }}" id="eventformupdate">
+                    <form class="form-horizontal" method="POST" action="{{ route('eventregistration', $event->eventid) }}" id="eventformupdate">
                         {{ csrf_field() }}
 
-                        <input type="text" name="eventid" hidden value="{{$event->first()->eventid}}">
+                        <input type="text" name="eventid" hidden value="{{$event->eventid}}">
                         <input type="text" name="userid" hidden value="{{ Auth::id() }}">
 
 
@@ -145,7 +145,7 @@
                             <label for="name" class="col-md-4 control-label">Cost</label>
 
                             <div class="col-md-6">
-                                <input id="cost" type="text" class="form-control" name="cost" value="${{$event->first()->cost}}" disabled>
+                                <input id="cost" type="text" class="form-control" name="cost" value="${{$event->cost}}" disabled>
 
                                 @if ($errors->has('cost'))
                                     <span class="help-block">
@@ -160,7 +160,7 @@
                             <label for="name" class="col-md-4 control-label">Events Bank Account</label>
 
                             <div class="col-md-6">
-                                <input id="bankaccount" type="text" class="form-control" name="bankaccount" value="{{$event->first()->bankaccount}}" disabled>
+                                <input id="bankaccount" type="text" class="form-control" name="bankaccount" value="{{$event->bankaccount}}" disabled>
 
                                 @if ($errors->has('bankaccount'))
                                     <span class="help-block">
