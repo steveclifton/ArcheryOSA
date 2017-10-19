@@ -28,7 +28,7 @@ class UpdateProfileValidator extends Request
         return [
             'firstname'     => 'required|max:55',
             'lastname'      => 'required|max:55',
-            'email'         => 'unique:users,email,'.Auth::user()->userid.',userid', // ignores the current users id
+            'email'         => 'email|unique:users,email,'.Auth::user()->userid.',userid', // ignores the current users id
             'profileimage'  => 'image',
         ];
     }
