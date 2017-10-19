@@ -85,6 +85,15 @@
                                 </div>
                             </div>
                         </div>
+                        @if ($errors->has('g-recaptcha-response'))
+                            <div class="form-group" style="margin-left: 30%">
+                                <div class="col-md-6">
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                                    </span>
+                                </div>
+                            </div>
+                        @endif
 
 
                         <div class="form-group">
