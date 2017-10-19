@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Users;
 
 use App\Http\Requests\Request;
+use App\Rules\Recaptcha;
 
 class RegisterValidator extends Request
 {
@@ -30,7 +31,7 @@ class RegisterValidator extends Request
             'email' => 'email|required|unique:users,email',
             'password' => 'min:6|required|confirmed',
             'password_confirmation' => 'required|same:password',
-            'g-recaptcha-response' => 'required|recaptcha'
+            'g-recaptcha-response' => ['required', new Recaptcha()]
         ];
     }
 }
