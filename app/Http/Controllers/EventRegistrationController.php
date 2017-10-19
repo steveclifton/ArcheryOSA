@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\EventEntry;
 use App\Mail\EntryConfirmation;
 use App\Organisation;
-use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Club;
 use App\Division;
@@ -22,22 +21,26 @@ class EventRegistrationController extends Controller
 
     public function getRegisterForEventView(Request $request)
     {
-        $event = Event::where('eventid', urlencode($request->eventid))->get();
-        $eventround = EventRound::where('eventid', $event->first()->eventid)->get();
+        $event = Event::where('eventid', urlencode($request->eventid))->get()->first();
+
+        if (is_null($event)) {
+            return Redirect::route('home');
+        }
+        $eventround = EventRound::where('eventid', $event->eventid)->get();
 
         $divisions = Division::whereIn('divisionid', $this->processEventRoundDivisions($eventround))->get(); // collection array of divisions
-        $clubs = Club::where('organisationid', $event->first()->organisationid)->get();
+        $clubs = Club::where('organisationid', $event->organisationid)->get();
 
         $organisationids = DB::select("SELECT `membershipcode`
                                             FROM `usermemberships`
                                             WHERE `userid` = " . Auth::user()->userid . "
-                                            AND `organisationid` = '". $event->first()->organisationid ."'
+                                            AND `organisationid` = '". $event->organisationid ."'
                                             LIMIT 1
                                         ");
 
         $userorgid = $organisationids[0]->membershipcode ?? ''; // set the userorganisationid to be the return or an empty string
 
-        $organisationname = Organisation::where('organisationid', $event->first()->organisationid)->pluck('name')->first();
+        $organisationname = Organisation::where('organisationid', $event->organisationid)->pluck('name')->first();
 
         if (is_null($organisationname)) {
             $organisationname = '';
