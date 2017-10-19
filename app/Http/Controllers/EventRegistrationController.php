@@ -134,7 +134,7 @@ class EventRegistrationController extends Controller
         $evententry = EventEntry::where('userid', Auth::id())->where('eventid', $request->eventid)->get()->first();
 
         if (is_null($evententry)) {
-            $evententry = new EventEntry();
+            return back()->with('failure', 'Invalid Request');
         }
 
 
@@ -152,9 +152,7 @@ class EventRegistrationController extends Controller
 
         $evententry->save();
 
-
-
-        return Redirect::route('eventdetails', $request->eventid)->with('message', 'Update Successful');
+        return back()->with('message', 'Update Successful');
 
     }
 
