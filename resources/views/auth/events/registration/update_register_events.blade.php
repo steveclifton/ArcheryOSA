@@ -7,13 +7,26 @@
 @extends ('home')
 
 @section ('content')
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
+                </div>
+            @elseif (session()->has('failure'))
+                <div class="alert alert-danger">
+                    {{ session()->get('failure') }}
+                </div>
+            @endif
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">Update Event Registration
 
-                    <a href="{{route('eventdetails', $event->eventid)}}">
+                    <a href="{{route('eventdetails', ['eventid' => $event->eventid, 'name' => urlencode($event->name) ])}}">
                         <button type="submit" class="btn btn-default pull-right" id="addevent">
                             <i class="fa fa-backward" >  Back</i>
                         </button>
@@ -24,8 +37,6 @@
 
                     <form class="form-horizontal" method="POST" action="{{ route('updateeventregistration', $event->eventid) }}" >
                         {{ csrf_field() }}
-
-                        <input type="text" name="eventid" hidden value="{{$event->eventid}}">
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label  class="col-md-4 control-label">Name</label>
