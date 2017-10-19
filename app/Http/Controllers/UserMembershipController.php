@@ -27,6 +27,11 @@ class UserMembershipController extends Controller
     public function getUpdateView(Request $request)
     {
         $usermembership = UserMemberships::where('userid', Auth::id())->where('usermembershipid', $request->membershipcode)->get();
+
+        if (is_null($usermembership)) {
+            return Redirect::route('home');
+        }
+
         $organisations = Organisation::where('visible', 1)->get();
         return view ('auth.user.updatemembership', compact('organisations', 'usermembership'));
     }
@@ -64,8 +69,8 @@ class UserMembershipController extends Controller
         ])->validate();
 
 
-
         $userorg = UserMemberships::where('usermembershipid', $request->usermembershipid)->first();
+
         if (is_null($userorg)) {
             $userorg = new UserMemberships();
         }
