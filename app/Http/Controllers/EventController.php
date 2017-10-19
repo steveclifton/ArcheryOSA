@@ -48,7 +48,8 @@ class EventController extends Controller
 
     public function PUBLIC_getEventDetailsView(Request $request)
     {
-        $event = Event::where('eventid', $request->eventid)->get()->first();
+
+        $event = Event::where('name', urldecode($request->name))->where('name', urldecode($request->name))->get()->first();
 
         if (is_null($event)) {
             return Redirect::route('home');
@@ -59,7 +60,7 @@ class EventController extends Controller
             JOIN `rounds` r USING (`roundid`)
             WHERE er.`eventid` = :eventid 
             LIMIT 1
-            ", ['eventid' => $request->eventid]);
+            ", ['eventid' => $event->eventid]);
 
 
         if (empty($eventround[0])) {
@@ -69,7 +70,7 @@ class EventController extends Controller
 
         $distances = $this->makeDistanceString($eventround);
 
-        $userevententry = EventEntry::where('userid', Auth::id())->where('eventid', $request->eventid)->get()->first();
+        $userevententry = EventEntry::where('userid', Auth::id())->where('eventid', $event->eventid)->get()->first();
 
         if (!is_null($userevententry)) {
             $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
@@ -80,7 +81,7 @@ class EventController extends Controller
             LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
             LEFT JOIN `clubs` c ON(c.`clubid` = ee.`clubid`)
             WHERE ee.`eventid` = :eventid
-            ", ['eventid' => $request->eventid]);
+            ", ['eventid' => $event->eventid]);
 
         foreach ($users as $user) {
             $user->label = $this->getLabel($user->division);
@@ -130,7 +131,7 @@ class EventController extends Controller
         $organisations = Organisation::where('visible', 1)->get();
 
 
-        $users = DB::select("SELECT ee.`userid`, ee.`fullname`, ee.`entrystatusid`, ee.`clubid` as club, ee.`paid`, d.`name` as division
+        $users = DB::select("SELECT ee.`userid`, ee.`fullname`, ee.`entrystatusid`, ee.`clubid`, c.`name` as club, ee.`paid`, d.`name` as division
             FROM `evententry` ee
             LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
             LEFT JOIN `clubs` c ON(c.`clubid` = ee.`clubid`)
