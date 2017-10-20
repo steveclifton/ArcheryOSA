@@ -9,17 +9,37 @@
 @section ('content')
         {{--{!! dd($event) !!}--}}
     {{-- <div class="container"> --}}
+
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
+                </div>
+            @elseif (session()->has('failure'))
+                <div class="alert alert-danger">
+                    {{ session()->get('failure') }}
+                </div>
+            @endif
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">Event Registration
+                    <a href="{{url()->previous()}}">
+                        <button type="submit" class="btn btn-default pull-right" id="addevent">
+                            <i class="fa fa-backward" > Back</i>
+                        </button>
+                    </a>
                 </div>
 
 
 
                 <div class="panel-body">
 
-                    <form class="form-horizontal" method="POST" action="{{ route('eventregistration', $event->eventid) }}" id="eventformupdate">
+                    <form class="form-horizontal" method="POST" action="{{ route('eventregistration', ['eventid' => $event->eventid, 'eventname' => urlencode($event->name) ]) }}" id="eventformupdate">
                         {{ csrf_field() }}
 
                         <input type="text" name="eventid" hidden value="{{$event->eventid}}">
@@ -79,11 +99,14 @@
                             </div>
                         </div>
 
+
+                        @if ($event->multipledivisions == 0)
+
                         <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="organisation">
                             <label for="organisation" class="col-md-4 control-label">Division</label>
 
                             <div class="col-md-6">
-                                <select name="divisionid" class="form-control" id="organisation" required>
+                                <select name="divisions[]" class="form-control" id="organisation" required>
                                     <option value="" disabled selected>Please select</option>
                                     @foreach ($divisions as $division)
                                         <option value="{{$division->divisionid}}">{{$division->name}}</option>
@@ -97,6 +120,25 @@
                                 @endif
                             </div>
                         </div>
+
+                        @else
+                            <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="organisation">
+                                <label for="organisation" class="col-md-4 control-label">Division</label>
+
+                                <div style="overflow-y:scroll; height:100px; margin-bottom:10px;">
+
+                                    <label class="form-check-label" style="margin-left: 10px" data-orgid="0">
+                                        <input class="form-check-input" type="checkbox" name="divisions[]" value="0" > Open
+                                    </label><br>
+                                    @foreach ($divisions as $division)
+                                        <label class="form-check-label" style="margin-left: 10px" >
+                                            <input class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" >
+                                            {{$division->name}}
+                                        </label><br>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
 
                         <div class="form-group{{ $errors->has('membershipcode') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">{{$organisationname}} Membership Code</label>
