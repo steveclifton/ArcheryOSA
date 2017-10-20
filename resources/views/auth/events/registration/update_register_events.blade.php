@@ -26,7 +26,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Update Event Registration
 
-                    <a href="{{route('eventdetails', ['eventid' => $event->eventid, 'name' => urlencode($event->name) ])}}">
+                    <a href="{{url()->previous()}}">
                         <button type="submit" class="btn btn-default pull-right" id="addevent">
                             <i class="fa fa-backward" >  Back</i>
                         </button>
@@ -35,14 +35,14 @@
 
                 <div class="panel-body">
 
-                    <form class="form-horizontal" method="POST" action="{{ route('updateeventregistration', $event->eventid) }}" >
+                    <form class="form-horizontal" method="POST" action="{{ route('updateeventregistration', ['eventid' => $event->eventid, 'eventname' => urlencode($event->name)]) }}" >
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label  class="col-md-4 control-label">Name</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{!! $eventregistration->fullname ?? old('name') !!}" required autofocus>
+                                <input id="name" type="text" class="form-control" name="name" value="{!! $eventregistration->first()->fullname ?? old('name') !!}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -55,7 +55,7 @@
                         <div class="form-group {{ $errors->has('clubid') ? ' has-error' : '' }}" id="club">
                             <label class="col-md-4 control-label">Club</label>
 
-                            <input type="text" id="userclubvalue" hidden value="{{ $eventregistration->clubid }}">
+                            <input type="text" id="userclubvalue" hidden value="{{ $eventregistration->first()->clubid }}">
 
                             <div class="col-md-6">
                                 <select name="clubid" class="form-control" id="clubselect" required autofocus>
@@ -81,7 +81,7 @@
                             <label class="col-md-4 control-label">Email</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="text" class="form-control" name="email" value="{!! $eventregistration->email ?? old('email') !!}" required autofocus>
+                                <input id="email" type="text" class="form-control" name="email" value="{!! $eventregistration->first()->email ?? old('email') !!}" required autofocus>
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -91,32 +91,85 @@
                             </div>
                         </div>
 
-                        <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="organisation">
-                            <label class="col-md-4 control-label">Division</label>
 
-                            <input type="text" id="userdivisionvalue" hidden value="{{ $eventregistration->divisionid }}">
 
-                            <div class="col-md-6">
-                                <select name="divisionid" class="form-control" id="divisionselect" required>
-                                    <option value="" disabled selected>Please select</option>
-                                    @foreach ($divisions as $division)
-                                        <option value="{{$division->divisionid}}">{{$division->name}}</option>
-                                    @endforeach
+                        @if ($event->multipledivisions == 0)
 
-                                </select>
-                                @if ($errors->has('division'))
-                                    <span class="help-block">
+                            <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="organisation">
+                                <label for="organisation" class="col-md-4 control-label">Division</label>
+
+                                <div class="col-md-6">
+                                    <select name="divisions[]" class="form-control" id="organisation" required>
+                                        <option value="" disabled selected>Please select</option>
+                                        @foreach ($divisions as $division)
+                                            <option value="{{$division->divisionid}}" <?= (in_array($division->divisionid, $userdivisions)) ? 'selected' : '' ?>>{{$division->name}}</option>
+                                        @endforeach
+
+                                    </select>
+                                    @if ($errors->has('division'))
+                                        <span class="help-block">
                                         <strong>{{ $errors->first('division') }}</strong>
                                     </span>
-                                @endif
+                                    @endif
+                                </div>
                             </div>
-                        </div>
+
+                        @else
+                            <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="organisation">
+                                <label for="organisation" class="col-md-4 control-label">Division</label>
+
+                                <div style="overflow-y:scroll; height:100px; margin-bottom:10px;">
+
+                                    @foreach ($divisions as $division)
+                                        <label class="form-check-label" style="margin-left: 10px" >
+                                            <input class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" <?= (in_array($division->divisionid, $userdivisions)) ? 'checked' : '' ?>>
+                                            {{$division->name}}
+                                        </label><br>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+
+
+
+
+
+
+
+
+                        {{--<div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="organisation">--}}
+                            {{--<label class="col-md-4 control-label">Division</label>--}}
+
+                            {{--<input type="text" id="userdivisionvalue" hidden value="{{ $eventregistration->divisionid }}">--}}
+
+                            {{--<div class="col-md-6">--}}
+                                {{--<select name="divisionid" class="form-control" id="divisionselect" required>--}}
+                                    {{--<option value="" disabled selected>Please select</option>--}}
+                                    {{--@foreach ($divisions as $division)--}}
+                                        {{--<option value="{{$division->divisionid}}">{{$division->name}}</option>--}}
+                                    {{--@endforeach--}}
+
+                                {{--</select>--}}
+                                {{--@if ($errors->has('division'))--}}
+                                    {{--<span class="help-block">--}}
+                                        {{--<strong>{{ $errors->first('division') }}</strong>--}}
+                                    {{--</span>--}}
+                                {{--@endif--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+
+
+
+
+
+
+
 
                         <div class="form-group{{ $errors->has('membershipcode') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">{{$organisationname}} Membership Code</label>
 
                             <div class="col-md-6">
-                                <input id="membershipcode" type="text" class="form-control" name="membershipcode" value="{{ $eventregistration->membershipcode }}" required autofocus>
+                                <input id="membershipcode" type="text" class="form-control" name="membershipcode" value="{{ $eventregistration->first()->membershipcode }}" required autofocus>
 
                                 @if ($errors->has('membershipcode'))
                                     <span class="help-block">
@@ -130,7 +183,7 @@
                             <label for="name" class="col-md-4 control-label">Phone</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control" name="phone" value="{!! $eventregistration->phone ?? old('phone') !!}" required autofocus>
+                                <input id="phone" type="text" class="form-control" name="phone" value="{!! $eventregistration->first()->phone ?? old('phone') !!}" required autofocus>
 
                                 @if ($errors->has('phone'))
                                     <span class="help-block">
@@ -145,7 +198,7 @@
                             <label for="address" class="col-md-4 control-label">Address</label>
 
                             <div class="col-md-6">
-                                <textarea rows="5" id="address" type="text" class="form-control" name="address" >{!! $eventregistration->address ?? old('address') !!}</textarea>
+                                <textarea rows="5" id="address" type="text" class="form-control" name="address" >{!! $eventregistration->first()->address ?? old('address') !!}</textarea>
                                 @if ($errors->has('address'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('address') }}</strong>
