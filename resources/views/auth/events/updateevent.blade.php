@@ -19,7 +19,7 @@
                 {{ session()->get('failure') }}
             </div>
         @endif
-    </div>
+        </div>
     </div>
 
     <div class="row">
@@ -297,6 +297,38 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('multipledivisions') ? ' has-error' : '' }}">
+                            <label for="bankaccount" class="col-md-4 control-label">Allow Multiple Division Entries</label>
+                            <div class="col-md-6">
+
+                                @if (!empty($event))
+                                    <?php
+                                        $multipledivisions='';
+                                        if ($event->first()->multipledivisions == 1) {
+                                            $multipledivisions = 'checked';
+                                        }
+                                    ?>
+                                    <input style="margin-top: 10px" type="checkbox" name="multipledivisions" {{$multipledivisions}}>
+                                @endif
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Visible</label>
+                            <div class="col-md-6">
+                                @if (!empty($event))
+                                    <?php
+                                    $status='';
+                                    if ($event->first()->visible == 1) {
+                                        $status = 'checked';
+                                    }
+                                    ?>
+                                    <input style="margin-top: 10px" type="checkbox" name="visible" {{$status}}>
+                                @endif
+                            </div>
+                        </div>
 
 
                         <div class="form-group{{ $errors->has('schedule') ? ' has-error' : '' }}">
@@ -312,22 +344,8 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="checkbox">
-                                <label class="col-md-4 control-label">Visible</label>
-                                <div class="col-md-6">
-                                    @if (!empty($event))
-                                        <?php
-                                        $status='';
-                                        if ($event->first()->visible == 1) {
-                                            $status = 'checked';
-                                        }
-                                        ?>
-                                        <input type="checkbox" name="visible" {{$status}}>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
+
+
 
                         <hr>
 
