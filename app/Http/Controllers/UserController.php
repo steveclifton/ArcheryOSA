@@ -64,10 +64,6 @@ class UserController extends Controller
      */
     public function register(RegisterValidator $request)
     {
-
-
-
-
         $user                   = new User();
         $user->firstname        = htmlentities($request->input('firstname'));
         $user->lastname         = htmlentities($request->input('lastname'));
@@ -75,7 +71,6 @@ class UserController extends Controller
         $user->password         = Hash::make($request->input('password'));
         $user->lastipaddress    = $request->ip();
         $user->usertype         = 3;
-
 
         $user->save();
 
@@ -125,7 +120,9 @@ class UserController extends Controller
         if ($request->hasFile('profileimage')) {
             //clean up old image
             if (empty($user->image) !== true) {
-                unlink(public_path('content/profile/' . $user->image));
+                if (is_file(public_path('content/profile/' . $user->image))) {
+                    unlink(public_path('content/profile/' . $user->image));
+                }
             }
 
             $image = $request->file('profileimage');
