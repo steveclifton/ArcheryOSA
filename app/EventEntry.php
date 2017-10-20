@@ -13,4 +13,21 @@ class EventEntry extends Eloquent implements Authenticatable
 
     protected $table = 'evententry';
     protected $primaryKey = 'evententryid';
+
+    public function getPaidLabel() {
+        switch ($this->paid) {
+            case 0 :
+                return 'Not Paid';
+                break;
+            case 1 :
+                return 'Paid';
+                break;
+            case 2 :
+                return 'N/A';
+                break;
+            default :
+                return '';
+                break;
+        }
+    }
 }
