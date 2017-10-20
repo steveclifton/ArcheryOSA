@@ -35,7 +35,7 @@
                                         <i class="fa fa-bullseye" aria-hidden="true"></i> Update
                                     </a>
                                 @else
-                                    <a href="{{route('eventregistrationview', $event->eventid)}}" class="btn btn-success pull-right" role="button">
+                                    <a href="{{ route('eventregistrationview', ['eventid' => $event->eventid, 'name' => urlencode($event->name)] ) }}" class="btn btn-success pull-right" role="button">
                                         <i class="fa fa-bullseye" aria-hidden="true"></i> Enter
                                     </a>
                                 @endif
@@ -77,7 +77,9 @@
                                             <tr>
                                                 <th style="width: 25%">Round(s)</th>
                                                 <td>
-                                                        {{$eventround->name}}
+                                                    @foreach($eventround as $round)
+                                                        {{$round->name}} <br>
+                                                    @endforeach
                                                 </td>
                                             </tr>
                                             <tr>
