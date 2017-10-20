@@ -14,14 +14,16 @@ class Event extends Eloquent implements Authenticatable
     protected $table = 'events';
     protected $primaryKey = 'eventid';
 
-    public function getStatusColour() {
+    public function getStatusColourAttribute()
+    {
+
         switch ($this->status) {
             case 'open' :
                 return 'limegreen';
-            
+
             case 'closed' :
                 return 'grey';
-            
+
             case 'entriesclosed' :
             case 'waitlist' :
             case 'pending' :
@@ -31,5 +33,6 @@ class Event extends Eloquent implements Authenticatable
             case 'cancelled' :
                 return 'red';
         }
+
     }
 }
