@@ -15,13 +15,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
-use App\Classes\UserExtended;
+
 
 class EventController extends Controller
 {
     public function PUBLIC_getAllUpcomingEventsView()
     {
-
         $events = Event::whereIn( 'status', ['open', 'waitlist', 'pending'] )->where('visible', 1)->orderBy('startdate')->get();
 
         return view('publicevents.upcomingevents', compact('events'));
@@ -42,8 +41,7 @@ class EventController extends Controller
 
     public function PUBLIC_getEventDetailsView(Request $request)
     {
-
-        $event = Event::where('name', urldecode($request->name))->where('name', urldecode($request->name))->get()->first();
+        $event = Event::where('eventid', urldecode($request->eventid))->where('name', urldecode($request->name))->get()->first();
 
         if (is_null($event)) {
             return Redirect::route('home');
@@ -53,14 +51,9 @@ class EventController extends Controller
             FROM `eventrounds` er 
             JOIN `rounds` r USING (`roundid`)
             WHERE er.`eventid` = :eventid 
-            LIMIT 1
-            ", ['eventid' => $event->eventid]);
-
-
-        if (empty($eventround[0])) {
-            return Redirect::route('home');
-        }
-        $eventround = $eventround[0];
+            ",
+            ['eventid' => $event->eventid]
+        );
 
         $distances = $this->makeDistanceString($eventround);
 
@@ -81,9 +74,7 @@ class EventController extends Controller
             $user->label = $this->getLabel($user->division);
         }
 
-
         $entrystatus = EntryStatus::get();
-
 
         return view ('publicevents.eventdetails', compact('event', 'eventround', 'distances', 'userevententry', 'users', 'entrystatus'));
     }
@@ -114,6 +105,7 @@ class EventController extends Controller
 
     public function getUpdateEventView(Request $request)
     {
+
         $event = Event::where('eventid', urlencode($request->eventid))->get();
 
         if ($event->isEmpty()) {
@@ -139,15 +131,8 @@ class EventController extends Controller
 
         $entrystatus = EntryStatus::get();
 
-
-
-
         return view('auth.events.updateevent', compact('event', 'eventrounds', 'organisations', 'users', 'entrystatus'));
     }
-
-
-
-
 
     public function create(Request $request)
     {
@@ -181,6 +166,11 @@ class EventController extends Controller
             $visible = 1;
         }
 
+        $multipledivisions = 0;
+        if (!empty($request->input('multipledivisions'))) {
+            $multipledivisions = 1;
+        }
+
         $event = new Event();
 
         $event->name = htmlentities($request->input('name'));
@@ -196,6 +186,7 @@ class EventController extends Controller
         $event->daycount = htmlentities($dayCount);
         $event->hostclub = htmlentities($request->input('hostclub'));
         $event->location = htmlentities($request->input('location'));
+        $event->multipledivisions = $multipledivisions;
         $event->cost = htmlentities($request->input('cost'));
         $event->bankaccount = htmlentities($request->input('bankaccount'));
         $event->schedule = htmlentities($request->input('schedule'));
@@ -304,19 +295,19 @@ class EventController extends Controller
 
     }
 
-    private function makeDistanceString($event)
+    private function makeDistanceString($events)
     {
-        $distances = '';
-        for ($i = 1; $i <= 4; $i++) {
-            if (!empty ($event->{'dist' . $i})) {
-                $distances .= $event->{'dist' . $i} . 'm';
-            }
 
-            $j = $i + 1;
-            if (!empty($event->{'dist' . $j})) {
-                $distances .= ',';
+        $distarray = [];
+        foreach ($events as $event) {
+            for ($i = 1; $i <= 4; $i++) {
+                if (!empty ($event->{'dist' . $i})) {
+                    $distarray[$event->{'dist' . $i} . 'm'] = $event->{'dist' . $i} . 'm';
+                }
             }
         }
+        $distances = implode(', ', $distarray);
+
         return $distances;
     }
 
