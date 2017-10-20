@@ -204,10 +204,8 @@
 
                         <div class="form-group{{ $errors->has('bankaccount') ? ' has-error' : '' }}">
                             <label for="bankaccount" class="col-md-4 control-label">Bank Account</label>
-
                             <div class="col-md-6">
                                 <input id="bankaccount" type="text" class="form-control" name="bankaccount" value="{{ old('bankaccount') }}" required autofocus>
-
                                 @if ($errors->has('bankaccount'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('bankaccount') }}</strong>
@@ -217,10 +215,29 @@
                         </div>
 
 
+                        <div class="form-group{{ $errors->has('multipledivisions') ? ' has-error' : '' }}">
+                            <label for="bankaccount" class="col-md-4 control-label">Allow Multiple Division Entries</label>
+                            <div class="col-md-6">
+                                <input type="checkbox"  name="multipledivisions" style="margin-top: 10px">
+                                @if ($errors->has('multipledivisions'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('multipledivisions') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Visible</label>
+                            <div class="col-md-6">
+                                <input type="checkbox" name="visible" style="margin-top: 10px">
+                            </div>
+                        </div>
+
 
                         <div class="form-group{{ $errors->has('schedule') ? ' has-error' : '' }}">
                             <label for="schedule" class="col-md-4 control-label">Schedule</label>
-
                             <div class="col-md-6">
                                 <textarea rows="5" id="schedule" type="text" class="form-control" name="schedule" >{{ old('schedule') }}</textarea>
                                 @if ($errors->has('schedule'))
@@ -228,17 +245,6 @@
                                         <strong>{{ $errors->first('schedule') }}</strong>
                                     </span>
                                 @endif
-                            </div>
-                        </div>
-
-
-
-                        <div class="form-group">
-                            <div class="checkbox">
-                                <label class="col-md-4 control-label">Visible</label>
-                                <div class="col-md-6">
-                                    <input type="checkbox" name="visible">
-                                </div>
                             </div>
                         </div>
 
