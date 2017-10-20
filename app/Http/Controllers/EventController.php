@@ -22,13 +22,7 @@ class EventController extends Controller
     public function PUBLIC_getAllUpcomingEventsView()
     {
 
-        $events = DB::select("SELECT *
-                        FROM `events`
-                        WHERE `deleted` = 0
-                        AND `status` IN ('open', 'waitlist', 'pending')
-                        AND `visible` = 1
-                        ORDER BY `startdate` DESC
-                        ");
+        $events = Event::whereIn( 'status', ['open', 'waitlist', 'pending'] )->where('visible', 1)->orderBy('startdate')->get();
 
         return view('publicevents.upcomingevents', compact('events'));
     }
