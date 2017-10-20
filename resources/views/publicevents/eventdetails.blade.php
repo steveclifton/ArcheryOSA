@@ -2,7 +2,7 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Event Details'])
+@include('layouts.title', ['title'=> $event->name ])
 
 @extends ('home')
 
