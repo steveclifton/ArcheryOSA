@@ -13,4 +13,23 @@ class Event extends Eloquent implements Authenticatable
 
     protected $table = 'events';
     protected $primaryKey = 'eventid';
+
+    public function getStatusColour() {
+        switch ($this->status) {
+            case 'open' :
+                return 'limegreen';
+            
+            case 'closed' :
+                return 'grey';
+            
+            case 'entriesclosed' :
+            case 'waitlist' :
+            case 'pending' :
+                return 'orange';
+
+            case 'completed' :
+            case 'cancelled' :
+                return 'red';
+        }
+    }
 }

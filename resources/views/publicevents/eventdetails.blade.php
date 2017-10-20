@@ -60,22 +60,7 @@
                                                     <th style="width: 25%">Paid</th>
                                                     <td>
                                                         <strong <?= ($userevententry->paid == 1) ? 'style="color: limegreen"' : '' ?> >
-                                                            @php
-                                                            switch ($userevententry->paid) {
-                                                                case '0' :
-                                                                    echo 'Not Paid';
-                                                                    break;
-                                                                case '1' :
-                                                                    echo 'Paid';
-                                                                    break;
-                                                                case '2' :
-                                                                    echo 'N/A';
-                                                                    break;
-                                                                default :
-                                                                    echo '';
-                                                                    break;
-                                                            }
-                                                            @endphp
+                                                            {{ $userevententry->paid_label }}
                                                         </strong>
                                                     </td>
                                                 </tr>

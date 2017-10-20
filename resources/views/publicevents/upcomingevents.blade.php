@@ -42,33 +42,7 @@
                                 <td>{{ (strlen($event->location) > 30) ? mb_substr($event->location, 0, 30) . ".." : $event->location }}</td>
                                 <td class="hidden-xs hidden-sm"><?= !empty($event->closeentry) ? date('d F Y', strtotime($event->closeentry)) : ''  ?></td>
                                 <td>{{date('d F Y', strtotime($event->startdate)) }}</td>
-                                <?php
-                                    switch ($event->status) :
-                                        case 'open' :
-                                            $colour = 'limegreen';
-                                            break;
-                                        case 'entriesclosed' :
-                                            $colour = 'orange';
-                                            break;
-                                        case 'completed' :
-                                            $colour = 'red';
-                                            break;
-                                        case 'closed' :
-                                            $colour = 'grey';
-                                            break;
-                                        case 'waitlist' :
-                                            $colour = 'orange';
-                                            break;
-                                        case 'pending' :
-                                            $colour = 'orange';
-                                            break;
-                                        case 'cancelled' :
-                                            $colour = 'red';
-                                            break;
-                                    endswitch;
-                                ?>
-
-                                <td style="color: {{$colour}}">{!! ucwords($event->status) !!}</td>
+                                <td style="color: {{$event->status_colour}}">{!! ucwords($event->status) !!}</td>
                             </tr>
                         @endforeach
 
