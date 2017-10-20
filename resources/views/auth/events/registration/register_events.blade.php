@@ -127,9 +127,6 @@
 
                                 <div style="overflow-y:scroll; height:100px; margin-bottom:10px;">
 
-                                    <label class="form-check-label" style="margin-left: 10px" data-orgid="0">
-                                        <input class="form-check-input" type="checkbox" name="divisions[]" value="0" > Open
-                                    </label><br>
                                     @foreach ($divisions as $division)
                                         <label class="form-check-label" style="margin-left: 10px" >
                                             <input class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" >
