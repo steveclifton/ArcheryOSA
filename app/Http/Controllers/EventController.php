@@ -245,6 +245,11 @@ class EventController extends Controller
                 $visible = 1;
             }
 
+            $multipledivisions = 0;
+            if (!empty($request->input('multipledivisions'))) {
+                $multipledivisions = 1;
+            }
+
             $event->name = htmlentities($request->input('name'));
             $event->email = htmlentities($request->input('email'));
             $event->contact = htmlentities($request->input('contact'));
@@ -258,6 +263,7 @@ class EventController extends Controller
             $event->hostclub = htmlentities($request->input('hostclub'));
             $event->location = htmlentities($request->input('location'));
             $event->cost = htmlentities($request->input('cost'));
+            $event->multipledivisions = $multipledivisions;
             $event->bankaccount = htmlentities($request->input('bankaccount'));
             $event->schedule = htmlentities(trim($request->input('schedule')));
             $event->visible = $visible;
