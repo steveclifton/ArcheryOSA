@@ -95,6 +95,15 @@ $(document).ready(function() {
         }
     });
 
+    $("#deleteBtn").click(function(){
+        event.stopPropagation();
+
+        if (!confirm("Are you sure you want to remove your entry to this event?")) {
+            event.preventDefault();
+        }
+    });
+
+
 
 
 
