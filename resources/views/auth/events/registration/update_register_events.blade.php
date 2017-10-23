@@ -137,32 +137,6 @@
 
 
 
-                        {{--<div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="organisation">--}}
-                            {{--<label class="col-md-4 control-label">Division</label>--}}
-
-                            {{--<input type="text" id="userdivisionvalue" hidden value="{{ $eventregistration->divisionid }}">--}}
-
-                            {{--<div class="col-md-6">--}}
-                                {{--<select name="divisionid" class="form-control" id="divisionselect" required>--}}
-                                    {{--<option value="" disabled selected>Please select</option>--}}
-                                    {{--@foreach ($divisions as $division)--}}
-                                        {{--<option value="{{$division->divisionid}}">{{$division->name}}</option>--}}
-                                    {{--@endforeach--}}
-
-                                {{--</select>--}}
-                                {{--@if ($errors->has('division'))--}}
-                                    {{--<span class="help-block">--}}
-                                        {{--<strong>{{ $errors->first('division') }}</strong>--}}
-                                    {{--</span>--}}
-                                {{--@endif--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-
-
-
-
-
-
 
 
                         <div class="form-group{{ $errors->has('membershipcode') ? ' has-error' : '' }}">
@@ -242,6 +216,10 @@
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-warning" value="create" name="submit">
                                     Update
+                                </button>
+
+                                <button type="submit" class="btn btn-danger pull-right" value="remove" name="submit" id="deleteBtn">
+                                    Remove Entry
                                 </button>
                             </div>
                         </div>
