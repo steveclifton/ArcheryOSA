@@ -146,7 +146,7 @@
                                             <span class="label {{ $user->label }}">{{$user->division}}</span>
                                         </span>
 
-                                        {{$user->fullname}}
+                                        {{ucwords($user->fullname)}}
 
                                     </li>
                                 @endforeach
