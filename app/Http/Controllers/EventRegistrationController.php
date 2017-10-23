@@ -56,21 +56,20 @@ class EventRegistrationController extends Controller
                                         ->where('userid', Auth::id())
                                         ->get();
 
+        if (is_null($eventregistration)) {
+            return Redirect::route('eventdetails', $request->eventid)->with('failure', 'Unable to find registration, please contact ArcheryOSA Admin');
+        }
+
         $userdivisions = [];
 
         foreach ($eventregistration as $registration) {
             $userdivisions[] = $registration->divisionid;
         }
 
-
-        if (is_null($eventregistration)) {
-            return Redirect::route('eventdetails', $request->eventid)->with('failure', 'Unable to find registration, please contact ArcheryOSA Admin');
-        }
-
         $event = Event::where('eventid', urlencode($request->eventid))->get()->first();
-        $lc_eventrounds = EventRound::where('eventid', $event->eventid)->get();
+        $eventrounds = EventRound::where('eventid', $event->eventid)->get();
 
-        $divisions = Division::whereIn('divisionid', $this->processEventRoundDivisions($lc_eventrounds))->get(); // collection array of divisions
+        $divisions = Division::whereIn('divisionid', $this->processEventRoundDivisions($eventrounds))->get(); // collection array of divisions
         $clubs = Club::where('organisationid', $event->organisationid)->get();
 
         $organisationname = Organisation::where('organisationid', $event->organisationid)->pluck('name')->first();
@@ -79,7 +78,7 @@ class EventRegistrationController extends Controller
             $organisationname = '';
         }
 
-        return view('auth.events.registration.update_register_events', compact('event', 'eventregistration', 'lc_eventrounds', 'clubs', 'divisions', 'organisationname', 'userdivisions'));
+        return view('auth.events.registration.update_register_events', compact('event', 'eventregistration', 'eventrounds', 'clubs', 'divisions', 'organisationname', 'userdivisions'));
 
     }
 
@@ -312,7 +311,6 @@ class EventRegistrationController extends Controller
                     ->delete();
 
     }
-
 
     private function sendEventEntryConfirmation($eventname)
     {
