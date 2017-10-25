@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\EventEntry;
+use App\Http\Requests\Events\EventRegisterValidator;
+use App\Http\Requests\Events\UpdateEventRegisterValidator;
 use App\Mail\EntryConfirmation;
 use App\Organisation;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +16,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Validator;
 
 class EventRegistrationController extends Controller
 {
@@ -83,21 +84,12 @@ class EventRegistrationController extends Controller
     }
 
 
-    public function eventRegister(Request $request)
+    public function eventRegister(EventRegisterValidator $request)
     {
 
         if (is_null(Event::where('eventid', $request->eventid)->where('name', urldecode($request->eventname))->get()->first())) {
             return back()->with('failure', 'Registration Failed, please contact archeryosa@gmail.com');
         }
-
-        Validator::make($request->all(), [
-            'name' => 'required',
-            'clubid' => 'required',
-            'email' => 'required',
-            'divisions' => 'required',
-        ], [
-            'divisions.required' => 'Division is required'
-        ])->validate();
 
         // The input for divisions is stored as an array
         if (!is_array($request->input('divisions'))) {
@@ -141,28 +133,21 @@ class EventRegistrationController extends Controller
 
     }
 
-    public function updateEventRegistration(Request $request)
+    public function updateEventRegistration(UpdateEventRegisterValidator $request)
     {
 
         if (is_null(Event::where('eventid', $request->eventid)->where('name', urldecode($request->eventname))->get()->first())) {
             return back()->with('failure', 'Registration Failed, please contact archeryosa@gmail.com');
         }
 
-        Validator::make($request->all(), [
-            'name' => 'required',
-            'clubid' => 'required',
-            'email' => 'required',
-            'divisions' => 'required',
-        ], [
-            // custom messages
-        ])->validate();
+
 
         $event = Event::where('eventid', $request->eventid)
                         ->get()
                         ->first();
 
 
-        if ($request->input('submit') == 'remove') { // need to do
+        if ($request->input('submit') == 'remove') {
             $this->deleteUserEntry($request);
             // Send email to confirm removing entry
             return Redirect::route('eventdetails', ['eventid' => $request->eventid, 'name' => $request->eventname])->with('message', 'Entry removed from event');
@@ -178,8 +163,6 @@ class EventRegistrationController extends Controller
             return Redirect::route('eventdetails', ['eventid' => $request->eventid, 'name' => $request->eventname])->with('message', 'Update Successful');
 
         }
-
-
 
     }
 
