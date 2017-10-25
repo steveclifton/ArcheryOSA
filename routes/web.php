@@ -7,7 +7,7 @@ Route::get('/clubs', 'ClubController@PUBLIC_getViewClubs')->name('public.clubs')
 Route::get('/upcomingevents', 'EventController@PUBLIC_getAllUpcomingEventsView')->name('upcomingevents');
 Route::get('/previousevents', 'EventController@PUBLIC_getAllPreviousEventsView');
 Route::get('/eventdetails/{eventid}/{name}', 'EventController@PUBLIC_getEventDetailsView')->name('eventdetails');
-
+Route::get('/authorisearcherrelation/{hash}', 'UserController@authoriseUserRelationship')->name('authoriseuserrelationship');
 
 
 
@@ -36,10 +36,12 @@ Route::middleware(['web'])->group(function() {
 		Route::get('/logout', 'UserController@logout')->name('logout');
         Route::post('/updateprofile', 'UserController@updateProfile')->name('updateprofile');
 
+        Route::get('/updateprofule/addarcher', 'UserController@getCreateArcherRelationship')->name('createaddarcherview');
         Route::get('/updateprofile/addmembership', 'UserMembershipController@getCreateView')->name('createusermembershipview');
         Route::get('/updateprofile/updatemembership/{membershipcode}', 'UserMembershipController@getUpdateView')->name('updateusermembershipview');
 
-		Route::post('/updateprofile/addorganisation/submit', 'UserMembershipController@create')->name('createusermembership');
+        Route::post('/updateprofile/addarcher/submit', 'UserController@createArcherRelationship')->name('createarcherrelationship');
+        Route::post('/updateprofile/addorganisation/submit', 'UserMembershipController@create')->name('createusermembership');
         Route::post('/updateprofile/updateorganisation/submit/{usermembershipid}', 'UserMembershipController@update')->name('updateusermembership');
 
 
