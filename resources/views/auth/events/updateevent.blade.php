@@ -52,7 +52,27 @@
                                             </thead>
                                             <tbody>
                                             @foreach($users as $user)
-                                                <tr onmouseover="this.style.backgroundColor='lightgrey'" onmouseout="this.style.backgroundColor='White'">
+                                                @php
+                                                    switch ($user->entrystatusid) {
+                                                        case 1 :
+                                                            $colour = '#FAD9AE';
+                                                        break;
+
+                                                        case 2 :
+                                                            $colour = '#CDFAAE';
+                                                        break;
+
+                                                        case 3 :
+                                                            $colour = '#AEDAFA';
+                                                        break;
+
+                                                        case 4 :
+                                                            $colour = '#FAAEAE';
+                                                        break;
+                                                    }
+                                                @endphp
+
+                                                <tr onmouseover="this.style.backgroundColor='lightgrey'" onmouseout="this.style.backgroundColor='{{$colour}}'" style="background: {{$colour}}">
                                                     <input type="hidden" name="userid[]" value="{{$user->userid}}">
                                                     <td>{{$user->fullname}}</td>
                                                     <td>{{$user->club}}</td>
