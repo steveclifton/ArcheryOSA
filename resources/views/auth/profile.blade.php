@@ -128,15 +128,41 @@
                             <hr>
                         @endforeach
 
+                        @if (!empty($relationships))
+                            <h4>Archer Relations</h4>
+                        @endif
+                        @foreach ($relationships as $relation)
+
+                            <div class="form-group">
+
+                                <label for="organsationname" class="col-md-4 control-label">{{$relation->firstname}} {{$relation->lastname}}</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="code" disabled placeholder="{!! ($relation->authorised) ? 'AUTHORISED' : 'PENDING' !!}">Status
+                                </div>
+
+                                <div class="col-md-4">
+                                    <a href=""><i class="fa fa-remove" style="color: red;"> Remove</i></a>
+                                </div>
+
+
+                            </div>
+
+                            <hr>
+                        @endforeach
+
 
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
+                            <div class="col-md-8">
                                 <button type="submit" class="btn btn-success" value="update" name="submit">
                                     Update
                                 </button>
 
                                 <button type="submit" class="btn btn-primary" value="add" name="submit">
                                     Add Membership Code
+                                </button>
+
+                                <button type="submit" class="btn btn-warning pull-right" value="adduser" name="submit">
+                                    Add Archer
                                 </button>
                             </div>
                         </div>
