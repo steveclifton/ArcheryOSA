@@ -25,7 +25,7 @@
                         {{ csrf_field() }}
 
                         <div class="form-group {{ $errors->has('eventerror') ? ' has-error' : '' }}">
-                            <label for="datetime" class="col-md-4 control-label">Dates:</label>
+                            <label for="datetime" class="col-md-4 control-label">Dates*</label>
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <div class="input-group-addon">
@@ -43,7 +43,7 @@
                         </div>
 
                         <div class="form-group {{ $errors->has('closeentry') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Entries Close:</label>
+                            <label class="col-md-4 control-label">Entries Close</label>
 
                             <div class="col-md-6">
                                 <div class="input-group date">
@@ -98,7 +98,7 @@
 
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
+                            <label for="name" class="col-md-4 control-label">Name*</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
@@ -129,7 +129,7 @@
 
 
                         <div class="form-group{{ $errors->has('hostclub') ? ' has-error' : '' }}">
-                            <label for="hostclub" class="col-md-4 control-label">Host Club</label>
+                            <label for="hostclub" class="col-md-4 control-label">Host Club*</label>
 
                             <div class="col-md-6">
                                 <input id="hostclub" type="text" class="form-control" name="hostclub" value="{{ old('hostclub') }}" required autofocus>
@@ -144,7 +144,7 @@
 
 
                         <div class="form-group{{ $errors->has('location') ? ' has-error' : '' }}">
-                            <label for="location" class="col-md-4 control-label">Location</label>
+                            <label for="location" class="col-md-4 control-label">Location*</label>
 
                             <div class="col-md-6">
                                 <input id="location" type="text" class="form-control" name="location" value="{{ old('location') }}" required autofocus>
@@ -159,7 +159,7 @@
 
 
                         <div class="form-group{{ $errors->has('contact') ? ' has-error' : '' }}">
-                            <label for="contact" class="col-md-4 control-label">Contact Person</label>
+                            <label for="contact" class="col-md-4 control-label">Contact Person*</label>
 
                             <div class="col-md-6">
                                 <input id="contact" type="text" class="form-control" name="contact" value="{{ old('contact') }}" required autofocus>
@@ -174,7 +174,7 @@
 
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">Contact E-Mail</label>
+                            <label for="email" class="col-md-4 control-label">Contact E-Mail*</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
@@ -189,7 +189,7 @@
 
 
                         <div class="form-group{{ $errors->has('cost') ? ' has-error' : '' }}">
-                            <label for="cost" class="col-md-4 control-label">Cost</label>
+                            <label for="cost" class="col-md-4 control-label">Cost*</label>
 
                             <div class="col-md-6">
                                 <input id="cost" type="text" class="form-control" name="cost" value="{{ old('cost') }}" required autofocus>
@@ -203,7 +203,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('bankaccount') ? ' has-error' : '' }}">
-                            <label for="bankaccount" class="col-md-4 control-label">Bank Account</label>
+                            <label for="bankaccount" class="col-md-4 control-label">Bank Account*</label>
                             <div class="col-md-6">
                                 <input id="bankaccount" type="text" class="form-control" name="bankaccount" value="{{ old('bankaccount') }}" required autofocus>
                                 @if ($errors->has('bankaccount'))

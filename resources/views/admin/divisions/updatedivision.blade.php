@@ -31,7 +31,7 @@
                         <input type="text" name="divisionid" hidden value="{{$division->first()->divisionid}}">
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Division Name</label>
+                            <label for="event" class="col-md-4 control-label">Division Name*</label>
 
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="name" value="{{ old('name', $division->first()->name) }}" required autofocus>

@@ -28,7 +28,7 @@
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Organisation Name</label>
+                            <label for="event" class="col-md-4 control-label">Organisation Name*</label>
 
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="name" required autofocus value="{{ old('name') }}">
@@ -113,7 +113,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Description</label>
+                            <label for="event" class="col-md-4 control-label">Description*</label>
 
                             <div class="col-md-6">
                                 <textarea class="form-control" name="description" required autofocus >{{ old('description') }}</textarea>

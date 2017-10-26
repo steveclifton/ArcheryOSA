@@ -30,7 +30,7 @@
                         <input type="text" name="roundid" hidden value="{{$round->first()->roundid}}">
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Name</label>
+                            <label for="event" class="col-md-4 control-label">Name*</label>
 
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="name" value="{{ old('name', $round->first()->name) }}" required autofocus>
@@ -59,7 +59,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('code') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Round Code</label>
+                            <label for="event" class="col-md-4 control-label">Round Code*</label>
 
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="code" value="{{ old('code', $round->first()->code) }}" required autofocus>
@@ -73,7 +73,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Description</label>
+                            <label for="event" class="col-md-4 control-label">Description*</label>
 
                             <div class="col-md-6">
                                 <textarea class="form-control" name="description" required autofocus >{{ old('description', $round->first()->description) }}</textarea>
@@ -113,7 +113,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('dist1max') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Distance 1 Max</label>
+                            <label for="event" class="col-md-4 control-label">Distance 1 Max*</label>
 
                             <div class="col-md-2">
                                 <input type="text" class="form-control" name="dist1max" value="{{ old('dist1max', $round->first()->dist1max) }}" required autofocus >
@@ -212,7 +212,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('totalmax') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Max Total</label>
+                            <label for="event" class="col-md-4 control-label">Max Total*</label>
 
                             <div class="col-md-2">
                                 <input type="text" class="form-control" name="totalmax" value="{{ old('totalmax', $round->first()->totalmax) }}" >
@@ -226,7 +226,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('totalx') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Max Total X-Count</label>
+                            <label for="event" class="col-md-4 control-label">Max Total X-Count*</label>
 
                             <div class="col-md-2">
                                 <input type="text" class="form-control" name="totalx" value="{{ old('totalx', $round->first()->totalx) }}" >
@@ -240,7 +240,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('total10') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Max Total 10-Count</label>
+                            <label for="event" class="col-md-4 control-label">Max Total 10-Count*</label>
 
                             <div class="col-md-2">
                                 <input type="text" class="form-control" name="total10" value="{{ old('total10', $round->first()->total10) }}" >

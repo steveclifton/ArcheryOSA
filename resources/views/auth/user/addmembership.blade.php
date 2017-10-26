@@ -26,7 +26,7 @@
 
 
                         <div class="form-group {{ $errors->has('organisationid') ? ' has-error' : '' }}" id="organisationelement">
-                            <label for="event" class="col-md-4 control-label">Organisation</label>
+                            <label for="event" class="col-md-4 control-label">Organisation*</label>
 
                             <div class="col-md-6">
                                 <select name="organisationid" class="form-control" id="organisationselecteventround" required>
@@ -44,7 +44,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('membershipcode') ? ' has-error' : '' }}">
-                            <label for="membershipcode" class="col-md-4 control-label">Organisation Code</label>
+                            <label for="membershipcode" class="col-md-4 control-label">Organisation Code*</label>
 
                             <div class="col-md-6">
                                 <input id="membershipcode" type="text" class="form-control" name="membershipcode" value="{{old('membershipcode')}}" required autofocus>
