@@ -2,9 +2,9 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Edit Round'])
-
 @extends ('home')
+
+@section ('title')Edit Round @endsection
 
 @section ('content')
     {{--{!! dd(old('unit', $round->first()->unit)) !!}--}}

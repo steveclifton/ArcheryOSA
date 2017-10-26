@@ -1,5 +1,7 @@
 @extends ('home')
 
+@section ('title')Home @endsection
+
 @section ('content')
     <div class="row">
         <div class="col-md-8">

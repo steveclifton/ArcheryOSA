@@ -2,9 +2,9 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Edit Organisation'])
-
 @extends ('home')
+
+@section ('title')Edit Organisation @endsection
 
 @section ('content')
     {{-- <div class="container"> --}}

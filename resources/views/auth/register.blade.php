@@ -1,6 +1,6 @@
-@include('layouts.title', ['title'=>'Register'])
-
 @extends ('home')
+
+@section ('title')Register @endsection
 
 @section ('content')
 

@@ -2,12 +2,9 @@
     <h1></h1>
 @endsection
 
-
-@include('layouts.title', ['title'=>'Create Federation'])
-
-
-
 @extends ('home')
+
+@section ('title')Create Federation @endsection
 
 @section ('content')
 {{--{!! dd($federation); !!}--}}

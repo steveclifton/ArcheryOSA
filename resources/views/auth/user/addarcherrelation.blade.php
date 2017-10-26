@@ -2,9 +2,9 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Add Archer Relation'])
-
 @extends ('home')
+
+@section ('title')Add Archer Relation @endsection
 
 @section ('content')
 

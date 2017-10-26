@@ -2,11 +2,9 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Edit Division'])
-
-
-
 @extends ('home')
+
+@section ('title')Edit Division @endsection
 
 @section ('content')
     {{--{!! dd($division); !!}--}}

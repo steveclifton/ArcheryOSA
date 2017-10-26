@@ -2,9 +2,9 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Create Round'])
-
 @extends ('home')
+
+@section ('title')Create Round @endsection
 
 @section ('content')
 

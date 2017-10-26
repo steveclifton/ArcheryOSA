@@ -2,12 +2,9 @@
     <h1></h1>
 @endsection
 
-
-@include('layouts.title', ['title'=>'Create Organisation'])
-
-
-
 @extends ('home')
+
+@section ('title')Create Organisation @endsection
 
 @section ('content')
 {{--{!! dd($organisation); !!}--}}

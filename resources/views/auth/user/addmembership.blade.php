@@ -2,9 +2,9 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Add Organisation ID'])
-
 @extends ('home')
+
+@section ('title')Add Organisation ID @endsection
 
 @section ('content')
 

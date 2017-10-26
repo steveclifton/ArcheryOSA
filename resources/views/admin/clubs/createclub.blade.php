@@ -2,12 +2,9 @@
     <h1></h1>
 @endsection
 
-
-@include('layouts.title', ['title'=>'Create Club'])
-
-
-
 @extends ('home')
+
+@section ('title')Create Club @endsection
 
 @section ('content')
 {{--{!! dd($club); !!}--}}
