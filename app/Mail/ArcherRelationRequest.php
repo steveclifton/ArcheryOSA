@@ -21,8 +21,8 @@ class ArcherRelationRequest extends Mailable
      */
     public function __construct($firstname, $requestusername, $hash)
     {
-        $this->firstname = $firstname;
-        $this->requestusername = $requestusername;
+        $this->firstname = ucwords($firstname);
+        $this->requestusername = ucwords($requestusername);
         $this->hash = $hash;
     }
 
