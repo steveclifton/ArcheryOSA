@@ -11,7 +11,7 @@ class ArcherRelation extends Eloquent implements Authenticatable
     use AuthenticableTrait;
 
     protected $table = 'userrelationships';
-
+    protected $primaryKey = 'userrelationshipsid';
 
 
 }
