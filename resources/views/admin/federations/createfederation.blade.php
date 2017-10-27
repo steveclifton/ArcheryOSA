@@ -15,7 +15,7 @@
                 <div class="panel-heading">Create New Federation
                     <a href="{{route('federations')}}">
                         <button type="submit" class="btn btn-default pull-right" id="addevent">
-                            <i class="fa fa-backward" >  Back</i>
+                            <i class="fa fa-backward" >Back</i>
                         </button>
                     </a>
                 </div>
