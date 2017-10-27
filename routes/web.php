@@ -11,6 +11,7 @@ Route::get('/authorisearcherrelation/{hash}', 'UserController@authoriseUserRelat
 
 
 
+
 Route::middleware(['web'])->group(function() {
 
 	// Guest
@@ -36,7 +37,7 @@ Route::middleware(['web'])->group(function() {
 		Route::get('/logout', 'UserController@logout')->name('logout');
         Route::post('/updateprofile', 'UserController@updateProfile')->name('updateprofile');
 
-        Route::get('/updateprofule/addarcher', 'UserController@getCreateArcherRelationship')->name('createaddarcherview');
+        Route::get('/updateprofile/addarcher', 'UserController@getCreateArcherRelationship')->name('createaddarcherview');
         Route::get('/updateprofile/addmembership', 'UserMembershipController@getCreateView')->name('createusermembershipview');
         Route::get('/updateprofile/updatemembership/{membershipcode}', 'UserMembershipController@getUpdateView')->name('updateusermembershipview');
 
