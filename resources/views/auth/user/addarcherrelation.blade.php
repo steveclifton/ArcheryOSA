@@ -57,7 +57,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-success" id="savebutton" value="save" name="submit">
-                                    Request Relation
+                                    Request
                                 </button>
                             </div>
                         </div>
