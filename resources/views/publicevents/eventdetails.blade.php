@@ -2,9 +2,9 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=> $event->name ])
-
 @extends ('home')
+
+@section ('title'){{$event->name}} @endsection
 
 @section ('content')
 

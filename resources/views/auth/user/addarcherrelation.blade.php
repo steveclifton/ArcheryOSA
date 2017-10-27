@@ -2,9 +2,9 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Add Archer Relation'])
-
 @extends ('home')
+
+@section ('title')Add Archer Relation @endsection
 
 @section ('content')
 
@@ -40,7 +40,7 @@
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">Archer's Email Address</label>
+                            <label for="email" class="col-md-4 control-label">Archer's Email Address*</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="{{old('email')}}" required autofocus>

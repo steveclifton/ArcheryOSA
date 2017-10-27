@@ -2,9 +2,9 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Event Registration'])
-
 @extends ('home')
+
+@section ('title')Event Registration @endsection
 
 @section ('content')
         {{--{!! dd($event) !!}--}}

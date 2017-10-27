@@ -2,9 +2,9 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Edit Club'])
-
 @extends ('home')
+
+@section ('title')Edit Club @endsection
 
 @section ('content')
     {{-- <div class="container"> --}}
@@ -28,7 +28,7 @@
                         <input type="text" name="clubid" hidden value="{{$club->first()->clubid}}">
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Club Name</label>
+                            <label for="event" class="col-md-4 control-label">Club Name*</label>
 
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="name" value="{{ old('name', $club->first()->name) }}" required autofocus>

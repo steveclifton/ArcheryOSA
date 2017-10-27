@@ -2,12 +2,9 @@
     <h1></h1>
 @endsection
 
-
-@include('layouts.title', ['title'=>'Create Club'])
-
-
-
 @extends ('home')
+
+@section ('title')Create Club @endsection
 
 @section ('content')
 {{--{!! dd($club); !!}--}}
@@ -28,7 +25,7 @@
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Club Name</label>
+                            <label for="event" class="col-md-4 control-label">Club Name*</label>
 
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="name" required autofocus>
