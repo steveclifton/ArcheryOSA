@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ArcherRelation;
 use App\Mail\ArcherRelationRequest;
+use App\Mail\ConfirmArcherRelation;
 use App\Mail\Welcome;
 use Carbon\Carbon;
 use Image;
@@ -203,6 +204,7 @@ class UserController extends Controller
         $hash = password_hash(rand( getenv('RAND_START'), getenv('RAND_END')), PASSWORD_DEFAULT);
         $hash = password_hash($hash, PASSWORD_DEFAULT);
         $hash = substr($hash, 7, 17);
+        $hash = str_replace('/',rand(1,999), $hash);
 
         $archerrelation = new ArcherRelation();
         $archerrelation->userid = Auth::id();
@@ -212,7 +214,7 @@ class UserController extends Controller
 
         $this->sendRelationshipEmail($user->email, $user->firstname, $authfullname, $hash);
 
-        return back()->with('message', 'User has been alerted to your request. Please wait for confirmation email');
+        return redirect('/profile')->with('key', 'User has been alerted to your request. Please wait for confirmation email');
 
     }
 
@@ -221,6 +223,35 @@ class UserController extends Controller
         Mail::to($email)
             ->send(new ArcherRelationRequest($firstname, $requestusername, $hash));
     }
+
+    public function authoriseUserRelationship(Request $request) {
+
+        if (!empty($request->hash)) {
+            $addarcher = ArcherRelation::where('hash', strval($request->hash))->where('authorised', 0)->get()->first();
+
+            if (!is_null($addarcher)) {
+                $archer = User::where('userid', $addarcher->userid)->get()->first();
+                $requestarcher = User::where('userid', $addarcher->relationuserid)->get()->first();
+                $addarcher->authorised = 1;
+                $addarcher->save();
+
+                $success = 'Great! We have authorised the request and now ' . ucwords($requestarcher->firstname ?? '') . ' can score for you!';
+
+                Mail::to($archer->email)
+                    ->send(new ConfirmArcherRelation($archer->firstname ?? '', $requestarcher->firstname ?? ''));
+
+                return view('landingpages.addarcherlanding', compact('success'));
+            }
+        }
+
+
+        $failure = 'An error has occurred, please contact ArcheryOSA';
+        return view('landingpages.addarcherlanding', compact('failure'));
+
+
+    }
+    //http://archery.dev/authorisearcherrelation/bNiAdu650u2v7iZ2U
+
 
 } // classend
 
