@@ -98,7 +98,7 @@ class UserController extends Controller
             WHERE `userid` = '". Auth::id() ."'
         ");
 
-        $relationships = DB::select("SELECT u.`email`, ur.`authorised`, u.`firstname`, u.`lastname`
+        $relationships = DB::select("SELECT u.`email`, ur.`authorised`, u.`firstname`, u.`lastname`, ur.`hash`
             FROM `userrelationships` ur
             JOIN `users` u ON (ur.`relationuserid` = u.`userid`)
             WHERE ur.`userid` = '". Auth::id() . "'
@@ -250,8 +250,19 @@ class UserController extends Controller
 
 
     }
-    //http://archery.dev/authorisearcherrelation/bNiAdu650u2v7iZ2U
 
+    public function removeUserRelationship(Request $request)
+    {
+        $relation = ArcherRelation::where('hash', $request->hash)->get()->first();
+
+        if (!is_null($relation)) {
+            if ($relation->delete() ) {
+                return redirect('/profile')->with('key', 'Update success');
+            }
+        }
+
+        return redirect('/profile')->with('failure', 'Invalid Request');
+    }
 
 } // classend
 
