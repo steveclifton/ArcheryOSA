@@ -172,13 +172,20 @@ class EventRegistrationController extends Controller
         $userids = $request->input('userid');
         $userstatus = $request->input('userstatus');
         $userpaid = $request->input('userpaid');
+        $userdivisionid = $request->input('divisionid');
 
         for ($i = 0; $i < count($userids); $i++) {
-            $evententry = EventEntry::where('userid', $userids[$i])->where('eventid', $request->eventid)->get()->first();
+            $evententry = EventEntry::where('userid', $userids[$i])
+                                    ->where('eventid', $request->eventid)
+                                    ->where('divisionid', $userdivisionid[$i])
+                                    ->get()
+                                    ->first();
 
             if (is_null($evententry)) {
                 continue;
             }
+
+
 
             $evententry->paid = intval($userpaid[$i]) ?: 0;
             $evententry->entrystatusid = intval($userstatus[$i]) ?: 0;
