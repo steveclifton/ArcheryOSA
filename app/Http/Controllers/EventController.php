@@ -122,7 +122,7 @@ class EventController extends Controller
             LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
             LEFT JOIN `clubs` c ON(c.`clubid` = ee.`clubid`)
             WHERE ee.`eventid` = :eventid
-            ORDER BY ee.`entrystatusid`, d.`name`
+            ORDER BY ee.`entrystatusid`, d.`name`, ee.`fullname`
             ", ['eventid' => $request->eventid]);
 
         foreach ($users as $user) {
