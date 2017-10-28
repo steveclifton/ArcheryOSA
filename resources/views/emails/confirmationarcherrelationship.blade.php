@@ -202,7 +202,7 @@
 
                                     <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 25px; padding-left: 25px; padding-top: 5px; padding-bottom: 20px;"><![endif]-->
                                     <div style="font-family:'Lato', Tahoma, Verdana, Segoe, sans-serif;color:#555555;line-height:180%; padding-right: 25px; padding-left: 25px; padding-top: 5px; padding-bottom: 20px;">
-                                        <div style="line-height:22px;font-size:12px;color:#555555;font-family:'Lato', Tahoma, Verdana, Segoe, sans-serif;text-align:left;"><p style="margin: 0;font-size: 12px;line-height: 22px;text-align: center"><span style="font-size: 16px; line-height: 28px;">Hi {{$firstname}},</span></p><p style="margin: 0;line-height: 22px;text-align: center;font-size: 12px"><span style="font-size: 16px; line-height: 28px;">{{$relationfirstname}} has confirmed your archer relation request and you are now able to score on behalf of them!</span></p></div>
+                                        <div style="line-height:22px;font-size:12px;color:#555555;font-family:'Lato', Tahoma, Verdana, Segoe, sans-serif;text-align:left;"><p style="margin: 0;font-size: 12px;line-height: 22px;text-align: center"><span style="font-size: 16px; line-height: 28px;">Hi {{$firstname}},</span></p><p style="margin: 0;line-height: 22px;text-align: center;font-size: 12px"><span style="font-size: 16px; line-height: 28px;">{{$relationfirstname}} has confirmed your request and you are now able to score on behalf of them!</span></p></div>
                                     </div>
                                     <!--[if mso]></td></tr></table><![endif]-->
 
