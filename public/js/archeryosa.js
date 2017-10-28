@@ -103,6 +103,14 @@ $(document).ready(function() {
         }
     });
 
+    $("a#deleteUserRelation").click(function(){
+        event.stopPropagation();
+
+        if (!confirm("Do you want to delete?")) {
+            event.preventDefault();
+        }
+    });
+
 
 
 
