@@ -75,6 +75,7 @@
 
                                                 <tr onmouseover="this.style.backgroundColor='lightgrey'" onmouseout="this.style.backgroundColor='{{$colour}}'" style="background: {{$colour}}">
                                                     <input type="hidden" name="userid[]" value="{{$user->userid}}">
+                                                    <input type="hidden" name="divisionid[]" value="{{$user->divisionid}}">
                                                     <td>{{$user->fullname}}</td>
                                                     <td>{{$user->club}}</td>
                                                     <td>{{$user->division}}</td>
