@@ -40,6 +40,7 @@ Route::middleware(['web'])->group(function() {
         Route::get('/updateprofile/addarcher', 'UserController@getCreateArcherRelationship')->name('createaddarcherview');
         Route::get('/updateprofile/addmembership', 'UserMembershipController@getCreateView')->name('createusermembershipview');
         Route::get('/updateprofile/updatemembership/{membershipcode}', 'UserMembershipController@getUpdateView')->name('updateusermembershipview');
+        Route::get('/updateprofile/removearcherrelation/{hash}', 'UserController@removeUserRelationship')->name('removeuserrelation');
 
         Route::post('/updateprofile/addarcher/submit', 'UserController@createArcherRelationship')->name('createarcherrelationship');
         Route::post('/updateprofile/addorganisation/submit', 'UserMembershipController@create')->name('createusermembership');
