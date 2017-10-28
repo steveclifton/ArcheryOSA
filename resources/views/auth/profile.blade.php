@@ -108,67 +108,51 @@
                             </div>
                         </div>
 
-                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-10 ">
+                                <button type="submit" class="btn btn-success pull-left" value="update" name="submit">
+                                    Update Profile
+                                </button>
+                            </div>
+                        </div>
+                        <br>
 
-                        @if (!empty($organisations))
+
+                        <div class="">
+                            <hr>
                             <h4>Memberships</h4>
-                        @endif
-                        @foreach ($organisations as $organisation)
+                            <a href="{{route('createusermembershipview')}}" class="btn btn-primary" role="button">Add Membership</a>
 
+                        </div>
+                        @foreach ($organisations as $organisation)
                             <div class="form-group">
-                                <a href="{{route('updateusermembershipview', $organisation->usermembershipid)}}">
-                                    <label for="organsationname" class="col-md-4 control-label">{{$organisation->name}}</label>
-                                </a>
+                                <label for="organsationname" class="col-md-4 control-label">{{$organisation->name}}</label>
                                 <div class="col-md-4">
                                     <input type="text" class="form-control" name="code" disabled placeholder="{{$organisation->membershipcode ?? ''}}">Membership Code
                                 </div>
-
+                                <a href="{{route('updateusermembershipview', $organisation->usermembershipid)}}" class="btn btn-warning" role="button">Update</a>
                             </div>
-
-                            <hr>
                         @endforeach
 
-                        @if (!empty($relationships))
+
+
+
+                        <div>
+                            <hr>
                             <h4>Archer Relations</h4>
-                        @endif
+                            <a href="{{route('createaddarcherview')}}" class="btn btn-primary" role="button">Add Archer</a>
+                        </div>
                         @foreach ($relationships as $relation)
-
                             <div class="form-group">
-
                                 <label for="organsationname" class="col-md-4 control-label">{{$relation->firstname}} {{$relation->lastname}}</label>
                                 <div class="col-md-4">
                                     <input type="text" class="form-control" name="code" disabled placeholder="{!! ($relation->authorised) ? 'AUTHORISED' : 'PENDING' !!}">Status
                                 </div>
-
-                                <div class="col-md-4">
-                                    <a href=""><i class="fa fa-remove" style="color: red;"> Remove</i></a>
-                                </div>
-
-
+                                <a href="{{route('removeuserrelation', $relation->hash)}}" class="btn btn-danger" role="button" id="deleteUserRelation">Remove</a>
                             </div>
-
-                            <hr>
                         @endforeach
 
-
-                        <div class="form-group">
-                            <div class="col-md-8">
-                                <button type="submit" class="btn btn-success" value="update" name="submit">
-                                    Update
-                                </button>
-
-                                <button type="submit" class="btn btn-primary" value="add" name="submit">
-                                    Add Membership Code
-                                </button>
-
-                                <button type="submit" class="btn btn-warning pull-right" value="adduser" name="submit">
-                                    Add Archer
-                                </button>
-                            </div>
-                        </div>
-
                     </form>
-
                 </div>
             </div>
         </div>
