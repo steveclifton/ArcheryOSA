@@ -117,12 +117,12 @@ class EventController extends Controller
         $organisations = Organisation::where('visible', 1)->get();
 
 
-        $users = DB::select("SELECT ee.`userid`, ee.`fullname`, ee.`entrystatusid`, ee.`clubid`, c.`name` as club, ee.`paid`, d.`name` as division
+        $users = DB::select("SELECT ee.`userid`, ee.`fullname`, ee.`entrystatusid`, ee.`clubid`, c.`name` as club, ee.`paid`, d.`name` as division, ee.`divisionid`
             FROM `evententry` ee
             LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
             LEFT JOIN `clubs` c ON(c.`clubid` = ee.`clubid`)
             WHERE ee.`eventid` = :eventid
-            ORDER BY ee.`entrystatusid`
+            ORDER BY ee.`entrystatusid`, d.`name`
             ", ['eventid' => $request->eventid]);
 
         foreach ($users as $user) {
