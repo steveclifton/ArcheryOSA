@@ -214,7 +214,7 @@ class UserController extends Controller
 
         $this->sendRelationshipEmail($user->email, $user->firstname, $authfullname, $hash);
 
-        return redirect('/profile')->with('key', 'User has been alerted to your request. Please wait for confirmation email');
+        return redirect('/profile')->with('key', 'The archer has been alerted to your request. Please wait for confirmation email');
 
     }
 
