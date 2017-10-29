@@ -111,6 +111,10 @@ $(document).ready(function() {
         }
     });
 
+    $('#showmoreentries').click(function () {
+        $('.item').removeClass('hidden');
+        $('.showmore').empty();
+    });
 
 
 
