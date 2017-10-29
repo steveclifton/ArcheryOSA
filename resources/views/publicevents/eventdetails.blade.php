@@ -139,24 +139,36 @@
                         <div class="box-body">
                             <ul class="products-list product-list-in-box">
 
-                                @foreach ($users as $user)
+                                @foreach (array_slice($users, 0, 10) as $user)
                                     <li class="item">
 
                                         <span style="padding-right: 10%">
                                             <span class="label {{ $user->label }}">{{$user->division}}</span>
                                         </span>
 
-                                        {{ucwords($user->fullname)}}
+                                        {{ucwords(strtolower($user->fullname))}}
 
                                     </li>
                                 @endforeach
+
+                                    @foreach (array_slice($users, 10) as $user)
+                                        <li class="item hidden">
+
+                                        <span style="padding-right: 10%">
+                                            <span class="label {{ $user->label }}">{{$user->division}}</span>
+                                        </span>
+
+                                            {{ucwords(strtolower($user->fullname))}}
+
+                                        </li>
+                                    @endforeach
 
                             </ul>
                         </div>
 
                         <!-- /.box-footer -->
-                        <div class="box-footer text-center">
-                            <a href="javascript:;" class="uppercase">View More Entries</a>
+                        <div class="box-footer text-center showmore">
+                            <a href="javascript:;" class="uppercase" id="showmoreentries">View More Entries</a>
                         </div>
                     </div>
                 </div>
