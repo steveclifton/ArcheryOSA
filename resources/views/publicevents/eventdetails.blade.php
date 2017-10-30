@@ -30,19 +30,32 @@
                             <!-- /.box-header -->
                             <div class="box-body">
 
-                                @if (!is_null($userevententry))
-                                    <a href="{{ route('updateeventregistrationview', $event->eventid) }}" class="btn btn-warning pull-right" role="button">
-                                        <i class="fa fa-bullseye" aria-hidden="true"></i> Update
-                                    </a>
-                                @else
-                                    <a href="{{ route('eventregistrationview', ['eventid' => $event->eventid, 'name' => urlencode($event->name)] ) }}" class="btn btn-success pull-right" role="button">
-                                        <i class="fa fa-bullseye" aria-hidden="true"></i> Enter
-                                    </a>
+                                @if ($event->scoringenabled && !is_null($userevententry))
+                                    <div class="">
+                                        <a href="{{ route('enterscore', urlencode($event->name)) }}" class="btn btn-success pull-right" role="button">
+                                            <i class="fa fa-bullseye" aria-hidden="true"></i> &nbsp;&nbsp;Enter Scores!
+                                        </a>
+                                    </div>
                                 @endif
+
                                 <h3>{{$event->name}}</h3>
                                 <div class="table-responsive">
                                     <table class="table">
                                         <tbody>
+                                        <tr>
+                                            <th style="width: 25%">Entry</th>
+                                            <td>
+                                                @if (!is_null($userevententry))
+                                                    <a href="{{ route('updateeventregistrationview', $event->eventid) }}" class="btn btn-warning" role="button">
+                                                        <i class="fa fa-gear" aria-hidden="true"></i> Update
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('eventregistrationview', ['eventid' => $event->eventid, 'name' => urlencode($event->name)] ) }}" class="btn btn-primary" role="button">
+                                                        <i class="fa fa-mail-forward" aria-hidden="true"></i> Enter
+                                                    </a>
+                                                @endif
+                                            </td>
+                                        </tr>
 
                                             @if (!is_null($userevententry))
                                                 <tr>
