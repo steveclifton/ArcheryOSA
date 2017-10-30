@@ -41,7 +41,10 @@ class EventController extends Controller
 
     public function PUBLIC_getEventDetailsView(Request $request)
     {
-        $event = Event::where('eventid', urldecode($request->eventid))->where('name', urldecode($request->name))->get()->first();
+        $event = Event::where('eventid', urldecode($request->eventid))
+                        ->where('name', urldecode($request->name))
+                        ->get()
+                        ->first();
 
         if (is_null($event)) {
             return Redirect::route('home');
