@@ -28,11 +28,11 @@ Our goal is to create a platform that can be used by anyone to enable efficient 
 
 ## Set up development environment
 
-* [yarn](https://yarnpkg.com/lang/en/docs/install/)
-* [composer](https://getcomposer.org/)
+* [yarn](https://yarnpkg.com/lang/en/docs/install/) yarn install
+* [composer](https://getcomposer.org/) composer install
 
-    yarn install
-    composer install
+
+
 
 
 
