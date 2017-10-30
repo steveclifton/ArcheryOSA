@@ -24,7 +24,7 @@ Our goal is to create a platform that can be used by anyone to enable efficient 
 * [Laravel Valet](https://laravel.com/docs/5.5/valet)
 
 ### Windows/Mac/Linux Docker
-* [WAMP](https://phpdocker.io/generator)
+* [PHP Docker](https://phpdocker.io/generator)
 
 ## Set up development environment
 
