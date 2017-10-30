@@ -20,7 +20,7 @@ Our goal is to create a platform that can be used by anyone to enable efficient 
 * [Laragon](https://laragon.org/)
 
 ### Mac OS
-* [WAMP](https://www.mamp.info/en/)
+* [MAMP](https://www.mamp.info/en/)
 * [Laravel Valet](https://laravel.com/docs/5.5/valet)
 
 ### Windows/Mac/Linux Docker
