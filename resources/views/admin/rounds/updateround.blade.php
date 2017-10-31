@@ -23,7 +23,7 @@
 
                 <div class="panel-body">
 
-                    <h3 style="text-align: center;font-weight: bold;">{{$round->first()->name}}</h3><br>
+                    <h3 class="updateheader">{{$round->first()->name}}</h3><br>
 
                     <form class="form-horizontal" method="POST" action="{{ route('updateround', urlencode($round->first()->name)) }}">
                         {{ csrf_field() }}

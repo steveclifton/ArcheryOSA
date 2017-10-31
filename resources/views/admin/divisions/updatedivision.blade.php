@@ -22,7 +22,7 @@
 
                 <div class="panel-body">
 
-                    <h3 style="text-align: center;font-weight: bold;">{{$division->first()->name}}</h3><br>
+                    <h3 class="updateheader">{{$division->first()->name}}</h3><br>
 
                     <form class="form-horizontal" method="POST" action="{{ route('updatedivision', urlencode($division->first()->name)) }}">
                         {{ csrf_field() }}

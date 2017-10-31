@@ -21,7 +21,7 @@
 
                 <div class="panel-body">
 
-                    <h3 style="text-align: center;font-weight: bold;">{{$club->first()->name}}</h3><br>
+                    <h3 class="updateheader">{{$club->first()->name}}</h3><br>
                     <form class="form-horizontal" method="POST" action="{{ route('updateclub', urlencode($club->first()->name)) }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
