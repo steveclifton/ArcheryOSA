@@ -10,7 +10,7 @@ use Image;
 
 class ClubController extends Controller
 {
-    public function fe_getViewClubs()
+    public function PUBLIC_getViewClubs()
     {
         $clubs = Club::where('visible', 1)->where('deleted', 0)->orderBy('clubid', 'desc')->get();
         return view('includes.clubs', compact('clubs'));
@@ -82,9 +82,9 @@ class ClubController extends Controller
         if (request()->hasFile('clubimage')) {
             $image = request()->file('clubimage');
             $filename = time() . '.' . $image->getClientOriginalExtension();
-            $location = fe_path('/content/clubs/original/' . $filename);
+            $location = public_path('/content/clubs/original/' . $filename);
             Image::make($image)->save($location);
-            $location = fe_path('/content/clubs/200/' . $filename);
+            $location = public_path('/content/clubs/200/' . $filename);
             Image::make($image)->resize(200,200)->save($location);
             $club->image = $filename;
         }
@@ -130,9 +130,9 @@ class ClubController extends Controller
             if (request()->hasFile('clubimage')) {
                 $image = request()->file('clubimage');
                 $filename = time() . '.' . $image->getClientOriginalExtension();
-                $location = fe_path('/content/clubs/original/' . $filename);
+                $location = public_path('/content/clubs/original/' . $filename);
                 Image::make($image)->save($location);
-                $location = fe_path('/content/clubs/200/' . $filename);
+                $location = public_path('/content/clubs/200/' . $filename);
                 Image::make($image)->resize(200,200)->save($location);
                 $club->image = $filename;
             }
@@ -153,8 +153,8 @@ class ClubController extends Controller
             // make sure the club exists in order to delete it.
             if ($club !== null) {
                 if (empty($club->image) !== true) {
-                    unlink(fe_path('/content/clubs/original/' . $club->image));
-                    unlink(fe_path('/content/clubs/200/' . $club->image));
+                    unlink(public_path('/content/clubs/original/' . $club->image));
+                    unlink(public_path('/content/clubs/200/' . $club->image));
                 }
 
                 $club->delete();

@@ -21,12 +21,12 @@ class UserController extends Controller
 
 
 
-    public function fe_getRegisterView()
+    public function PUBLIC_getRegisterView()
     {
         return view ('auth.register');
     }
 
-    public function fe_getLoginView()
+    public function PUBLIC_getLoginView()
     {
         return view ('auth.login');
     }
@@ -93,7 +93,7 @@ class UserController extends Controller
                                     JOIN `organisations`
                                     USING (`organisationid`)
                                     WHERE `userid` = '". Auth::id() ."'
-
+        
         ");
 
 
@@ -120,14 +120,14 @@ class UserController extends Controller
         if ($request->hasFile('profileimage')) {
             //clean up old image
             if (empty($user->image) !== true) {
-                if (is_file(fe_path('content/profile/' . $user->image))) {
-                    unlink(fe_path('content/profile/' . $user->image));
+                if (is_file(public_path('content/profile/' . $user->image))) {
+                    unlink(public_path('content/profile/' . $user->image));
                 }
             }
 
             $image = $request->file('profileimage');
             $filename = time() . rand(0,999) . '.' . $image->getClientOriginalExtension();
-            $location = fe_path('content/profile/' . $filename);
+            $location = public_path('content/profile/' . $filename);
             Image::make($image)->resize(200,200)->save($location);
             $user->image = $filename;
         }

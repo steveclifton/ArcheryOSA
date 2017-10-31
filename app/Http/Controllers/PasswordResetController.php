@@ -15,12 +15,12 @@ use Illuminate\Support\Facades\Redirect;
 
 class PasswordResetController extends Controller
 {
-    public function fe_getPasswordResetView()
+    public function PUBLIC_getPasswordResetView()
     {
         return view('auth.passwords.resetpassword');
     }
 
-    public function fe_getResetPasswordView(Request $request)
+    public function PUBLIC_getResetPasswordView(Request $request)
     {
         if (is_null($request->hash)) {
             Redirect::route('/');
