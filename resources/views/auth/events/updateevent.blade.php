@@ -2,9 +2,9 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Update Event'])
-
 @extends ('home')
+
+@section ('title')Update Event @endsection
 
 @section ('content')
 
@@ -27,11 +27,11 @@
             <div class="row">
                 <div class="col-md-12">
                     <div>
-                        <div class="box box-info">
+                        <div class="box box-info collapsed-box">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Event Entries</h3>
+                                <h3 class="box-title" >Event Entries</h3>
                                 <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse">Click to Open <i class="fa fa-minus"></i>
                                     </button>
                                 </div>
                             </div>
@@ -52,9 +52,31 @@
                                             </thead>
                                             <tbody>
                                             @foreach($users as $user)
-                                                <tr onmouseover="this.style.backgroundColor='lightgrey'" onmouseout="this.style.backgroundColor='White'">
+                                                @php
+                                                    switch ($user->entrystatusid) {
+                                                        case 1 :
+                                                            $colour = '#FAD9AE';
+                                                        break;
+
+                                                        case 2 :
+                                                            $colour = '#CDFAAE';
+                                                        break;
+
+                                                        case 3 :
+                                                            $colour = '#AEDAFA';
+                                                        break;
+
+                                                        case 4 :
+                                                            $colour = '#FAAEAE';
+                                                        break;
+                                                    }
+
+                                                @endphp
+
+                                                <tr onmouseover="this.style.backgroundColor='lightgrey'" onmouseout="this.style.backgroundColor='{{$colour}}'" style="background: {{$colour}}">
                                                     <input type="hidden" name="userid[]" value="{{$user->userid}}">
-                                                    <td>{{$user->fullname}}</td>
+                                                    <input type="hidden" name="divisionid[]" value="{{$user->divisionid}}">
+                                                    <td>{!! ucwords(strtolower($user->fullname)) !!}</td>
                                                     <td>{{$user->club}}</td>
                                                     <td>{{$user->division}}</td>
                                                     <td>
@@ -109,7 +131,7 @@
                         <input type="hidden" name="eventid" value="{{ $event->first()->eventid }}">
 
                         <div class="form-group">
-                            <label for="datetime" class="col-md-4 control-label">Dates:</label>
+                            <label for="datetime" class="col-md-4 control-label">Dates*</label>
 
                             <div class="col-md-6">
                                 <div class="input-group">
@@ -123,7 +145,7 @@
 
 
                         <div class="form-group {{ $errors->has('eventerror') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Entries Close:</label>
+                            <label class="col-md-4 control-label">Entries Close</label>
 
                             <div class="col-md-6">
                                 <div class="input-group date">
@@ -177,7 +199,7 @@
 
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
+                            <label for="name" class="col-md-4 control-label">Name*</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name') ?? $event->first()->name }}" required >
@@ -210,7 +232,7 @@
 
 
                         <div class="form-group{{ $errors->has('hostclub') ? ' has-error' : '' }}">
-                            <label for="hostclub" class="col-md-4 control-label">Host Club</label>
+                            <label for="hostclub" class="col-md-4 control-label">Host Club*</label>
 
                             <div class="col-md-6">
                                 <input id="hostclub" type="text" class="form-control" name="hostclub" value="{{ old('hostclub') ?? $event->first()->hostclub }}" required >
@@ -225,7 +247,7 @@
 
 
                         <div class="form-group{{ $errors->has('location') ? ' has-error' : '' }}">
-                            <label for="location" class="col-md-4 control-label">Location</label>
+                            <label for="location" class="col-md-4 control-label">Location*</label>
 
                             <div class="col-md-6">
                                 <input id="location" type="text" class="form-control" name="location" value="{{ old('location') ?? $event->first()->location }}" required >
@@ -240,7 +262,7 @@
 
 
                         <div class="form-group{{ $errors->has('contact') ? ' has-error' : '' }}">
-                            <label for="contact" class="col-md-4 control-label">Contact Person</label>
+                            <label for="contact" class="col-md-4 control-label">Contact Person*</label>
 
                             <div class="col-md-6">
                                 <input id="contact" type="text" class="form-control" name="contact" value="{{ old('contact') ?? $event->first()->contact }}" required >
@@ -255,7 +277,7 @@
 
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">Contact E-Mail</label>
+                            <label for="email" class="col-md-4 control-label">Contact E-Mail*</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') ?? $event->first()->email }}" required >
@@ -270,7 +292,7 @@
 
 
                         <div class="form-group{{ $errors->has('cost') ? ' has-error' : '' }}">
-                            <label for="cost" class="col-md-4 control-label">Cost</label>
+                            <label for="cost" class="col-md-4 control-label">Cost*</label>
 
                             <div class="col-md-6">
                                 <input id="cost" type="text" class="form-control" name="cost" value="{{ old('cost') ?? $event->first()->cost }}" required >
@@ -284,7 +306,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('bankaccount') ? ' has-error' : '' }}">
-                            <label for="bankaccount" class="col-md-4 control-label">Bank Account</label>
+                            <label for="bankaccount" class="col-md-4 control-label">Bank Account*</label>
 
                             <div class="col-md-6">
                                 <input id="bankaccount" type="text" class="form-control" name="bankaccount" value="{{ old('bankaccount') ?? $event->first()->bankaccount }}" >

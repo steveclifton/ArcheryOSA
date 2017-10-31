@@ -2,9 +2,9 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Update Event Round'])
-
 @extends ('home')
+
+@section ('title')Update Event Round @endsection
 
 @section ('content')
 {{--    {!! dd($event->first()->startdate) !!}--}}

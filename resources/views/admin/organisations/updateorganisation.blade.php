@@ -2,9 +2,9 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Edit Organisation'])
-
 @extends ('home')
+
+@section ('title')Edit Organisation @endsection
 
 @section ('content')
     {{-- <div class="container"> --}}
@@ -29,7 +29,7 @@
                         <input type="text" name="organisationid" hidden value="{{$organisation->first()->organisationid}}">
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Organisation Name</label>
+                            <label for="event" class="col-md-4 control-label">Organisation Name*</label>
 
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="name" value="{{ old('name', $organisation->first()->name) }}" required autofocus>
@@ -114,7 +114,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Description</label>
+                            <label for="event" class="col-md-4 control-label">Description*</label>
 
                             <div class="col-md-6">
                                 <textarea class="form-control" name="description" required autofocus >{{ old('description', $organisation->first()->description) }}</textarea>

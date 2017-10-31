@@ -2,9 +2,9 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Update Event Registration'])
-
 @extends ('home')
+
+@section ('title')Update Event Registration @endsection
 
 @section ('content')
     <div class="row">

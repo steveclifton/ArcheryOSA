@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    if (collapse_siderbar) {
+        $('.sidebar-mini').addClass('sidebar-collapse');
+    }
     var selectedValueRound = $('#roundsunitvalue').val();
     $('#roundsunit option[value=' + selectedValueRound +']').attr('selected','selected');
 
@@ -103,6 +106,18 @@ $(document).ready(function() {
         }
     });
 
+    $("a#deleteUserRelation").click(function(){
+        event.stopPropagation();
+
+        if (!confirm("Do you want to delete?")) {
+            event.preventDefault();
+        }
+    });
+
+    $('#showmoreentries').click(function () {
+        $('.item').removeClass('hidden');
+        $('.showmore').empty();
+    });
 
 
 

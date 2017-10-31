@@ -14,5 +14,9 @@ class User extends Eloquent implements Authenticatable
     protected $table = 'users';
     protected $primaryKey = 'userid';
 
+    public function getFullNameAttribute()
+    {
+        return ucwords($this->firstname ?? '') . ' ' . ucwords($this->lastname ?? '');
+    }
 
 }

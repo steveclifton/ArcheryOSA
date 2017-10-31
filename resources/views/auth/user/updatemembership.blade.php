@@ -2,16 +2,16 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Add Organisation ID'])
-
 @extends ('home')
+
+@section ('title')Edit Organisation ID @endsection
 
 @section ('content')
 
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Add Membership
+                <div class="panel-heading">Edit Membership
                     <a href="{{route('profile')}}">
                         <button type="submit" class="btn btn-default pull-right" >
                             <i class="fa fa-backward" > Back</i>

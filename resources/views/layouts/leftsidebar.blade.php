@@ -36,30 +36,37 @@
             @endif
 
         @if (Auth::check())
-            {{--<li class="treeview">--}}
-                {{--<a href="#">--}}
-                    {{--<i class="fa fa-dashboard"></i> <span>My Dashboard</span>--}}
-                    {{--<span class="pull-right-container">--}}
-                        {{--<i class="fa fa-angle-left pull-right"></i>--}}
-                    {{--</span>--}}
-                {{--</a>--}}
-                {{--<ul class="treeview-menu">--}}
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i> <span>My Dashboard</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
                     {{--<li class="active margin15" ><a href="#"><i class="fa fa-bullseye"></i>My Gear</a></li>--}}
-                    {{--<li class="active margin15" ><a href="#"><i class="fa fa-bullseye"></i>My Events</a></li>--}}
+                    <li class="active margin15" >
+                        <a href="{{route('myevents')}}">
+                            <i class="fa fa-bullseye"></i>My Events
+                        </a>
+                    </li>
                     {{--<li class="active margin15" ><a href="#"><i class="fa fa-bullseye"></i>My Results</a></li>--}}
-                {{--</ul>--}}
-            {{--</li>--}}
-                {{----}}
+                </ul>
+            </li>
+
             {{--<li class="treeview">--}}
                 {{--<a href="#">--}}
-                    {{--<i class="fa fa-edit"></i> <span>Training</span>--}}
+                    {{--<i class="fa fa-edit"></i> <span>Scoring</span>--}}
                     {{--<span class="pull-right-container">--}}
                         {{--<i class="fa fa-angle-left pull-right"></i>--}}
                     {{--</span>--}}
                 {{--</a>--}}
                 {{--<ul class="treeview-menu">--}}
-                    {{--<li class="margin15"><a href="#"><i class="fa fa-calendar-check-o"></i>My Diary</a></li>--}}
-                    {{--<li class="margin15"><a href="#"><i class="fa fa-calendar-check-o"></i>My Results</a></li>--}}
+                    {{--<li class="margin15">--}}
+                        {{--<a href="#">--}}
+                            {{--<i class="fa fa-calendar-check-o"></i>Enter Scores--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
                 {{--</ul>--}}
             {{--</li>--}}
         @else

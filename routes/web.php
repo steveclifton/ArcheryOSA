@@ -11,6 +11,7 @@ Route::get('/eventdetails/{eventid}/{name}', 'EventController@fe_getEventDetails
 
 
 
+
 Route::middleware(['web'])->group(function() {
 
 	// Guest
@@ -34,12 +35,19 @@ Route::middleware(['web'])->group(function() {
 	Route::middleware(['auth'])->group(function () {
 		Route::get('/profile', 'UserController@getProfileView')->name('profile');
 		Route::get('/logout', 'UserController@logout')->name('logout');
+        Route::get('/myevents', 'UserController@getUserEventsView')->name('myevents');
+
         Route::post('/updateprofile', 'UserController@updateProfile')->name('updateprofile');
 
+        Route::get('/scoring/{eventname}', 'ScoringController@getScoringView')->name('enterscore');
+
+        Route::get('/updateprofile/addarcher', 'UserController@getCreateArcherRelationship')->name('createaddarcherview');
         Route::get('/updateprofile/addmembership', 'UserMembershipController@getCreateView')->name('createusermembershipview');
         Route::get('/updateprofile/updatemembership/{membershipcode}', 'UserMembershipController@getUpdateView')->name('updateusermembershipview');
+        Route::get('/updateprofile/removearcherrelation/{hash}', 'UserController@removeUserRelationship')->name('removeuserrelation');
 
-		Route::post('/updateprofile/addorganisation/submit', 'UserMembershipController@create')->name('createusermembership');
+        Route::post('/updateprofile/addarcher/submit', 'UserController@createArcherRelationship')->name('createarcherrelationship');
+        Route::post('/updateprofile/addorganisation/submit', 'UserMembershipController@create')->name('createusermembership');
         Route::post('/updateprofile/updateorganisation/submit/{usermembershipid}', 'UserMembershipController@update')->name('updateusermembership');
 
 

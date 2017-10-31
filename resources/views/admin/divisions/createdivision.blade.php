@@ -2,10 +2,9 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=>'Create Division'])
-
-
 @extends ('home')
+
+@section ('title')Create Division @endsection
 
 @section ('content')
     {{--{!! dd($division); !!}--}}
@@ -27,7 +26,7 @@
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Division Name</label>
+                            <label for="event" class="col-md-4 control-label">Division Name*</label>
 
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="name" required autofocus>

@@ -41,7 +41,10 @@ class EventController extends Controller
 
     public function fe_getEventDetailsView(Request $request)
     {
-        $event = Event::where('eventid', urldecode($request->eventid))->where('name', urldecode($request->name))->get()->first();
+        $event = Event::where('eventid', urldecode($request->eventid))
+                        ->where('name', urldecode($request->name))
+                        ->get()
+                        ->first();
 
         if (is_null($event)) {
             return Redirect::route('home');
@@ -68,6 +71,7 @@ class EventController extends Controller
             LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
             LEFT JOIN `clubs` c ON(c.`clubid` = ee.`clubid`)
             WHERE ee.`eventid` = :eventid
+            ORDER BY d.`name`, ee.`fullname`
             ", ['eventid' => $event->eventid]);
 
         foreach ($users as $user) {
@@ -117,11 +121,12 @@ class EventController extends Controller
         $organisations = Organisation::where('visible', 1)->get();
 
 
-        $users = DB::select("SELECT ee.`userid`, ee.`fullname`, ee.`entrystatusid`, ee.`clubid`, c.`name` as club, ee.`paid`, d.`name` as division
+        $users = DB::select("SELECT ee.`userid`, ee.`fullname`, ee.`entrystatusid`, ee.`clubid`, c.`name` as club, ee.`paid`, d.`name` as division, ee.`divisionid`
             FROM `evententry` ee
             LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
             LEFT JOIN `clubs` c ON(c.`clubid` = ee.`clubid`)
             WHERE ee.`eventid` = :eventid
+            ORDER BY ee.`entrystatusid`, d.`name`, ee.`fullname`
             ", ['eventid' => $request->eventid]);
 
         foreach ($users as $user) {

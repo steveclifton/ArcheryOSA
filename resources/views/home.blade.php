@@ -2,7 +2,7 @@
 <html>
     <head>
         @include('layouts.head')
-        @include('layouts.title', ['title'=>'Home'])
+        <title>@yield('title')| Archery OSA</title>
         @include('layouts.scripts')
     </head>
     <body class="hold-transition skin-black sidebar-mini">

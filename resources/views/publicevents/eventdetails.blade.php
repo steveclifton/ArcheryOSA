@@ -2,9 +2,9 @@
     <h1></h1>
 @endsection
 
-@include('layouts.title', ['title'=> $event->name ])
-
 @extends ('home')
+
+@section ('title'){{$event->name}} @endsection
 
 @section ('content')
 
@@ -30,19 +30,32 @@
                             <!-- /.box-header -->
                             <div class="box-body">
 
-                                @if (!is_null($userevententry))
-                                    <a href="{{ route('updateeventregistrationview', $event->eventid) }}" class="btn btn-warning pull-right" role="button">
-                                        <i class="fa fa-bullseye" aria-hidden="true"></i> Update
-                                    </a>
-                                @else
-                                    <a href="{{ route('eventregistrationview', ['eventid' => $event->eventid, 'name' => urlencode($event->name)] ) }}" class="btn btn-success pull-right" role="button">
-                                        <i class="fa fa-bullseye" aria-hidden="true"></i> Enter
-                                    </a>
+                                @if ($event->scoringenabled && !is_null($userevententry))
+                                    <div class="">
+                                        <a href="{{ route('enterscore', urlencode($event->name)) }}" class="btn btn-success pull-right" role="button">
+                                            <i class="fa fa-bullseye" aria-hidden="true"></i> &nbsp;&nbsp;Enter Scores!
+                                        </a>
+                                    </div>
                                 @endif
+
                                 <h3>{{$event->name}}</h3>
                                 <div class="table-responsive">
                                     <table class="table">
                                         <tbody>
+                                        <tr>
+                                            <th style="width: 25%">Entry</th>
+                                            <td>
+                                                @if (!is_null($userevententry))
+                                                    <a href="{{ route('updateeventregistrationview', $event->eventid) }}" class="btn btn-warning" role="button">
+                                                        <i class="fa fa-gear" aria-hidden="true"></i> Update
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('eventregistrationview', ['eventid' => $event->eventid, 'name' => urlencode($event->name)] ) }}" class="btn btn-primary" role="button">
+                                                        <i class="fa fa-mail-forward" aria-hidden="true"></i> Enter
+                                                    </a>
+                                                @endif
+                                            </td>
+                                        </tr>
 
                                             @if (!is_null($userevententry))
                                                 <tr>
@@ -139,24 +152,36 @@
                         <div class="box-body">
                             <ul class="products-list product-list-in-box">
 
-                                @foreach ($users as $user)
+                                @foreach (array_slice($users, 0, 10) as $user)
                                     <li class="item">
 
                                         <span style="padding-right: 10%">
                                             <span class="label {{ $user->label }}">{{$user->division}}</span>
                                         </span>
 
-                                        {{ucwords($user->fullname)}}
+                                        {{ucwords(strtolower($user->fullname))}}
 
                                     </li>
                                 @endforeach
+
+                                    @foreach (array_slice($users, 10) as $user)
+                                        <li class="item hidden">
+
+                                        <span style="padding-right: 10%">
+                                            <span class="label {{ $user->label }}">{{$user->division}}</span>
+                                        </span>
+
+                                            {{ucwords(strtolower($user->fullname))}}
+
+                                        </li>
+                                    @endforeach
 
                             </ul>
                         </div>
 
                         <!-- /.box-footer -->
-                        <div class="box-footer text-center">
-                            <a href="javascript:;" class="uppercase">View More Entries</a>
+                        <div class="box-footer text-center showmore">
+                            <a href="javascript:;" class="uppercase" id="showmoreentries">View More Entries</a>
                         </div>
                     </div>
                 </div>

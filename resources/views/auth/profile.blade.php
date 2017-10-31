@@ -1,6 +1,6 @@
-@include('layouts.title', ['title'=>'Profile'])
-
 @extends ('home')
+
+@section ('title')Profile @endsection
 
 @section ('content')
 
@@ -36,7 +36,7 @@
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('firstname') ? ' has-error' : '' }}">
-                            <label for="firstname" class="col-md-4 control-label">First Name</label>
+                            <label for="firstname" class="col-md-4 control-label">First Name*</label>
 
                             <div class="col-md-6">
                                 <input id="firstname" type="text" class="form-control" name="firstname" value="{{ (old('firstname')) ? old('firstname') : $user->firstname }}" required autofocus>
@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('lastname') ? ' has-error' : '' }}">
-                            <label for="lastname" class="col-md-4 control-label">Last Name</label>
+                            <label for="lastname" class="col-md-4 control-label">Last Name*</label>
 
                             <div class="col-md-6">
                                 <input id="lastname" type="text" class="form-control" name="lastname" value="{{ (old('lastname')) ? old('lastname') : $user->lastname }}" required autofocus>
@@ -64,7 +64,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                            <label for="email" class="col-md-4 control-label">E-Mail Address*</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="{{ (old('email')) ? old('email') : $user->email }}" required>
@@ -108,41 +108,51 @@
                             </div>
                         </div>
 
-                        <hr>
-
-                        @if (!empty($organisations))
-                            <h4>Memberships</h4>
-                        @endif
-                        @foreach ($organisations as $organisation)
-
-                            <div class="form-group">
-                                <a href="{{route('updateusermembershipview', $organisation->usermembershipid)}}">
-                                    <label for="organsationname" class="col-md-4 control-label">{{$organisation->name}}</label>
-                                </a>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" name="code" disabled placeholder="{{$organisation->membershipcode ?? ''}}">Membership Code
-                                </div>
-
-                            </div>
-
-                            <hr>
-                        @endforeach
-
-
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-success" value="update" name="submit">
-                                    Update
-                                </button>
-
-                                <button type="submit" class="btn btn-primary" value="add" name="submit">
-                                    Add Membership Code
+                            <div class="col-md-10 ">
+                                <button type="submit" class="btn btn-success pull-left" value="update" name="submit">
+                                    Update Profile
                                 </button>
                             </div>
                         </div>
+                        <br>
+
+
+                        <div class="">
+                            <hr>
+                            <h4>Memberships</h4>
+                            <a href="{{route('createusermembershipview')}}" class="btn btn-primary" role="button">Add Membership</a>
+
+                        </div>
+                        @foreach ($organisations as $organisation)
+                            <div class="form-group">
+                                <label for="organsationname" class="col-md-4 control-label">{{$organisation->name}}</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="code" disabled placeholder="{{$organisation->membershipcode ?? ''}}">Membership Code
+                                </div>
+                                <a href="{{route('updateusermembershipview', $organisation->usermembershipid)}}" class="btn btn-warning" role="button">Update</a>
+                            </div>
+                        @endforeach
+
+
+
+
+                        <div>
+                            <hr>
+                            <h4>Archer Relations</h4>
+                            <a href="{{route('createaddarcherview')}}" class="btn btn-primary" role="button">Add Archer</a>
+                        </div>
+                        @foreach ($relationships as $relation)
+                            <div class="form-group">
+                                <label for="organsationname" class="col-md-4 control-label">{{$relation->firstname}} {{$relation->lastname}}</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="code" disabled placeholder="{!! ($relation->authorised) ? 'AUTHORISED' : 'PENDING' !!}">Status
+                                </div>
+                                <a href="{{route('removeuserrelation', $relation->hash)}}" class="btn btn-danger" role="button" id="deleteUserRelation">Remove</a>
+                            </div>
+                        @endforeach
 
                     </form>
-
                 </div>
             </div>
         </div>

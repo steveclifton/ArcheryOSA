@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\ArcherRelation;
+use App\Mail\ArcherRelationRequest;
+use App\Mail\ConfirmArcherRelation;
 use App\Mail\Welcome;
 use Carbon\Carbon;
 use Image;
@@ -89,15 +92,32 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $organisations = DB::select("SELECT *
-                                    FROM `usermemberships`
-                                    JOIN `organisations`
-                                    USING (`organisationid`)
-                                    WHERE `userid` = '". Auth::id() ."'
+            FROM `usermemberships`
+            JOIN `organisations`
+            USING (`organisationid`)
+            WHERE `userid` = '". Auth::id() ."'
+        ");
 
+        $relationships = DB::select("SELECT u.`email`, ur.`authorised`, u.`firstname`, u.`lastname`, ur.`hash`
+            FROM `userrelationships` ur
+            JOIN `users` u ON (ur.`relationuserid` = u.`userid`)
+            WHERE ur.`userid` = '". Auth::id() . "'
         ");
 
 
-        return view('auth.profile', compact('user', 'organisations'));
+        return view('auth.profile', compact('user', 'organisations', 'relationships'));
+    }
+
+
+    public function getUserEventsView()
+    {
+        $userevents = DB::select("SELECT e.`eventid`, e.`startdate`, es.`name` as usereventstatus, e.`name`, e.`status` as eventstatus 
+                        FROM `evententry` ee
+                        LEFT JOIN `events` e USING (`eventid`)
+                        LEFT JOIN `entrystatuses` es ON (ee.`entrystatusid` = es.`entrystatusid`)
+                        WHERE ee.`userid` = '" . Auth::id(). "'
+                        ");
+        return view('auth.myevents', compact('userevents'));
     }
 
     /**
@@ -109,6 +129,8 @@ class UserController extends Controller
         // Used for adding days to the event
         if ($request->input('submit') == 'add') {
             return Redirect::route('createusermembershipview');
+        } else if ($request->input('submit') == 'adduser') {
+            return Redirect::route('createaddarcherview');
         }
 
         $user               = Auth::user();
@@ -162,6 +184,96 @@ class UserController extends Controller
 
         Mail::to(Auth::user()->email)
             ->send(new Welcome(ucwords(Auth::user()->firstname)));
+    }
+
+
+    public function getCreateArcherRelationship()
+    {
+        return view('auth.user.addarcherrelation');
+    }
+
+    public function createArcherRelationship(Request $request)
+    {
+
+        Validator::make($request->all(), [
+            'email' => 'email|required',
+        ])->validate();
+
+        $user = User::where('email', $request->input('email'))->get()->first();
+
+        if (is_null($user)) {
+            return back()->with('failure', 'User with that email address is unavailable');
+        }
+
+        $existingrequest = ArcherRelation::where('userid', Auth::id())->where('relationuserid', $user->userid)->get()->first();
+
+        if (!is_null($existingrequest)) {
+            return back()->with('failure', 'Request already pending');
+        }
+
+        $authfullname = ucwords(Auth::user()->firstname ?? '') . ' ' . ucwords(Auth::user()->lastname ?? '') . '(' . Auth::user()->email . ')';
+
+        $hash = password_hash(rand( getenv('RAND_START'), getenv('RAND_END')), PASSWORD_DEFAULT);
+        $hash = password_hash($hash, PASSWORD_DEFAULT);
+        $hash = substr($hash, 7, 17);
+        $hash = str_replace('/',rand(1,999), $hash);
+
+        $archerrelation = new ArcherRelation();
+        $archerrelation->userid = Auth::id();
+        $archerrelation->relationuserid = $user->userid;
+        $archerrelation->hash = $hash;
+        $archerrelation->save();
+
+        $this->sendRelationshipEmail($user->email, $user->firstname, $authfullname, $hash);
+
+        return redirect('/profile')->with('key', 'The archer has been alerted to your request. Please wait for confirmation email');
+
+    }
+
+    private function sendRelationshipEmail($email, $firstname, $requestusername, $hash)
+    {
+        Mail::to($email)
+            ->send(new ArcherRelationRequest($firstname, $requestusername, $hash));
+    }
+
+    public function authoriseUserRelationship(Request $request) {
+
+        if (!empty($request->hash)) {
+            $addarcher = ArcherRelation::where('hash', strval($request->hash))->where('authorised', 0)->get()->first();
+
+            if (!is_null($addarcher)) {
+                $archer = User::where('userid', $addarcher->userid)->get()->first();
+                $requestarcher = User::where('userid', $addarcher->relationuserid)->get()->first();
+                $addarcher->authorised = 1;
+                $addarcher->save();
+
+                $success = 'Great! We have authorised the request and now ' . ucwords($requestarcher->firstname ?? '') . ' can score for you!';
+
+                Mail::to($archer->email)
+                    ->send(new ConfirmArcherRelation($archer->firstname ?? '', $requestarcher->firstname ?? ''));
+
+                return view('landingpages.addarcherlanding', compact('success'));
+            }
+        }
+
+
+        $failure = 'An error has occurred, please contact ArcheryOSA';
+        return view('landingpages.addarcherlanding', compact('failure'));
+
+
+    }
+
+    public function removeUserRelationship(Request $request)
+    {
+        $relation = ArcherRelation::where('hash', $request->hash)->get()->first();
+
+        if (!is_null($relation)) {
+            if ($relation->delete() ) {
+                return redirect('/profile')->with('key', 'Update success');
+            }
+        }
+
+        return redirect('/profile')->with('failure', 'Invalid Request');
     }
 
 } // classend
