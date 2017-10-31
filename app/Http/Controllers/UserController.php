@@ -21,12 +21,12 @@ class UserController extends Controller
 
 
 
-    public function PUBLIC_getRegisterView()
+    public function fe_getRegisterView()
     {
         return view ('auth.register');
     }
 
-    public function PUBLIC_getLoginView()
+    public function fe_getLoginView()
     {
         return view ('auth.login');
     }
@@ -93,7 +93,7 @@ class UserController extends Controller
                                     JOIN `organisations`
                                     USING (`organisationid`)
                                     WHERE `userid` = '". Auth::id() ."'
-        
+
         ");
 
 
