@@ -7,7 +7,7 @@ Route::get('/clubs', 'ClubController@fe_getViewClubs')->name('public.clubs');
 Route::get('/upcomingevents', 'EventController@fe_getAllUpcomingEventsView')->name('upcomingevents');
 Route::get('/previousevents', 'EventController@fe_getAllPreviousEventsView');
 Route::get('/eventdetails/{eventid}/{name}', 'EventController@fe_getEventDetailsView')->name('eventdetails');
-
+Route::get('/authorisearcherrelation/{hash}', 'UserController@authoriseUserRelationship')->name('authoriseuserrelationship');
 
 
 
