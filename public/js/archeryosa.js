@@ -1,7 +1,10 @@
 $(document).ready(function() {
-    if (collapse_siderbar) {
-        $('.sidebar-mini').addClass('sidebar-collapse');
+    if (typeof collapse_siderbar !== 'undefined') {
+        if (collapse_siderbar) {
+            $('.sidebar-mini').addClass('sidebar-collapse');
+        }
     }
+
     var selectedValueRound = $('#roundsunitvalue').val();
     $('#roundsunit option[value=' + selectedValueRound +']').attr('selected','selected');
 
