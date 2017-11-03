@@ -19,14 +19,14 @@ use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
 {
-    public function fe_getAllUpcomingEventsView()
+    public function PUBLIC_getAllUpcomingEventsView()
     {
         $events = Event::whereIn( 'status', ['open', 'waitlist', 'pending'] )->where('visible', 1)->orderBy('startdate')->get();
 
         return view('publicevents.upcomingevents', compact('events'));
     }
 
-    public function fe_getAllPreviousEventsView()
+    public function PUBLIC_getAllPreviousEventsView()
     {
         $events = DB::select("SELECT *
                         FROM `events`
@@ -39,7 +39,7 @@ class EventController extends Controller
         return view('publicevents.previousevents', compact('events'));
     }
 
-    public function fe_getEventDetailsView(Request $request)
+    public function PUBLIC_getEventDetailsView(Request $request)
     {
         $event = Event::where('eventid', urldecode($request->eventid))
                         ->where('name', urldecode($request->name))
@@ -51,9 +51,9 @@ class EventController extends Controller
         }
 
         $eventround = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`
-            FROM `eventrounds` er
+            FROM `eventrounds` er 
             JOIN `rounds` r USING (`roundid`)
-            WHERE er.`eventid` = :eventid
+            WHERE er.`eventid` = :eventid 
             ",
             ['eventid' => $event->eventid]
         );

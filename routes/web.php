@@ -3,10 +3,10 @@
 
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('/clubs', 'ClubController@fe_getViewClubs')->name('public.clubs');
-Route::get('/upcomingevents', 'EventController@fe_getAllUpcomingEventsView')->name('upcomingevents');
-Route::get('/previousevents', 'EventController@fe_getAllPreviousEventsView');
-Route::get('/eventdetails/{eventid}/{name}', 'EventController@fe_getEventDetailsView')->name('eventdetails');
+Route::get('/clubs', 'ClubController@PUBLIC_getViewClubs')->name('public.clubs');
+Route::get('/upcomingevents', 'EventController@PUBLIC_getAllUpcomingEventsView')->name('upcomingevents');
+Route::get('/previousevents', 'EventController@PUBLIC_getAllPreviousEventsView');
+Route::get('/eventdetails/{eventid}/{name}', 'EventController@PUBLIC_getEventDetailsView')->name('eventdetails');
 Route::get('/authorisearcherrelation/{hash}', 'UserController@authoriseUserRelationship')->name('authoriseuserrelationship');
 
 
@@ -16,17 +16,17 @@ Route::middleware(['web'])->group(function() {
 
 	// Guest
 	Route::middleware(['guest'])->group(function () {
-		Route::get('/login', 'UserController@fe_getLoginView')->name('login');
+		Route::get('/login', 'UserController@PUBLIC_getLoginView')->name('login');
 		Route::post('/login', 'UserController@login');
 
-		Route::get('/register', 'UserController@fe_getRegisterView')->name('register');
+		Route::get('/register', 'UserController@PUBLIC_getRegisterView')->name('register');
 		Route::post('/register', 'UserController@register');
 
-        Route::get('/resetpassword', 'PasswordResetController@fe_getPasswordResetView')->name('passwordresetview');
+        Route::get('/resetpassword', 'PasswordResetController@PUBLIC_getPasswordResetView')->name('passwordresetview');
         Route::post('/resetpassword', 'PasswordResetController@resetpassword')->name('resetpassword');
 
         Route::post('/updatepassword', 'PasswordResetController@updatepassword')->name('updatepassword');
-        Route::get('/updatepassword/{hash}', 'PasswordResetController@fe_getResetPasswordView');
+        Route::get('/updatepassword/{hash}', 'PasswordResetController@PUBLIC_getResetPasswordView');
 
 
     });

@@ -10,7 +10,7 @@ use Image;
 
 class ClubController extends Controller
 {
-    public function fe_getViewClubs()
+    public function PUBLIC_getViewClubs()
     {
         $clubs = Club::where('visible', 1)->where('deleted', 0)->orderBy('clubid', 'desc')->get();
         return view('includes.clubs', compact('clubs'));

@@ -24,12 +24,12 @@ class UserController extends Controller
 
 
 
-    public function fe_getRegisterView()
+    public function PUBLIC_getRegisterView()
     {
         return view ('auth.register');
     }
 
-    public function fe_getLoginView()
+    public function PUBLIC_getLoginView()
     {
         return view ('auth.login');
     }
