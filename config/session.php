@@ -148,7 +148,7 @@ return [
     |
     */
 
-    'domain' => 'archeryosa.com',//env('SESSION_DOMAIN', null),
+    'domain' => env('SESSION_DOMAIN', null),
 
     /*
     |--------------------------------------------------------------------------
