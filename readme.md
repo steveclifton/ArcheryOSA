@@ -30,3 +30,5 @@ Our goal is to create a platform that can be used by anyone to enable efficient 
 
 * [yarn](https://yarnpkg.com/lang/en/docs/install/) install
 * [composer](https://getcomposer.org/) install
+* Create .env file from .env.example
+* Migrate database tables
