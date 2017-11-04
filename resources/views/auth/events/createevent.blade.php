@@ -235,6 +235,13 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Scoring Enabled</label>
+                            <div class="col-md-6">
+                                <input type="checkbox" name="scoringenabled" style="margin-top: 10px">
+                            </div>
+                        </div>
+
 
                         <div class="form-group{{ $errors->has('schedule') ? ' has-error' : '' }}">
                             <label for="schedule" class="col-md-4 control-label">Schedule</label>
