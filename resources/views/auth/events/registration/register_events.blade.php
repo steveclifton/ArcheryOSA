@@ -162,7 +162,7 @@
                             <label for="address" class="col-md-4 control-label">Address</label>
 
                             <div class="col-md-6">
-                                <textarea rows="5" id="address" type="text" class="form-control" name="address" >{{ old('address') }}</textarea>
+                                <textarea rows="5" id="address" type="text" class="form-control" name="address" >{{ Auth::user()->address ?? old('address') }}</textarea>
                                 @if ($errors->has('address'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('address') }}</strong>
