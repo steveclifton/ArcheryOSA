@@ -26,7 +26,7 @@ class UpdateEventRegisterValidator extends FormRequest
         return [
             'name' => 'required',
             'clubid' => 'required',
-            'email' => 'required',
+            'email' => 'email|required',
             'divisions' => 'required',
         ];
     }
