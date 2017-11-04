@@ -49,10 +49,12 @@
 
                                 <select name="date" class="form-control" id="dateselect" required autofocus>
                                     <option value="">Please select option</option>
+
                                     <option @if (old('date') === 'daily') selected @endif value="daily">Daily</option>
                                     <option @if (old('date') === 'weekly') selected @endif value="weekly">Weekly</option>
-                                    @foreach ($daterange as $date)
-                                        <option @if (old('date') === $date->format("d-m-Y")) selected @endif value="{{$date->format("d-m-Y")}}">{{$date->format("d-m-Y")}}</option>
+
+                                    @foreach ($daterange->getDateRange() as $date)
+                                        <option @if (old('date') === $date) selected @endif value="{{$date}}">{{date('d F Y', strtotime($date))}}</option>
                                     @endforeach
                                 </select>
                             </div>
