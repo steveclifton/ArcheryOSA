@@ -8,20 +8,11 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">Reset Password</div>
+
                     <div class="panel-body">
-
-
                         <div class="row">
                             <div class="col-md-10 col-md-offset-1">
-                                @if(session()->has('message'))
-                                    <div class="alert alert-success">
-                                        {{ session()->get('message') }}
-                                    </div>
-                                @elseif (session()->has('failure'))
-                                    <div class="alert alert-danger">
-                                        {{ session()->get('failure') }}
-                                    </div>
-                                @endif
+                                @include('includes.session_errors')
                             </div>
                         </div>
 
