@@ -59,7 +59,7 @@ class EventRoundController extends Controller
         $organisations = Organisation::where('visible', 1)->where('deleted', 0)->get();
 
 
-        return view('auth.events.updateeventround', compact('divisions', 'organisations', 'rounds', 'eventround', 'daterange'));
+        return view('auth.events.updateeventround', compact('divisions', 'organisations', 'rounds', 'event','eventround', 'daterange'));
     }
 
     public function create(Request $request)
