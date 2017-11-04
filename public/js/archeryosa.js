@@ -44,6 +44,20 @@ $(document).ready(function() {
     var divisionvalue = $('#userdivisionvalue').val();
     $('#divisionselect option[value=' + divisionvalue +']').attr('selected','selected');
 
+    if ($('#eventtypevalue').val() != 1) {
+        $('#maxweeklyinput').addClass('hidden');
+    }
+
+    $('#eventtypeid').on('change', function (e) {
+        var optionSelected = $("option:selected", this).val();
+        $('#eventtypevalue').val(optionSelected);
+        if (optionSelected != 1) {
+            $('#maxweeklyinput').addClass('hidden');
+        } else {
+            $('#maxweeklyinput').removeClass('hidden');
+        }
+    });
+
 
     // This will work for when you are updating an eventround
     $('#divisionselect').find('label').each(function () {
@@ -96,18 +110,18 @@ $(document).ready(function() {
     $("a#deleteBtn").click(function(){
         event.stopPropagation();
 
-        if (!confirm("Do you want to delete?")) {
+        if (!confirm("Are you sure you want to delete?")) {
             event.preventDefault();
         }
     });
 
-    $("#deleteBtn").click(function(){
-        event.stopPropagation();
-
-        if (!confirm("Are you sure you want to remove your entry to this event?")) {
-            event.preventDefault();
-        }
-    });
+    // $("#deleteBtn").click(function(){
+    //     event.stopPropagation();
+    //
+    //     if (!confirm("Are you sure you want to remove your entry to this event?")) {
+    //         event.preventDefault();
+    //     }
+    // });
 
     $("a#deleteUserRelation").click(function(){
         event.stopPropagation();
