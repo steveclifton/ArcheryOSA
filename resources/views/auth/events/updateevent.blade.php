@@ -150,7 +150,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group {{ $errors->has('eventerror') ? ' has-error' : '' }}" id="eventtype">
+                        <div class="form-group {{ $errors->has('eventtype') ? ' has-error' : '' }}" id="eventtype">
                             <label for="eventtype" class="col-md-4 control-label">Type</label>
 
                             <div class="col-md-6">
@@ -158,7 +158,7 @@
 
                                 <select name="eventtype" class="form-control" id="eventtypeid">
                                     <option value="0">Single Event</option>
-                                    <option value="1">Weekly League</option>
+                                    <option value="1" id="weeklyeventtype">Weekly League</option>
                                 </select>
                                 @if ($errors->has('eventerror'))
                                     <span class="help-block">
@@ -167,6 +167,20 @@
                                 @endif
                             </div>
 
+                        </div>
+
+                        <div class="form-group {{ $errors->has('maxweeklyscores') ? ' has-error' : '' }}" id="maxweeklyinput">
+                            <label for="maxweeklyscores" class="col-md-4 control-label">Max Scores Per Week*</label>
+
+                            <div class="col-md-6">
+                                <input id="maxweeklyvalue" type="text" class="form-control" name="maxweeklyscores" value="{{ old('maxweeklyscores') ?? $event->first()->maxweeklyscores }}" required >
+
+                                @if ($errors->has('maxweeklyscores'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('maxweeklyscores') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
                         </div>
 
                         <div class="form-group {{ $errors->has('organisation') ? ' has-error' : '' }}" id="organisation">
