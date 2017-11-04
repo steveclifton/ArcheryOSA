@@ -1,13 +1,13 @@
-<li class="treeview menu-open">
+<li class="treeview">
     <a href="#">
-        <i class="fa fa-dashboard"></i>
+        <i class="fa fa-cogs"></i>
         <span>Admin</span>
         <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
         </span>
     </a>
 
-    <ul class="treeview-menu" style="display: block;">
+    <ul class="treeview-menu" >
         <li class="treeview">
             <a href="javascript:;">
                 <i class="fa fa-circle-o"></i>ArcheryOSA
