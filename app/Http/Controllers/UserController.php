@@ -134,10 +134,10 @@ class UserController extends Controller
         }
 
         $user               = Auth::user();
-        $user->email        = request('email');
-        $user->firstname    = request('firstname');
-        $user->lastname     = request('lastname');
-        $user->phone        = request('phone');
+        $user->email        = htmlentities(request('email'));
+        $user->firstname    = htmlentities(request('firstname'));
+        $user->lastname     = htmlentities(request('lastname'));
+        $user->phone        = htmlentities(request('phone'));
         $user->address        = htmlentities(request('address'));
 
         if ($request->hasFile('profileimage')) {
