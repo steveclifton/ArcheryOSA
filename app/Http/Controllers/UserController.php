@@ -138,6 +138,7 @@ class UserController extends Controller
         $user->firstname    = request('firstname');
         $user->lastname     = request('lastname');
         $user->phone        = request('phone');
+        $user->address        = htmlentities(request('address'));
 
         if ($request->hasFile('profileimage')) {
             //clean up old image
