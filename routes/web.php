@@ -67,6 +67,11 @@ Route::middleware(['web'])->group(function() {
 	// Admin
 	Route::middleware(['admin'])->group(function () {
 
+	    //Users
+        Route::get('/admin/users', 'AdminUserController@getAllUsers')->name('getallusers');
+        Route::get('/admin/userprofile/{userid}', 'AdminUserController@getUserProfile')->name('getuserprofile');
+        Route::post('/admin/updateuserprofile/{userid}', 'AdminUserController@updateUsersProfile')->name('updateuserprofile');
+
 	    // Events
         Route::get('/admin/events', 'EventController@getEventsView')->name('events');
         Route::get('/admin/events/create', 'EventController@getCreateView')->name('createeventview');
