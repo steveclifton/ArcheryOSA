@@ -352,6 +352,21 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Scoring Enabled</label>
+                            <div class="col-md-6">
+                                @if (!empty($event))
+                                    <?php
+                                    $status='';
+                                    if ($event->first()->scoringenabled == 1) {
+                                        $status = 'checked';
+                                    }
+                                    ?>
+                                    <input style="margin-top: 10px" type="checkbox" name="scoringenabled" {{$status}}>
+                                @endif
+                            </div>
+                        </div>
+
 
                         <div class="form-group{{ $errors->has('schedule') ? ' has-error' : '' }}">
                             <label for="schedule" class="col-md-4 control-label">Schedule</label>
