@@ -44,11 +44,15 @@
 
                             <div class="col-md-6">
 
-                                <input type="text" hidden id="dateeventroundval" value="{{ date('d-m-Y', strtotime($eventround->first()->date)) }}">
+                                <input type="text" hidden id="dateeventroundval" value="{{ $eventround->first()->date }}">
 
                                 <select name="date" class="form-control" id="dateselect">
-                                    @foreach ($daterange as $date)
-                                        <option value="{{$date->format("d-m-Y")}}">{{$date->format("d-m-Y")}}</option>
+
+                                    <option @if (old('date') === 'daily') {!! 'selected' !!} @endif value="daily">Daily</option>
+                                    <option @if (old('date') === 'weekly') {!! 'selected' !!} @endif value="weekly">Weekly</option>
+
+                                    @foreach ($daterange->getDateRange() as $date)
+                                        <option value="{{$date}}">{{date('d F Y', strtotime($date))}}</option>
                                     @endforeach
                                 </select>
                             </div>
