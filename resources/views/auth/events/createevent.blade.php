@@ -63,15 +63,30 @@
 
                         <div class="form-group {{ $errors->has('eventtype') ? ' has-error' : '' }}" id="eventtype">
                             <label for="eventtype" class="col-md-4 control-label">Type</label>
+                            <input type="hidden" id="eventtypevalue" value="0">
 
                             <div class="col-md-6">
-                                <select name="eventtype" class="form-control" id="eventtype">
-                                    <option value="0">Single Event</option>
+                                <select name="eventtype" class="form-control" id="eventtypeid">
+                                    <option value="0" selected>Single Event</option>
                                     <option value="1">Weekly League</option>
                                 </select>
                                 @if ($errors->has('eventtype'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('eventtype') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group {{ $errors->has('maxweeklyscores') ? ' has-error' : '' }}" id="maxweeklyinput">
+                            <label for="maxweeklyscores" class="col-md-4 control-label">Max Scores Per Week*</label>
+
+                            <div class="col-md-6">
+                                <input id="maxweeklyvalue" type="text" class="form-control" name="maxweeklyscores" value="{{ old('maxweeklyscores') }}" required >
+
+                                @if ($errors->has('maxweeklyscores'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('maxweeklyscores') }}</strong>
                                     </span>
                                 @endif
                             </div>
