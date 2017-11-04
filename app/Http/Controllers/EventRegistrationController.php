@@ -140,12 +140,9 @@ class EventRegistrationController extends Controller
             return back()->with('failure', 'Registration Failed, please contact archeryosa@gmail.com');
         }
 
-
-
         $event = Event::where('eventid', $request->eventid)
                         ->get()
                         ->first();
-
 
         if ($request->input('submit') == 'remove') {
             $this->deleteUserEntry($request);
