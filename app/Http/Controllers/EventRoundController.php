@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\DateRange;
+use App\Classes\EventDateRange;
 use App\Division;
 use App\Event;
 use App\EventRound;
@@ -31,16 +33,10 @@ class EventRoundController extends Controller
         $rounds = Round::where('visible', 1)->get();
         $divisions = Division::where('visible', 1)->orderBy('organisationid')->get();
         $organisations = Organisation::where('visible', 1)->get();
-        $event = Event::where('eventid', $eventid);
+        $event = Event::where('eventid', $eventid)->get()->first();
 
-        $end = new DateTime( $event->first()->enddate );
-        $end->add(new DateInterval('P1D'));
+        $daterange = new EventDateRange($event->startdate, $event->enddate);
 
-        $daterange = new DatePeriod(
-            new DateTime( $event->first()->startdate ),
-            new DateInterval('P1D'),
-            $end
-        );
 
         return view('auth.events.createeventround', compact('eventid', 'event', 'rounds', 'divisions', 'organisations', 'daterange'));
     }
@@ -54,19 +50,14 @@ class EventRoundController extends Controller
             return redirect('divisions');
         }
 
-        $event = Event::find($eventround->first()->eventid);
+        $event = Event::where('eventid', $eventround->first()->eventid)->get()->first();
+
+        $daterange = new EventDateRange($event->startdate, $event->enddate);
+
         $rounds = Round::where('visible', 1)->where('deleted', 0)->get();
         $divisions = Division::where('visible', 1)->where('deleted', 0)->orderBy('organisationid')->get();
         $organisations = Organisation::where('visible', 1)->where('deleted', 0)->get();
 
-        $end = new DateTime( $event->first()->enddate );
-        $end->add(new DateInterval('P1D'));
-
-        $daterange = new DatePeriod(
-            new DateTime( $event->first()->startdate ),
-            new DateInterval('P1D'),
-            $end
-        );
 
         return view('auth.events.updateeventround', compact('divisions', 'organisations', 'rounds', 'eventround', 'daterange'));
     }
