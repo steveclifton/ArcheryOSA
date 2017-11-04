@@ -38,7 +38,8 @@
         @if (Auth::check())
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-dashboard"></i> <span>My Dashboard</span>
+                    <i class="fa fa-dashboard"></i>
+                    <span>My Dashboard</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -46,8 +47,14 @@
                 <ul class="treeview-menu">
                     {{--<li class="active margin15" ><a href="#"><i class="fa fa-bullseye"></i>My Gear</a></li>--}}
                     <li class="active margin15" >
+                        <a href="{{route('profile')}}">
+                            <i class="fa fa-bullseye"></i>My Profile
+                        </a>
                         <a href="{{route('myevents')}}">
                             <i class="fa fa-bullseye"></i>My Events
+                        </a>
+                        <a href="javascript:;">
+                            <i class="fa fa-bullseye"></i>My Results
                         </a>
                     </li>
                     {{--<li class="active margin15" ><a href="#"><i class="fa fa-bullseye"></i>My Results</a></li>--}}
