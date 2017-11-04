@@ -9,8 +9,6 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Update Password</div>
                     <div class="panel-body">
-
-
                         <form class="form-horizontal" method="POST" action="{{ route('updatepassword') }}">
                             {{ csrf_field() }}
 
