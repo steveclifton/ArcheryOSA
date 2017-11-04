@@ -83,6 +83,21 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
+                            <label for="address" class="col-md-4 control-label">Address</label>
+
+                            <div class="col-md-6">
+
+                                <textarea name="address" id="" class="form-control" cols="30" rows="3">{{ (old('address')) ? old('address') : $user->address }}</textarea>
+
+                                @if ($errors->has('address'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('address') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('profileimage') ? ' has-error' : '' }}">
                             <label for="profileimage" class="col-md-4 control-label">Profile Image</label>
 
