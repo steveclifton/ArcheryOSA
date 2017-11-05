@@ -5,9 +5,103 @@
 @section ('content')
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
+
+            {{--My Events--}}
+            @if (Auth::check())
+                <div>
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">My Current Events</h3>
+                        </div>
+
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <table class="table no-margin">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Start Date</th>
+                                        <th>Event Status</th>
+                                        <th>Entry Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($userevents as $event)
+                                        <tr>
+                                            <td>
+                                                <a href="{{route('eventdetails', [$event->eventid, urlencode($event->name)])}}">{{$event->name}}</a>
+
+                                            </td>
+                                            <td>{{date('d/m/Y', strtotime($event->startdate))}}</td>
+
+                                            <?php
+                                            switch ($event->eventstatus) :
+
+                                                case 'open' :
+                                                    $colour = 'limegreen';
+                                                    break;
+                                                case 'in-progress':
+                                                case 'entriesclosed' :
+                                                    $colour = 'orange';
+                                                    break;
+                                                case 'completed' :
+                                                    $colour = 'red';
+                                                    break;
+                                                case 'closed' :
+                                                    $colour = 'grey';
+                                                    break;
+                                                case 'waitlist' :
+                                                    $colour = 'orange';
+                                                    break;
+                                                case 'pending' :
+                                                    $colour = 'orange';
+                                                    break;
+                                                case 'cancelled' :
+                                                    $colour = 'red';
+                                                    break;
+                                                default :
+                                                    $colour = 'black';
+                                                    break;
+                                            endswitch;
+                                            ?>
+                                            <td style="color: {{$colour}}">
+                                                <strong>{!! ucwords(str_replace('-', ' ', $event->eventstatus)) !!}</strong>
+                                            </td>
+                                            <?php
+                                            switch ($event->usereventstatus) {
+                                                case 'pending' :
+                                                    $label = 'label label-warning';
+                                                    break;
+                                                case 'entered' :
+                                                    $label = 'label label-success';
+                                                    break;
+                                                case 'waitlist' :
+                                                    $label = 'label label-primary';
+                                                    break;
+                                                case 'rejected' :
+                                                    $label = 'label label-danger';
+                                                    break;
+                                                default :
+                                                    $label = 'label label-primary';
+                                                    break;
+                                            }
+                                            ?>
+                                            <td>
+                                                <span class="{{$label}}">{!! ucwords($event->usereventstatus) !!}</span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             {{--Upcoming Events--}}
             <div>
-                <div class="box box-info">
+                <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Upcoming Events</h3>
                     </div>
@@ -28,8 +122,7 @@
                                     @foreach($events as $event)
                                     <tr>
                                         <td>
-                                            <a href="/eventdetails/{{ urlencode($event->eventid) }}/{{ urlencode($event->name) }}">{{$event->name}}</a>
-
+                                            <a href="{{route('eventdetails', [$event->eventid, urlencode($event->name)])}}">{{$event->name}}</a>
                                         </td>
                                         <td>{{ (strlen($event->location) > 60) ? mb_substr($event->location, 0, 60) . ".." : $event->location }}</td>
                                         <td><?= !empty($event->closeentry) ? date('d-m-Y', strtotime($event->closeentry)) : ''  ?></td>
@@ -70,7 +163,8 @@
                     <!-- /.box-footer -->
                 </div>
             </div>
-        </div>
+
+
 
         {{--Previous Events--}}
         {{--<div class="col-md-3">--}}
