@@ -17,11 +17,24 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 
+/**
+ * Event Types
+ *  0 - Single event, less than 10 days
+ *  1 - Weekly shoot, more than 10 days (Postal/League Events)
+ *
+ *
+ *
+ *
+ * Class EventController
+ * @package App\Http\Controllers
+ */
+
+
 class EventController extends Controller
 {
     public function PUBLIC_getAllUpcomingEventsView()
     {
-        $events = Event::whereIn( 'status', ['open', 'waitlist', 'pending'] )->where('visible', 1)->orderBy('startdate')->get();
+        $events = Event::whereIn( 'status', ['open', 'waitlist', 'pending', 'in-progress'] )->where('visible', 1)->orderBy('startdate')->get();
 
         return view('publicevents.upcomingevents', compact('events'));
     }
@@ -50,15 +63,16 @@ class EventController extends Controller
             return Redirect::route('home');
         }
 
-        $eventround = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`
+        $eventrounds = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, er.`location`, e.`status`
             FROM `eventrounds` er 
             JOIN `rounds` r USING (`roundid`)
+            JOIN `events` e USING (`eventid`)
             WHERE er.`eventid` = :eventid 
             ",
             ['eventid' => $event->eventid]
         );
 
-        $distances = $this->makeDistanceString($eventround);
+        $distances = $this->makeDistanceString($eventrounds);
 
         $userevententry = EventEntry::where('userid', Auth::id())->where('eventid', $event->eventid)->get()->first();
 
@@ -80,7 +94,7 @@ class EventController extends Controller
 
         $entrystatus = EntryStatus::get();
 
-        return view ('publicevents.eventdetails', compact('event', 'eventround', 'distances', 'userevententry', 'users', 'entrystatus'));
+        return view ('publicevents.eventdetails', compact('event', 'eventrounds', 'distances', 'userevententry', 'users', 'entrystatus'));
     }
 
     /****************************************************
@@ -171,6 +185,11 @@ class EventController extends Controller
             $visible = 1;
         }
 
+        $scoringenabled = 0;
+        if (!empty($request->input('scoringenabled'))) {
+            $scoringenabled = 1;
+        }
+
         $multipledivisions = 0;
         if (!empty($request->input('multipledivisions'))) {
             $multipledivisions = 1;
@@ -195,6 +214,7 @@ class EventController extends Controller
         $event->cost = htmlentities($request->input('cost'));
         $event->bankaccount = htmlentities($request->input('bankaccount'));
         $event->schedule = htmlentities($request->input('schedule'));
+        $event->scoringenabled = $scoringenabled;
         $event->visible = $visible;
         $event->save();
 
@@ -224,7 +244,11 @@ class EventController extends Controller
             'email' => 'required',
             'cost' => 'required',
             'status' => 'required',
+            'maxweeklyscores' => 'required|numeric|min:1'
+        ],[
+            'maxweeklyscores.min' => 'Max Weekly Scores must be 1 or more'
         ])->validate();
+
 
         // Format date
         $date = explode(' - ', $request->input('datetime'));
@@ -250,6 +274,11 @@ class EventController extends Controller
                 $visible = 1;
             }
 
+            $scoringenabled = 0;
+            if (!empty($request->input('scoringenabled'))) {
+                $scoringenabled = 1;
+            }
+
             $multipledivisions = 0;
             if (!empty($request->input('multipledivisions'))) {
                 $multipledivisions = 1;
@@ -271,6 +300,7 @@ class EventController extends Controller
             $event->multipledivisions = $multipledivisions;
             $event->bankaccount = htmlentities($request->input('bankaccount'));
             $event->schedule = htmlentities(trim($request->input('schedule')));
+            $event->scoringenabled = $scoringenabled;
             $event->visible = $visible;
             $event->save();
 
