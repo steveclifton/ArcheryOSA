@@ -133,6 +133,7 @@
 
                                 <select name="status" class="form-control" id="eventstatus">
                                     <option value="open" selected>Open</option>
+                                    <option value="in-progress">In Progress</option>
                                     <option value="entries-closed" >Entries Closed</option>
                                     <option value="completed">Completed</option>
                                     <option value="waitlist">Wait Listed</option>
