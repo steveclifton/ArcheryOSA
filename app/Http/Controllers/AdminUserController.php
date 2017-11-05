@@ -15,7 +15,7 @@ class AdminUserController extends Controller
                     FROM `users` u 
                     LEFT JOIN `evententry` e USING (`userid`)
                     LEFT JOIN `usertypes` ut ON (u.`usertype` = ut.`usertypeid` )
-                    GROUP BY u.`userid`
+                    GROUP BY u.`userid`, ut.`name`
             ");
 
 //        dd($users);
