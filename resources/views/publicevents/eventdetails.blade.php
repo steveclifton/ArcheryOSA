@@ -29,7 +29,7 @@
                             <!-- /.box-header -->
                             <div class="box-body">
 
-                                @if ($event->scoringenabled || !is_null($userevententry))
+                                @if ($event->visible || !is_null($userevententry))
                                         @if (!is_null($userevententry))
                                             <a href="{{ route('updateeventregistrationview', $event->eventid) }}" class="btn btn-warning pull-right" role="button">
                                                 <i class="fa fa-gear" aria-hidden="true"></i> Update Entry
