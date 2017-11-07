@@ -54,6 +54,12 @@ class EventController extends Controller
 
     public function PUBLIC_getEventDetailsView(Request $request)
     {
+        if ($request->exists('week') ) {
+            dd($request); // get results for specific week
+        } else {
+            // get results for the current week (latest)
+        }
+
         $event = Event::where('eventid', urldecode($request->eventid))
                         ->where('name', urldecode($request->name))
                         ->get()
@@ -63,7 +69,7 @@ class EventController extends Controller
             return Redirect::route('home');
         }
 
-        $eventrounds = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, er.`location`, e.`status`
+        $eventrounds = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, er.`location`, e.`status`, er.`eventroundid`
             FROM `eventrounds` er 
             JOIN `rounds` r USING (`roundid`)
             JOIN `events` e USING (`eventid`)
@@ -71,6 +77,7 @@ class EventController extends Controller
             ",
             ['eventid' => $event->eventid]
         );
+
 
         $distances = $this->makeDistanceString($eventrounds);
 
