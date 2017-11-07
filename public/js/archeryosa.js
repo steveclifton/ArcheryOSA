@@ -4,9 +4,16 @@ $(document).ready(function() {
             $('.sidebar-mini').addClass('sidebar-collapse');
         }
     }
+    
+    $('.readmore').click(function () {
+        $(this).remove();
+        $('.moreschedule').removeClass('hidden');
+    });
 
     var selectedValueRound = $('#roundsunitvalue').val();
     $('#roundsunit option[value=' + selectedValueRound +']').attr('selected','selected');
+
+
 
     var selectedValueClubCountry = $('#clubscountryvalue').val();
     $('#clubscountry option[value=' + selectedValueClubCountry +']').attr('selected','selected');
@@ -57,6 +64,22 @@ $(document).ready(function() {
             $('#maxweeklyinput').removeClass('hidden');
         }
     });
+
+
+    $('.week').on('change', function (e) {
+        var optionSelected = $("option:selected", this).val();
+        var url = getPathFromUrl(window.location.href);
+        window.location.replace(url + '?week=' + optionSelected);
+
+
+    });
+
+    function getPathFromUrl(url) {
+        return url.split("?")[0];
+    }
+
+
+
 
 
     // This will work for when you are updating an eventround
@@ -135,8 +158,6 @@ $(document).ready(function() {
         $('.item').removeClass('hidden');
         $('.showmore').empty();
     });
-
-
 
 
 
