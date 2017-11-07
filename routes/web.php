@@ -37,9 +37,11 @@ Route::middleware(['web'])->group(function() {
 		Route::get('/logout', 'UserController@logout')->name('logout');
         Route::get('/myevents', 'UserController@getUserEventsView')->name('myevents');
 
+
         Route::post('/updateprofile', 'UserController@updateProfile')->name('updateprofile');
 
-        Route::get('/scoring/{eventname}', 'ScoringController@getScoringView')->name('enterscore');
+        Route::get('/scoring/{eventroundid}/{eventid}/{eventname}', 'ScoringController@getScoringView')->name('getenterscoreview');
+        Route::post('/scoring/{eventroundid}/{eventid}', 'ScoringController@enterScores')->name('enterscores');
 
         Route::get('/updateprofile/addarcher', 'UserController@getCreateArcherRelationship')->name('createaddarcherview');
         Route::get('/updateprofile/addmembership', 'UserMembershipController@getCreateView')->name('createusermembershipview');
