@@ -1,6 +1,7 @@
 <?php
 namespace App\Classes;
 
+use App\ArcherRelation;
 use Illuminate\Support\Facades\Auth;
 
 class UserExtended {
@@ -17,5 +18,19 @@ class UserExtended {
             return true;
         }
         return false;
+    }
+
+    static public function getUserRelations()
+    {
+        return ArcherRelation::where('userid', Auth::id())->get();
+    }
+
+    static public function getUserRelationIDs()
+    {
+        $archers = ArcherRelation::where('userid', Auth::id())->pluck('relationuserid')->toArray();
+        $archers[] = Auth::id();
+
+        return array_map('intval', $archers);
+
     }
 }
