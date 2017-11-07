@@ -1,29 +1,43 @@
-<div class="box-body">
-    <ul class="products-list product-list-in-box">
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <div class="box box-primary collapsed-box">
+                    <div class="box-header with-border">
+                        <div>
+                            <h1 class="box-title">Current Entries</h1>
+                        </div>
+                        <div class="box-tools pull-right" >
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">Click to Open &nbsp;
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table">
 
-        @foreach (array_slice($users, 0, 10) as $user)
-            <li class="item">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Division</th>
+                                    </tr>
+                                </thead>
 
-                <span style="padding-right: 10%">
-                    <span class="label {{ $user->label }}">{{$user->division}}</span>
-                </span>
+                                <tbody>
+                                    @foreach ($users as $user)
+                                        <tr>
+                                            <td>{{ ucwords($user->fullname) }}</td>
+                                            <td>{{ $user->division }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
 
-                {{ucwords(strtolower($user->fullname))}}
-
-            </li>
-        @endforeach
-
-        @foreach (array_slice($users, 10) as $user)
-            <li class="item hidden">
-
-                <span style="padding-right: 10%">
-                    <span class="label {{ $user->label }}">{{$user->division}}</span>
-                </span>
-
-                {{ucwords(strtolower($user->fullname))}}
-
-            </li>
-        @endforeach
-
-    </ul>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
