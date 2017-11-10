@@ -2,3 +2,50 @@
 	text-align: center;
 	font-weight: bold;
 }
+
+.mobOnly {
+	display: block !important;
+}
+.mobimage {
+	display: block !important;
+	overflow:hidden;
+	max-width:100%;
+	max-height:100%;
+	object-fit: contain;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.dtOnly {
+	display: none !important;
+}
+.dtimage {
+	display: none !important;
+}
+
+
+@media only screen and (min-width:768px) {
+	.mobOnly {
+		display: none !important;
+	}
+	.mobimage {
+		display: none !important;
+	}
+
+	.dtOnly {
+		display: block !important;
+	}
+	.dtimage {
+		display: block !important;
+		overflow:hidden;
+		max-width:100%;
+		max-height:100%;
+		object-fit: contain;
+		margin-left: auto;
+		margin-right: auto;
+
+	}
+
+
+
+}
