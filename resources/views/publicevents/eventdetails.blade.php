@@ -8,6 +8,10 @@
 
 @section ('content')
 
+    <div class="row">
+        @include('includes.events.eventdetails_sponsor')
+    </div>
+
     {{-- <div class="container"> --}}
     @if ($event->scoringenabled && !is_null($userevententry))
         <div class="row">
