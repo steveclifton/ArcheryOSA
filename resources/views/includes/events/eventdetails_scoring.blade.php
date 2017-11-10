@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-12">
             <div>
-                <div class="box box-success collapsed-box">
+                <div class="box box-success">
                     <div class="box-header with-border">
                         <div>
                             <h1 class="box-title">Scoring</h1>
