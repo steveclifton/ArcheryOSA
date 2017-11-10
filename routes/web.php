@@ -41,7 +41,7 @@ Route::middleware(['web'])->group(function() {
         Route::post('/updateprofile', 'UserController@updateProfile')->name('updateprofile');
 
         Route::get('/scoring/{eventroundid}/{eventid}/{eventname}', 'ScoringController@getScoringView')->name('getenterscoreview');
-        Route::post('/scoring/{eventroundid}/{eventid}', 'ScoringController@enterScores')->name('enterscores');
+        Route::post('/scoring/{eventroundid}/{eventid}/{currentweek}', 'ScoringController@enterScores')->name('enterscores');
 
         Route::get('/updateprofile/addarcher', 'UserController@getCreateArcherRelationship')->name('createaddarcherview');
         Route::get('/updateprofile/addmembership', 'UserMembershipController@getCreateView')->name('createusermembershipview');
