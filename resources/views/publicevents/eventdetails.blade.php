@@ -11,7 +11,7 @@
 
 
     {{-- <div class="container"> --}}
-    @if ($event->scoringenabled && !is_null($userevententry))
+    @if ($event->scoringenabled && (!is_null($userevententry) || Auth::id() == $event->createdby))
         <div class="row">
             @include('includes.events.eventdetails_scoring')
         </div>
