@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\EventDateRange;
 use App\EntryStatus;
 use App\EventEntry;
 use Illuminate\Support\Facades\DB;
@@ -141,6 +142,11 @@ class EventController extends Controller
 
         $organisations = Organisation::where('visible', 1)->get();
 
+        $daterange = new EventDateRange($event->first()->startdate, $event->first()->enddate);
+        $daterange = $daterange->getDateRange();
+
+        $weeks = ($daterange != 0) ? count($daterange) / 7 : 1;
+
 
         $users = DB::select("SELECT ee.`userid`, ee.`fullname`, ee.`entrystatusid`, ee.`clubid`, c.`name` as club, ee.`paid`, d.`name` as division, ee.`divisionid`
             FROM `evententry` ee
@@ -157,7 +163,7 @@ class EventController extends Controller
 
         $entrystatus = EntryStatus::get();
 
-        return view('auth.events.updateevent', compact('event', 'eventrounds', 'organisations', 'users', 'entrystatus'));
+        return view('auth.events.updateevent', compact('event', 'eventrounds', 'organisations', 'users', 'entrystatus', 'weeks'));
     }
 
     public function create(Request $request)
@@ -308,6 +314,8 @@ class EventController extends Controller
             $event->bankaccount = htmlentities($request->input('bankaccount'));
             $event->schedule = htmlentities(trim($request->input('schedule')));
             $event->scoringenabled = $scoringenabled;
+            $event->currentweek = htmlentities($request->input('currentweek')) ?? 1;
+
             $event->visible = $visible;
             $event->save();
 
