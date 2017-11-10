@@ -33,7 +33,7 @@
                     Hits, 10s and Xs are used to decide winners in the event of a tie. You are encouraged to enter these if scored.
                 </div>
                 <div class="box-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('enterscores', [$eventround[0]->eventroundid, $event->eventid, $event->currentweek])  }}" id="eventform">
+                    <form class="form-horizontal" method="POST" action="{{ route('enterscores', [$eventround[0]->eventroundid, $event->eventid, $event->currentweek])  }}" id="scoringform">
                         {{ csrf_field() }}
 
                         <div class=" table-condensed table-striped table-responsive">
@@ -157,7 +157,7 @@
             @foreach ($users as $user)
             <div class="box">
                 <div class="box-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('enterscores', [$eventround[0]->eventroundid, $event->eventid,  $event->currentweek])  }}" id="eventform">
+                    <form class="form-horizontal" method="POST" action="{{ route('enterscores', [$eventround[0]->eventroundid, $event->eventid,  $event->currentweek])  }}" id="scoringform">
                         {{ csrf_field() }}
 
                         <div class=" table-condensed table-striped table-responsive">
