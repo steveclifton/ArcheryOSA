@@ -36,6 +36,16 @@ $(document).ready(function() {
             alert('Please check invalid scores and try again');
         }
     });
+
+    $('#scoringformmobile').submit(function (e) {
+        var inputs = $(".scoringError");
+
+        if ( inputs.length > 0) {
+
+            e.preventDefault();
+            alert('Please check invalid scores and try again');
+        }
+    });
     
     $('.readmore').click(function () {
         $(this).remove();
@@ -150,7 +160,6 @@ $(document).ready(function() {
 
     $('#organisationselecteventround').on('change', function() {
         var value = this.value;
-        console.log(value);
         // For update
         $('#divisionselect').find('label').each(function () {
             // Remove all checked fields
