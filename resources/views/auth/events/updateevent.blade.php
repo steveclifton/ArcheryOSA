@@ -150,6 +150,21 @@
                             </div>
                         </div>
 
+                        @if ($event->first()->eventtype == 1)
+                            <div class="form-group" id="status">
+                                <label for="event" class="col-md-4 control-label">Current Week</label>
+
+                                <div class="col-md-6">
+                                    <select name="currentweek" class="form-control">
+                                        @for ($i = 1; $i <= intval($weeks); $i++)
+                                            <option value="{{$i}}" {!! $event->first()->currentweek == $i ? 'selected' : '' !!}>Week {{$i}}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                            </div>
+                        @endif
+
+
                         <div class="form-group {{ $errors->has('eventtype') ? ' has-error' : '' }}" id="eventtype">
                             <label for="eventtype" class="col-md-4 control-label">Type</label>
 
