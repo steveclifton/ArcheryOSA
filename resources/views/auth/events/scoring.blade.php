@@ -8,23 +8,9 @@
 
 @section ('content')
 
-    {{--<div class="box-header">--}}
-        {{--<h3 class="box-title">Responsive Hover Table</h3>--}}
 
-        {{--<div class="box-tools">--}}
-            {{--<div class="input-group input-group-sm" style="width: 150px;">--}}
-                {{--<input type="text" name="table_search" class="form-control pull-right" placeholder="Search">--}}
-
-                {{--<div class="input-group-btn">--}}
-                    {{--<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-    {{--</div>--}}
-
-    {{-- <div class="container"> --}}
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 dtOnly">
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title"><strong>Scoring</strong></h3><BR>
@@ -43,20 +29,8 @@
                     </div>
                     <hr>
                 </div>
-
-
-            <div class="box-body">
-                {{--<div class="panel-heading">{!! ucwords($event->name) . ' - Scoring' !!}--}}
-                    {{--<a href="{{route('events')}}">--}}
-                        {{--<button type="submit" class="btn btn-default pull-right" id="addevent">--}}
-                            {{--<i class="fa fa-backward" > Back</i>--}}
-                        {{--</button>--}}
-                    {{--</a>--}}
-                {{--</div>--}}
-
-
-                {{--<div class="panel-body">--}}
-                    <form class="form-horizontal" method="POST" action="{{ route('enterscores', [$eventround[0]->eventroundid, $event->eventid])  }}" id="eventform">
+                <div class="box-body">
+                    <form class="form-horizontal" method="POST" action="{{ route('enterscores', [$eventround[0]->eventroundid, $event->eventid, $event->currentweek])  }}" id="eventform">
                         {{ csrf_field() }}
 
                         <div class=" table-condensed table-striped table-responsive">
@@ -119,6 +93,107 @@
                             </table>
                         </div>
 
+                        <button type="submit" class="btn btn-success pull-right" value="submit" name="submit">
+                            Submit Scores
+                        </button>
+
+                    </form>
+                </div>
+            </div>{{-- .box--}}
+        </div>
+
+
+        <div class="col-md-12 mobOnly">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title"><strong>Scoring Mobile</strong></h3><BR>
+                    <h3 class="box-title">{{ ucwords($event->name)}}</h3>
+
+                    <div class="box-tools">
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                            <a href="{{URL::previous()}}">
+                                <button type="submit" class="btn btn-primary pull-right" id="addevent">
+                                    <i class="fa fa-backward" >
+                                        <span style="font-family: sans-serif;"> Back</span>
+                                    </i>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @foreach ($users as $user)
+            <div class="box">
+                <div class="box-body">
+                    <form class="form-horizontal" method="POST" action="{{ route('enterscores', [$eventround[0]->eventroundid, $event->eventid,  $event->currentweek])  }}" id="eventform">
+                        {{ csrf_field() }}
+
+                        <div class=" table-condensed table-striped table-responsive">
+                            <table class="table">
+
+                                    <tr>
+                                        <th class="hidden">UserID</th>
+                                        <td><input type="hidden" name="userid[]" value="{{$user->userid}}"></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="col-md-1 col-xs-1 col-sm-1">Archer</th>
+                                        <td>{{$user->fullname}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="col-md-1 col-xs-1 col-sm-1">Division</th>
+                                        <td>{{$user->divisionname}}</td>
+                                    </tr>
+
+                                    @if (isset($distances['Distance-1']))
+                                        <tr>
+                                            <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">{!! $distances['Distance-1'] . $eventround[0]->unit !!}</th>
+                                            <td><input type="text" class="form-control" name="dist1[]"></td>
+                                        </tr>
+                                    @endif
+                                    @if (isset($distances['Distance-2']))
+                                        <tr>
+                                            <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">{!! $distances['Distance-2'] . $eventround[0]->unit !!}</th>
+                                            <td><input type="text" class="form-control" name="dist2[]"></td>
+                                        </tr>
+                                    @endif
+                                    @if (isset($distances['Distance-3']))
+                                        <tr>
+                                            <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">{!! $distances['Distance-3'] . $eventround[0]->unit !!}</th>
+                                            <td><input type="text" class="form-control" name="dist3[]"></td>
+                                        </tr>
+                                    @endif
+                                    @if (isset($distances['Distance-4']))
+                                        <tr>
+                                            <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">{!! $distances['Distance-4'] . $eventround[0]->unit !!}</th>
+                                            <td><input type="text" class="form-control" name="dist4[]"></td>
+                                        </tr>
+                                    @endif
+
+                                    <tr>
+                                        <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">Total</th>
+                                        <td><input type="text" class="form-control" name="total[]"></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">Hits</th>
+                                        <td><input type="text" class="form-control" name="hit[]" placeholder="Optional"></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">10s</th>
+                                        <td><input type="text" class="form-control" name="10[]" placeholder="Optional"></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">X</th>
+                                        <td><input type="text" class="form-control" name="x[]" placeholder="Optional"></td>
+                                    </tr>
+
+                            </table>
+                        </div>
 
                         <button type="submit" class="btn btn-success pull-right" value="submit" name="submit">
                             Submit Scores
@@ -127,31 +202,10 @@
                     </form>
                 </div>
             </div>
+            @endforeach
+            </div>{{-- .box--}}
         </div>
-    </div>
-    </div>
-    {{-- </div> --}}
-    <!-- daterangepicker -->
-    <script src="{{URL::asset('bower_components/moment/min/moment.min.js')}}"></script>
-    <script src="{{URL::asset('bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
-    <!-- datepicker -->
-    <script src="{{URL::asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
-    <script>
-        $(function () {
-            //Initialize Select2 Elements
-            $('.select2').select2();
 
-
-            $('#scoredate').datepicker({
-                format: 'dd/mm/yyyy',
-                autoclose: true
-            }).datepicker("update");
-
-        });
-
-        var collapse_siderbar = true;
-
-    </script>
 
 @endsection
 
