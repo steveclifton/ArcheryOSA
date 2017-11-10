@@ -4,16 +4,53 @@ $(document).ready(function() {
             $('.sidebar-mini').addClass('sidebar-collapse');
         }
     }
+
+    $('.distance').focusout(function () {
+        var userhash = $(this).data('userrow');
+
+        var inputs = $("input[data-userrow='" + userhash + "']");
+
+        var totalscore = 0;
+
+        inputs.each(function () {
+            if (typeof this.value === 'string' && this.value !== '') {
+                totalscore += parseInt(this.value);
+            }
+        });
+
+        $("input[data-id='total-" + userhash + "']").val(totalscore);
+
+        console.log(totalscore)
+    });
     
     $('.readmore').click(function () {
         $(this).remove();
         $('.moreschedule').removeClass('hidden');
     });
 
+    $('.addmoredetails').click(function () {
+
+        var dataid = $(this).data('row');
+        var inputs = $("input[data-id='" + dataid + "']");
+        var thishtml =  $(this).html();
+        if ( thishtml == 'Close more details' ) {
+            $(this).html('Add more details');
+        } else {
+            $(this).html('Close more details');
+        }
+        inputs.each(function() {
+            if ($(this).hasClass('hidden')) {
+                $(this).removeClass('hidden');
+            } else {
+                $(this).addClass('hidden')
+            }
+
+        });
+
+    });
+
     var selectedValueRound = $('#roundsunitvalue').val();
     $('#roundsunit option[value=' + selectedValueRound +']').attr('selected','selected');
-
-
 
     var selectedValueClubCountry = $('#clubscountryvalue').val();
     $('#clubscountry option[value=' + selectedValueClubCountry +']').attr('selected','selected');
