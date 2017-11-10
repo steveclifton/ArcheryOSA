@@ -13,14 +13,28 @@ $(document).ready(function() {
         var totalscore = 0;
 
         inputs.each(function () {
-            if (typeof this.value === 'string' && this.value !== '') {
-                totalscore += parseInt(this.value);
+            if (this.value !== '') {
+                if (!isNaN(Number(this.value))) {
+                    totalscore += parseInt(this.value);
+                } else {
+                    $(this).css('border', 'solid 2px #FF0000');
+                    $(this).addClass('scoringError');
+                }
             }
         });
 
         $("input[data-id='total-" + userhash + "']").val(totalscore);
 
-        console.log(totalscore)
+    });
+
+    $('#scoringform').submit(function (e) {
+        var inputs = $(".scoringError");
+
+        if ( inputs.length > 0) {
+
+            e.preventDefault();
+            alert('Please check invalid scores and try again');
+        }
     });
     
     $('.readmore').click(function () {
