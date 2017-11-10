@@ -8,22 +8,28 @@
 
 @section ('content')
 
-    <div class="row">
-        @include('includes.events.eventdetails_sponsor')
-    </div>
+
 
     {{-- <div class="container"> --}}
     @if ($event->scoringenabled && !is_null($userevententry))
         <div class="row">
-            @include('includes.scoring')
+            @include('includes.events.eventdetails_scoring')
         </div>
+    @endif
+
+    <div class="row">
+        @include('includes.events.eventdetails_sponsor')
+    </div>
+
+    @if($event->scoringenabled && !is_null($userevententry))
         <div class="row">
             @include('includes.events.eventdetails_results')
         </div>
     @endif
-        <div class="row">
-            @include('includes.events.eventdetails_currententries')
-        </div>
+
+    <div class="row">
+        @include('includes.events.eventdetails_currententries')
+    </div>
 
 
 
