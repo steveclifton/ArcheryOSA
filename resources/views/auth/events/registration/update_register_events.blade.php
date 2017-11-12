@@ -18,7 +18,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Update Event Registration
 
-                    <a href="{{url()->previous()}}">
+                    <a href="{{route('eventdetails', urlencode($event->name)) }}">
                         <button type="submit" class="btn btn-default pull-right" id="addevent">
                             <i class="fa fa-backward" >  Back</i>
                         </button>
