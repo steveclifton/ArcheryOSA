@@ -6,7 +6,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/clubs', 'ClubController@PUBLIC_getViewClubs')->name('public.clubs');
 Route::get('/upcomingevents', 'EventController@PUBLIC_getAllUpcomingEventsView')->name('upcomingevents');
 Route::get('/previousevents', 'EventController@PUBLIC_getAllPreviousEventsView');
-Route::get('/eventdetails/{eventid}/{name}', 'EventController@PUBLIC_getEventDetailsView')->name('eventdetails');
+Route::get('/eventdetails/{name}', 'EventController@PUBLIC_getEventDetailsView')->name('eventdetails');
 Route::get('/authorisearcherrelation/{hash}', 'UserController@authoriseUserRelationship')->name('authoriseuserrelationship');
 
 
