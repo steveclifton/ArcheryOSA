@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('createevent') }}" id="eventform">
+                    <form class="form-horizontal" method="POST" action="{{ route('createevent') }}" id="eventform" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <div class="form-group {{ $errors->has('eventerror') ? ' has-error' : '' }}">
@@ -82,7 +82,7 @@
                             <label for="maxweeklyscores" class="col-md-4 control-label">Max Scores Per Week*</label>
 
                             <div class="col-md-6">
-                                <input id="maxweeklyvalue" type="text" class="form-control" name="maxweeklyscores" value="{{ old('maxweeklyscores') }}" required >
+                                <input id="maxweeklyvalue" type="text" class="form-control" name="maxweeklyscores">
 
                                 @if ($errors->has('maxweeklyscores'))
                                     <span class="help-block">
@@ -230,6 +230,41 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Sponsored Event</label>
+                            <div class="col-md-6">
+                                <input type="checkbox" name="sponsored" style="margin-top: 10px">
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('dtimage') ? ' has-error' : '' }}">
+                            <label for="desktopimage" class="col-md-4 control-label">Desktop Image (1000x400px)</label>
+
+                            <div class="col-md-6">
+                                <input type="file" class="form-control" name="dtimage">
+
+                                @if ($errors->has('dtimage'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('dtimage') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('dtimage') ? ' has-error' : '' }}">
+                            <label for="mobimage" class="col-md-4 control-label">Mobile Image(800x500px)</label>
+
+                            <div class="col-md-6">
+                                <input type="file" class="form-control" name="mobimage">
+
+                                @if ($errors->has('mobimage'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('mobimage') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
 
                         <div class="form-group{{ $errors->has('multipledivisions') ? ' has-error' : '' }}">
                             <label for="bankaccount" class="col-md-4 control-label">Allow Multiple Division Entries</label>
@@ -279,6 +314,7 @@
                                 </button>
                             </div>
                         </div>
+
                     </form>
                 </div>
             </div>
