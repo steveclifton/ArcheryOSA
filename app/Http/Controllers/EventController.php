@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Image;
+
 
 
 /**
@@ -61,8 +63,7 @@ class EventController extends Controller
             // get results for the current week (latest)
         }
 
-        $event = Event::where('eventid', urldecode($request->eventid))
-                        ->where('name', urldecode($request->name))
+        $event = Event::where('name', urldecode($request->name))
                         ->get()
                         ->first();
 
@@ -207,8 +208,37 @@ class EventController extends Controller
         if (!empty($request->input('multipledivisions'))) {
             $multipledivisions = 1;
         }
+        $sponsored = 0;
+        if (!empty($request->input('sponsored'))) {
+            $sponsored = 1;
+        }
+
 
         $event = new Event();
+
+        if ($request->hasFile('dtimage')) {
+
+            $image = $request->file('dtimage');
+            $filename = time() . rand(0,999) . '.' . $image->getClientOriginalExtension();
+            $location = public_path('content/sponsor/' . $filename);
+            $locationsmall = public_path('content/sponsor/small/' . $filename);
+            Image::make($image)->resize(1000,400)->save($location);
+            Image::make($image)->resize(100,40)->save($locationsmall);
+
+            $event->dtimage = $filename;
+        }
+
+        if ($request->hasFile('mobimage')) {
+
+            $image = $request->file('mobimage');
+            $filename = time() . rand(0,999) . '.' . $image->getClientOriginalExtension();
+            $location = public_path('content/sponsor/' . $filename);
+            $locationsmall = public_path('content/sponsor/small/' . $filename);
+            Image::make($image)->resize(800,500)->save($location);
+            Image::make($image)->resize(80,50)->save($locationsmall);
+
+            $event->mobimage = $filename;
+        }
 
         $event->name = htmlentities($request->input('name'));
         $event->email = htmlentities($request->input('email'));
@@ -228,11 +258,17 @@ class EventController extends Controller
         $event->bankaccount = htmlentities($request->input('bankaccount'));
         $event->schedule = htmlentities($request->input('schedule'));
         $event->scoringenabled = $scoringenabled;
+        $event->sponsored = $sponsored;
+
         $event->visible = $visible;
         $event->save();
 
         return Redirect::route('updateeventview', ['eventid' => urlencode($event->eventid)]);
     }
+
+
+
+
 
     public function update(Request $request)
     {
@@ -297,6 +333,46 @@ class EventController extends Controller
                 $multipledivisions = 1;
             }
 
+            $sponsored = 0;
+            if (!empty($request->input('sponsored'))) {
+                $sponsored = 1;
+            }
+
+            if ($request->hasFile('dtimage')) {
+                //clean up old image
+                if (empty($event->dtimage) !== true) {
+                    if (is_file(public_path('content/sponsor/' . $event->dtimage))) {
+                        unlink(public_path('content/sponsor/' . $event->dtimage));
+                    }
+                }
+                $image = $request->file('dtimage');
+                $filename = time() . rand(0,999) . '.' . $image->getClientOriginalExtension();
+                $location = public_path('content/sponsor/' . $filename);
+                $locationsmall = public_path('content/sponsor/small/' . $filename);
+                Image::make($image)->resize(1000,400)->save($location);
+                Image::make($image)->resize(100,40)->save($locationsmall);
+
+                $event->dtimage = $filename;
+            }
+
+            if ($request->hasFile('mobimage')) {
+                //clean up old image
+                if (empty($event->mobimage) !== true) {
+                    if (is_file(public_path('content/sponsor/' . $event->mobimage))) {
+                        unlink(public_path('content/sponsor/' . $event->mobimage));
+                    }
+                }
+                $image = $request->file('mobimage');
+                $filename = time() . rand(0,999) . '.' . $image->getClientOriginalExtension();
+                $location = public_path('content/sponsor/' . $filename);
+                $locationsmall = public_path('content/sponsor/small/' . $filename);
+                Image::make($image)->resize(800,500)->save($location);
+                Image::make($image)->resize(80,50)->save($locationsmall);
+
+                $event->mobimage = $filename;
+            }
+
+
             $event->name = htmlentities($request->input('name'));
             $event->email = htmlentities($request->input('email'));
             $event->contact = htmlentities($request->input('contact'));
@@ -314,6 +390,7 @@ class EventController extends Controller
             $event->bankaccount = htmlentities($request->input('bankaccount'));
             $event->schedule = htmlentities(trim($request->input('schedule')));
             $event->scoringenabled = $scoringenabled;
+            $event->sponsored = $sponsored;
             $event->currentweek = htmlentities($request->input('currentweek')) ?? 1;
 
             $event->visible = $visible;
