@@ -58,7 +58,7 @@ class EventRegistrationController extends Controller
                                         ->get();
 
         if (is_null($eventregistration)) {
-            return Redirect::route('eventdetails', $request->eventid)->with('failure', 'Unable to find registration, please contact ArcheryOSA Admin');
+            return Redirect::route('eventdetails', urlencode($request->name))->with('failure', 'Unable to find registration, please contact ArcheryOSA Admin');
         }
 
         $userdivisions = [];
@@ -100,7 +100,8 @@ class EventRegistrationController extends Controller
             $alreadyentered = EventEntry::where('userid', Auth::id())
                 ->where('eventid', $request->eventid)
                 ->where('divisionid', $division)
-                ->get()->first();
+                ->get()
+                ->first();
 
             if (!is_null($alreadyentered)) {
                 return back()->with('failure', 'Registration Failed, please contact archeryosa@gmail.com');
@@ -128,7 +129,9 @@ class EventRegistrationController extends Controller
         $eventname = Event::where('eventid', $request->eventid)->pluck('name')->first();
         $this->sendEventEntryConfirmation($eventname);
 
-        return Redirect::route('eventdetails', ['eventid' => $request->eventid, 'name' => $request->eventname])->with('message', 'Registration Successful');
+        return Redirect::route('eventdetails', ['name' => $request->eventname])->with('message', 'Registration Successful');
+
+
 
 
     }
@@ -147,17 +150,17 @@ class EventRegistrationController extends Controller
         if ($request->input('submit') == 'remove') {
             $this->deleteUserEntry($request);
             // Send email to confirm removing entry
-            return Redirect::route('eventdetails', ['eventid' => $request->eventid, 'name' => $request->eventname])->with('message', 'Entry removed from event');
+            return Redirect::route('eventdetails', ['name' => $request->eventname])->with('message', 'Entry removed from event');
 
         } else if ($event->multipledivisions == 0) {
             // Single entry comp
             $this->singleEntryUpdate($request);
-            return Redirect::route('eventdetails', ['eventid' => $request->eventid, 'name' => $request->eventname])->with('message', 'Update Successful');
+            return Redirect::route('eventdetails', ['name' => $request->eventname])->with('message', 'Update Successful');
 
         } else {
             // Multiple entry comp
             $this->multipleEntryUpdate($request);
-            return Redirect::route('eventdetails', ['eventid' => $request->eventid, 'name' => $request->eventname])->with('message', 'Update Successful');
+            return Redirect::route('eventdetails', ['name' => $request->eventname])->with('message', 'Update Successful');
 
         }
 
