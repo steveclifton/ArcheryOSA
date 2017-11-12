@@ -29,7 +29,7 @@
                                     @foreach($userevents as $event)
                                         <tr>
                                             <td>
-                                                <a href="{{route('eventdetails', [$event->eventid, urlencode($event->name)])}}">{{$event->name}}</a>
+                                                <a href="{{route('eventdetails', [urlencode($event->name)])}}">{{$event->name}}</a>
 
                                             </td>
                                             <td>{{date('d/m/Y', strtotime($event->startdate))}}</td>
@@ -122,7 +122,7 @@
                                     @foreach($events as $event)
                                     <tr>
                                         <td>
-                                            <a href="{{route('eventdetails', [$event->eventid, urlencode($event->name)])}}">{{$event->name}}</a>
+                                            <a href="{{route('eventdetails', [urlencode($event->name)])}}">{{$event->name}}</a>
                                         </td>
                                         <td>{{ (strlen($event->location) > 60) ? mb_substr($event->location, 0, 60) . ".." : $event->location }}</td>
                                         <td><?= !empty($event->closeentry) ? date('d-m-Y', strtotime($event->closeentry)) : ''  ?></td>
