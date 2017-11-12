@@ -37,7 +37,7 @@
                         @foreach($events as $event)
                             <tr>
                                 <td>
-                                    <a href="/eventdetails/{{ urlencode($event->eventid) }}/{{ urlencode($event->name) }}">{{$event->name}}</a>
+                                    <a href="/eventdetails/{{ urlencode($event->name) }}">{{$event->name}}</a>
                                 </td>
                                 <td>{{ (strlen($event->location) > 30) ? mb_substr($event->location, 0, 30) . ".." : $event->location }}</td>
                                 <td class="hidden-xs hidden-sm"><?= !empty($event->closeentry) ? date('d F Y', strtotime($event->closeentry)) : ''  ?></td>
