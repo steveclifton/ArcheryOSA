@@ -29,7 +29,7 @@
                                     @foreach($userevents as $event)
                                         <tr>
                                             <td>
-                                                <a href="/eventdetails/{{ urlencode($event->eventid) }}/{{ urlencode($event->name) }}">{{$event->name}}</a>
+                                                <a href="/eventdetails/{{ urlencode($event->name) }}">{{$event->name}}</a>
                                             </td>
                                             <td>{{date('d/m/Y', strtotime($event->startdate))}}</td>
 
