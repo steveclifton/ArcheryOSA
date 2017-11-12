@@ -119,7 +119,7 @@
 
                 <div class="panel-body">
                     <h3 style="text-align: center;font-weight: bold;">{{$event->first()->name}}</h3><br>
-                    <form class="form-horizontal" method="POST" action="{{ route('updateevent', $event->first()->eventid) }}" id="eventformupdate">
+                    <form class="form-horizontal" method="POST" action="{{ route('updateevent', $event->first()->eventid) }}" id="eventformupdate" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <input type="hidden" name="eventid" value="{{ $event->first()->eventid }}">
 
@@ -188,7 +188,7 @@
                             <label for="maxweeklyscores" class="col-md-4 control-label">Max Scores Per Week*</label>
 
                             <div class="col-md-6">
-                                <input id="maxweeklyvalue" type="text" class="form-control" name="maxweeklyscores" value="{{ old('maxweeklyscores') ?? $event->first()->maxweeklyscores }}" required >
+                                <input id="maxweeklyvalue" type="text" class="form-control" name="maxweeklyscores" value="{{ old('maxweeklyscores') ?? $event->first()->maxweeklyscores }}">
 
                                 @if ($errors->has('maxweeklyscores'))
                                     <span class="help-block">
@@ -337,6 +337,57 @@
                                 @if ($errors->has('bankaccount'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('bankaccount') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Sponsored Event</label>
+                            <div class="col-md-6">
+
+                                @if (!empty($event))
+                                    <?php
+                                    $sponsored='';
+                                    if ($event->first()->sponsored == 1) {
+                                        $sponsored = 'checked';
+                                    }
+                                    ?>
+
+                                <input type="checkbox" name="sponsored" style="margin-top: 10px" {{$sponsored}}>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('dtimage') ? ' has-error' : '' }}">
+                            <label for="desktopimage" class="col-md-4 control-label">Desktop Image (1000x400px)</label>
+
+                            <div class="col-md-6">
+                                <input type="file" class="form-control" name="dtimage">
+                                @if (!empty($event->first()->dtimage))
+                                    <img id="blah" src="/content/sponsor/small/{{ (old('image')) ? old('image') : $event->first()->dtimage }}" alt="" style="width: 150px" />
+                                @endif
+
+                                @if ($errors->has('dtimage'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('dtimage') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('dtimage') ? ' has-error' : '' }}">
+                            <label for="mobimage" class="col-md-4 control-label">Mobile Image(800x500px)</label>
+
+                            <div class="col-md-6">
+                                <input type="file" class="form-control" name="mobimage">
+                                @if (!empty($event->first()->mobimage))
+                                    <img id="blah" src="/content/sponsor/small/{{ (old('image')) ? old('image') : $event->first()->mobimage }}" alt="" style="width: 150px" />
+                                @endif
+
+                                @if ($errors->has('mobimage'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('mobimage') }}</strong>
                                     </span>
                                 @endif
                             </div>
