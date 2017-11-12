@@ -8,7 +8,7 @@
 
 @section ('content')
 
-
+    @include('includes.session_errors')
 
     {{-- <div class="container"> --}}
     @if ($event->scoringenabled && (!is_null($userevententry) || Auth::id() == $event->createdby))
@@ -21,23 +21,18 @@
         @include('includes.events.eventdetails_sponsor')
     </div>
 
-    @if($event->scoringenabled && !is_null($userevententry))
+    @if ($event->scoringenabled && !is_null($userevententry))
         <div class="row">
             @include('includes.events.eventdetails_results')
         </div>
     @endif
 
-    <div class="row">
-        @include('includes.events.eventdetails_currententries')
-    </div>
-
 
 
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-md-9">
             <div class="row">
                 <div class="col-md-12">
-                    @include('includes.session_errors')
                     <div>
                         <div class="box box-primary">
                             <div class="box-header with-border">
@@ -92,6 +87,8 @@
                 </div>
             </div>
         </div>
+        @include('includes.events.eventdetails_currententries')
+
     </div>
 
 
