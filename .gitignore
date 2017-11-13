@@ -11,5 +11,5 @@ npm-debug.log
 yarn-error.log
 .env
 
-/public/content/profile/
+/public/content/
 /xpages/
