@@ -68,56 +68,59 @@
                                 </thead>
                                 <tbody>
                                 @foreach($users as $user)
-
                                     {{--NEED LOGIC FOR VALIDATION --}}
 
                                     <tr>
                                         <td class="hidden">
-                                            <input type="hidden" name="userid[]" value="{{$user->userid}}"></td>
+                                            <input type="hidden" name="userid[{{$user->evententryid}}]" value="{{$user->userid}}">
+                                            <input type="hidden" name="evententryid[{{$user->evententryid}}]" value="{{$user->evententryid}}">
+                                            <input type="hidden" name="divisionid[{{$user->evententryid}}]" value="{{$user->divisionid}}">
+
+                                        </td>
                                         <td>{{$user->fullname}}</td>
                                         <td>{{$user->divisionname}}</td>
 
                                         @if(isset($distances['Distance-1']))
                                             <td>
-                                                <input type="text" class="form-control distance" name="distance1-total[]" data-userrow="{!! md5($user->userid) !!}">
-                                                <span class="label label-warning addmoredetails" data-row="{{$user->userid}}-1">Add more details</span>
-                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->userid}}-1" name="distance1-hits[]">
-                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->userid}}-1" name="distance1-10[]">
-                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->userid}}-1" name="distance1-x[]">
+                                                <input type="text" class="form-control distance" name="distance1[{{$user->evententryid}}][total]" data-userrow="{!! md5($user->evententryid . $user->divisionname) !!}">
+                                                <span class="label label-warning addmoredetails" data-row="{{$user->evententryid}}-1">Add more details</span>
+                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->evententryid}}-1" name="distance1[{{$user->evententryid}}][hits]">
+                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->evententryid}}-1" name="distance1[{{$user->evententryid}}][10]">
+                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->evententryid}}-1" name="distance1[{{$user->evententryid}}][x]">
                                             </td>
                                         @endif
                                         @if(isset($distances['Distance-2']))
                                             <td>
-                                                <input type="text" class="form-control distance" name="distance2-total[]" data-userrow="{!! md5($user->userid) !!}">
-                                                <span class="label label-warning addmoredetails" data-row="{{$user->userid}}-2">Add more details</span>
-                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->userid}}-2" name="distance2-hits[]">
-                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->userid}}-2" name="distance2-10[]">
-                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->userid}}-2" name="distance2-x[]">
+                                                <input type="text" class="form-control distance" name="distance2[{{$user->evententryid}}][total]" data-userrow="{!! md5($user->evententryid . $user->divisionname) !!}">
+                                                <span class="label label-warning addmoredetails" data-row="{{$user->evententryid}}-2">Add more details</span>
+                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->evententryid}}-2" name="distance2[{{$user->evententryid}}][hits]">
+                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->evententryid}}-2" name="distance2[{{$user->evententryid}}][10]">
+                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->evententryid}}-2" name="distance2[{{$user->evententryid}}][x]">
                                             </td>
                                         @endif
                                         @if(isset($distances['Distance-3']))
                                             <td>
-                                                <input type="text" class="form-control distance" name="distance3-total[]" data-userrow="{!! md5($user->userid) !!}">
-                                                <span class="label label-warning addmoredetails" data-row="{{$user->userid}}-3">Add more details</span>
-                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->userid}}-3" name="distance3-hits[]">
-                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->userid}}-3" name="distance3-10[]">
-                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->userid}}-3" name="distance3-x[]">
+                                                <input type="text" class="form-control distance" name="distance3[{{$user->evententryid}}][total]" data-userrow="{!! md5($user->evententryid . $user->divisionname) !!}">
+                                                <span class="label label-warning addmoredetails" data-row="{{$user->evententryid}}-3">Add more details</span>
+                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->evententryid}}-3" name="distance3[{{$user->evententryid}}][hits]">
+                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->evententryid}}-3" name="distance3[{{$user->evententryid}}][10]">
+                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->evententryid}}-3" name="distance3[{{$user->evententryid}}][x]">
                                             </td>
                                         @endif
                                         @if(isset($distances['Distance-4']))
                                             <td>
-                                                <input type="text" class="form-control distance" name="distance4-total[]" data-userrow="{!! md5($user->userid) !!}">
-                                                <span class="label label-warning addmoredetails" data-row="{{$user->userid}}-4">Add more details</span>
-                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->userid}}-4" name="distance4-hits[]">
-                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->userid}}-4" name="distance4-10[]">
-                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->userid}}-4" name="distance4-x[]">
+                                                <input type="text" class="form-control distance" name="distance4[{{$user->evententryid}}][total]" data-userrow="{!! md5($user->evententryid . $user->divisionname) !!}">
+                                                <span class="label label-warning addmoredetails" data-row="{{$user->evententryid}}-4">Add more details</span>
+                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->evententryid}}-4" name="distance4[{{$user->evententryid}}][hits]">
+                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->evententryid}}-4" name="distance4[{{$user->evententryid}}][10]">
+                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->evententryid}}-4" name="distance4[{{$user->evententryid}}][x]">
                                             </td>
                                         @endif
 
-                                        <td><input type="text" class="form-control" name="total[]" data-id="total-{!! md5($user->userid) !!}" data-usertotal="{!! md5($user->userid) !!}"></td>
-                                        <td><input type="text" class="form-control" name="hit[]" placeholder="Optional"></td>
-                                        <td><input type="text" class="form-control" name="10[]" placeholder="Optional"></td>
-                                        <td><input type="text" class="form-control" name="x[]" placeholder="Optional"></td>
+                                        <td><input type="text" class="form-control" name="total[{{$user->evententryid}}][total]" data-id="total-{!! md5($user->evententryid . $user->divisionname) !!}" data-usertotal="{!! md5($user->evententryid . $user->divisionname) !!}"></td>
+                                        <td><input type="text" class="form-control" name="hits[{{$user->evententryid}}][hits]" placeholder="Optional"></td>
+                                        <td><input type="text" class="form-control" name="10[{{$user->evententryid}}][10]" placeholder="Optional"></td>
+                                        <td><input type="text" class="form-control" name="x[{{$user->evententryid}}][x]" placeholder="Optional"></td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -165,7 +168,12 @@
 
                                     <tr>
                                         <th class="hidden">UserID</th>
-                                        <td><input type="hidden" name="userid" value="{{$user->userid}}"></td>
+                                        <td>
+                                            <input type="hidden" name="userid[{{$user->evententryid}}]" value="{{$user->userid}}">
+                                            <input type="hidden" name="evententryid[{{$user->evententryid}}]" value="{{$user->evententryid}}">
+                                            <input type="hidden" name="divisionid[{{$user->evententryid}}]" value="{{$user->divisionid}}">
+
+                                        </td>
                                     </tr>
 
                                     <tr>
@@ -182,11 +190,11 @@
                                         <tr>
                                             <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">{!! $distances['Distance-1'] . $eventround[0]->unit !!}</th>
                                             <td>
-                                                <input type="text" class="form-control distance" name="distance1-total" data-userrow="{!! md5($user->userid) !!}">
-                                                <span class="label label-warning addmoredetails" data-row="{{$user->userid}}-1">Add more details</span>
-                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->userid}}-1" name="distance1-hits">
-                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->userid}}-1" name="distance1-10">
-                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->userid}}-1" name="distance1-x">
+                                                <input type="text" class="form-control distance" name="distance1[{{$user->evententryid}}][total]" data-userrow="{!! md5($user->evententryid . $user->divisionname) !!}">
+                                                <span class="label label-warning addmoredetails" data-row="{{$user->evententryid}}-1">Add more details</span>
+                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->evententryid}}-1" name="distance1[{{$user->evententryid}}][hits]">
+                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->evententryid}}-1" name="distance1[{{$user->evententryid}}][10]">
+                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->evententryid}}-1" name="distance1[{{$user->evententryid}}][x]">
                                             </td>
                                         </tr>
                                     @endif
@@ -194,11 +202,11 @@
                                         <tr>
                                             <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">{!! $distances['Distance-2'] . $eventround[0]->unit !!}</th>
                                             <td>
-                                                <input type="text" class="form-control distance" name="distance2-total" data-userrow="{!! md5($user->userid) !!}">
-                                                <span class="label label-warning addmoredetails" data-row="{{$user->userid}}-2">Add more details</span>
-                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->userid}}-2" name="distance2-hits">
-                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->userid}}-2" name="distance2-10">
-                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->userid}}-2" name="distance2-x">
+                                                <input type="text" class="form-control distance" name="distance2[{{$user->evententryid}}][total]" data-userrow="{!! md5($user->evententryid . $user->divisionname) !!}">
+                                                <span class="label label-warning addmoredetails" data-row="{{$user->evententryid}}-2">Add more details</span>
+                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->evententryid}}-2" name="distance2[{{$user->evententryid}}][hits]">
+                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->evententryid}}-2" name="distance2[{{$user->evententryid}}][10]">
+                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->evententryid}}-2" name="distance2[{{$user->evententryid}}][x]">
                                             </td>
                                         </tr>
                                     @endif
@@ -206,11 +214,11 @@
                                         <tr>
                                             <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">{!! $distances['Distance-3'] . $eventround[0]->unit !!}</th>
                                             <td>
-                                                <input type="text" class="form-control distance" name="distance3-total" data-userrow="{!! md5($user->userid) !!}">
-                                                <span class="label label-warning addmoredetails" data-row="{{$user->userid}}-3">Add more details</span>
-                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->userid}}-3" name="distance3-hits">
-                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->userid}}-3" name="distance3-10">
-                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->userid}}-3" name="distance3-x">
+                                                <input type="text" class="form-control distance" name="distance3[{{$user->evententryid}}][total]" data-userrow="{!! md5($user->evententryid . $user->divisionname) !!}">
+                                                <span class="label label-warning addmoredetails" data-row="{{$user->evententryid}}-3">Add more details</span>
+                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->evententryid}}-3" name="distance3[{{$user->evententryid}}][hits]">
+                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->evententryid}}-3" name="distance3[{{$user->evententryid}}][10]">
+                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->evententryid}}-3" name="distance3[{{$user->evententryid}}][x]">
                                             </td>
                                         </tr>
                                     @endif
@@ -218,34 +226,35 @@
                                         <tr>
                                             <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">{!! $distances['Distance-4'] . $eventround[0]->unit !!}</th>
                                             <td>
-                                                <input type="text" class="form-control distance" name="distance4-total" data-userrow="{!! md5($user->userid) !!}">
-                                                <span class="label label-warning addmoredetails" data-row="{{$user->userid}}-4">Add more details</span>
-                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->userid}}-4" name="distance4-hits">
-                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->userid}}-4" name="distance4-10">
-                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->userid}}-4" name="distance4-x">
+                                                <input type="text" class="form-control distance" name="distance4[{{$user->evententryid}}][total]" data-userrow="{!! md5($user->evententryid . $user->divisionname) !!}">
+                                                <span class="label label-warning addmoredetails" data-row="{{$user->evententryid}}-4">Add more details</span>
+                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->evententryid}}-4" name="distance4[{{$user->evententryid}}][hits]">
+                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->evententryid}}-4" name="distance4[{{$user->evententryid}}][10]">
+                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->evententryid}}-4" name="distance4[{{$user->evententryid}}][x]">
                                             </td>
                                         </tr>
                                     @endif
 
                                     <tr>
                                         <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">Total</th>
-                                        <td><input type="text" class="form-control" name="total" data-id="total-{!! md5($user->userid) !!}" data-usertotal="{!! md5($user->userid) !!}"></td>
+                                        <td><input type="text" class="form-control" name="total[{{$user->evententryid}}][total]" data-id="total-{!! md5($user->evententryid . $user->divisionname) !!}" data-usertotal="{!! md5($user->evententryid . $user->divisionname) !!}"></td>
 
                                     </tr>
 
                                     <tr>
                                         <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">Hits</th>
-                                        <td><input type="text" class="form-control" name="hit" placeholder="Optional"></td>
+                                        <td><input type="text" class="form-control" name="hits[{{$user->evententryid}}][hits]" placeholder="Optional"></td>
                                     </tr>
 
                                     <tr>
                                         <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">10s</th>
-                                        <td><input type="text" class="form-control" name="10" placeholder="Optional"></td>
+                                        <td><input type="text" class="form-control" name="10[{{$user->evententryid}}][10]" placeholder="Optional"></td>
                                     </tr>
 
                                     <tr>
                                         <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">X</th>
-                                        <td><input type="text" class="form-control" name="x" placeholder="Optional"></td>
+                                        <td><input type="text" class="form-control" name="x[{{$user->evententryid}}][x]" placeholder="Optional"></td>
+
                                     </tr>
 
                             </table>
