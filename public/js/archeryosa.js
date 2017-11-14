@@ -6,13 +6,15 @@ $(document).ready(function() {
     }
 
     $('.distance').focusout(function () {
-        var userhash = $(this).data('userrow');
+        var formtype = $(this).data('formtype');
 
-        var inputs = $("input[data-userrow='" + userhash + "']");
+        var userhash = $(this).data('userrow' + formtype);
+
+        var inputs = $("input[data-userrow"+ formtype + "='" + userhash + "']");
 
         var totalscore = 0;
-
         inputs.each(function () {
+
             if (this.value !== '') {
                 if (!isNaN(Number(this.value))) {
                     totalscore += parseInt(this.value);
