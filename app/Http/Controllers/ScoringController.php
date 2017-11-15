@@ -20,19 +20,22 @@ class ScoringController extends Controller
 
     public function enterScores(Request $request)
     {
-        $errors = [];
+        $errors = ['something', 'here'];
+        return back()->with('failure', implode('<br>', $errors))->withInput();
+
+
 
         $event = Event::where('eventid', $request->eventid)->get()->first();
         if (is_null($event)) {
-            //redirect back with error
+            return back()->with('failure', 'Oops, Event was not found. Please contact Admin')->withInput();
         }
         if ($event->currentweek != $request->currentweek) {
-            // redirect back with error
+            return back()->with('failure', 'Oops, Event was not found. Please contact Admin')->withInput();
         }
 
         $eventround = EventRound::where('eventroundid', $request->eventroundid)->get()->first();
         if (is_null($eventround)) {
-            // redirectback
+            return back()->with('failure', 'Oops, Event was not found. Please contact Admin')->withInput();
         }
 
         $round = Round::where('roundid', $eventround->roundid)->get()->first();
@@ -63,34 +66,29 @@ class ScoringController extends Controller
                 continue;
             }
 
-
-
-            // if they have a score already, update it
-            $score = Score::where('userid', $user['userid'])
-                            ->where('evententryid', $evententry->evententryid)
-                            ->where('eventroundid', $eventround->eventroundid)
-                            ->where('divisionid', $evententry->divisionid)
-                            ->get()
-                            ->first();
+            // Check if they have scored for this round already or not
+            $score = $this->getExisitingScore($user['userid'], $evententry->evententryid, $eventround->eventroundid, $evententry->divisionid);
 
             if (is_null($score)) {
                 $score = new Score();
             }
 
-
-
             $score = $this->setUsersScore($user, $score, $evententry, $event, $eventround, $round);
+
             $score->save();
         } // endforeach
 
+        if (!empty($errors)) {
+            return back()->with('failure', 'Oops, Event was not found. Please contact Admin')->withInput();
+
+        }
 
         // redirect back with the score in the box (if only 1 is allowed per week)
 
 
-        dd('entered them all');
 
+        return back()->with('message', 'Scores entered successfully')->withInput();
 
-        dd($request);
 
         // redirect back to results page with success message $errors
     }
@@ -117,9 +115,7 @@ class ScoringController extends Controller
             ]);
 
         $distances = $this->getDistances($eventround);
-//       dd($distances, $eventround);
-        // Get users that the logged in user is able to score for
-        // This needs to be updated so that if can be also the organiser of the event
+
         $userrelations = UserExtended::getUserRelationIDs();
 
         $users = DB::select("SELECT ee.`eventid`, ee.`fullname`, ee.`userid`, d.`name` as divisionname, d.`divisionid`, ee.`evententryid`
@@ -131,7 +127,13 @@ class ScoringController extends Controller
             ", ['eventid' => $event->eventid,
             ]);
 
-        // now i need to get the round and the number of distances to create inputs
+
+        //$results = [];
+        foreach ($users as $user) {
+            $result = $this->getExisitingScore($user->userid, $user->evententryid, $eventround[0]->eventroundid, $user->divisionid, $event->currentweek);
+            $user->result = $result;
+//            dd($user->result);
+        }
 
 
         return view('auth.events.scoring', compact('users', 'eventround', 'distances', 'event'));
@@ -153,6 +155,21 @@ class ScoringController extends Controller
             }
         }
         return $distances;
+
+    }
+
+    private function getExisitingScore($userid, $evententryid, $eventroundid, $divisionid, $week = 1)
+    {
+
+        return Score::where('userid', $userid)
+            ->where('evententryid', $evententryid)
+            ->where('eventroundid', $eventroundid)
+            ->where('divisionid', $divisionid)
+            ->where('week', $week)
+            ->get()
+            ->first();
+
+
 
     }
 
