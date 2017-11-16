@@ -6,6 +6,12 @@
         @include('layouts.scripts')
     </head>
     <body class="hold-transition skin-black sidebar-mini">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K87KGQS"
+                      height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
         <div class="wrapper">
             <header class="main-header">
                 <!-- Logo -->
