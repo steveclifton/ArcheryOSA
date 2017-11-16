@@ -17,9 +17,11 @@
         </div>
     @endif
 
+    @if($event->sponsored == 1)
     <div class="row">
         @include('includes.events.eventdetails_sponsor')
     </div>
+    @endif
 
     @if ($event->scoringenabled && !is_null($userevententry))
         <div class="row">
