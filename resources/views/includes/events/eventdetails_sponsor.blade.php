@@ -20,7 +20,7 @@
                         </a>
                         <br>
                         <div style="padding-left: 20%">
-                            {{$event->sponsortext}}
+                            {!! nl2br($event->sponsortext) !!}
                         </div>
                     </div>
                 </div>
