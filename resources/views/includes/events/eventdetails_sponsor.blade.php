@@ -19,7 +19,7 @@
                             <img class="mobimage" src="{!! '/content/sponsor/' . $event->mobimage !!}">
                         </a>
                         <br>
-                        <div style="padding-left: 20%">
+                        <div class="col-md-9 col-md-offset-1">
                             {!! nl2br($event->sponsortext) !!}
                         </div>
                     </div>
