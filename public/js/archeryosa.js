@@ -12,11 +12,14 @@ $(document).ready(function() {
 
         var inputs = $("input[data-userrow"+ formtype + "='" + userhash + "']");
 
-        var totalscore = 0;
+        var totalscore = '';
         inputs.each(function () {
 
             if (this.value !== '') {
                 if (!isNaN(Number(this.value))) {
+                    if (totalscore === '') {
+                        totalscore = 0;
+                    }
                     totalscore += parseInt(this.value);
                 } else {
                     $(this).css('border', 'solid 2px #FF0000');
