@@ -103,6 +103,7 @@ class RoundController extends Controller
         $round->dist4 = !empty($request->input('dist4')) ? htmlentities($request->input('dist4')) : null;
         $round->dist4max = !empty($request->input('dist4max')) ? htmlentities($request->input('dist4max')) : null;
         $round->totalmax = htmlentities($request->input('totalmax'));
+        $round->totalhits = htmlentities($request->input('totalhits'));
         $round->totalx = htmlentities($request->input('totalx'));
         $round->total10 = htmlentities($request->input('total10'));
 
@@ -171,6 +172,7 @@ class RoundController extends Controller
             $round->dist4 = !empty($request->input('dist4')) ? htmlentities($request->input('dist4')) : null;
             $round->dist4max = !empty($request->input('dist4max')) ? htmlentities($request->input('dist4max')) : null;
             $round->totalmax = htmlentities($request->input('totalmax'));
+            $round->totalhits = htmlentities($request->input('totalhits'));
             $round->totalx = htmlentities($request->input('totalx'));
             $round->total10 = htmlentities($request->input('total10'));
 
