@@ -14,8 +14,14 @@
                         </div>
                     </div>
                     <div class="box-body" >
-                        <img class="dtimage" src="{!! '/content/sponsor/' . $event->dtimage !!}">
-                        <img class="mobimage" src="{!! '/content/sponsor/' . $event->mobimage !!}">
+                        <a href="{!! $event->sponsorimageurl !!}" target="_blank">
+                            <img class="dtimage" src="{!! '/content/sponsor/' . $event->dtimage !!}">
+                            <img class="mobimage" src="{!! '/content/sponsor/' . $event->mobimage !!}">
+                        </a>
+                        <br>
+                        <div style="padding-left: 20%">
+                            {{$event->sponsortext}}
+                        </div>
                     </div>
                 </div>
             </div>
