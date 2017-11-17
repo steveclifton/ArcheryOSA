@@ -393,6 +393,33 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('sponsorimageurl') ? ' has-error' : '' }}">
+                            <label for="sponsorimageurl" class="col-md-4 control-label">Sponsor Image URL</label>
+
+                            <div class="col-md-6">
+                                <input id="sponsorimageurl" type="text" class="form-control" name="sponsorimageurl" value="{{ old('sponsorimageurl') ?? $event->first()->sponsorimageurl }}" >
+
+                                @if ($errors->has('sponsorimageurl'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('sponsorimageurl') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('sponsortext') ? ' has-error' : '' }}">
+                            <label for="sponsortext" class="col-md-4 control-label">Sponsor Text</label>
+
+                            <div class="col-md-6">
+                                <textarea rows="5" id="sponsortext" type="text" class="form-control" name="sponsortext" >{{ old('sponsortext') ?? $event->first()->sponsortext }}</textarea>
+                                @if ($errors->has('sponsortext'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('sponsortext') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('multipledivisions') ? ' has-error' : '' }}">
                             <label for="bankaccount" class="col-md-4 control-label">Allow Multiple Division Entries</label>
                             <div class="col-md-6">
