@@ -219,6 +219,20 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('totalhits') ? ' has-error' : '' }}">
+                            <label for="event" class="col-md-4 control-label">Max Hits*</label>
+
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" name="totalhits" value="{{ old('totalhits')}}">
+
+                                @if ($errors->has('totalhits'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('totalhits') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('totalx') ? ' has-error' : '' }}">
                             <label for="event" class="col-md-4 control-label">Max Total X-Count*</label>
 
