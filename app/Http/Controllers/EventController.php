@@ -391,6 +391,9 @@ class EventController extends Controller
             $event->schedule = htmlentities(trim($request->input('schedule')));
             $event->scoringenabled = $scoringenabled;
             $event->sponsored = $sponsored;
+            $event->sponsortext = htmlentities($request->input('sponsortext'));
+            $event->sponsorimageurl = htmlentities($request->input('sponsorimageurl'));
+
             $event->currentweek = htmlentities($request->input('currentweek')) ?? 1;
 
             $event->visible = $visible;
