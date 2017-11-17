@@ -117,7 +117,7 @@
                                         @endif
 
                                         <td><input type="text" class="form-control" name="total[{{$user->evententryid}}][total]" data-id="total-{!! md5($user->evententryid . $user->divisionname) !!}" data-usertotal="{!! md5($user->evententryid . $user->divisionname) !!}" value="{{ old("total.$user->evententryid.total") ?? $user->result->total_score ?? ''}}"></td>
-                                        <td><input type="text" class="form-control" name="hits[{{$user->evententryid}}][hits]" placeholder="Optional" value="{{ old("hits$user->evententryid.hits") ?? $user->result->total_hits ?? ''}}"></td>
+                                        <td><input type="text" class="form-control" name="hits[{{$user->evententryid}}][hits]" placeholder="Optional" value="{{ old("hits.$user->evententryid.hits") ?? $user->result->total_hits ?? ''}}"></td>
                                         <td><input type="text" class="form-control" name="10[{{$user->evententryid}}][10]" placeholder="Optional" value="{{ old("10.$user->evententryid.10") ?? $user->result->total_10 ?? ''}}"></td>
                                         <td><input type="text" class="form-control" name="x[{{$user->evententryid}}][x]" placeholder="Optional" value="{{ old("x.$user->evententryid.x") ?? $user->result->total_x ?? ''}}"></td>
                                     </tr>
@@ -191,9 +191,9 @@
                                             <td>
                                                 <input type="text" class="form-control distance" name="distance1[{{$user->evententryid}}][total]" data-formtype="2" data-userrow2="{!! md5($user->evententryid . $user->divisionname) !!}" value="{{ old("distance1.$user->evententryid.total") ?? $user->result->distance1_total ?? '' }}">
                                                 <span class="label label-warning addmoredetails" data-row="{{$user->evententryid}}-1">Add more details</span>
-                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->evententryid}}-1" name="distance1[{{$user->evententryid}}][hits]" value="{{ $user->result->distance1_hits ?? '' }}">
-                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->evententryid}}-1" name="distance1[{{$user->evententryid}}][10]" value="{{ $user->result->distance1_10 ?? '' }}">
-                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->evententryid}}-1" name="distance1[{{$user->evententryid}}][x]" value="{{ $user->result->distance1_x ?? '' }}">
+                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->evententryid}}-1" name="distance1[{{$user->evententryid}}][hits]" value="{{ old("distance1.$user->evententryid.hits") ?? $user->result->distance1_hits ?? '' }}">
+                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->evententryid}}-1" name="distance1[{{$user->evententryid}}][10]" value="{{ old("distance1.$user->evententryid.10") ?? $user->result->distance1_10 ?? '' }}">
+                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->evententryid}}-1" name="distance1[{{$user->evententryid}}][x]" value="{{ old("distance1.$user->evententryid.x") ?? $user->result->distance1_x ?? '' }}">
                                             </td>
                                         </tr>
                                     @endif
@@ -203,9 +203,9 @@
                                             <td>
                                                 <input type="text" class="form-control distance" name="distance2[{{$user->evententryid}}][total]" data-formtype="2" data-userrow2="{!! md5($user->evententryid . $user->divisionname) !!}" value="{{ old("distance2.$user->evententryid.total") ?? $user->result->distance2_total ?? '' }}">
                                                 <span class="label label-warning addmoredetails" data-row="{{$user->evententryid}}-2">Add more details</span>
-                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->evententryid}}-2" name="distance2[{{$user->evententryid}}][hits]" value="{{ $user->result->distance2_hits ?? '' }}">
-                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->evententryid}}-2" name="distance2[{{$user->evententryid}}][10]" value="{{ $user->result->distance2_10 ?? '' }}">
-                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->evententryid}}-2" name="distance2[{{$user->evententryid}}][x]" value="{{ $user->result->distance2_x ?? '' }}">
+                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->evententryid}}-2" name="distance2[{{$user->evententryid}}][hits]" value="{{ old("distance2.$user->evententryid.hits") ?? $user->result->distance2_hits  ?? ''}}">
+                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->evententryid}}-2" name="distance2[{{$user->evententryid}}][10]" value="{{ old("distance2.$user->evententryid.10") ?? $user->result->distance2_10 ?? '' }}">
+                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->evententryid}}-2" name="distance2[{{$user->evententryid}}][x]" value="{{ old("distance2.$user->evententryid.x") ?? $user->result->distance2_x ?? '' }}">
                                             </td>
                                         </tr>
                                     @endif
@@ -215,9 +215,9 @@
                                             <td>
                                                 <input type="text" class="form-control distance" name="distance3[{{$user->evententryid}}][total]" data-formtype="2" data-userrow2="{!! md5($user->evententryid . $user->divisionname) !!}" value="{{ old("distance3.$user->evententryid.total") ?? $user->result->distance3_total ?? '' }}">
                                                 <span class="label label-warning addmoredetails" data-row="{{$user->evententryid}}-3">Add more details</span>
-                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->evententryid}}-3" name="distance3[{{$user->evententryid}}][hits]" value="{{ $user->result->distance3_hits ?? '' }}">
-                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->evententryid}}-3" name="distance3[{{$user->evententryid}}][10]" value="{{ $user->result->distance3_10 ?? '' }}">
-                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->evententryid}}-3" name="distance3[{{$user->evententryid}}][x]" value="{{ $user->result->distance3_x ?? '' }}">
+                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->evententryid}}-3" name="distance3[{{$user->evententryid}}][hits]" value="{{ old("distance3.$user->evententryid.hits") ?? $user->result->distance3_hits ?? '' }}">
+                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->evententryid}}-3" name="distance3[{{$user->evententryid}}][10]" value="{{ old("distance3.$user->evententryid.10") ?? $user->result->distance3_10 ?? '' }}">
+                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->evententryid}}-3" name="distance3[{{$user->evententryid}}][x]" value="{{ old("distance3.$user->evententryid.x") ?? $user->result->distance3_x ?? '' }}">
                                             </td>
                                         </tr>
                                     @endif
@@ -227,9 +227,9 @@
                                             <td>
                                                 <input type="text" class="form-control distance" name="distance4[{{$user->evententryid}}][total]" data-formtype="2" data-userrow2="{!! md5($user->evententryid . $user->divisionname) !!}" value="{{ old("distance4.$user->evententryid.total") ?? $user->result->distance4_total ?? '' }}">
                                                 <span class="label label-warning addmoredetails" data-row="{{$user->evententryid}}-4">Add more details</span>
-                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->evententryid}}-4" name="distance4[{{$user->evententryid}}][hits]" value="{{ $user->result->distance4_hits ?? '' }}">
-                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->evententryid}}-4" name="distance4[{{$user->evententryid}}][10]" value="{{ $user->result->distance4_10 ?? '' }}">
-                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->evententryid}}-4" name="distance4[{{$user->evententryid}}][x]" value="{{ $user->result->distance4_x ?? '' }}">
+                                                <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$user->evententryid}}-4" name="distance4[{{$user->evententryid}}][hits]" value="{{ old("distance4.$user->evententryid.hits") ?? $user->result->distance4_hits ?? '' }}">
+                                                <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$user->evententryid}}-4" name="distance4[{{$user->evententryid}}][10]" value="{{ old("distance4.$user->evententryid.10") ?? $user->result->distance4_10 ?? '' }}">
+                                                <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$user->evententryid}}-4" name="distance4[{{$user->evententryid}}][x]" value="{{ old("distance4.$user->evententryid.x") ?? $user->result->distance4_x ?? '' }}">
                                             </td>
                                         </tr>
                                     @endif
@@ -241,7 +241,7 @@
 
                                     <tr>
                                         <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">Hits</th>
-                                        <td><input type="text" class="form-control" name="hits[{{$user->evententryid}}][hits]" placeholder="Optional" value="{{ old("hits$user->evententryid.hits") ?? $user->result->total_hits ?? ''}}"></td>
+                                        <td><input type="text" class="form-control" name="hits[{{$user->evententryid}}][hits]" placeholder="Optional" value="{{ old("hits.$user->evententryid.hits") ?? $user->result->total_hits ?? ''}}"></td>
                                     </tr>
 
                                     <tr>
