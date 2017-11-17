@@ -8,6 +8,7 @@ use App\EventEntry;
 use App\EventRound;
 use App\Round;
 use App\Score;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +22,7 @@ class ScoringController extends Controller
     public function enterScores(Request $request)
     {
         $errors = ['something', 'here'];
-        return back()->with('failure', implode('<br>', $errors))->withInput();
+
 
 
 
@@ -55,7 +56,15 @@ class ScoringController extends Controller
                                     ->first();
 
             if (is_null($evententry)) {
-                $errors[] = 'Error with score, please try again';
+
+                $errorstring = 'Error with score, please try again';
+
+                $username = User::where('userid', $user['userid'])->get()->first();
+                if (!is_null($username)) {
+                   $errorstring = 'Error with score for ' . ucwords($username->firstname) . ', please try again';
+                }
+
+                $errors[] = $errorstring;
                 continue;
             }
 
@@ -79,7 +88,7 @@ class ScoringController extends Controller
         } // endforeach
 
         if (!empty($errors)) {
-            return back()->with('failure', 'Oops, Event was not found. Please contact Admin')->withInput();
+            return back()->with('failure', implode('<br>', $errors))->withInput();
 
         }
 
