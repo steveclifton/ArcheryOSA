@@ -10,6 +10,10 @@
 
     @include('includes.session_errors')
 
+    <script>
+        var collapse_siderbar = true;
+    </script>
+
     <div class="row">
         <div class="col-md-12 dtOnly">
             <div class="box">
@@ -19,7 +23,7 @@
 
                     <div class="box-tools">
                         <div class="input-group input-group-sm" style="width: 150px;">
-                            <a href="{{URL::previous()}}">
+                            <a href="{{ route('eventdetails', urlencode($event->name)))//URL::previous()}}">
                                 <button type="submit" class="btn btn-primary pull-right" id="addevent">
                                     <i class="fa fa-backward" >
                                         <span style="font-family: sans-serif;"> Back</span>
