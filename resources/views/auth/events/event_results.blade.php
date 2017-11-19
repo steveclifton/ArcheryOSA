@@ -20,33 +20,35 @@
 
                 <div class="box-body">
                     <div class="padding10">
-                        @if ($event->eventtype == 1)
-                            <div class="col-md-3" style="padding-bottom: 20px">
-                                <select class="week form-control" class="form-control">
-                                    @foreach (range(1, $event->numberofweeks) as $week)
-                                        <option @if ( $week == $event->selectedweek ?? $event->currentweek) selected @endif value="{{$week}}">
-                                            Week {{$week}}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        @endif
+                        <div class="table-responsive">
+                            <br>
+                            @if ($event->eventtype == 1)
+                                <div class="col-md-3" style="padding-bottom: 20px">
+                                    <select class="week form-control" class="form-control">
+                                        @foreach (range(1, $event->numberofweeks) as $week)
+                                            <option @if ( $week == $event->selectedweek ?? $event->currentweek) selected @endif value="{{$week}}">
+                                                Week {{$week}}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endif
 
-                        @if (empty($results))
+                            @if (empty($results))
 
-                            <table class="table table-bordered table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            <div class="alert alert-warning">
-                                                <span>No Results Yet</span>
-                                            </div>
-                                        </th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        @else
-                            <div class="table-responsive">
+                                <table class="table table-bordered table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <div class="alert alert-warning">
+                                                    <span>No Results Yet</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                @else
+
                                 <table class="table table-bordered table-responsive">
                                     <thead>
                                         <tr>
