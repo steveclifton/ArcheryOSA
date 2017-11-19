@@ -10,12 +10,10 @@
 
     @include('includes.session_errors')
 
-    {{-- <div class="container"> --}}
-    @if ($event->scoringenabled && (!is_null($userevententry) || Auth::id() == $event->createdby))
-        <div class="row">
-            @include('includes.events.eventdetails_scoring')
-        </div>
-    @endif
+    <div class="row">
+        @include('includes.events.eventdetails_nav')
+    </div>
+
 
     @if($event->sponsored == 1)
     <div class="row">
@@ -54,17 +52,7 @@
                             <!-- /.box-header -->
                             <div class="box-body">
 
-                                @if ($event->visible || !is_null($userevententry))
-                                        @if (!is_null($userevententry))
-                                            <a href="{{ route('updateeventregistrationview', $event->eventid) }}" class="btn btn-warning pull-right" role="button">
-                                                <i class="fa fa-gear" aria-hidden="true"></i> Update Entry
-                                            </a>
-                                        @else
-                                            <a href="{{ route('eventregistrationview', ['eventid' => $event->eventid, 'name' => urlencode($event->name)] ) }}" class="btn btn-primary pull-right" role="button">
-                                                <i class="fa fa-mail-forward" aria-hidden="true"></i> Enter
-                                            </a>
-                                        @endif
-                                @endif
+
 
                                 <h3>{{$event->name}}</h3>
                                 <div class="table-responsive">
