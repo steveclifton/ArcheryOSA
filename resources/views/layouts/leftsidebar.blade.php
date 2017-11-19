@@ -79,10 +79,10 @@
         @else
             <li class="treeview">
                 <li class="margin15">
-                        <a href="{{ route('register')}}">
-                            <i class="fa fa-user-plus"></i><span>Join ArcheryOSA!</span>
-                        </a>
-                    </li>
+                    <a href="{{ route('register')}}">
+                        <i class="fa fa-user-plus"></i><span>Join ArcheryOSA!</span>
+                    </a>
+                </li>
             </li>
         @endif
 
