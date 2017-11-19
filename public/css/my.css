@@ -45,7 +45,17 @@
 		margin-right: auto;
 
 	}
+}
 
+.alignCenter {
+	text-align: center;
+}
 
+.eventButtons {
+	margin: 10px;
+}
 
+.padding10 {
+	padding-bottom: 50px;
+	padding-top: 10px;
 }
