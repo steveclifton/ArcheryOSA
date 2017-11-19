@@ -40,6 +40,10 @@ Route::middleware(['web'])->group(function() {
 
         Route::post('/updateprofile', 'UserController@updateProfile')->name('updateprofile');
 
+        Route::get('/scoring/{eventname}', 'ScoringController@getScoringChoiceView')->name('getscoringview');
+        Route::get('/results/{eventname}', 'ScoringController@getEventResults')->name('geteventresults');
+
+
         Route::get('/scoring/{eventroundid}/{eventid}/{eventname}', 'ScoringController@getScoringView')->name('getenterscoreview');
         Route::post('/scoring/{eventroundid}/{eventid}/{currentweek}', 'ScoringController@enterScores')->name('enterscores');
 
