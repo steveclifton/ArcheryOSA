@@ -15,11 +15,22 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
+
+/**
+ * Class ScoringController
+ * @package App\Http\Controllers
+ *
+ * 1 - Pending
+ * 2 - Entered
+ * 3 - Waitlisted
+ * 4 - Rejected
+ *
+ */
 class ScoringController extends Controller
 {
 
 
-    // {eventroundid}/{eventid}/{currentweek}
+
 
     public function enterScores(Request $request)
     {
@@ -136,9 +147,17 @@ class ScoringController extends Controller
         $results = Score::where('eventid', $event->eventid)->get()->first();
 
         // User Entry
-        $userevententry = EventEntry::where('userid', Auth::id())->where('eventid', $event->eventid)->get()->first();
+        $userevententry = EventEntry::where('userid', Auth::id())
+                                    ->whereIn('entrystatusid', [2] )
+                                    ->where('eventid', $event->eventid)
+                                    ->get()
+                                    ->first();
+
+
         if (!is_null($userevententry)) {
             $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
+        } else {
+            return back()->with('failure', 'Unable to score at this time')->withInput();
         }
 
 
