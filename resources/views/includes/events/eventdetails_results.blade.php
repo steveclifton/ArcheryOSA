@@ -1,96 +1,97 @@
-<div class="col-md-12">
-    <div class="row">
-        <div class="col-md-12">
-            <div>
-                <div class="box box-success collapsed-box">
-                    <div class="box-header with-border">
-                        <div>
-                            <h1 class="box-title">Results</h1>
-                        </div>
-                        <div class="box-tools pull-right" >
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse">Click to Close &nbsp;
-                                <i class="fa fa-minus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        <div class="table-responsive">
-                            <br>
-                            @if ($event->eventtype == 1)
-                                <div class="col-md-3" style="padding-bottom: 20px">
-                                    <select class="week form-control" class="form-control">
-                                        @foreach (range(1,10) as $week)
-                                            <option
-                                                    @if (isset($_GET['week']))
-                                                        @if ( $_GET['week'] == $week) selected @endif
-                                                    @endif value="{{$week}}">
-                                                Week {{$week}}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            @endif
+{{--<div class="col-md-12">--}}
+    {{--<div class="row">--}}
+        {{--<div class="col-md-12">--}}
+            {{--<div>--}}
+                {{--<div class="box box-success @if (empty($results)) 'collapsed-box' @endif">--}}
+                    {{--<div class="box-header with-border">--}}
+                        {{--<div>--}}
+                            {{--<h1 class="box-title">Results</h1>--}}
+                        {{--</div>--}}
+                        {{--<div class="box-tools pull-right" >--}}
+                            {{--<button type="button" class="btn btn-box-tool" data-widget="collapse">Click to Close &nbsp;--}}
+                                {{--<i class="fa fa-minus"></i>--}}
+                            {{--</button>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div class="box-body">--}}
+                        {{--<div class="table-responsive">--}}
+                            {{--<br>--}}
+                            {{--@if ($event->eventtype == 1)--}}
+                                {{--<div class="col-md-3" style="padding-bottom: 20px">--}}
+                                    {{--<select class="week form-control" class="form-control">--}}
+                                        {{--@foreach (range(1, $event->numberofweeks) as $week)--}}
+                                            {{--<option @if ( $week == $event->currentweek ?? $_GET['week'] ) selected @endif value="{{$week}}">--}}
+                                                {{--Week {{$week}}--}}
+                                            {{--</option>--}}
+                                        {{--@endforeach--}}
+                                    {{--</select>--}}
+                                {{--</div>--}}
+                            {{--@endif--}}
 
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="col-md-1 col-xs-1 col-sm-1">Archer</th>
-                                        <th class="col-md-1 col-xs-1 col-sm-1">Division</th>
+                            {{--<table class="table table-bordered">--}}
+                                {{--<thead>--}}
+                                    {{--<tr>--}}
+                                        {{--<th class="col-md-1 col-xs-1 col-sm-1">Archer</th>--}}
+                                        {{--<th class="col-md-1 col-xs-1 col-sm-1">Division</th>--}}
 
-                                        @if (true)
-                                            <th class="col-md-1 col-xs-1 col-sm-1" >90m</th>
-                                        @endif
-                                        @if (true)
-                                            <th class="col-md-1 col-xs-1 col-sm-1" >70m</th>
-                                        @endif
-                                        @if (true)
-                                            <th class="col-md-1 col-xs-1 col-sm-1" >50m</th>
-                                        @endif
-                                        @if (true)
-                                            <th class="col-md-1 col-xs-1 col-sm-1" >30m</th>
-                                        @endif
+                                        {{--@if (isset($resultdistances['Distance-1']))--}}
+                                            {{--<th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >{!! $resultdistances['Distance-1'] . $resultdistances['Distance-1-unit']!!}--}}
+                                            {{--</th>--}}
+                                        {{--@endif--}}
+                                        {{--@if (isset($resultdistances['Distance-2']))--}}
+                                            {{--<th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >{!! $resultdistances['Distance-2'] . $resultdistances['Distance-2-unit']!!}--}}
+                                            {{--</th>--}}
+                                        {{--@endif--}}
+                                        {{--@if (isset($resultdistances['Distance-3']))--}}
+                                            {{--<th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >{!! $resultdistances['Distance-3'] . $resultdistances['Distance-3-unit']!!}--}}
+                                            {{--</th>--}}
+                                        {{--@endif--}}
+                                        {{--@if (isset($resultdistances['Distance-4']))--}}
+                                            {{--<th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >{!! $resultdistances['Distance-4'] . $resultdistances['Distance-4-unit']!!}--}}
+                                            {{--</th>--}}
+                                        {{--@endif--}}
+                                        {{--<th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >Total</th>--}}
+                                        {{--<th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >Hits</th>--}}
+                                        {{--<th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >10s</th>--}}
+                                        {{--<th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >X</th>--}}
+                                    {{--</tr>--}}
+                                {{--</thead>--}}
 
-                                        <th class="col-md-1 col-xs-1 col-sm-1" >Total</th>
-                                        <th class="col-md-1 col-xs-1 col-sm-1" >Hits</th>
-                                        <th class="col-md-1 col-xs-1 col-sm-1" >10s</th>
-                                        <th class="col-md-1 col-xs-1 col-sm-1" >X</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @foreach(range(1,5) as $user)
+                                {{--<tbody>--}}
+                                    {{--@foreach($results as $result)--}}
+                                        {{--<tr>--}}
+                                            {{--<td>{{ucwords($result->firstname) . ' ' . ucwords($result->lastname)}}</td>--}}
+                                            {{--<td>{{$result->divisonname}}</td>--}}
 
-                                    <tr>
-                                        <td class="hidden">
-                                            <input type="hidden" name="userid[]" value="TEST"></td>
-                                        <td>Steve Clifton-Hyphen</td>
-                                        <td>Compound</td>
+                                            {{--@if (isset($resultdistances['Distance-1']))--}}
+                                                {{--<td class="alignCenter">{{$result->distance1_total}}</td>--}}
+                                            {{--@endif--}}
+                                            {{--@if(isset($resultdistances['Distance-2']))--}}
+                                                {{--<td class="alignCenter">{{$result->distance2_total}}</td>--}}
 
-                                        @if (true)
-                                            <td>345</td>
-                                        @endif
-                                        @if (true)
-                                            <td>356</td>
-                                        @endif
-                                        @if (true)
-                                            <td>358</td>
-                                        @endif
-                                        @if (true)
-                                            <td>359</td>
-                                        @endif
+                                            {{--@endif--}}
+                                            {{--@if(isset($resultdistances['Distance-3']))--}}
+                                                {{--<td class="alignCenter">{{$result->distance3_total}}</td>--}}
 
-                                        <td>1425</td>
-                                        <td>144</td>
-                                        <td>104</td>
-                                        <td>98</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                            <br>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                                            {{--@endif--}}
+                                            {{--@if(isset($resultdistances['Distance-4']))--}}
+                                                {{--<td class="alignCenter">{{$result->distance4_total}}</td>--}}
+
+                                            {{--@endif--}}
+
+                                            {{--<td class="alignCenter">{{$result->total_score}}</td>--}}
+                                            {{--<td class="alignCenter">{{$result->total_hits}}</td>--}}
+                                            {{--<td class="alignCenter">{{$result->total_10}}</td>--}}
+                                            {{--<td class="alignCenter">{{$result->total_x}}</td>--}}
+                                        {{--</tr>--}}
+                                    {{--@endforeach--}}
+                                {{--</tbody>--}}
+                            {{--</table>--}}
+                            {{--<br>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+{{--</div>--}}
