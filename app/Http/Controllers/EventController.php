@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Classes\EventDateRange;
 use App\EntryStatus;
 use App\EventEntry;
+use App\Score;
 use Illuminate\Support\Facades\DB;
 use App\EventRound;
 use Carbon\Carbon;
@@ -55,14 +56,13 @@ class EventController extends Controller
         return view('publicevents.previousevents', compact('events'));
     }
 
+
+
+
+
     public function PUBLIC_getEventDetailsView(Request $request)
     {
-        if ($request->exists('week') ) {
-            dd($request); // get results for specific week
-        } else {
-            // get results for the current week (latest)
-        }
-
+        // Events
         $event = Event::where('name', urldecode($request->name))
                         ->get()
                         ->first();
@@ -70,8 +70,11 @@ class EventController extends Controller
         if (is_null($event)) {
             return Redirect::route('home');
         }
+        $event->numberofweeks = ceil($event->daycount / 7);
 
-        $eventrounds = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, er.`location`, e.`status`, er.`eventroundid`
+
+        // Event Rounds stuff
+        $eventrounds = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, er.`location`, e.`status`, er.`eventroundid`, r.`unit`
             FROM `eventrounds` er 
             JOIN `rounds` r USING (`roundid`)
             JOIN `events` e USING (`eventid`)
@@ -80,16 +83,20 @@ class EventController extends Controller
             ['eventid' => $event->eventid]
         );
 
+        // Events rounds distances
+        $event->distancestring = $this->makeDistanceString($eventrounds);
 
-        $distances = $this->makeDistanceString($eventrounds);
 
+        // User Entry
         $userevententry = EventEntry::where('userid', Auth::id())->where('eventid', $event->eventid)->get()->first();
-
         if (!is_null($userevententry)) {
             $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
         }
 
-        $users = DB::select("SELECT ee.`fullname`, ee.`entrystatusid`, ee.`clubid` as club, ee.`paid`, d.`name` as division
+
+        // Users
+        $userids = [];
+        $users = DB::select("SELECT ee.`userid`, ee.`fullname`, ee.`entrystatusid`, ee.`clubid` as club, ee.`paid`, d.`name` as division
             FROM `evententry` ee
             LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
             LEFT JOIN `clubs` c ON(c.`clubid` = ee.`clubid`)
@@ -99,11 +106,36 @@ class EventController extends Controller
 
         foreach ($users as $user) {
             $user->label = $this->getLabel($user->division);
+            $userids[] = $user->userid;
         }
 
-        $entrystatus = EntryStatus::get();
 
-        return view ('publicevents.eventdetails', compact('event', 'eventrounds', 'distances', 'userevententry', 'users', 'entrystatus'));
+
+
+        $results = Score::where('eventid', $event->eventid)->get()->first();
+        if (!is_null($results)) {
+
+            $week = '';
+            if ($request->exists('week') ) {
+                $week = 'AND s.`week` = ' . intval($request->input('week'));
+            }
+
+            $results = DB::select("SELECT s.*, u.`firstname`, u.`lastname`, d.`name` as divisonname
+            FROM `scores` s 
+            JOIN `users` u USING (`userid`)
+            JOIN `divisions` d ON (s.`divisionid` = d.`divisionid`)
+            WHERE s.`userid` IN (" . implode(',', $userids) . ")
+            AND s.`eventid` = :eventid
+            $week
+            ORDER BY s.`total_score` DESC
+        ", ['eventid' => $event->eventid]);
+
+        }
+
+        $resultdistances = $this->getDistances($eventrounds);
+
+
+        return view ('publicevents.eventdetails', compact('event', 'eventrounds', 'distances', 'userevententry', 'users', 'results', 'resultdistances'));
     }
 
     /****************************************************
@@ -265,10 +297,6 @@ class EventController extends Controller
 
         return Redirect::route('updateeventview', ['eventid' => urlencode($event->eventid)]);
     }
-
-
-
-
 
     public function update(Request $request)
     {
@@ -462,6 +490,29 @@ class EventController extends Controller
                 return 'label-warning';
                 break;
         }
+    }
+
+    private function getDistances($eventround)
+    {
+        $distances = [];
+        foreach ($eventround as $eventround) {
+            $distances['Distance-1'] = $eventround->dist1;
+            $distances['Distance-1-unit'] = $eventround->unit;
+            if (!is_null($eventround->dist2)) {
+                $distances['Distance-2'] = $eventround->dist2;
+                $distances['Distance-2-unit'] = $eventround->unit;
+            }
+            if (!is_null($eventround->dist3)) {
+                $distances['Distance-3'] = $eventround->dist3;
+                $distances['Distance-3-unit'] = $eventround->unit;
+            }
+            if (!is_null($eventround->dist4)) {
+                $distances['Distance-4'] = $eventround->dist4;
+                $distances['Distance-4-unit'] = $eventround->unit;
+            }
+        }
+        return $distances;
+
     }
 
 
