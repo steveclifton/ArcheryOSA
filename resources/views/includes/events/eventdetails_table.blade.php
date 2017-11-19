@@ -41,7 +41,7 @@
 <tr>
     <th style="width: 25%">Distances</th>
     <td>
-        {{$distances}}
+        {{$event->distancestring}}
 
     </td>
 </tr>
