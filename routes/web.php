@@ -8,6 +8,7 @@ Route::get('/upcomingevents', 'EventController@PUBLIC_getAllUpcomingEventsView')
 Route::get('/previousevents', 'EventController@PUBLIC_getAllPreviousEventsView');
 Route::get('/eventdetails/{name}', 'EventController@PUBLIC_getEventDetailsView')->name('eventdetails');
 Route::get('/authorisearcherrelation/{hash}', 'UserController@authoriseUserRelationship')->name('authoriseuserrelationship');
+Route::get('/results/{eventname}', 'ScoringController@getEventResults')->name('geteventresults');
 
 
 
@@ -41,7 +42,6 @@ Route::middleware(['web'])->group(function() {
         Route::post('/updateprofile', 'UserController@updateProfile')->name('updateprofile');
 
         Route::get('/scoring/{eventname}', 'ScoringController@getScoringChoiceView')->name('getscoringview');
-        Route::get('/results/{eventname}', 'ScoringController@getEventResults')->name('geteventresults');
 
 
         Route::get('/scoring/{eventroundid}/{eventid}/{eventname}', 'ScoringController@getScoringView')->name('getenterscoreview');
