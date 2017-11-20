@@ -294,9 +294,18 @@ class ScoringController extends Controller
             ORDER BY s.`total_score` DESC
         ", ['eventid' => $event->eventid]);
 
+
+            $resultssorted = [];
+
+            foreach ($results as $result) {
+                $resultssorted[$result->divisonname][] = $result;
+            }
+            $results = $resultssorted;
         }
 
         $resultdistances = $this->getDistances($eventrounds);
+
+
 
         // User Entry
 
