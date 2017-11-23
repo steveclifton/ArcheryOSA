@@ -43,8 +43,12 @@ class PasswordResetController extends Controller
         $user = User::where('email', $request->email)->get()->first();
 
         if (!is_null($user)) {
-            $hash = crypt(rand( getenv('RAND_START'), getenv('RAND_END') ) , rand( getenv('RAND_START'), getenv('RAND_END') ));
-            $hash = crypt($hash, rand( getenv('RAND_START'), getenv('RAND_END') ) );
+
+
+            $hash = hash('sha1', time() . rand(1, 1406));
+            $hash = preg_replace("/[^A-Za-z0-9 ]/", '', $hash);
+
+            dd($hash);
             $user->passwordhash = $hash;
             $user->save();
 
