@@ -30,11 +30,14 @@ class ScoringController extends Controller
 {
 
 
-
-
+    /**
+     * Creates the scores in the database
+     *
+     * @param Request $request
+     * @return $this
+     */
     public function enterScores(Request $request)
     {
-
         $event = Event::where('eventid', $request->eventid)->get()->first();
         if (is_null($event)) {
             return back()->with('failure', 'Oops, Event was not found. Please contact Admin')->withInput();
@@ -85,7 +88,6 @@ class ScoringController extends Controller
                 continue;
             }
             else if (!empty($result)) {
-
                 foreach ($result as $error) {
                     $errors[] = $error;
                 }
@@ -106,19 +108,17 @@ class ScoringController extends Controller
 
 
         if (!empty($errors)) {
-
             return back()->with('failure', implode('<br>', array_slice($errors, 0, 10)))->withInput();
         }
 
-        // redirect back with the score in the box (if only 1 is allowed per week)
-
-
 
         return back()->with('message', 'Scores entered successfully')->withInput();
-
-
-        // redirect back to results page with success message $errors
     }
+
+
+
+
+
 
     public function getScoringChoiceView(Request $request)
     {
@@ -164,9 +164,6 @@ class ScoringController extends Controller
         return view ('auth.events.event_scoring', compact('event', 'eventrounds', 'userevententry', 'results'));
 
     }
-
-
-
 
     public function getScoringView(Request $request)
     {
@@ -296,11 +293,11 @@ class ScoringController extends Controller
 
 
             $resultssorted = [];
-
             foreach ($results as $result) {
                 $resultssorted[$result->divisonname][] = $result;
             }
             $results = $resultssorted;
+
         }
 
         $resultdistances = $this->getDistances($eventrounds);
@@ -453,7 +450,7 @@ class ScoringController extends Controller
 
         // Totals
         $score->total_score = $user['total']['total'] ?? '';
-        $score->total_hits = $user['hit']['hits'] ?? '';
+        $score->total_hits = $user['hits']['hits'] ?? '';
         $score->total_10 = $user['count10'][10] ?? '';
         $score->total_x = $user['countx']['x'] ?? '';
 
