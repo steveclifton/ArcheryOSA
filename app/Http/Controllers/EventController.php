@@ -291,6 +291,8 @@ class EventController extends Controller
         $event->schedule = htmlentities($request->input('schedule'));
         $event->scoringenabled = $scoringenabled;
         $event->sponsored = $sponsored;
+        $event->sponsortext = htmlentities($request->input('sponsortext'));
+        $event->sponsorimageurl = htmlentities($request->input('sponsorimageurl'));
 
         $event->visible = $visible;
         $event->save();
@@ -421,6 +423,7 @@ class EventController extends Controller
             $event->sponsored = $sponsored;
             $event->sponsortext = htmlentities($request->input('sponsortext'));
             $event->sponsorimageurl = htmlentities($request->input('sponsorimageurl'));
+            $event->hash = md5($request->input('name') . time());
 
             $event->currentweek = htmlentities($request->input('currentweek')) ?? 1;
 
