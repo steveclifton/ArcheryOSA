@@ -181,22 +181,8 @@
                                     </span>
                                 @endif
                             </div>
-
                         </div>
 
-                        <div class="form-group {{ $errors->has('maxweeklyscores') ? ' has-error' : '' }}" id="maxweeklyinput">
-                            <label for="maxweeklyscores" class="col-md-4 control-label">Max Scores Per Week*</label>
-
-                            <div class="col-md-6">
-                                <input id="maxweeklyvalue" type="text" class="form-control" name="maxweeklyscores" value="{{ old('maxweeklyscores') ?? $event->first()->maxweeklyscores }}">
-
-                                @if ($errors->has('maxweeklyscores'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('maxweeklyscores') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
 
                         <div class="form-group {{ $errors->has('organisation') ? ' has-error' : '' }}" id="organisation">
                             <label for="organisation" class="col-md-4 control-label">Organisation</label>
@@ -342,133 +328,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Sponsored Event</label>
-                            <div class="col-md-6">
-
-                                @if (!empty($event))
-                                    <?php
-                                    $sponsored='';
-                                    if ($event->first()->sponsored == 1) {
-                                        $sponsored = 'checked';
-                                    }
-                                    ?>
-
-                                <input type="checkbox" name="sponsored" style="margin-top: 10px" {{$sponsored}}>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('dtimage') ? ' has-error' : '' }}">
-                            <label for="desktopimage" class="col-md-4 control-label">Desktop Image (1000x400px)</label>
-
-                            <div class="col-md-6">
-                                <input type="file" class="form-control" name="dtimage">
-                                @if (!empty($event->first()->dtimage))
-                                    <img id="blah" src="/content/sponsor/small/{{ (old('image')) ? old('image') : $event->first()->dtimage }}" alt="" style="width: 150px" />
-                                @endif
-
-                                @if ($errors->has('dtimage'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('dtimage') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('dtimage') ? ' has-error' : '' }}">
-                            <label for="mobimage" class="col-md-4 control-label">Mobile Image(800x500px)</label>
-
-                            <div class="col-md-6">
-                                <input type="file" class="form-control" name="mobimage">
-                                @if (!empty($event->first()->mobimage))
-                                    <img id="blah" src="/content/sponsor/small/{{ (old('image')) ? old('image') : $event->first()->mobimage }}" alt="" style="width: 150px" />
-                                @endif
-
-                                @if ($errors->has('mobimage'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('mobimage') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('sponsorimageurl') ? ' has-error' : '' }}">
-                            <label for="sponsorimageurl" class="col-md-4 control-label">Sponsor Image URL</label>
-
-                            <div class="col-md-6">
-                                <input id="sponsorimageurl" type="text" class="form-control" name="sponsorimageurl" value="{{ old('sponsorimageurl') ?? $event->first()->sponsorimageurl }}" >
-
-                                @if ($errors->has('sponsorimageurl'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('sponsorimageurl') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('sponsortext') ? ' has-error' : '' }}">
-                            <label for="sponsortext" class="col-md-4 control-label">Sponsor Text</label>
-
-                            <div class="col-md-6">
-                                <textarea rows="5" id="sponsortext" type="text" class="form-control" name="sponsortext" >{{ old('sponsortext') ?? $event->first()->sponsortext }}</textarea>
-                                @if ($errors->has('sponsortext'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('sponsortext') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('multipledivisions') ? ' has-error' : '' }}">
-                            <label for="bankaccount" class="col-md-4 control-label">Allow Multiple Division Entries</label>
-                            <div class="col-md-6">
-
-                                @if (!empty($event))
-                                    <?php
-                                        $multipledivisions='';
-                                        if ($event->first()->multipledivisions == 1) {
-                                            $multipledivisions = 'checked';
-                                        }
-                                    ?>
-                                    <input style="margin-top: 10px" type="checkbox" name="multipledivisions" {{$multipledivisions}}>
-                                @endif
-
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Visible</label>
-                            <div class="col-md-6">
-                                @if (!empty($event))
-                                    <?php
-                                    $status='';
-                                    if ($event->first()->visible == 1) {
-                                        $status = 'checked';
-                                    }
-                                    ?>
-                                    <input style="margin-top: 10px" type="checkbox" name="visible" {{$status}}>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Scoring Enabled</label>
-                            <div class="col-md-6">
-                                @if (!empty($event))
-                                    <?php
-                                    $status='';
-                                    if ($event->first()->scoringenabled == 1) {
-                                        $status = 'checked';
-                                    }
-                                    ?>
-                                    <input style="margin-top: 10px" type="checkbox" name="scoringenabled" {{$status}}>
-                                @endif
-                            </div>
-                        </div>
-
-
                         <div class="form-group{{ $errors->has('schedule') ? ' has-error' : '' }}">
                             <label for="schedule" class="col-md-4 control-label">Schedule</label>
 
@@ -483,8 +342,146 @@
                         </div>
 
 
+                        <hr>
+                            <h3>Setup</h3>
+                            <div class="form-group{{ $errors->has('multipledivisions') ? ' has-error' : '' }}">
+                                <label for="bankaccount" class="col-md-4 control-label">Multiple Division Entries</label>
+                                <div class="col-md-6">
 
+                                    @if (!empty($event))
+                                        <?php
+                                        $multipledivisions='';
+                                        if ($event->first()->multipledivisions == 1) {
+                                            $multipledivisions = 'checked';
+                                        }
+                                        ?>
+                                        <input style="margin-top: 10px" type="checkbox" name="multipledivisions" {{$multipledivisions}}>
+                                    @endif
 
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Visible</label>
+                                <div class="col-md-6">
+                                    @if (!empty($event))
+                                        <?php
+                                        $status='';
+                                        if ($event->first()->visible == 1) {
+                                            $status = 'checked';
+                                        }
+                                        ?>
+                                        <input style="margin-top: 10px" type="checkbox" name="visible" {{$status}}>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Scoring Enabled</label>
+                                <div class="col-md-6">
+                                    @if (!empty($event))
+                                        <?php
+                                        $status='';
+                                        if ($event->first()->scoringenabled == 1) {
+                                            $status = 'checked';
+                                        }
+                                        ?>
+                                        <input style="margin-top: 10px" type="checkbox" name="scoringenabled" {{$status}}>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-4">
+                                    <h5>Process Weekly League Scores</h5>
+
+                                    <a href="{{route('processleague', [$event->first()->eventid, $event->first()->hash])}}" class="btn btn-info col-md-2" role="button">Process</a>
+
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" disabled value="{{'Last Run :' }}" >
+                                    </div>
+                                </div>
+                            </div>
+
+                        <hr>
+                            <h3>Sponsorship</h3>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Sponsored Event</label>
+                                <div class="col-md-6">
+
+                                    @if (!empty($event))
+                                        <?php
+                                        $sponsored='';
+                                        if ($event->first()->sponsored == 1) {
+                                            $sponsored = 'checked';
+                                        }
+                                        ?>
+
+                                        <input type="checkbox" name="sponsored" style="margin-top: 10px" {{$sponsored}}>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group{{ $errors->has('dtimage') ? ' has-error' : '' }}">
+                                <label for="desktopimage" class="col-md-4 control-label">Desktop Image (1000x400px)</label>
+
+                                <div class="col-md-6">
+                                    <input type="file" class="form-control" name="dtimage">
+                                    @if (!empty($event->first()->dtimage))
+                                        <img id="blah" src="/content/sponsor/small/{{ (old('image')) ? old('image') : $event->first()->dtimage }}" alt="" style="width: 150px" />
+                                    @endif
+
+                                    @if ($errors->has('dtimage'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('dtimage') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group{{ $errors->has('dtimage') ? ' has-error' : '' }}">
+                                <label for="mobimage" class="col-md-4 control-label">Mobile Image(800x500px)</label>
+
+                                <div class="col-md-6">
+                                    <input type="file" class="form-control" name="mobimage">
+                                    @if (!empty($event->first()->mobimage))
+                                        <img id="blah" src="/content/sponsor/small/{{ (old('image')) ? old('image') : $event->first()->mobimage }}" alt="" style="width: 150px" />
+                                    @endif
+
+                                    @if ($errors->has('mobimage'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('mobimage') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group{{ $errors->has('sponsorimageurl') ? ' has-error' : '' }}">
+                                <label for="sponsorimageurl" class="col-md-4 control-label">Sponsor Image URL</label>
+
+                                <div class="col-md-6">
+                                    <input id="sponsorimageurl" type="text" class="form-control" name="sponsorimageurl" value="{{ old('sponsorimageurl') ?? $event->first()->sponsorimageurl }}" >
+
+                                    @if ($errors->has('sponsorimageurl'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('sponsorimageurl') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group{{ $errors->has('sponsortext') ? ' has-error' : '' }}">
+                                <label for="sponsortext" class="col-md-4 control-label">Sponsor Text</label>
+
+                                <div class="col-md-6">
+                                    <textarea rows="5" id="sponsortext" type="text" class="form-control" name="sponsortext" >{{ old('sponsortext') ?? $event->first()->sponsortext }}</textarea>
+                                    @if ($errors->has('sponsortext'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('sponsortext') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
                         <hr>
 
 
