@@ -39,6 +39,8 @@ Route::middleware(['web'])->group(function() {
         Route::get('/myevents', 'UserController@getUserEventsView')->name('myevents');
 
 
+        Route::get('/event/processevent/{eventid}/{hash}', 'LeagueController@processLeagueResults')->name('processleague');
+
         Route::post('/updateprofile', 'UserController@updateProfile')->name('updateprofile');
 
         Route::get('/scoring/{eventname}', 'ScoringController@getScoringChoiceView')->name('getscoringview');
