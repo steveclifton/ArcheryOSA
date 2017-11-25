@@ -15,7 +15,7 @@ class CreateLeagueAverageView extends Migration
     {
         DB::statement("
             CREATE VIEW leagueaverages AS
-            SELECT u.`userid`, s.`eventid`, s.`eventroundid`,
+            SELECT u.`userid`, s.`eventid`, s.`eventroundid`, `s`.`divisionid` AS `divisionid`,
                 count(s.`scoreid`) as scorecount,
                 avg(s.`distance1_total`) as avg_distance1_total,
                 avg(s.`distance2_total`) as avg_distance2_total,
@@ -28,7 +28,7 @@ class CreateLeagueAverageView extends Migration
             
             FROM `scores` s
             JOIN `users` u USING (`userid`)
-            GROUP BY u.`userid`, s.`eventid`, s.`eventroundid`
+            GROUP BY u.`userid`, s.`eventid`, s.`eventroundid`, `s`.`divisionid`
         ");
     }
 

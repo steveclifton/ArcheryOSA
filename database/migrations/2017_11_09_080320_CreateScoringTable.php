@@ -44,10 +44,10 @@ class CreateScoringTable extends Migration
             $table->integer('distance4_10')->default(0);
             $table->integer('distance4_x')->default(0);
 
-            $table->string('total_score');
-            $table->string('total_hits')->default(0);
-            $table->string('total_10')->default(0);
-            $table->string('total_x')->default(0);
+            $table->integer('total_score')->default(0);
+            $table->integer('total_hits')->default(0);
+            $table->integer('total_10')->default(0);
+            $table->integer('total_x')->default(0);
 
             $table->string('week')->default('1');
             $table->timestamps();
