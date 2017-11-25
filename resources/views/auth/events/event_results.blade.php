@@ -4,6 +4,10 @@
 
 @section ('content')
 
+    <script>
+        var collapse_siderbar = true;
+    </script>
+
     @include('includes.session_errors')
 
     <div class="row">
@@ -40,7 +44,7 @@
 
                             @if (empty($results))
 
-                                <table class="table table-bordered table-responsive">
+                                <table class="table table-bordered table-responsive table-striped">
                                     <thead>
                                         <tr>
                                             <th>
@@ -56,7 +60,7 @@
                                 @foreach($results as $divisionaname => $divisionresults)
 
 
-                                    <table class="table table-bordered table-responsive">
+                                    <table class="table table-bordered table-responsive table-striped">
                                         <caption>{{$divisionaname}}</caption>
                                         <thead>
                                             <tr>
@@ -80,16 +84,16 @@
                                                     </th>
                                                 @endif
 
-                                                <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >Total</th>
-                                                <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >Hits</th>
-                                                <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >10s</th>
-                                                <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >X</th>
+                                                <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">Total</th>
+                                                <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">Hits</th>
+                                                <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">10s</th>
+                                                <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">X</th>
 
                                                 @if ($event->eventtype == 1)
-                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >Average</th>
-                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >Handicap</th>
-                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >Points</th>
-                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >Total Points</th>
+                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Average</th>
+                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Handicap</th>
+                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Points</th>
+                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Total Points</th>
                                                 @endif
 
 
