@@ -268,10 +268,6 @@ class ScoringController extends Controller
         }
 
 
-        $results = DB::select("SELECT * from `leagueaverages`");
-
-        dd($results);
-
 
         $results = Score::where('eventid', $event->eventid)->get()->first();
         if (!is_null($results)) {
@@ -285,7 +281,7 @@ class ScoringController extends Controller
 
 //            dd($week);
 
-            $results = DB::select("SELECT s.*, u.`firstname`, u.`lastname`, d.`name` as divisonname, la.`*`, lp.`points` as weekspoints
+            $results = DB::select("SELECT s.*, u.`firstname`, u.`lastname`, d.`name` as divisonname, lp.`points` as weekspoints, la.*
                 FROM `scores` s 
                 JOIN `users` u USING (`userid`)
                 JOIN `divisions` d ON (s.`divisionid` = d.`divisionid`)
