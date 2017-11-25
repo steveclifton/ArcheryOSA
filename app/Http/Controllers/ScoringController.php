@@ -285,14 +285,14 @@ class ScoringController extends Controller
                 FROM `scores` s 
                 JOIN `users` u USING (`userid`)
                 JOIN `divisions` d ON (s.`divisionid` = d.`divisionid`)
-                LEFT JOIN `leagueaverages` la ON (s.`userid` = la.`userid` AND s.`eventid` = la.`eventid` AND la.`divisionid` = s.`divisionid`)
+                LEFT JOIN `leagueaverages` la ON (s.`userid` = la.`userid`)
                 LEFT JOIN `leaguepoints` lp ON (s.`userid` = lp.`userid` AND s.`eventid` = lp.`eventid` AND lp.`divisionid` = s.`divisionid`)
                 WHERE s.`userid` IN (" . implode(',', $userids) . ")
                 AND s.`eventid` = :eventid
                 $week
                 ORDER BY s.`total_score` DESC"
                 , ['eventid' => $event->eventid]
-            );
+            ); // AND s.`eventid` = la.`eventid` AND la.`divisionid` = s.`divisionid`
             if ($event->eventtype == 1) {
                 foreach ($results as $result) {
                     $result->handicapscore = $eventroundmax - $result->avg_total_score + $result->total_score;
