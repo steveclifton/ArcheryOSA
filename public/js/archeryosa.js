@@ -194,6 +194,14 @@ $(document).ready(function() {
         });
     });
 
+    $(".processleaguebtn").click(function(){
+        event.stopPropagation();
+
+        if (!confirm("Are you sure you want to process the event??")) {
+            event.preventDefault();
+        }
+    });
+
 
     $("a#deleteBtn").click(function(){
         event.stopPropagation();
