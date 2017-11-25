@@ -75,7 +75,6 @@ class LeagueController extends Controller
 
         // To here we have the all the info we need to assign points
 
-        $scores = [];
         foreach ($sortedscores as $divisionid => $divisionscores) {
 
             // Sort the divisions scores from highest to lowest
@@ -101,6 +100,7 @@ class LeagueController extends Controller
 
             }
         }
+
 
         return redirect()->back()->with('message', 'Updated Succesfully');
 
