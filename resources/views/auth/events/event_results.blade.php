@@ -64,7 +64,7 @@
                                         <caption>{{$divisionaname}}</caption>
                                         <thead>
                                             <tr>
-                                                <th class="col-md-1 col-xs-1 col-sm-1">Archer</th>
+                                                <th class="col-md-2 col-xs-2 col-sm-2">Archer</th>
                                                 <th class="col-md-1 col-xs-1 col-sm-1">Division</th>
 
                                                 @if (isset($resultdistances['Distance-1']))
