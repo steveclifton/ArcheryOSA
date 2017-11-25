@@ -302,8 +302,11 @@ class EventController extends Controller
 
     public function update(Request $request)
     {
+
+
         // Used for adding days to the event
         if ($request->input('submit') == 'createeventround') {
+
             return Redirect::route('createeventroundview', $request->input('eventid'));
         }
 
@@ -322,8 +325,8 @@ class EventController extends Controller
             'contact' => 'required',
             'email' => 'required',
             'cost' => 'required',
-            'status' => 'required',
-            'maxweeklyscores' => 'required|numeric|min:1'
+            'status' => 'required'
+
         ],[
             'maxweeklyscores.min' => 'Max Weekly Scores must be 1 or more'
         ])->validate();
@@ -344,6 +347,7 @@ class EventController extends Controller
         if ($dayCount === 0) {
             $dayCount++;
         }
+
 
 
         if ($request->eventid == $event->eventid) {
