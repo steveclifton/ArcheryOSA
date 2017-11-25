@@ -395,7 +395,7 @@
                                 <div class="col-md-offset-4">
                                     <h5>Process Weekly League Scores</h5>
 
-                                    <a href="{{route('processleague', [$event->first()->eventid, $event->first()->hash])}}" class="btn btn-info col-md-2" role="button">Process</a>
+                                    <a href="{{route('processleague', [$event->first()->eventid, $event->first()->hash])}}" class="btn btn-info col-md-2 processleaguebtn" role="button">Process</a>
 
                                     <div class="col-md-6">
                                         <input type="text" class="form-control" disabled value="{{'Last Run :' }}" >
