@@ -7,6 +7,7 @@ use App\EntryStatus;
 use App\Event;
 use App\EventEntry;
 use App\EventRound;
+use App\LeagueAverage;
 use App\Round;
 use App\Score;
 use App\User;
@@ -28,7 +29,6 @@ use Illuminate\Support\Facades\Redirect;
  */
 class ScoringController extends Controller
 {
-
 
     /**
      * Creates the scores in the database
@@ -114,11 +114,6 @@ class ScoringController extends Controller
 
         return back()->with('message', 'Scores entered successfully')->withInput();
     }
-
-
-
-
-
 
     public function getScoringChoiceView(Request $request)
     {
@@ -246,7 +241,7 @@ class ScoringController extends Controller
 
 
         // Event Rounds stuff
-        $eventrounds = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, er.`location`, e.`status`, er.`eventroundid`, r.`unit`
+        $eventrounds = DB::select("SELECT r.`totalmax`, r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, er.`location`, e.`status`, er.`eventroundid`, r.`unit`
             FROM `eventrounds` er 
             JOIN `rounds` r USING (`roundid`)
             JOIN `events` e USING (`eventid`)
@@ -254,6 +249,8 @@ class ScoringController extends Controller
             ",
             ['eventid' => $event->eventid]
         );
+
+        $eventroundmax = $eventrounds[0]->totalmax ?? -1;
 
         // Users
         $userids = [];
@@ -275,27 +272,38 @@ class ScoringController extends Controller
         $results = Score::where('eventid', $event->eventid)->get()->first();
         if (!is_null($results)) {
 
-            $week = '';
+            $week = 'AND s.`week` = ' . $event->currentweek;
+
             if ($request->exists('week') ) {
                 $event->selectedweek = intval($request->input('week'));
                 $week = 'AND s.`week` = ' . intval($request->input('week'));
             }
 
-            $results = DB::select("SELECT s.*, u.`firstname`, u.`lastname`, d.`name` as divisonname
-            FROM `scores` s 
-            JOIN `users` u USING (`userid`)
-            JOIN `divisions` d ON (s.`divisionid` = d.`divisionid`)
-            WHERE s.`userid` IN (" . implode(',', $userids) . ")
-            AND s.`eventid` = :eventid
-            $week
-            ORDER BY s.`total_score` DESC
-        ", ['eventid' => $event->eventid]);
+//            dd($week);
 
+            $results = DB::select("SELECT s.*, u.`firstname`, u.`lastname`, d.`name` as divisonname, la.`*`, lp.`points` as weekspoints
+                FROM `scores` s 
+                JOIN `users` u USING (`userid`)
+                JOIN `divisions` d ON (s.`divisionid` = d.`divisionid`)
+                LEFT JOIN `leagueaverages` la ON (s.`userid` = la.`userid` AND s.`eventid` = la.`eventid` AND la.`divisionid` = s.`divisionid`)
+                LEFT JOIN `leaguepoints` lp ON (s.`userid` = lp.`userid` AND s.`eventid` = lp.`eventid` AND lp.`divisionid` = s.`divisionid`)
+                WHERE s.`userid` IN (" . implode(',', $userids) . ")
+                AND s.`eventid` = :eventid
+                $week
+                ORDER BY s.`total_score` DESC"
+                , ['eventid' => $event->eventid]
+            );
+            if ($event->eventtype == 1) {
+                foreach ($results as $result) {
+                    $result->handicapscore = $eventroundmax - $result->avg_total_score + $result->total_score;
+                }
+            }
 
             $resultssorted = [];
             foreach ($results as $result) {
                 $resultssorted[$result->divisonname][] = $result;
             }
+            ksort($resultssorted);
             $results = $resultssorted;
 
         }
@@ -545,6 +553,5 @@ class ScoringController extends Controller
 
         return $errors;
     }
-
 
 }
