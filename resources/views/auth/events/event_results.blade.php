@@ -26,7 +26,11 @@
                                 <div class="col-md-3" style="padding-bottom: 20px">
                                     <select class="week form-control" class="form-control">
                                         @foreach (range(1, $event->numberofweeks) as $week)
-                                            <option @if ( $week == $event->selectedweek ?? $event->currentweek) selected @endif value="{{$week}}">
+                                            @php
+                                                $currentweek = $event->selectedweek ?? $event->currentweek;
+                                                echo $currentweek;
+                                            @endphp
+                                            <option @if ( $week == $currentweek) {{'selected'}} @endif value="{{$week}}">
                                                 Week {{$week}}
                                             </option>
                                         @endforeach
@@ -75,12 +79,15 @@
                                                     <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >{!! $resultdistances['Distance-4'] . $resultdistances['Distance-4-unit']!!}
                                                     </th>
                                                 @endif
+
                                                 <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >Total</th>
                                                 <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >Hits</th>
                                                 <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >10s</th>
                                                 <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >X</th>
 
                                                 @if ($event->eventtype == 1)
+                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >Average</th>
+                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >Handicap</th>
                                                     <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >Points</th>
                                                     <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >Total Points</th>
                                                 @endif
@@ -93,7 +100,17 @@
 
 
                                         @foreach($divisionresults as $result)
-                                            <tr>
+                                            @php
+                                                $colour = '';
+                                                if (($result->weekspoints ?? -1) == 10) {
+                                                    $colour = '#ffdc96';
+                                                } else if (($result->weekspoints ?? -1) == 9) {
+                                                    $colour = '#d6d5d4';
+                                                } else if (($result->weekspoints ?? -1) == 8){
+                                                    $colour = '#e2cabc';
+                                                }
+                                            @endphp
+                                            <tr style="background: {{$colour}}">
                                                 <td>{{ucwords($result->firstname) . ' ' . ucwords($result->lastname)}}</td>
                                                 <td>{{$result->divisonname}}</td>
 
@@ -119,8 +136,10 @@
                                                 <td class="alignCenter">{{$result->total_x}}</td>
 
                                                 @if ($event->eventtype == 1)
-                                                    <td class="alignCenter">0</td>
-                                                    <td class="alignCenter">0</td>
+                                                    <td class="alignCenter">{!! number_format($result->avg_total_score, 0) !!}</td>
+                                                    <td class="alignCenter">{!! number_format($result->handicapscore ?? 0, 0) !!}</td>
+                                                    <td class="alignCenter">{{$result->weekspoints ?? 0}}</td>
+                                                    <td class="alignCenter">{{$result->totalpoints ?? 0}}</td>
                                                 @endif
                                             </tr>
                                         @endforeach
