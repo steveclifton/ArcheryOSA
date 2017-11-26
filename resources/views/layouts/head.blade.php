@@ -2,6 +2,11 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+	<meta property="og:title" content="ArcheryOSA">
+	<meta property="og:description" content="Online Archery Event Management System">
+	<meta property="og:image" content="{{public_path('ArcheryOSA.jpg')}}">
+	<meta property="og:url" content="http://archeryosa.com">
+
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109735416-1"></script>
 	<script>
