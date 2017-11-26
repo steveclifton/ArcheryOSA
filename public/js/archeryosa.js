@@ -5,7 +5,7 @@ $(document).ready(function() {
         }
     }
 
-    $('.distance').focusout(function () {
+    $('.distance').on('keyup', function () {
         var formtype = $(this).data('formtype');
 
         var userhash = $(this).data('userrow' + formtype);
