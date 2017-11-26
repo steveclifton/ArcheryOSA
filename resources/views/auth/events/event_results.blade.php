@@ -95,15 +95,11 @@
                                                     <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Points</th>
                                                     <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Total Points</th>
                                                 @endif
-
-
                                             </tr>
                                         </thead>
 
                                         <tbody>
-
-
-                                        @foreach($divisionresults as $result)
+                                            @foreach($divisionresults as $result)
                                             @php
                                                 $colour = '';
                                                 if (($result->weekspoints ?? -1) == 10) {
@@ -147,7 +143,6 @@
                                                 @endif
                                             </tr>
                                         @endforeach
-
                                         </tbody>
                                     </table>
                                 @endforeach
