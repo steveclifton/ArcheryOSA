@@ -94,7 +94,7 @@
                                         @endif
                                         <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">Total*</th>
                                         <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">Hits</th>
-                                        <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">10s</th>
+                                        <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">10+X</th>
                                         <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">X</th>
                                     </tr>
                                     </thead>
@@ -265,7 +265,7 @@
                                         </tr>
 
                                         <tr>
-                                            <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">10s</th>
+                                            <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">10+X</th>
                                             <td><input type="text" class="form-control" name="10[{{$user->evententryid}}][10]" placeholder="Optional" value="{{ old("10.$user->evententryid.10") ?? $user->result->total_10 ?? ''}}"></td>
                                         </tr>
 
