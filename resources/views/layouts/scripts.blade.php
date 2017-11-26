@@ -9,6 +9,8 @@
     $.widget.bridge('uibutton', $.ui.button);
 </script>
 
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
 <!-- InputMask -->
 <script src="{{URL::asset('../../plugins/input-mask/jquery.inputmask.js')}}"></script>
 <script src="{{URL::asset('../../plugins/input-mask/jquery.inputmask.date.extensions.js')}}"></script>

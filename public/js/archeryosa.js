@@ -1,4 +1,14 @@
 $(document).ready(function() {
+
+
+    $('table.resultstables').DataTable({
+        "paging": false,
+        "info": false,
+        "searching": false
+    });
+
+
+
     if (typeof collapse_siderbar !== 'undefined') {
         if (collapse_siderbar) {
             $('.sidebar-mini').addClass('sidebar-collapse');
