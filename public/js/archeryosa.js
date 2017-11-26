@@ -4,7 +4,9 @@ $(document).ready(function() {
     $('table.resultstables').DataTable({
         "paging": false,
         "info": false,
-        "searching": false
+        "searching": false,
+        "order": []
+
     });
 
 
