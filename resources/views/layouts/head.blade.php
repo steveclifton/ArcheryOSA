@@ -4,7 +4,7 @@
 
 	<meta property="og:title" content="ArcheryOSA">
 	<meta property="og:description" content="Online Archery Event Management System">
-	<meta property="og:image" content="{{public_path('ArcheryOSA.jpg')}}">
+	<meta property="og:image" content="{{url('ArcheryOSA.jpg')}}">
 	<meta property="og:url" content="http://archeryosa.com">
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
