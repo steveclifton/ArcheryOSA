@@ -65,7 +65,6 @@
                                         <thead>
                                             <tr>
                                                 <th class="col-md-2 col-xs-2 col-sm-2">Archer</th>
-                                                <th class="col-md-1 col-xs-1 col-sm-1">Division</th>
 
                                                 @if (isset($resultdistances['Distance-1']))
                                                     <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >{!! $resultdistances['Distance-1'] . $resultdistances['Distance-1-unit']!!}
@@ -111,8 +110,7 @@
                                                 }
                                             @endphp
                                             <tr style="background: {{$colour}}">
-                                                <td>{{ucwords($result->firstname) . ' ' . ucwords($result->lastname)}}</td>
-                                                <td>{{$result->divisonname}}</td>
+                                                <td><a href="{{route('getpublicuserview', $result->username)}}">{{ucwords($result->firstname) . ' ' . ucwords($result->lastname)}}</a></td>
 
                                                 @if (isset($resultdistances['Distance-1']))
                                                     <td class="alignCenter">{{$result->distance1_total}}</td>
