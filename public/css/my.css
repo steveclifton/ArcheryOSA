@@ -59,3 +59,7 @@
 	padding-bottom: 50px;
 	padding-top: 10px;
 }
+
+.removedborders th, .table td {
+	border-top: none !important;
+}
