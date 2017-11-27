@@ -45,7 +45,7 @@ class UserController extends Controller
         $results = DB::select("SELECT * 
             FROM `userscores` 
             WHERE `user_id` = :userid   
-            ORDER BY `divisionname`, `created_at`
+            ORDER BY `divisionname`, `created_at` DESC
         ", ['userid' => $user->userid]);
 
         $resultssorted = [];
