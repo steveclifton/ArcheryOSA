@@ -34,6 +34,28 @@ class UserController extends Controller
         return view ('auth.login');
     }
 
+    public function getPublicProfile(Request $request)
+    {
+
+        $user = User::where('username', $request->username)->get()->first();
+        if (is_null($user)) {
+            return redirect()->back()->with('failure', 'Invalid Request');
+        }
+
+        $results = DB::select("SELECT * 
+            FROM `userscores` 
+            WHERE `user_id` = :userid   
+        ", ['userid' => $user->userid]);
+
+        $resultssorted = [];
+        foreach ($results as $result) {
+            $resultssorted[$result->eventname][] = $result;
+        }
+
+
+        return view('auth.user.PUBLIC_user_results', compact('resultssorted'));
+    }
+
     /*****************************************************
      *                                                   *
      *                ADMIN / AUTH METHODS               *
@@ -74,6 +96,8 @@ class UserController extends Controller
         $user->password         = Hash::make($request->input('password'));
         $user->lastipaddress    = $request->ip();
         $user->usertype         = 3;
+        $user->username = $request->input('firstname') . $request->input('lastname');
+        $user->username = strtolower(preg_replace("/[^a-zA-Z0-9]/", "", $user->username)) . rand(1,1440);
 
         $user->save();
 
