@@ -60,6 +60,8 @@
                                         <thead>
                                             <tr>
                                                 <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">Round</th>
+                                                <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">Division</th>
+
                                                 <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">Date</th>
                                                 @if (!empty($eventresults[0]->distance1_label))
                                                     <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >{!! $eventresults[0]->distance1_label . $eventresults[0]->distanceunit!!}
@@ -96,6 +98,7 @@
                                                 <tr>
 
                                                         <td>{{$result->roundname}}</td>
+                                                        <td>{{$result->divisionname}}</td>
                                                         <td>{!! date('d M Y', strtotime($result->created_at)) !!}</td>
                                                         @if (!empty($result->distance1_label))
                                                             <td class="alignCenter">{{$result->distance1_total}}</td>

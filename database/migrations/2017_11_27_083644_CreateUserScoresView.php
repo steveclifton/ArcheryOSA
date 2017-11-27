@@ -24,7 +24,7 @@ class CreateUserScoresView extends Migration
             u.`username`, 
             e.`name` as eventname,
             e.`eventtype`, 
-            d.`name` as distancename, 
+            d.`name` as divisionname, 
             r.name as roundname,
             la.`avg_distance1_total`, 
             la.`avg_total_score`,
