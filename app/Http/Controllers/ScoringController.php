@@ -95,7 +95,7 @@ class ScoringController extends Controller
             }
 
             // Check if they have scored for this round already or not
-            $score = $this->getExisitingScore($user['userid'], $evententry->evententryid, $eventround->eventroundid, $evententry->divisionid);
+            $score = $this->getExisitingScore($user['userid'], $evententry->evententryid, $eventround->eventroundid, $evententry->divisionid, $event->currentweek);
 
             if (is_null($score)) {
                 $score = new Score();
@@ -365,7 +365,7 @@ class ScoringController extends Controller
 
     private function getExisitingScore($userid, $evententryid, $eventroundid, $divisionid, $week = 1)
     {
-
+        //dd($userid, $evententryid, $eventroundid, $divisionid, $week);
         return Score::where('userid', $userid)
             ->where('evententryid', $evententryid)
             ->where('eventroundid', $eventroundid)
