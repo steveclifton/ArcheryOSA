@@ -16,7 +16,7 @@
             <div class="box box-info">
 
                 <div class="box-header with-border">
-                    <h3 class="box-title">Results</h3>
+                    <h3 class="box-title">Results - {!! ucwords(strtolower($user->firstname)) . ' ' . ucwords(strtolower($user->lastname)) !!}</h3>
                 </div>
 
                 <div class="box-body">
