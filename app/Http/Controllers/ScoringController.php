@@ -281,7 +281,7 @@ class ScoringController extends Controller
 
 //            dd($week);
 
-            $results = DB::select("SELECT s.*, u.`firstname`, u.`lastname`, d.`name` as divisonname, lp.`points` as weekspoints, la.*
+            $results = DB::select("SELECT s.*, u.`firstname`, u.`lastname`, u.`username`, d.`name` as divisonname, lp.`points` as weekspoints, la.*
                 FROM `scores` s 
                 JOIN `users` u USING (`userid`)
                 JOIN `divisions` d ON (s.`divisionid` = d.`divisionid`)
