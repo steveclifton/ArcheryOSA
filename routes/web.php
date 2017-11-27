@@ -9,7 +9,7 @@ Route::get('/previousevents', 'EventController@PUBLIC_getAllPreviousEventsView')
 Route::get('/eventdetails/{name}', 'EventController@PUBLIC_getEventDetailsView')->name('eventdetails');
 Route::get('/authorisearcherrelation/{hash}', 'UserController@authoriseUserRelationship')->name('authoriseuserrelationship');
 Route::get('/results/{eventname}', 'ScoringController@getEventResults')->name('geteventresults');
-
+Route::get('/users/{username}', 'UserController@getPublicProfile')->name('getpublicuserview');
 
 
 
@@ -74,6 +74,8 @@ Route::middleware(['web'])->group(function() {
 
 	// Admin
 	Route::middleware(['admin'])->group(function () {
+
+	    Route::get('/admin/test','TestController@test')->name('teststuffs');
 
 	    //Users
         Route::get('/admin/users', 'AdminUserController@getAllUsers')->name('getallusers');
