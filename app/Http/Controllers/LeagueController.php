@@ -116,11 +116,11 @@ class LeagueController extends Controller
                 $leaguepoint->week = $divisionscore->week;
                 $leaguepoint->points = $points--;
 
+                $leaguepoint->save();
+
                 if ($points == 0) {
                     break;
                 }
-
-                $leaguepoint->save();
 
             }
         }

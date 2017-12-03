@@ -235,7 +235,7 @@ class ScoringController extends Controller
             ORDER BY `points`
             LIMIT 10
             ",['userid'=>$userid, 'divisionid'=>$divisionid, 'eventid' => $eventid]);
-        
+
 
         return $result[0]->totalpoints ?? 0;
     }
