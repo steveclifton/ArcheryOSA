@@ -225,6 +225,21 @@ class ScoringController extends Controller
         return view('auth.events.event_scoring', compact('users', 'eventround', 'eventrounds', 'distances', 'event', 'userevententry', 'results'));
     }
 
+    private function getUserTotalPoints($userid, $divisionid, $eventid)
+    {
+        $result = DB::select("SELECT sum(`points`) as totalpoints
+            FROM `leaguepoints`
+            WHERE `userid` = :userid
+            AND `divisionid` = :divisionid
+            AND `eventid` = :eventid
+            ORDER BY `points`
+            LIMIT 10
+            ",['userid'=>$userid, 'divisionid'=>$divisionid, 'eventid' => $eventid]);
+        
+
+        return $result[0]->totalpoints ?? 0;
+    }
+
     public function getEventResults(Request $request)
     {
 
@@ -279,8 +294,6 @@ class ScoringController extends Controller
                 $week = 'AND s.`week` = ' . intval($request->input('week'));
             }
 
-//            dd($week);
-
             $results = DB::select("SELECT s.*, u.`firstname`, u.`lastname`, u.`username`, d.`name` as divisonname, lp.`points` as weekspoints, la.*
                 FROM `scores` s 
                 JOIN `users` u USING (`userid`)
@@ -293,11 +306,14 @@ class ScoringController extends Controller
                 ORDER BY s.`total_score` DESC"
                 , ['eventid' => $event->eventid]
             );
+
             if ($event->eventtype == 1) {
                 foreach ($results as $result) {
                     $result->handicapscore = $eventroundmax - $result->avg_total_score + $result->total_score;
+                    $result->totalpoints = $this->getUserTotalPoints($result->userid, $result->divisionid, $event->eventid);
                 }
             }
+
 
             $resultssorted = [];
             foreach ($results as $result) {
