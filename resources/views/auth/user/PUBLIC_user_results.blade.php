@@ -44,14 +44,19 @@
                                         <div>
                                             <caption><a href="{{route('geteventresults', urlencode($resultname))}}">{{$resultname}}</a></caption>
                                             <table class="table removedborders">
-                                                <tr>
-                                                    <th class="col-md-1 col-xs-1 col-sm-1">Average</th>
-                                                    <td>{!! number_format($eventresults[0]->avg_total_score, 0) !!}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="col-md-1 col-xs-1 col-sm-1">Total Points</th>
-                                                    <td> {{ number_format($eventresults[0]->totalpoints ?? 0, 0)}}</td>
-                                                </tr>
+
+                                                    @foreach($eventresults as $er)
+                                                        <tr>
+                                                            <th class="col-md-1 col-xs-1 col-sm-1">Average</th>
+                                                            <td>{!! number_format($er->avg_total_score, 0) !!}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="col-md-1 col-xs-1 col-sm-1">Total Points</th>
+                                                            <td> {{ number_format($er->totalpoints ?? 0, 0)}}</td>
+                                                        </tr>
+                                                    @endforeach
+
+
                                             </table>
                                         </div>
                                     @endif
