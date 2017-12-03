@@ -134,8 +134,8 @@
                                                 <td class="alignCenter">{{$result->total_x}}</td>
 
                                                 @if ($event->eventtype == 1)
-                                                    <td class="alignCenter">{!! number_format($result->avg_total_score, 0) !!}</td>
-                                                    <td class="alignCenter">{!! number_format($result->handicapscore ?? 0, 0) !!}</td>
+                                                    <td class="alignCenter">{!! number_format($result->avg_total_score, 2) !!}</td>
+                                                    <td class="alignCenter">{!! number_format($result->handicapscore ?? 0, 2) !!}</td>
                                                     <td class="alignCenter">{{$result->weekspoints ?? 0}}</td>
                                                     <td class="alignCenter">{{$result->totalpoints ?? 0}}</td>
                                                 @endif
