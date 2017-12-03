@@ -41,7 +41,7 @@ class LeagueController extends Controller
                         ->orderBy('divisionid')
                         ->orderBy('total_score', 'desc')
                         ->get();
-
+       //dump($scores);
 
         // Get all the score averages for the comp
         $scoreaverages = DB::select("SELECT *
@@ -49,7 +49,7 @@ class LeagueController extends Controller
                                 WHERE `eventid` = :eventid"
                           ,['eventid' => $event->eventid]);
 
-
+        //dump($scoreaverages);
         $sortedscores = [];
 
         // loop through all THIS WEEKS SCORES
@@ -58,7 +58,7 @@ class LeagueController extends Controller
             // Find the user id, once found, the number of score entries must be more than 1 to be able to get points
             foreach ($scoreaverages as $average) {
 
-                if ($average->userid == $score->userid && $average->scorecount > 1) {
+                if (($average->userid == $score->userid && $average->divisionid == $score->divisionid)&& $average->scorecount > 1) {
                     $score->avg_total_score = $average->avg_total_score;
                     $score->avg_total_hits = $average->avg_total_hits;
                     $score->avg_total_10 = $average->avg_total_10;
@@ -72,15 +72,39 @@ class LeagueController extends Controller
                 }
             }
         }
-
+        //dd($sortedscores);
         // To here we have the all the info we need to assign points
 
         foreach ($sortedscores as $divisionid => $divisionscores) {
 
             // Sort the divisions scores from highest to lowest
             usort($divisionscores, function($a, $b) {
-                return strcmp($b->handicap_score, $a->handicap_score);
+
+                // return 1 when B greater than A
+
+                if ($b->handicap_score == $a->handicap_score) {
+                    if ($b->avg_total_score == $a->avg_total_score) {
+                        if ($b->total_x > $a->total_x) {
+                            return 1;
+                        }
+                        return -1;
+                    }
+
+                    if ($b->avg_total_score > $a->avg_total_score) {
+                        return 1;
+                    }
+                    return -1;
+                }
+
+                // B greater than A
+                if ($b->handicap_score > $a->handicap_score) {
+                    return 1;
+                }
+                return -1;
+
             });
+
+            //dd($divisionscores);
 
             // Start at 10 points, loop through awarding points . Stop when at xero
             $points = 10;
