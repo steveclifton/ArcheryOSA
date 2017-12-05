@@ -225,21 +225,6 @@ class ScoringController extends Controller
         return view('auth.events.event_scoring', compact('users', 'eventround', 'eventrounds', 'distances', 'event', 'userevententry', 'results'));
     }
 
-    private function getUserTotalPoints($userid, $divisionid, $eventid)
-    {
-        $result = DB::select("SELECT sum(`points`) as totalpoints
-            FROM `leaguepoints`
-            WHERE `userid` = :userid
-            AND `divisionid` = :divisionid
-            AND `eventid` = :eventid
-            ORDER BY `points`
-            LIMIT 10
-            ",['userid'=>$userid, 'divisionid'=>$divisionid, 'eventid' => $eventid]);
-
-
-        return $result[0]->totalpoints ?? 0;
-    }
-
     public function getEventResults(Request $request)
     {
 
@@ -252,8 +237,6 @@ class ScoringController extends Controller
             return Redirect::route('home');
         }
         $event->numberofweeks = ceil($event->daycount / 7);
-
-
 
         // Event Rounds stuff
         $eventrounds = DB::select("SELECT r.`totalmax`, r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, er.`location`, e.`status`, er.`eventroundid`, r.`unit`
@@ -288,18 +271,19 @@ class ScoringController extends Controller
         if (!is_null($results)) {
 
             $week = 'AND s.`week` = ' . $event->currentweek;
+            $intweek = $event->currentweek;
 
             if ($request->exists('week') ) {
                 $event->selectedweek = intval($request->input('week'));
                 $week = 'AND s.`week` = ' . intval($request->input('week'));
+                $intweek = intval($request->input('week'));
             }
 
-            $results = DB::select("SELECT s.*, u.`firstname`, u.`lastname`, u.`username`, d.`name` as divisonname, lp.`points` as weekspoints, la.*
+            $results = DB::select("SELECT s.*, u.`firstname`, u.`lastname`, u.`username`, d.`name` as divisonname, la.*
                 FROM `scores` s 
                 JOIN `users` u USING (`userid`)
                 JOIN `divisions` d ON (s.`divisionid` = d.`divisionid`)
                 LEFT JOIN `leagueaverages` la ON (s.`userid` = la.`userid` AND s.`eventid` = la.`eventid` AND la.`divisionid` = s.`divisionid`)
-                LEFT JOIN `leaguepoints` lp ON (s.`userid` = lp.`userid` AND s.`eventid` = lp.`eventid` AND lp.`divisionid` = s.`divisionid`)
                 WHERE s.`userid` IN (" . implode(',', $userids) . ")
                 AND s.`eventid` = :eventid
                 $week
@@ -310,7 +294,8 @@ class ScoringController extends Controller
             if ($event->eventtype == 1) {
                 foreach ($results as $result) {
                     $result->handicapscore = $eventroundmax - $result->avg_total_score + $result->total_score;
-                    $result->totalpoints = $this->getUserTotalPoints($result->userid, $result->divisionid, $event->eventid);
+                    $result->weekpoints = UserController::getUserWeekPoints($result->userid, $result->divisionid, $event->eventid, $intweek);
+                    $result->totalpoints = UserController::getUserTotalPoints($result->userid, $result->divisionid, $event->eventid);
                 }
             }
 
@@ -329,7 +314,6 @@ class ScoringController extends Controller
 
 
         // User Entry
-
         $userevententry = EventEntry::where('userid', Auth::id())->where('eventid', $event->eventid)->get()->first();
         if (!is_null($userevententry)) {
             $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
