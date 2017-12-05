@@ -96,7 +96,7 @@
 
                                                 @if ($eventresults[0]->eventtype == 1)
 
-                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Handicap</th>
+                                             
                                                     <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Points</th>
 
                                                 @endif
@@ -131,7 +131,7 @@
                                                         <td class="alignCenter">{{$result->total_x}}</td>
 
                                                         @if ($result->eventtype == 1)
-                                                            <td class="alignCenter">{!! number_format($result->handicapscore ?? 0, 0) !!}</td>
+
                                                             <td class="alignCenter">{{$result->weekspoints ?? 0}}</td>
                                                         @endif
                                                     </tr>
