@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ArcherRelation;
+use App\LeaguePoint;
 use App\Mail\ArcherRelationRequest;
 use App\Mail\ConfirmArcherRelation;
 use App\Mail\Welcome;
@@ -22,7 +23,32 @@ use App\Http\Requests\Users\UpdateProfileValidator;
 class UserController extends Controller
 {
 
+    public static function getUserTotalPoints($userid, $divisionid, $eventid)
+    {
+        $result = DB::select("SELECT sum(`points`) as totalpoints
+            FROM `leaguepoints`
+            WHERE `userid` = :userid
+            AND `divisionid` = :divisionid
+            AND `eventid` = :eventid
+            ORDER BY `points`
+            LIMIT 10
+            ",['userid'=>$userid, 'divisionid'=>$divisionid, 'eventid' => $eventid]);
 
+
+        return $result[0]->totalpoints ?? 0;
+    }
+
+    public static function getUserWeekPoints($userid, $divisionid, $eventid, $week)
+    {
+        $result = LeaguePoint::where('userid', $userid)
+                ->where('divisionid', $divisionid)
+                ->where('eventid', $eventid)
+                ->where('week', $week)
+                ->pluck('points')
+                ->first();
+
+        return $result ?? 0;
+    }
 
     public function PUBLIC_getRegisterView()
     {
@@ -49,12 +75,18 @@ class UserController extends Controller
         ", ['userid' => $user->userid]);
 
         $resultssorted = [];
+        $leagueresultoverall = [];
         foreach ($results as $result) {
             $resultssorted[$result->eventname][] = $result;
+
+            if ($result->eventtype == 1) {
+                $leagueresultoverall[$result->eventname][$result->divisionname]['totalpoints'] = $this->getUserTotalPoints($result->user_id, $result->divisionid, $result->eventid);
+                $leagueresultoverall[$result->eventname][$result->divisionname]['averagescore'] = $result->avg_total_score;
+            }
         }
+        //dd($resultssorted, $leagueresultoverall);
 
-
-        return view('auth.user.PUBLIC_user_results', compact('resultssorted', 'user'));
+        return view('auth.user.PUBLIC_user_results', compact('resultssorted', 'user', 'leagueresultoverall'));
     }
 
     /*****************************************************
@@ -72,7 +104,6 @@ class UserController extends Controller
      */
     public function login(Request $request)
     {
-
         if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')], true) === false) {
 
             return Redirect::back()
