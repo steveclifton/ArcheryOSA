@@ -39,25 +39,29 @@
                             @else
 
                                 @foreach($resultssorted as $resultname => $eventresults)
-
-                                    @if ($eventresults[0]->eventtype == 1)
+                                    <caption>
+                                        <a href="{{route('geteventresults', urlencode($resultname))}}">{{$resultname}}</a>
+                                    </caption>
+                                    @if (!empty($leagueresultoverall[$resultname]))
                                         <div>
-                                            <caption><a href="{{route('geteventresults', urlencode($resultname))}}">{{$resultname}}</a></caption>
-                                            <table class="table removedborders">
-
-                                                    @foreach($eventresults as $er)
-                                                        <tr>
-                                                            <th class="col-md-1 col-xs-1 col-sm-1">Average</th>
-                                                            <td>{!! number_format($er->avg_total_score, 0) !!}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th class="col-md-1 col-xs-1 col-sm-1">Total Points</th>
-                                                            <td> {{ number_format($er->totalpoints ?? 0, 0)}}</td>
-                                                        </tr>
-                                                    @endforeach
 
 
-                                            </table>
+                                                @foreach ($leagueresultoverall[$resultname] as $key => $value)
+                                                    <div>
+                                                        <table class="table removedborders">
+                                                    <h4>{{$key}}</h4>
+                                                    <tr>
+                                                        <th class="col-md-1 col-xs-1 col-sm-1">Average</th>
+                                                        <td> {{ number_format($value['averagescore'] ?? 0, 0)}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="col-md-1 col-xs-1 col-sm-1">Total Points</th>
+                                                        <td>{!! number_format($value['totalpoints'], 0) !!}</td>
+                                                    </tr>
+                                                        </table>
+
+                                                    </div>
+                                                @endforeach
                                         </div>
                                     @endif
 
