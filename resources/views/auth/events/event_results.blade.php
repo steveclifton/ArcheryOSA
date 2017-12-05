@@ -101,11 +101,11 @@
                                             @foreach($divisionresults as $result)
                                             @php
                                                 $colour = '';
-                                                if (($result->weekspoints ?? -1) == 10) {
+                                                if (($result->weekpoints ?? -1) == 10) {
                                                     $colour = '#ffdc96';
-                                                } else if (($result->weekspoints ?? -1) == 9) {
+                                                } else if (($result->weekpoints ?? -1) == 9) {
                                                     $colour = '#d6d5d4';
-                                                } else if (($result->weekspoints ?? -1) == 8){
+                                                } else if (($result->weekpoints ?? -1) == 8){
                                                     $colour = '#e2cabc';
                                                 }
                                             @endphp
@@ -136,7 +136,7 @@
                                                 @if ($event->eventtype == 1)
                                                     <td class="alignCenter">{!! number_format($result->avg_total_score, 2) !!}</td>
                                                     <td class="alignCenter">{!! number_format($result->handicapscore ?? 0, 2) !!}</td>
-                                                    <td class="alignCenter">{{$result->weekspoints ?? 0}}</td>
+                                                    <td class="alignCenter">{{$result->weekpoints ?? 0}}</td>
                                                     <td class="alignCenter">{{$result->totalpoints ?? 0}}</td>
                                                 @endif
                                             </tr>
