@@ -67,6 +67,7 @@ class EventController extends Controller
                         ->get()
                         ->first();
 
+
         if (is_null($event)) {
             return Redirect::route('home');
         }
@@ -79,9 +80,13 @@ class EventController extends Controller
             JOIN `rounds` r USING (`roundid`)
             JOIN `events` e USING (`eventid`)
             WHERE er.`eventid` = :eventid 
+            GROUP BY r.`name`
+            ORDER BY r.`dist1` DESC
             ",
             ['eventid' => $event->eventid]
         );
+
+        //dd($eventrounds);
 
         // Events rounds distances
         $event->distancestring = $this->makeDistanceString($eventrounds);
@@ -96,10 +101,11 @@ class EventController extends Controller
 
         // Users
         $userids = [];
-        $users = DB::select("SELECT ee.`userid`, ee.`fullname`, ee.`entrystatusid`, ee.`clubid` as club, ee.`paid`, d.`name` as division
+        $users = DB::select("SELECT ee.`userid`, ee.`fullname`, ee.`entrystatusid`, ee.`clubid` as club, ee.`paid`, d.`name` as division, u.`username`
             FROM `evententry` ee
             LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
             LEFT JOIN `clubs` c ON(c.`clubid` = ee.`clubid`)
+            LEFT JOIN `users` u ON(ee.`userid` = u.`userid`)
             WHERE ee.`eventid` = :eventid
             ORDER BY d.`name`, ee.`fullname`
             ", ['eventid' => $event->eventid]);
@@ -288,7 +294,10 @@ class EventController extends Controller
         $event->multipledivisions = $multipledivisions;
         $event->cost = htmlentities($request->input('cost'));
         $event->bankaccount = htmlentities($request->input('bankaccount'));
+        $event->bankreference = htmlentities($request->input('bankreference'));
+
         $event->schedule = htmlentities($request->input('schedule'));
+        $event->information = htmlentities($request->input('information'));
         $event->scoringenabled = $scoringenabled;
         $event->sponsored = $sponsored;
         $event->sponsortext = htmlentities($request->input('sponsortext'));
@@ -422,7 +431,9 @@ class EventController extends Controller
             $event->cost = htmlentities($request->input('cost'));
             $event->multipledivisions = $multipledivisions;
             $event->bankaccount = htmlentities($request->input('bankaccount'));
+            $event->bankreference = htmlentities($request->input('bankreference'));
             $event->schedule = htmlentities(trim($request->input('schedule')));
+            $event->information = htmlentities(trim($request->input('information')));
             $event->scoringenabled = $scoringenabled;
             $event->sponsored = $sponsored;
             $event->sponsortext = htmlentities($request->input('sponsortext'));
