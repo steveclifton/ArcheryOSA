@@ -42,7 +42,6 @@
     <th style="width: 25%">Distances</th>
     <td>
         {{$event->distancestring}}
-
     </td>
 </tr>
 <tr>
@@ -71,7 +70,7 @@
 </tr>
 <tr>
     <th style="width: 25%">Bank Details</th>
-    <td>{{ $event->bank }}</td>
+    <td>{{ $event->bankaccount }}</td>
 </tr>
 <tr>
     <th style="width: 25%">Schedule</th>
