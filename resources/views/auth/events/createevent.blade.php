@@ -230,6 +230,20 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('bankreference') ? ' has-error' : '' }}">
+                            <label for="bankreference" class="col-md-4 control-label">Bank Account*</label>
+                            <div class="col-md-6">
+                                <input id="bankreference" type="text" class="form-control" name="bankreference" value="{{ old('bankreference') }}" required autofocus>
+                                @if ($errors->has('bankreference'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('bankreference') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
+
 
 
                         <div class="form-group{{ $errors->has('schedule') ? ' has-error' : '' }}">
@@ -239,6 +253,18 @@
                                 @if ($errors->has('schedule'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('schedule') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('information') ? ' has-error' : '' }}">
+                            <label for="information" class="col-md-4 control-label">Event Info</label>
+                            <div class="col-md-6">
+                                <textarea rows="5" id="information" type="text" class="form-control" name="information" >{{ old('information') }}</textarea>
+                                @if ($errors->has('information'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('information') }}</strong>
                                     </span>
                                 @endif
                             </div>
