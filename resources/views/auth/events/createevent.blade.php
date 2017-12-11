@@ -243,6 +243,18 @@
                         </div>
 
 
+                        <div class="form-group{{ $errors->has('information') ? ' has-error' : '' }}">
+                            <label for="information" class="col-md-4 control-label">Event Info</label>
+                            <div class="col-md-6">
+                                <textarea rows="5" id="information" type="text" class="form-control" name="information" >{{ old('information') }}</textarea>
+                                @if ($errors->has('information'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('information') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
 
 
 
@@ -253,18 +265,6 @@
                                 @if ($errors->has('schedule'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('schedule') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('information') ? ' has-error' : '' }}">
-                            <label for="information" class="col-md-4 control-label">Event Info</label>
-                            <div class="col-md-6">
-                                <textarea rows="5" id="information" type="text" class="form-control" name="information" >{{ old('information') }}</textarea>
-                                @if ($errors->has('information'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('information') }}</strong>
                                     </span>
                                 @endif
                             </div>

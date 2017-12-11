@@ -120,6 +120,15 @@
                     </div>
 
                     <div class="form-group">
+                        <div class="checkbox">
+                            <label class="col-md-4 control-label">Remove Image</label>
+                            <div class="col-md-6">
+                                <input type="checkbox" name="visible">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <div class="col-md-10 ">
                             <button type="submit" class="btn btn-success pull-right" value="update" name="submit">
                                 Update Profile

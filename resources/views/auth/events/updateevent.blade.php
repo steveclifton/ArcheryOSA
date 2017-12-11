@@ -342,6 +342,20 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('information') ? ' has-error' : '' }}">
+                            <label for="information" class="col-md-4 control-label">Event Information</label>
+
+                            <div class="col-md-6">
+                                <textarea rows="5" id="information" type="text" class="form-control" name="information" >{{ old('information') ?? $event->first()->information }}</textarea>
+                                @if ($errors->has('information'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('information') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
                         <div class="form-group{{ $errors->has('schedule') ? ' has-error' : '' }}">
                             <label for="schedule" class="col-md-4 control-label">Schedule</label>
 
@@ -355,18 +369,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('information') ? ' has-error' : '' }}">
-                            <label for="information" class="col-md-4 control-label">Event Information</label>
-
-                            <div class="col-md-6">
-                                <textarea rows="5" id="information" type="text" class="form-control" name="information" >{{ old('information') ?? $event->first()->information }}</textarea>
-                                @if ($errors->has('information'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('information') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
 
                         <hr>
                             <h3>Setup</h3>
