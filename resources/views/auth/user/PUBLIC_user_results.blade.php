@@ -96,7 +96,7 @@
 
                                                 @if ($eventresults[0]->eventtype == 1)
 
-                                             
+
                                                     <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Points</th>
 
                                                 @endif
