@@ -328,6 +328,20 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('bankreference') ? ' has-error' : '' }}">
+                            <label for="bankreference" class="col-md-4 control-label">Bank Reference*</label>
+                            <div class="col-md-6">
+
+                                <input id="bankaccount" type="text" class="form-control" name="bankreference" value="{{ old('bankreference') ?? $event->first()->bankreference }}" >
+
+                            @if ($errors->has('bankreference'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('bankreference') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('schedule') ? ' has-error' : '' }}">
                             <label for="schedule" class="col-md-4 control-label">Schedule</label>
 
@@ -341,6 +355,18 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('information') ? ' has-error' : '' }}">
+                            <label for="information" class="col-md-4 control-label">Event Information</label>
+
+                            <div class="col-md-6">
+                                <textarea rows="5" id="information" type="text" class="form-control" name="information" >{{ old('information') ?? $event->first()->information }}</textarea>
+                                @if ($errors->has('information'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('information') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
 
                         <hr>
                             <h3>Setup</h3>
@@ -391,19 +417,21 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="col-md-offset-4">
-                                    <h5>Process Weekly League Scores</h5>
+                            @if ($event->first()->eventtype == 1)
+                                <div class="form-group">
+                                    <div class="col-md-offset-4">
+                                        <h5>Process Weekly League Scores</h5>
 
-                                    <a href="{{route('processleague', [$event->first()->eventid, $event->first()->hash])}}" class="btn btn-info col-md-2 processleaguebtn" role="button">Process</a>
+                                        <a href="{{route('processleague', [$event->first()->eventid, $event->first()->hash])}}" class="btn btn-info col-md-2 processleaguebtn" role="button">Process</a>
 
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" disabled value="{{'Last Run :' }}" >
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" disabled value="{{'Last Run :' }}" >
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
 
-                        <hr>
+                            <hr>
                             <h3>Sponsorship</h3>
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Sponsored Event</label>
