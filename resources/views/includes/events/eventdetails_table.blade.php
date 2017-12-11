@@ -70,7 +70,15 @@
 </tr>
 <tr>
     <th style="width: 25%">Bank Details</th>
-    <td>{{ $event->bankaccount }}</td>
+    <td>{{ $event->bankaccount}}</td>
+</tr>
+<tr>
+    <th style="width: 25%">Bank Reference</th>
+    <td>{{ $event->bankreference}}</td>
+</tr>
+<tr>
+    <th style="width: 25%">Event Info</th>
+    <td>{!!  nl2br($event->information) !!} </td>
 </tr>
 <tr>
     <th style="width: 25%">Schedule</th>
