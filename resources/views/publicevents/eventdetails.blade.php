@@ -56,7 +56,7 @@
 
                                 <h3>{{$event->name}}</h3>
                                 <div class="table-responsive">
-                                    <table class="table">
+                                    <table class="table table-striped">
                                         @include('includes.events.eventdetails_table')
                                     </table>
 
