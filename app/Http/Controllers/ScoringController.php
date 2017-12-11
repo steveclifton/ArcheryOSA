@@ -30,6 +30,9 @@ use Illuminate\Support\Facades\Redirect;
 class ScoringController extends Controller
 {
 
+    private $eventid;
+    private $currentweek;
+
     /**
      * Creates the scores in the database
      *
@@ -115,123 +118,13 @@ class ScoringController extends Controller
         return back()->with('message', 'Scores entered successfully')->withInput();
     }
 
-    public function getScoringChoiceView(Request $request)
-    {
-        $event = Event::where('name', urldecode($request->eventname))
-            ->get()
-            ->first();
-
-        if (is_null($event)) {
-
-            return Redirect::route('home');
-        }
-        $event->numberofweeks = ceil($event->daycount / 7);
-
-        // Event Rounds stuff
-        $eventrounds = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, er.`location`, e.`status`, er.`eventroundid`, r.`unit`
-            FROM `eventrounds` er 
-            JOIN `rounds` r USING (`roundid`)
-            JOIN `events` e USING (`eventid`)
-            WHERE er.`eventid` = :eventid 
-            ",
-            ['eventid' => $event->eventid]
-        );
-
-
-        // Do results exist?
-        $results = Score::where('eventid', $event->eventid)->get()->first();
-
-        // User Entry
-        $userevententry = EventEntry::where('userid', Auth::id())
-                                    ->whereIn('entrystatusid', [2] )
-                                    ->where('eventid', $event->eventid)
-                                    ->get()
-                                    ->first();
-
-
-        if (!is_null($userevententry)) {
-            $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
-        } else {
-            return back()->with('failure', 'Unable to score at this time')->withInput();
-        }
-
-
-        return view ('auth.events.event_scoring', compact('event', 'eventrounds', 'userevententry', 'results'));
-
-    }
-
-    public function getScoringView(Request $request)
-    {
-        $event = Event::where('eventid', $request->eventid)
-                        ->where('name', urldecode($request->eventname))
-                        ->get()
-                        ->first();
-
-        if (is_null($event) || $event->scoringenabled != 1) {
-            return redirect()->back()->with('failure', 'Invalid Request');
-        }
-
-        $eventrounds = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, er.`location`, e.`status`, er.`eventroundid`, r.`unit`
-            FROM `eventrounds` er 
-            JOIN `rounds` r USING (`roundid`)
-            JOIN `events` e USING (`eventid`)
-            WHERE er.`eventid` = :eventid 
-            ",
-            ['eventid' => $event->eventid]
-        );
-
-
-        $eventround = DB::select("SELECT *
-            FROM `eventrounds` er
-            JOIN `rounds` r USING (`roundid`)
-            WHERE er.`eventid` = :eventid
-            AND er.`eventroundid` = :eventroundid
-            LIMIT 1
-        ", ['eventid' => $event->eventid,
-            'eventroundid' => $request->eventroundid
-            ]);
-
-        $distances = $this->getDistances($eventround);
-
-        $userrelations = UserExtended::getUserRelationIDs();
-
-        $users = DB::select("SELECT ee.`eventid`, ee.`fullname`, ee.`userid`, d.`name` as divisionname, d.`divisionid`, ee.`evententryid`
-            FROM `evententry` ee
-            JOIN `users` u USING (`userid`)
-            JOIN `divisions` d USING (`divisionid`)
-            WHERE ee.`eventid` = :eventid
-            AND ee.`userid` IN (". implode(',' ,$userrelations) .")
-            ", ['eventid' => $event->eventid,
-            ]);
-
-
-        //$results = [];
-        foreach ($users as $user) {
-            $result = $this->getExisitingScore($user->userid, $user->evententryid, $eventround[0]->eventroundid, $user->divisionid, $event->currentweek);
-            $user->result = $result;
-//            dd($user->result);
-        }
-
-        // Do results exist?
-        $results = Score::where('eventid', $event->eventid)->get()->first();
-
-        // User Entry
-        $userevententry = EventEntry::where('userid', Auth::id())->where('eventid', $event->eventid)->get()->first();
-        if (!is_null($userevententry)) {
-            $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
-        }
-
-
-        return view('auth.events.event_scoring', compact('users', 'eventround', 'eventrounds', 'distances', 'event', 'userevententry', 'results'));
-    }
-
     public function getEventResults(Request $request)
     {
 
         // Events
         $event = Event::where('name', urldecode($request->eventname))
-                        ->get()
-                        ->first();
+            ->get()
+            ->first();
 
         if (is_null($event)) {
             return Redirect::route('home');
@@ -323,6 +216,202 @@ class ScoringController extends Controller
 
     }
 
+    public function getScoringChoiceView(Request $request)
+    {
+        $event = Event::where('name', urldecode($request->eventname))
+            ->get()
+            ->first();
+
+        if (is_null($event)) {
+            return Redirect::route('home');
+        }
+
+        $this->eventid = $event->eventid;
+        $this->currentweek = $event->currentweek;
+
+        if ($event->eventtype == 1) {
+            // get league scoring view
+            return $this->getLeagueScoringData($event);
+        } else {
+            return $this->getScoringData($event);
+        }
+
+    }
+
+
+
+
+    public function getScoringView(Request $request)
+    {
+
+        $event = Event::where('eventid', $request->eventid)
+                        ->where('name', urldecode($request->eventname))
+                        ->get()
+                        ->first();
+
+
+        if ( ($event->scoringenabled ?? -1) != 1) {
+            return redirect()->back()->with('failure', 'Invalid Request');
+        }
+
+        $this->eventid = $event->eventid;
+
+//        if ($event->eventtype == 1) {
+//            // league
+//            $this->currentweek = $event->currentweek;
+//            $this->getLeagueScoringData($event);
+//        }
+//
+//        else {
+//            // not league
+//
+//        }
+
+        $eventrounds = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, er.`location`, e.`status`, er.`eventroundid`, r.`unit`
+            FROM `eventrounds` er 
+            JOIN `rounds` r USING (`roundid`)
+            JOIN `events` e USING (`eventid`)
+            WHERE er.`eventid` = :eventid 
+            ",
+            ['eventid' => $event->eventid]
+        );
+
+
+        $eventround = DB::select("SELECT *
+            FROM `eventrounds` er
+            JOIN `rounds` r USING (`roundid`)
+            WHERE er.`eventid` = :eventid
+            AND er.`eventroundid` = :eventroundid
+            LIMIT 1
+        ", ['eventid' => $event->eventid,
+            'eventroundid' => $request->eventroundid
+            ]);
+
+
+        if ( is_null($eventrounds) || is_null($eventround) ) {
+            return redirect()->back()->with('failure', 'Invalid Request');
+        }
+
+        $distances = $this->getDistances($eventround);
+
+        $userrelations = UserExtended::getUserRelationIDs();
+
+        $users = DB::select("SELECT ee.`eventid`, ee.`fullname`, ee.`userid`, d.`name` as divisionname, d.`divisionid`, ee.`evententryid`
+            FROM `evententry` ee
+            JOIN `users` u USING (`userid`)
+            JOIN `divisions` d USING (`divisionid`)
+            WHERE ee.`eventid` = :eventid
+            AND ee.`userid` IN (". implode(',' ,$userrelations) .")
+            ", ['eventid' => $event->eventid,
+            ]);
+
+        foreach ($users as $user) {
+            $result = $this->getExisitingScore($user->userid, $user->evententryid, $eventround[0]->eventroundid, $user->divisionid, $event->currentweek);
+            $user->result = $result;
+        }
+
+        // Do results exist?
+        $results = Score::where('eventid', $event->eventid)->get()->first();
+
+        // User Entry
+        $userevententry = EventEntry::where('userid', Auth::id())->where('eventid', $event->eventid)->get()->first();
+        if (!is_null($userevententry)) {
+            $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
+        }
+
+//        dd($eventrounds);
+        return view('auth.events.event_scoring', compact('users', 'eventround', 'eventrounds', 'distances', 'event', 'userevententry', 'results'));
+    }
+
+    private function getLeagueScoringData($event)
+    {
+
+
+        // Event Rounds stuff - ***************need to update to for events*************
+
+        $eventround = DB::select("SELECT *
+            FROM `eventrounds` er
+            JOIN `rounds` r USING (`roundid`)
+            WHERE er.`eventid` = :eventid
+            LIMIT 1
+        ", ['eventid' => $this->eventid,
+        ]);
+
+
+        if ( is_null($eventround) || !isset($eventround[0]) ) {
+            return redirect()->back()->with('failure', 'Invalid Request');
+        }
+        $eventround = $eventround[0];
+
+        $distances = $this->getLeagueDistance($eventround);
+        $userrelations = UserExtended::getUserRelationIDs();
+
+        $users = DB::select("SELECT ee.`eventid`, ee.`fullname`, ee.`userid`, d.`name` as divisionname, d.`divisionid`, ee.`evententryid`
+            FROM `evententry` ee
+            JOIN `users` u USING (`userid`)
+            JOIN `divisions` d USING (`divisionid`)
+            WHERE ee.`eventid` = :eventid
+            AND ee.`userid` IN (". implode(',' ,$userrelations) .")
+            ", ['eventid' => $this->eventid,
+        ]);
+
+
+        foreach ($users as $user) {
+            $result = $this->getExisitingScore($user->userid, $user->evententryid, $eventround->eventroundid, $user->divisionid, $this->currentweek);
+            $user->result = $result;
+        }
+
+        $results = Score::where('eventid', $this->eventid)->get()->first();
+
+        // User Entry
+        $userevententry = EventEntry::where('userid', Auth::id())
+            ->whereIn('entrystatusid', [2] )
+            ->where('eventid', $this->eventid)
+            ->get()
+            ->first();
+
+
+        if (!is_null($userevententry)) {
+            $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
+        } else {
+            return back()->with('failure', 'Unable to score at this time')->withInput();
+        }
+
+
+        return view('auth.events.event_scoring', compact('users', 'eventround', 'eventrounds', 'distances', 'event', 'userevententry', 'results'));
+
+    }
+
+    private function getScoringData($event)
+    {
+        // Event Rounds stuff - ***************need to update to for events*************
+        $eventrounds = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, er.`location`, e.`status`, er.`eventroundid`, r.`unit`
+            FROM `eventrounds` er 
+            JOIN `rounds` r USING (`roundid`)
+            JOIN `events` e USING (`eventid`)
+            WHERE er.`eventid` = :eventid 
+            ",
+            ['eventid' => $this->eventid]
+        );
+
+        // User Entry
+        $userevententry = EventEntry::where('userid', Auth::id())
+            ->whereIn('entrystatusid', [2] )
+            ->where('eventid', $this->eventid)
+            ->get()
+            ->first();
+
+
+        if (!is_null($userevententry)) {
+            $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
+        } else {
+            return back()->with('failure', 'Unable to score at this time')->withInput();
+        }
+
+
+        return view ('auth.events.event_scoring', compact('event', 'eventrounds', 'userevententry' ));
+    }
+
     private function getLabel($division) {
         switch (strtolower($division)) {
             case 'compound' :
@@ -363,9 +452,15 @@ class ScoringController extends Controller
 
     }
 
+    private function getLeagueDistance($eventround)
+    {
+
+        return ['Distance-1' => $eventround->dist1, 'Distance-1-Unit' => $eventround->unit];
+    }
+
     private function getExisitingScore($userid, $evententryid, $eventroundid, $divisionid, $week = 1)
     {
-        //dd($userid, $evententryid, $eventroundid, $divisionid, $week);
+//        dd($userid, $evententryid, $eventroundid, $divisionid, $week);
         return Score::where('userid', $userid)
             ->where('evententryid', $evententryid)
             ->where('eventroundid', $eventroundid)
