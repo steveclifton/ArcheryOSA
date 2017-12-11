@@ -7,11 +7,7 @@
                         <div>
                             <h1 class="box-title">Current Entries</h1>
                         </div>
-                        <div class="box-tools pull-right" >
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse">Click to Open &nbsp;
-                                <i class="fa fa-minus"></i>
-                            </button>
-                        </div>
+
                     </div>
                     <div class="box-body">
                         <div class="table-responsive">
@@ -27,7 +23,7 @@
                                 <tbody>
                                     @foreach (array_slice($users, 0, 14) as $user)
                                         <tr>
-                                            <td>{{ ucwords($user->fullname) }}</td>
+                                            <td><a href="{!! route('getpublicuserview', $user->username) !!}">{{ ucwords($user->fullname) }}</a></td>
                                             <td>{{ $user->division }}</td>
                                         </tr>
                                     @endforeach
