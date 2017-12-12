@@ -29,7 +29,7 @@
                                     @endforeach
                                     @foreach (array_slice($users, 14) as $user)
                                         <tr class="item hidden">
-                                            <td>{{ ucwords($user->fullname) }}</td>
+                                            <td><a href="{!! route('getpublicuserview', $user->username) !!}">{{ ucwords($user->fullname) }}</a></td>
                                             <td>{{ $user->division }}</td>
                                         </tr>
                                     @endforeach

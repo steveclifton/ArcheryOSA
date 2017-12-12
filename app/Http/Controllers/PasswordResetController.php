@@ -48,7 +48,6 @@ class PasswordResetController extends Controller
             $hash = hash('sha1', time() . rand(1, 1406));
             $hash = preg_replace("/[^A-Za-z0-9 ]/", '', $hash);
 
-            dd($hash);
             $user->passwordhash = $hash;
             $user->save();
 
