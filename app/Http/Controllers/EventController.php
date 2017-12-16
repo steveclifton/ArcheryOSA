@@ -242,6 +242,11 @@ class EventController extends Controller
             $scoringenabled = 1;
         }
 
+        $userscanscore = 0;
+        if (!empty($request->input('userscanscore'))) {
+            $userscanscore = 1;
+        }
+
         $multipledivisions = 0;
         if (!empty($request->input('multipledivisions'))) {
             $multipledivisions = 1;
@@ -299,6 +304,7 @@ class EventController extends Controller
         $event->schedule = htmlentities($request->input('schedule'));
         $event->information = htmlentities($request->input('information'));
         $event->scoringenabled = $scoringenabled;
+        $event->userscanscore = $userscanscore;
         $event->sponsored = $sponsored;
         $event->sponsortext = htmlentities($request->input('sponsortext'));
         $event->sponsorimageurl = htmlentities($request->input('sponsorimageurl'));
@@ -371,6 +377,11 @@ class EventController extends Controller
                 $scoringenabled = 1;
             }
 
+            $userscanscore = 0;
+            if (!empty($request->input('userscanscore'))) {
+                $userscanscore = 1;
+            }
+
             $multipledivisions = 0;
             if (!empty($request->input('multipledivisions'))) {
                 $multipledivisions = 1;
@@ -435,6 +446,7 @@ class EventController extends Controller
             $event->schedule = htmlentities(trim($request->input('schedule')));
             $event->information = htmlentities(trim($request->input('information')));
             $event->scoringenabled = $scoringenabled;
+            $event->userscanscore = $userscanscore;
             $event->sponsored = $sponsored;
             $event->sponsortext = htmlentities($request->input('sponsortext'));
             $event->sponsorimageurl = htmlentities($request->input('sponsorimageurl'));

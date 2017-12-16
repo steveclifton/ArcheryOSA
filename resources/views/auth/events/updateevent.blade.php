@@ -419,6 +419,21 @@
                                 </div>
                             </div>
 
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Users Can Score</label>
+                            <div class="col-md-6">
+                                @if (!empty($event))
+                                    <?php
+                                    $status='';
+                                    if ($event->first()->userscanscore == 1) {
+                                        $status = 'checked';
+                                    }
+                                    ?>
+                                    <input style="margin-top: 10px" type="checkbox" name="userscanscore" {{$status}}>
+                                @endif
+                            </div>
+                        </div>
+
                             @if ($event->first()->eventtype == 1)
                                 <div class="form-group">
                                     <div class="col-md-offset-4">

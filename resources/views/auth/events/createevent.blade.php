@@ -298,6 +298,13 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Users Can Score</label>
+                                <div class="col-md-6">
+                                    <input type="checkbox" name="userscanscore" style="margin-top: 10px">
+                                </div>
+                            </div>
+
 
 
                         <hr>
