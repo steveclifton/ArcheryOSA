@@ -8,7 +8,7 @@ Route::get('/upcomingevents', 'EventController@PUBLIC_getAllUpcomingEventsView')
 Route::get('/previousevents', 'EventController@PUBLIC_getAllPreviousEventsView');
 Route::get('/eventdetails/{name}', 'EventController@PUBLIC_getEventDetailsView')->name('eventdetails');
 Route::get('/authorisearcherrelation/{hash}', 'UserController@authoriseUserRelationship')->name('authoriseuserrelationship');
-Route::get('/results/{eventname}', 'ScoringController@getEventResults')->name('geteventresults');
+Route::get('/results/{eventname}', 'ScoringController@getLeagueEventResults')->name('geteventresults');
 Route::get('/users/{username}', 'UserController@getPublicProfile')->name('getpublicuserview');
 
 
@@ -45,9 +45,9 @@ Route::middleware(['web'])->group(function() {
 
         Route::get('/scoring/{eventname}', 'ScoringController@getScoringChoiceView')->name('getscoringview');
 
-
         Route::get('/scoring/{eventroundid}/{eventid}/{eventname}', 'ScoringController@getScoringView')->name('getenterscoreview');
         Route::post('/scoring/{eventroundid}/{eventid}/{currentweek}', 'ScoringController@enterScores')->name('enterscores');
+        Route::post('/scoring/eventscoring/{eventid}', 'ScoringController@enterEventScores')->name('entereventscores');
 
         Route::get('/updateprofile/addarcher', 'UserController@getCreateArcherRelationship')->name('createaddarcherview');
         Route::get('/updateprofile/addmembership', 'UserMembershipController@getCreateView')->name('createusermembershipview');
