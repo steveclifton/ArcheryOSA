@@ -10,6 +10,7 @@
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">My Current Events</h3>
+
                     </div>
 
                     @if (empty($userevents))
