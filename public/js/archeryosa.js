@@ -152,6 +152,15 @@ $(document).ready(function() {
 
     });
 
+
+    $('.shootingday').on('change', function (e) {
+        var optionSelected = $("option:selected", this).val();
+        var url = getPathFromUrl(window.location.href);
+        window.location.replace(url + '?day=' + optionSelected);
+
+
+    });
+
     function getPathFromUrl(url) {
         return url.split("?")[0];
     }

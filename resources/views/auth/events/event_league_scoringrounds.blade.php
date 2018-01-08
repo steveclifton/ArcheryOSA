@@ -1,70 +1,23 @@
-{{--<div class="row">--}}
-    {{--<div class="col-md-12">--}}
-        {{--<div class="box box-info">--}}
-            {{--<div class="box-header with-border">--}}
-                {{--<h3 class="box-title">League Scoring</h3>--}}
-            {{--</div>--}}
-            {{--<div class="box-body">--}}
-                {{--<div class="table-responsive">--}}
-                    {{--<table class="table">--}}
-                        {{--<thead>--}}
-                        {{--<tr>--}}
-                            {{--<th>Scoring</th>--}}
+@extends ('home')
 
-                            {{--@if ($event->eventtype == 1)--}}
-                                {{--<th>Week</th>--}}
-                            {{--@endif--}}
+@section ('title')Scoring @endsection
 
-                            {{--<th>Name</th>--}}
-                            {{--<th class="hidden-xs">Location</th>--}}
-                            {{--<th>Round</th>--}}
-                        {{--</tr>--}}
-                        {{--</thead>--}}
+@section ('content')
+    @include('includes.session_errors')
 
-                        {{--<tbody>--}}
-                        {{--@foreach($eventrounds as $eventround)--}}
-                            {{--<tr onmouseover="this.style.backgroundColor='lightgrey'" onmouseout="this.style.backgroundColor='white'">--}}
-                                {{--<td>--}}
-                                    {{--<a href="{{ route('getenterscoreview', [$eventround->eventroundid, $event->eventid, urlencode($event->name)]) }}">--}}
-                                        {{--<i class="fa fa-bullseye" aria-hidden="true"></i> Score--}}
-                                    {{--</a>--}}
-                                {{--</td>--}}
+    <div class="row">
+        @include('includes.events.eventdetails_nav')
+    </div>
 
-                                {{--@if ($event->eventtype == 1)--}}
-                                    {{--<td>{{$event->currentweek}}</td>--}}
-                                {{--@endif--}}
 
-                                {{--<td>{{ ucwords($eventround->roundname) }}</td>--}}
-                                {{--<td class="hidden-xs">{{ ucwords($eventround->location) }}</td>--}}
-                                {{--<td>{{ ucwords($eventround->name) }}</td>--}}
-                            {{--</tr>--}}
-                        {{--@endforeach--}}
-                        {{--</tbody>--}}
-                    {{--</table>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-    {{--</div>--}}
-{{--</div>--}}
-
-@php
-/**
-* Users
-* Event
-* Distances
-* Eventrounds
-*
-*
-*/
-@endphp
-
-@if (!empty($users))
+    @if (!empty($users))
 
     <div class="row">
         <div class="col-md-12 dtOnly">
             <div class="box box-info">
                 <div class="box-header">
-                    <h3 class="box-title"><strong>Scoring</strong></h3><BR>
+                    <h3 class="box-title"><strong>Scoring</strong></h3>
+                    <BR>
                     <h3 class="box-title">{{ ucwords($event->name)}}</h3>
 
                 </div>
@@ -300,3 +253,5 @@
     </div>
 
 @endif
+
+@endsection

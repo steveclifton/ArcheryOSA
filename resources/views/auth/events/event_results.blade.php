@@ -29,10 +29,12 @@
                             @if ($event->eventtype == 1)
                                 <div class="col-md-3" style="padding-bottom: 20px">
                                     <select class="week form-control" class="form-control">
+
+                                        <option value="overall">Overall</option>
+
                                         @foreach (range(1, $event->numberofweeks) as $week)
                                             @php
                                                 $currentweek = $event->selectedweek ?? $event->currentweek;
-                                                echo $currentweek;
                                             @endphp
                                             <option @if ( $week == $currentweek) {{'selected'}} @endif value="{{$week}}">
                                                 Week {{$week}}
@@ -55,7 +57,44 @@
                                         </tr>
                                     </thead>
                                 </table>
-                                @else
+                            @elseif ($event->selectedweek == 'overall')
+
+                                @foreach($results as $divisionaname => $divisionresults)
+
+                                    <table class="table table-bordered table-responsive table-striped resultstables">
+                                        <caption>{{$divisionaname}}</caption>
+                                        <thead>
+                                            <tr>
+                                                <th class="col-md-2 col-xs-2 col-sm-2">Archer</th>
+
+                                                @if ($event->eventtype == 1)
+                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Average</th>
+                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Total Points</th>
+                                                @endif
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            @foreach($divisionresults as $result)
+
+                                                <tr style="">
+                                                    <td><a href="{{route('getpublicuserview', $result->username)}}">{{ucwords($result->firstname) . ' ' . ucwords($result->lastname)}}</a></td>
+
+
+                                                    @if ($event->eventtype == 1)
+                                                        <td class="alignCenter">{!! number_format($result->avg_total_score, 2) !!}</td>
+                                                        <td class="alignCenter">{{$result->totalpoints ?? 0}}</td>
+                                                    @endif
+                                                </tr>
+                                            @endforeach
+
+                                        </tbody>
+
+                                    </table>
+                                @endforeach
+
+                            @else
 
                                 @foreach($results as $divisionaname => $divisionresults)
 

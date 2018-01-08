@@ -12,9 +12,9 @@
 
 
     @if($event->eventtype == 1)
-        @include('auth.events.event_league_scoringrounds')
+        {{--@include('auth.events.event_league_scoringrounds')--}}
     @else
-        @include('auth.events.event_scoringrounds')
+        {{--@include('auth.events.event_scoringrounds')--}}
     @endif
 
 
