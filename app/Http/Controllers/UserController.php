@@ -50,6 +50,21 @@ class UserController extends Controller
         return $result ?? 0;
     }
 
+    public static function getUserTop10Scores($userid, $divisionid, $eventid) {
+
+        $result = DB::select("SELECT sum(`total_score`) as totalpoints
+            FROM `scores`
+            WHERE `userid` = :userid
+            AND `divisionid` = :divisionid
+            AND `eventid` = :eventid
+            ORDER BY `total_score`
+            LIMIT 10
+            ",['userid'=>$userid, 'divisionid'=>$divisionid, 'eventid' => $eventid]);
+
+
+        return $result[0]->totalpoints ?? 0;
+    }
+
     public function PUBLIC_getRegisterView()
     {
         return view ('auth.register');

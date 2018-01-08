@@ -397,6 +397,8 @@ class ScoringController extends Controller
                 }
 
                 $result->totalpoints = UserController::getUserTotalPoints($result->userid, $result->divisionid, $event->eventid);
+                $result->top10scores = UserController::getUserTop10Scores($result->userid, $result->divisionid, $event->eventid);
+
             }
 
 

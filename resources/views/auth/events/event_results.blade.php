@@ -69,7 +69,8 @@
 
                                                 @if ($event->eventtype == 1)
                                                     <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Average</th>
-                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Total Points</th>
+                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Top 10 Scores</th>
+                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Top 10 Points</th>
                                                 @endif
                                             </tr>
                                         </thead>
@@ -84,6 +85,7 @@
 
                                                     @if ($event->eventtype == 1)
                                                         <td class="alignCenter">{!! number_format($result->avg_total_score, 2) !!}</td>
+                                                        <td class="alignCenter">{{$result->top10scores ?? 0}}</td>
                                                         <td class="alignCenter">{{$result->totalpoints ?? 0}}</td>
                                                     @endif
                                                 </tr>
