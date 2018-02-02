@@ -7,6 +7,7 @@ use App\Http\Requests\Events\EventRegisterValidator;
 use App\Http\Requests\Events\UpdateEventRegisterValidator;
 use App\Mail\EntryConfirmation;
 use App\Organisation;
+use App\Round;
 use Illuminate\Support\Facades\Auth;
 use App\Club;
 use App\Division;
@@ -47,6 +48,7 @@ class EventRegistrationController extends Controller
             $organisationname = '';
         }
 
+//        dd($eventround);
         return view('auth.events.registration.register_events', compact('event', 'eventround', 'clubs', 'divisions', 'userorgid', 'organisationname'));
     }
 
@@ -57,15 +59,22 @@ class EventRegistrationController extends Controller
                                         ->where('userid', Auth::id())
                                         ->get();
 
+
         if (is_null($eventregistration)) {
             return Redirect::route('eventdetails', urlencode($request->name))->with('failure', 'Unable to find registration, please contact ArcheryOSA Admin');
         }
 
         $userdivisions = [];
-
         foreach ($eventregistration as $registration) {
             $userdivisions[] = $registration->divisionid;
         }
+
+        $usereventrounds = [];
+        foreach ($eventregistration as $registration) {
+            $usereventrounds[] = $registration->eventroundid;
+        }
+
+
 
         $event = Event::where('eventid', urlencode($request->eventid))->get()->first();
         $eventrounds = EventRound::where('eventid', $event->eventid)->get();
@@ -79,7 +88,7 @@ class EventRegistrationController extends Controller
             $organisationname = '';
         }
 
-        return view('auth.events.registration.update_register_events', compact('event', 'eventregistration', 'eventrounds', 'clubs', 'divisions', 'organisationname', 'userdivisions'));
+        return view('auth.events.registration.update_register_events', compact('event', 'eventregistration', 'eventrounds', 'clubs', 'divisions', 'organisationname', 'userdivisions', 'usereventrounds'));
 
     }
 
@@ -87,43 +96,81 @@ class EventRegistrationController extends Controller
     public function eventRegister(EventRegisterValidator $request)
     {
 
-        if (is_null(Event::where('eventid', $request->eventid)->where('name', urldecode($request->eventname))->get()->first())) {
+        $event = Event::where('eventid', $request->eventid)->where('name', urldecode($request->eventname))->get()->first();
+
+        if (is_null($event)) {
             return back()->with('failure', 'Registration Failed, please contact archeryosa@gmail.com');
         }
 
-        // The input for divisions is stored as an array
-        if (!is_array($request->input('divisions'))) {
-            return back()->with('failure', 'Registration Failed, please contact archeryosa@gmail.com');
-        }
 
-        foreach ($request->input('divisions') as $division) {
-            $alreadyentered = EventEntry::where('userid', Auth::id())
-                ->where('eventid', $request->eventid)
-                ->where('divisionid', $division)
-                ->get()
-                ->first();
 
-            if (!is_null($alreadyentered)) {
-                return back()->with('failure', 'Registration Failed, please contact archeryosa@gmail.com');
+        // non league
+        if ($event->eventtype == 0) {
+
+            foreach ($request->input('eventroundid') as $eventroundid) {
+
+                $alreadyentered = EventEntry::where('userid', Auth::id())
+                    ->where('eventid', $request->eventid)
+                    ->where('eventroundid', $eventroundid)
+                    ->get()
+                    ->first();
+
+                if (!is_null($alreadyentered)) {
+                    return back()->with('failure', 'Registration Failed, please contact archeryosa@gmail.com');
+                }
+
+
+                $evententry = new EventEntry();
+                $evententry->fullname = html_entity_decode($request->input('name'));
+                $evententry->userid = Auth::id();
+                $evententry->clubid = html_entity_decode($request->input('clubid'));
+                $evententry->email = html_entity_decode($request->input('email'));
+                $evententry->divisionid = html_entity_decode($request->input('divisions'));
+                $evententry->membershipcode = html_entity_decode($request->input('membershipcode'));
+                $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
+                $evententry->phone = html_entity_decode($request->input('phone'));
+                $evententry->address = html_entity_decode($request->input('address'));
+                $evententry->entrystatusid = '1';
+                $evententry->eventid = html_entity_decode($request->eventid);
+                $evententry->eventroundid = html_entity_decode($eventroundid);
+
+                $evententry->save();
+
             }
+        } else {
+            // league processing
+            foreach ($request->input('divisions') as $division) {
+                $alreadyentered = EventEntry::where('userid', Auth::id())
+                    ->where('eventid', $request->eventid)
+                    ->where('divisionid', $division)
+                    ->get()
+                    ->first();
+
+                if (!is_null($alreadyentered)) {
+                    return back()->with('failure', 'Registration Failed, please contact archeryosa@gmail.com');
+                }
 
 
-            $evententry = new EventEntry();
+                $evententry = new EventEntry();
 
-            $evententry->fullname = htmlentities($request->input('name'));
-            $evententry->userid = Auth::id();
-            $evententry->clubid = htmlentities($request->input('clubid'));
-            $evententry->email = htmlentities($request->input('email'));
-            $evententry->divisionid = htmlentities($division);
-            $evententry->membershipcode = htmlentities($request->input('membershipcode'));
-            $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
-            $evententry->phone = htmlentities($request->input('phone'));
-            $evententry->address = htmlentities($request->input('address'));
-            $evententry->entrystatusid = '1';
-            $evententry->eventid = htmlentities($request->eventid);
+                $evententry->fullname = htmlentities($request->input('name'));
+                $evententry->userid = Auth::id();
+                $evententry->clubid = htmlentities($request->input('clubid'));
+                $evententry->email = htmlentities($request->input('email'));
+                $evententry->divisionid = htmlentities($division);
+                $evententry->membershipcode = htmlentities($request->input('membershipcode'));
+                $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
+                $evententry->phone = htmlentities($request->input('phone'));
+                $evententry->address = htmlentities($request->input('address'));
+                $evententry->entrystatusid = '1';
+                $evententry->eventid = htmlentities($request->eventid);
 
-            $evententry->save();
+                $evententry->save();
+            }
         }
+
+
+
 
 
         $eventname = Event::where('eventid', $request->eventid)->pluck('name')->first();
@@ -224,7 +271,7 @@ class EventRegistrationController extends Controller
             $userentry->fullname = htmlentities($request->input('name'));
             $userentry->clubid = htmlentities($request->input('clubid'));
             $userentry->email = htmlentities($request->input('email'));
-            $userentry->divisionid = htmlentities(reset($division));
+            $userentry->divisionid = htmlentities($division);
             $userentry->membershipcode = htmlentities($request->input('membershipcode'));
             $userentry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
             $userentry->phone = htmlentities($request->input('phone'));
