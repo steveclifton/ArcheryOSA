@@ -372,22 +372,23 @@
 
                         <hr>
                             <h3>Setup</h3>
-                            <div class="form-group{{ $errors->has('multipledivisions') ? ' has-error' : '' }}">
-                                <label for="bankaccount" class="col-md-4 control-label">Multiple Division Entries</label>
-                                <div class="col-md-6">
 
-                                    @if (!empty($event))
-                                        <?php
-                                        $multipledivisions='';
-                                        if ($event->first()->multipledivisions == 1) {
-                                            $multipledivisions = 'checked';
-                                        }
-                                        ?>
-                                        <input style="margin-top: 10px" type="checkbox" name="multipledivisions" {{$multipledivisions}}>
-                                    @endif
+                            {{--<div class="form-group{{ $errors->has('multipledivisions') ? ' has-error' : '' }}">--}}
+                                {{--<label for="bankaccount" class="col-md-4 control-label">Multiple Division Entries</label>--}}
+                                {{--<div class="col-md-6">--}}
 
-                                </div>
-                            </div>
+                                    {{--@if (!empty($event))--}}
+                                        {{--@php--}}
+                                        {{--$multipledivisions='';--}}
+                                        {{--if ($event->first()->multipledivisions == 1) {--}}
+                                            {{--$multipledivisions = 'checked';--}}
+                                        {{--}--}}
+                                        {{--@endphp--}}
+                                        {{--<input style="margin-top: 10px" type="checkbox" name="multipledivisions" {{$multipledivisions}}>--}}
+                                    {{--@endif--}}
+
+                                {{--</div>--}}
+                            {{--</div>--}}
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Visible</label>

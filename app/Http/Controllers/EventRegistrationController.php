@@ -30,7 +30,9 @@ class EventRegistrationController extends Controller
         }
         $eventround = EventRound::where('eventid', $event->eventid)->get();
 
-        $divisions = Division::whereIn('divisionid', $this->processEventRoundDivisions($eventround))->get(); // collection array of divisions
+        $divisions = Division::whereIn('divisionid', $this->processEventRoundDivisions($eventround))->orderBy('name', 'asc')->get(); // collection array of divisions
+
+
         $clubs = Club::where('organisationid', $event->organisationid)->get();
 
         $organisationids = DB::select("SELECT `membershipcode`
@@ -92,7 +94,6 @@ class EventRegistrationController extends Controller
 
     }
 
-
     public function eventRegister(EventRegisterValidator $request)
     {
 
@@ -103,9 +104,8 @@ class EventRegistrationController extends Controller
         }
 
 
-
-        // non league
-        if ($event->eventtype == 0) {
+        /* non league */
+        if ($event->multipledivisions == 0) {
 
             foreach ($request->input('eventroundid') as $eventroundid) {
 
@@ -119,13 +119,14 @@ class EventRegistrationController extends Controller
                     return back()->with('failure', 'Registration Failed, please contact archeryosa@gmail.com');
                 }
 
+                $divisions = $request->input('divisions');
 
                 $evententry = new EventEntry();
                 $evententry->fullname = html_entity_decode($request->input('name'));
                 $evententry->userid = Auth::id();
                 $evententry->clubid = html_entity_decode($request->input('clubid'));
                 $evententry->email = html_entity_decode($request->input('email'));
-                $evententry->divisionid = html_entity_decode($request->input('divisions'));
+                $evententry->divisionid = html_entity_decode(reset($divisions));
                 $evententry->membershipcode = html_entity_decode($request->input('membershipcode'));
                 $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
                 $evententry->phone = html_entity_decode($request->input('phone'));
@@ -136,10 +137,15 @@ class EventRegistrationController extends Controller
 
                 $evententry->save();
 
-            }
+            } // foreach
+
+
         } else {
-            // league processing
+
+            /* league processing */
+
             foreach ($request->input('divisions') as $division) {
+
                 $alreadyentered = EventEntry::where('userid', Auth::id())
                     ->where('eventid', $request->eventid)
                     ->where('divisionid', $division)
@@ -253,7 +259,6 @@ class EventRegistrationController extends Controller
         }
        return $la_divisions;
     }
-
 
     private function singleEntryUpdate($request)
     {
