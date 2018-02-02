@@ -81,7 +81,7 @@ class EventRegistrationController extends Controller
         $event = Event::where('eventid', urlencode($request->eventid))->get()->first();
         $eventrounds = EventRound::where('eventid', $event->eventid)->get();
 
-        $divisions = Division::whereIn('divisionid', $this->processEventRoundDivisions($eventrounds))->get(); // collection array of divisions
+        $divisions = Division::whereIn('divisionid', $this->processEventRoundDivisions($eventrounds))->orderBy('name', 'asc')->get(); // collection array of divisions
         $clubs = Club::where('organisationid', $event->organisationid)->get();
 
         $organisationname = Organisation::where('organisationid', $event->organisationid)->pluck('name')->first();
