@@ -91,7 +91,7 @@
                                 <label for="organisation" class="col-md-4 control-label">Division</label>
 
                                 <div class="col-md-6">
-                                    <select name="divisions[]" class="form-control" id="organisation" required>
+                                    <select name="divisions" class="form-control" id="organisation" required>
                                         <option value="" disabled selected>Please select</option>
                                         @foreach ($divisions as $division)
                                             <option value="{{$division->divisionid}}" <?= (in_array($division->divisionid, $userdivisions)) ? 'selected' : '' ?>>{{$division->name}}</option>
@@ -110,9 +110,9 @@
                             <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="organisation">
                                 <label for="organisation" class="col-md-4 control-label">Division</label>
 
-                                <div style="overflow-y:scroll; height:100px; margin-bottom:10px;">
+                                <div class="col-md-6" style="overflow-y:scroll; height:200px; margin-bottom:10px;">
 
-                                    @foreach ($divisions as $division)
+                                @foreach ($divisions as $division)
                                         <label class="form-check-label" style="margin-left: 10px" >
                                             <input class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" <?= (in_array($division->divisionid, $userdivisions)) ? 'checked' : '' ?>>
                                             {{$division->name}}
@@ -123,7 +123,19 @@
                         @endif
 
 
+                        <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="Rounds">
+                            <label for="Rounds" class="col-md-4 control-label">Rounds</label>
 
+                            <div class="col-md-6">
+                                @foreach ($eventrounds as $round)
+
+                                    <label class="form-check-label" style="margin-left: 10px" >
+                                        <input class="form-check-input" type="checkbox" name="eventroundid[]" value="{{$round->eventroundid}}" <?= (in_array($round->eventroundid, $usereventrounds)) ? 'checked' : '' ?> >
+                                        {!! date('d F', strtotime($round->date)) . " - " .$round->name!!}
+                                    </label><br>
+                                @endforeach
+                            </div>
+                        </div>
 
 
 

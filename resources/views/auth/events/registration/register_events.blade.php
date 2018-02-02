@@ -93,31 +93,30 @@
 
 
                         @if ($event->multipledivisions == 0)
+                            <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="organisation">
+                                <label for="organisation" class="col-md-4 control-label">Division</label>
 
-                        <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="organisation">
-                            <label for="organisation" class="col-md-4 control-label">Division</label>
+                                <div class="col-md-6">
+                                    <select name="divisions" class="form-control" id="organisation" required>
+                                        <option value="" disabled selected>Please select</option>
 
-                            <div class="col-md-6">
-                                <select name="divisions[]" class="form-control" id="organisation" required>
-                                    <option value="" disabled selected>Please select</option>
-                                    @foreach ($divisions as $division)
-                                        <option value="{{$division->divisionid}}">{{$division->name}}</option>
-                                    @endforeach
+                                        @foreach ($divisions as $division)
+                                            <option value="{{$division->divisionid}}">{{$division->name}}</option>
+                                        @endforeach
 
-                                </select>
-                                @if ($errors->has('division'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('division') }}</strong>
-                                    </span>
-                                @endif
+                                    </select>
+                                    @if ($errors->has('division'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('division') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-
                         @else
                             <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="organisation">
                                 <label for="organisation" class="col-md-4 control-label">Division</label>
 
-                                <div style="overflow-y:scroll; height:100px; margin-bottom:10px;">
+                                <div class="col-md-6" style="overflow-y:scroll; height:200px; margin-bottom:10px;">
 
                                     @foreach ($divisions as $division)
                                         <label class="form-check-label" style="margin-left: 10px" >
@@ -128,6 +127,23 @@
                                 </div>
                             </div>
                         @endif
+
+
+                        <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="Rounds">
+                            <label for="Rounds" class="col-md-4 control-label">Rounds</label>
+
+                            <div class="col-md-6">
+                                @foreach ($eventround as $round)
+                                    <label class="form-check-label" style="margin-left: 10px" >
+                                        <input class="form-check-input" type="checkbox" name="eventroundid[]" value="{{$round->eventroundid}}" >
+                                        {!! date('d F', strtotime($round->date)) . " - " .$round->name!!}
+                                    </label><br>
+                                @endforeach
+                            </div>
+                        </div>
+
+
+
 
                         <div class="form-group{{ $errors->has('membershipcode') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">{{$organisationname}} Membership Code</label>
