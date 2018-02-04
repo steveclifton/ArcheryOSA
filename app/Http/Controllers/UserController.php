@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public static function getUserTotalPoints($userid, $divisionid, $eventid)
     {
-        $result = DB::select("SELECT sum(`points`) as totalpoints
+        $result = DB::select("SELECT `points`
             FROM `leaguepoints`
             WHERE `userid` = :userid
             AND `divisionid` = :divisionid
@@ -34,8 +34,12 @@ class UserController extends Controller
             LIMIT 10
             ",['userid'=>$userid, 'divisionid'=>$divisionid, 'eventid' => $eventid]);
 
+        $totalpoints = 0;
+        foreach ($result as $r) {
+            $totalpoints += intval($r->points);
+        }
 
-        return $result[0]->totalpoints ?? 0;
+        return $totalpoints;
     }
 
     public static function getUserWeekPoints($userid, $divisionid, $eventid, $week)
@@ -65,7 +69,6 @@ class UserController extends Controller
         foreach ($result as $r) {
             $totalscore += intval($r->total_score);
         }
-//        dump($totalscore);
         return $totalscore;
     }
 
