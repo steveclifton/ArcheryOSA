@@ -122,25 +122,45 @@
                             </div>
                         @endif
 
-
-                        <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="Rounds">
-                            <label for="Rounds" class="col-md-4 control-label">Rounds</label>
-
-                            <div class="col-md-6">
-                                @foreach ($eventrounds as $round)
-
-                                    <label class="form-check-label" style="margin-left: 10px" >
-                                        <input class="form-check-input" type="checkbox" name="eventroundid[]" value="{{$round->eventroundid}}" <?= (in_array($round->eventroundid, $usereventrounds)) ? 'checked' : '' ?> >
-                                        {!! date('d F', strtotime($round->date)) . " - " .$round->name!!}
-                                    </label><br>
-                                @endforeach
-                            </div>
+                        <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="gender">
+                            @if ($event->eventtype == 0)
+                                <label for="gender" class="col-md-4 control-label">Gender</label>
+                                <div class="col-md-6">
+                                    <input class="form-check-input" type="radio" name="gender" value="M" {!! $eventregistration->first()->gender == 'M' ? 'checked' : '' !!}>
+                                    <label class="form-check-label" style="margin-left: 10px">Mens</label><br>
+                                    <input class="form-check-input" type="radio" name="gender" value="W" {!! $eventregistration->first()->gender == 'W' ? 'checked' : '' !!}>
+                                    <label class="form-check-label" style="margin-left: 10px">Womens</label>
+                                </div>
+                            @endif
                         </div>
 
 
 
+                        <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="Rounds">
 
 
+                            @if ($event->eventtype == 1)
+
+                                <label for="Rounds" class="col-md-4 control-label">Round</label>
+                                <div class="col-md-6">
+                                @foreach ($eventrounds as $round)
+                                    <input class="form-check-input" type="checkbox" checked disabled name="eventroundid" value="{{$round->eventroundid}}" >
+                                    <label class="form-check-label" style="margin-left: 10px" >{!! $round->name!!}</label><br>
+                                @endforeach
+                                </div>
+
+                            @else
+                                <label for="Rounds" class="col-md-4 control-label">Rounds</label>
+                                <div class="col-md-6">
+                                @foreach ($eventrounds as $round)
+                                    <input class="form-check-input" type="checkbox" name="eventroundid[]" value="{{$round->eventroundid}}" <?= (in_array($round->eventroundid, $usereventrounds)) ? 'checked' : '' ?> >
+                                    <label class="form-check-label" style="margin-left: 10px" >{!! date('d F', strtotime($round->date)) . " - " .$round->name!!}</label><br>
+                                @endforeach
+                                </div>
+                            @endif
+
+
+                        </div>
 
 
                         <div class="form-group{{ $errors->has('membershipcode') ? ' has-error' : '' }}">

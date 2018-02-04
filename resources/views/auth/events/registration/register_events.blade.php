@@ -119,27 +119,49 @@
                                 <div class="col-md-6" style="overflow-y:scroll; height:200px; margin-bottom:10px;">
 
                                     @foreach ($divisions as $division)
-                                        <label class="form-check-label" style="margin-left: 10px" >
-                                            <input class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" >
-                                            {{$division->name}}
-                                        </label><br>
+                                        <input class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" >
+                                        <label class="form-check-label" style="margin-left: 10px" >{{$division->name}}</label><br>
                                     @endforeach
                                 </div>
                             </div>
                         @endif
 
 
-                        <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="Rounds">
-                            <label for="Rounds" class="col-md-4 control-label">Rounds</label>
+                        <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="gender">
+                            @if ($event->eventtype == 0)
+                                <label for="gender" class="col-md-4 control-label">Gender</label>
+                                <div class="col-md-6">
+                                    <input class="form-check-input" type="radio" name="gender" value="M">
+                                    <label class="form-check-label" style="margin-left: 10px">Mens</label><br>
+                                    <input class="form-check-input" type="radio" name="gender" value="W">
+                                    <label class="form-check-label" style="margin-left: 10px">Womens</label>
 
-                            <div class="col-md-6">
-                                @foreach ($eventround as $round)
-                                    <label class="form-check-label" style="margin-left: 10px" >
+                                </div>
+                            @endif
+                        </div>
+
+
+
+                        <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="Rounds">
+
+                            @if ($event->eventtype == 1)
+                                <label for="Rounds" class="col-md-4 control-label">Round</label>
+                                <div class="col-md-6">
+                                    @foreach ($eventround as $round)
+                                        <input class="form-check-input" type="checkbox" checked disabled name="eventroundid" value="{{$round->eventroundid}}" >
+                                        <label class="form-check-label" style="margin-left: 10px">{!! $round->name !!}</label>
+                                    @endforeach
+                                </div>
+
+                            @else
+                                <label for="Rounds" class="col-md-4 control-label">Rounds</label>
+                                <div class="col-md-6">
+                                    @foreach ($eventround as $round)
                                         <input class="form-check-input" type="checkbox" name="eventroundid[]" value="{{$round->eventroundid}}" >
-                                        {!! date('d F', strtotime($round->date)) . " - " .$round->name!!}
-                                    </label><br>
-                                @endforeach
-                            </div>
+                                        <label class="form-check-label" style="margin-left: 10px" >{!! date('d F', strtotime($round->date)) . " - " .$round->name!!}</label><br>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
 
 
