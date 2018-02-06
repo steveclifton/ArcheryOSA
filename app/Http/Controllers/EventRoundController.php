@@ -71,25 +71,29 @@ class EventRoundController extends Controller
             'eventid' => 'required',
             'location' => 'required',
             'roundid' => 'required',
-            'organisationid' => 'required',
-            'divisions' => 'required',
             'date' => 'required'
         ], [
             'roundid.required' => 'Please select a round',
         ]);
 
+        $eventid = Event::where('eventid', $request->input('eventid'))->pluck('organisationid')->first();
+
+        if (!$eventid) {
+            return redirect()->back()->with('failure', 'Invalid Request');
+        }
+
         $eventround->name = htmlentities($request->input('name'));
         $eventround->eventid = htmlentities($request->input('eventid'));
         $eventround->location = htmlentities($request->input('location'));
-        $eventround->organisationid = htmlentities($request->input('organisationid'));
+        $eventround->organisationid = $eventid;
         $eventround->roundid = htmlentities($request->input('roundid'));
-        $eventround->divisions = serialize($request->input('divisions'));
         $eventround->schedule = htmlentities($request->input('schedule'));
         $eventround->date = htmlentities($request->input('date'));
         $eventround->visible = 1;
         $eventround->save();
 
-        return Redirect::route('updateeventview', ['eventid' => urlencode($eventround->eventid)]);
+        return Redirect::route('updateeventview', ['eventid' => urlencode($eventround->eventid)])->with('message', 'Round added successfully');
+
 
     }
 
@@ -106,24 +110,27 @@ class EventRoundController extends Controller
             'name' => 'required',
             'location' => 'required',
             'roundid' => 'required',
-            'organisationid' => 'required',
-            'divisions' => 'required',
             'date' => 'required'
         ]);
+
+        $eventid = Event::where('eventid', $request->input('eventid'))->pluck('organisationid')->first();
+
+        if (empty($eventid)) {
+            return redirect()->back()->with('failure', 'Invalid Request');
+        }
 
         if ($request->eventroundid == $eventround->eventroundid) {
 
             $eventround->name = htmlentities($request->input('name'));
             $eventround->location = htmlentities($request->input('location'));
-            $eventround->organisationid = htmlentities($request->input('organisationid'));
+            $eventround->organisationid = $eventid;
             $eventround->roundid = htmlentities($request->input('roundid'));
-            $eventround->divisions = serialize($request->input('divisions'));
             $eventround->schedule = htmlentities($request->input('schedule'));
             $eventround->date = htmlentities($request->input('date'));
 
             $eventround->save();
 
-            return Redirect::route('updateeventview', ['eventid' => urlencode($eventround->eventid)]);
+            return Redirect::route('updateeventview', ['eventid' => urlencode($eventround->eventid)])->with('message', 'Round updated successfully');;
         }
 
         return Redirect::route('events');

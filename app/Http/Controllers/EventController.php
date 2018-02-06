@@ -186,6 +186,10 @@ class EventController extends Controller
 
         $weeks = ($daterange != 0) ? count($daterange) / 7 : 1;
 
+        $divisions = Division::where('visible', 1)->where('deleted', 0)->orderBy('organisationid')->get();
+
+        $eventdivisions = unserialize($event->first()->divisions);
+
 
         $users = DB::select("SELECT ee.`userid`, ee.`fullname`, ee.`entrystatusid`, ee.`clubid`, c.`name` as club, ee.`paid`, d.`name` as division, ee.`divisionid`
             FROM `evententry` ee
@@ -202,7 +206,7 @@ class EventController extends Controller
 
         $entrystatus = EntryStatus::get();
 
-        return view('auth.events.updateevent', compact('event', 'eventrounds', 'organisations', 'users', 'entrystatus', 'weeks'));
+        return view('auth.events.updateevent', compact('event', 'divisions', 'eventdivisions', 'eventrounds', 'organisations', 'users', 'entrystatus', 'weeks'));
     }
 
     public function create(Request $request)
@@ -300,7 +304,7 @@ class EventController extends Controller
         $event->cost = htmlentities($request->input('cost'));
         $event->bankaccount = htmlentities($request->input('bankaccount'));
         $event->bankreference = htmlentities($request->input('bankreference'));
-
+        $event->divisions = serialize($request->input('divisions'));
         $event->schedule = htmlentities($request->input('schedule'));
         $event->information = htmlentities($request->input('information'));
         $event->scoringenabled = $scoringenabled;
@@ -441,6 +445,7 @@ class EventController extends Controller
             $event->location = htmlentities($request->input('location'));
             $event->cost = htmlentities($request->input('cost'));
             $event->multipledivisions = $multipledivisions;
+            $event->divisions = serialize($request->input('divisions'));
             $event->bankaccount = htmlentities($request->input('bankaccount'));
             $event->bankreference = htmlentities($request->input('bankreference'));
             $event->schedule = htmlentities(trim($request->input('schedule')));
