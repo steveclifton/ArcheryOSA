@@ -171,7 +171,7 @@ $(document).ready(function() {
 
     // This will work for when you are updating an eventround
     $('#divisionselect').find('label').each(function () {
-        if ($(this).data('orgid') != $('#organisationvalueeventround').val()) {
+        if ($(this).data('orgid') != $('#organisationidvalue').val()) {
             $(this).css({'color': 'lightgrey'});
             $(this).find('input').attr("disabled", true);
         }
@@ -186,6 +186,7 @@ $(document).ready(function() {
 
     $('#organisationselecteventround').on('change', function() {
         var value = this.value;
+
         // For update
         $('#divisionselect').find('label').each(function () {
             // Remove all checked fields
