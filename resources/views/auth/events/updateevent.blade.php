@@ -216,8 +216,9 @@
                                 <div style="overflow-y:scroll; height:200px; margin-bottom:10px;" id="divisionselect">
 
                                     <label class="form-check-label" style="margin-left: 10px" data-orgid="0">
-                                        <input class="form-check-input" type="checkbox" name="divisions[]" value="0" >
-                                        Open
+                                        @if (empty($divisions))
+                                            <input class="form-check-input" type="checkbox" name="divisions[]" value="0">Open
+                                        @endif
                                     </label><br>
                                     @foreach ($divisions as $division)
                                         <label class="form-check-label" style="margin-left: 10px" data-orgid="{{$division->organisationid}}">
