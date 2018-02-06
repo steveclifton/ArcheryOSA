@@ -161,7 +161,7 @@ class EventController extends Controller
 
     public function getCreateView()
     {
-        $divisions = Division::where('visible', 1)->where('deleted', 0)->orderBy('organisationid')->get();
+        $divisions = Division::where('visible', 1)->where('deleted', 0)->orderBy('name')->get();
         $organisations = Organisation::where('visible', 1)->get();
         $rounds = Round::where('visible', 1)->where('deleted', 0)->get();
 
@@ -186,9 +186,10 @@ class EventController extends Controller
 
         $weeks = ($daterange != 0) ? count($daterange) / 7 : 1;
 
-        $divisions = Division::where('visible', 1)->where('deleted', 0)->orderBy('organisationid')->get();
-
+        $divisions = Division::where('visible', 1)->orderBy('name')->get();
         $eventdivisions = unserialize($event->first()->divisions);
+        $divisions = $this->sortDivisions($eventdivisions, $divisions);
+
 
 
         $users = DB::select("SELECT ee.`userid`, ee.`fullname`, ee.`entrystatusid`, ee.`clubid`, c.`name` as club, ee.`paid`, d.`name` as division, ee.`divisionid`
@@ -548,6 +549,21 @@ class EventController extends Controller
         }
         return $distances;
 
+    }
+
+    private function sortDivisions($eventdivisions, $divisions)
+    {
+        $first = [];
+        $second = [];
+        foreach ($divisions as $division) {
+            if (!in_array($division->divisionid, $eventdivisions)) {
+                $second[] = $division;
+                continue;
+            }
+            $first[] = $division;
+        }
+
+        return array_merge($first, $second);
     }
 
 
