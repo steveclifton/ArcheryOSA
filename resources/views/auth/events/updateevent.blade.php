@@ -188,7 +188,9 @@
                             <label for="organisation" class="col-md-4 control-label">Organisation</label>
 
                             <div class="col-md-6">
+                                {{--<input type="hidden" id="organisationvalueevent" value="{{ $event->first()->organisationid }}">--}}
                                 <input type="hidden" id="organisationidvalue" value="{{ $event->first()->organisationid }}">
+
 
                                 <select name="organisationid" class="form-control" id="organisationselect">
                                     <option value="0" selected>None</option>
@@ -205,6 +207,34 @@
                             </div>
                         </div>
 
+
+
+                        <div class="form-group {{ $errors->has('divisions') ? ' has-error' : '' }}" id="">
+                            <label for="event" class="col-md-4 control-label">Select Divisions</label>
+
+                            <div class="col-md-6">
+                                <div style="overflow-y:scroll; height:200px; margin-bottom:10px;" id="divisionselect">
+
+                                    <label class="form-check-label" style="margin-left: 10px" data-orgid="0">
+                                        <input class="form-check-input" type="checkbox" name="divisions[]" value="0" >
+                                        Open
+                                    </label><br>
+                                    @foreach ($divisions as $division)
+                                        <label class="form-check-label" style="margin-left: 10px" data-orgid="{{$division->organisationid}}">
+                                            <input {!! (in_array($division->divisionid, $eventdivisions)) ? "checked" : '' !!} class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" >
+                                            {{$division->name}}
+                                        </label><br>
+                                    @endforeach
+                                </div>
+
+                                @if ($errors->has('divisions'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('divisions') }}</strong>
+                                    </span>
+                                @endif
+
+                            </div>
+                        </div>
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Name*</label>
@@ -559,7 +589,7 @@
                                     Save
                                 </button>
                                 <button type="submit" class="btn btn-primary" id="savebutton" value="createeventround" name="submit">
-                                    Add Event Session
+                                    Add Event Round
                                 </button>
                                 <a href="{!! route('deleteevent', [$event->first()->eventid, urlencode($event->first()->name)]) !!}" class="btn btn-danger pull-right" role="button" id="deleteBtn">
                                     Delete

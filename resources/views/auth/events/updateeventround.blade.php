@@ -7,8 +7,12 @@
 @section ('title')Update Event Round @endsection
 
 @section ('content')
-{{--    {!! dd($event->first()->startdate) !!}--}}
-    {{-- <div class="container"> --}}
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            @include('includes.session_errors')
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
@@ -23,6 +27,8 @@
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('updateeventround', $eventround->first()->eventroundid ) }}" id="eventdayform">
                         {{ csrf_field() }}
+
+                        <input type="hidden" name="eventid" value="{{$eventround->first()->eventid}}" >
 
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -95,51 +101,7 @@
                         </div>
 
 
-                        <div class="form-group" id="organisationelement">
-                            <label for="event" class="col-md-4 control-label">Parent Organisation</label>
 
-                            <div class="col-md-6">
-                                <input type="text" hidden id="organisationvalueeventround" value="{{$eventround->first()->organisationid}}">
-
-                                <select name="organisationid" class="form-control" id="organisationselecteventround">
-                                    <option value="0">None</option>
-                                    @foreach ($organisations as $organisation)
-                                        <option value="{{$organisation->organisationid}}">{{$organisation->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group" id="divisionelement">
-                            <label for="event" class="col-md-4 control-label">Select Divisions</label>
-
-                            <div class="col-md-6">
-                                <div style="overflow-y:scroll; height:200px; margin-bottom:10px;" id="divisionselect">
-
-                                    <label class="form-check-label" style="margin-left: 10px" data-orgid="0">
-                                        <input class="form-check-input" type="checkbox" name="divisions[]" value="0" >
-                                        Open
-                                    </label><br>
-                                    @foreach ($divisions as $division)
-                                        <label class="form-check-label" style="margin-left: 10px" data-orgid="{{$division->organisationid}}">
-                                            <?php
-                                                $checked = '';
-                                                if (!empty($eventround->first()->divisions)) {
-                                                    if (in_array($division->divisionid, unserialize($eventround->first()->divisions))) {
-                                                        $checked = 'checked';
-                                                    }
-                                                }
-                                            ?>
-
-
-                                            <input class="form-check-input" type="checkbox" {{$checked}} name="divisions[]" value="{{$division->divisionid}}" >
-                                            {{$division->name}}
-                                        </label><br>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
 
 
                         <div class="form-group{{ $errors->has('schedule') ? ' has-error' : '' }}">

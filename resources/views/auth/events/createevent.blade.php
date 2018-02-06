@@ -78,6 +78,8 @@
                             </div>
                         </div>
 
+
+
                         <div class="form-group {{ $errors->has('maxweeklyscores') ? ' has-error' : '' }}" id="maxweeklyinput">
                             <label for="maxweeklyscores" class="col-md-4 control-label">Max Scores Per Week*</label>
 
@@ -96,7 +98,7 @@
                             <label for="organisation" class="col-md-4 control-label">Organisation</label>
 
                             <div class="col-md-6">
-                                <select name="organisationid" class="form-control" id="organisation">
+                                <select name="organisationid" class="form-control" id="organisationselecteventround">
                                     <option value="0" selected>None</option>
                                     @foreach ($organisations as $organisation)
                                         <option value="{{$organisation->organisationid}}">{{$organisation->name}}</option>
@@ -108,6 +110,34 @@
                                         <strong>{{ $errors->first('organisation') }}</strong>
                                     </span>
                                 @endif
+                            </div>
+                        </div>
+
+
+                        <div class="form-group {{ $errors->has('divisions') ? ' has-error' : '' }}" id="">
+                            <label for="event" class="col-md-4 control-label">Select Divisions</label>
+
+                            <div class="col-md-6">
+                                <div style="overflow-y:scroll; height:200px; margin-bottom:10px;" id="divisionselectcreate">
+
+                                    <label class="form-check-label" style="margin-left: 10px" data-orgid="0">
+                                        <input class="form-check-input" type="checkbox" name="divisions[]" value="0" >
+                                        Open
+                                    </label><br>
+                                    @foreach ($divisions as $division)
+                                        <label class="form-check-label" style="margin-left: 10px" data-orgid="{{$division->organisationid}}">
+                                            <input class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" >
+                                            {{$division->name}}
+                                        </label><br>
+                                    @endforeach
+                                </div>
+
+                                @if ($errors->has('divisions'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('divisions') }}</strong>
+                                    </span>
+                                @endif
+
                             </div>
                         </div>
 
