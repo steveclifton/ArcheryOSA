@@ -157,9 +157,9 @@ $(document).ready(function() {
         var optionSelected = $("option:selected", this).val();
         var url = getPathFromUrl(window.location.href);
         window.location.replace(url + '?day=' + optionSelected);
-
-
     });
+
+
 
     function getPathFromUrl(url) {
         return url.split("?")[0];
@@ -170,51 +170,51 @@ $(document).ready(function() {
 
 
     // This will work for when you are updating an eventround
-    $('#divisionselect').find('label').each(function () {
-        if ($(this).data('orgid') != $('#organisationidvalue').val()) {
-            $(this).css({'color': 'lightgrey'});
-            $(this).find('input').attr("disabled", true);
-        }
-    });
+    // $('#divisionselect').find('label').each(function () {
+    //     if ($(this).data('orgid') != $('#organisationidvalue').val()) {
+    //         $(this).css({'color': 'lightgrey'});
+    //         $(this).find('input').attr("disabled", true);
+    //     }
+    // });
 
-    $('#divisionselectcreate').find('label').each(function () {
-        if ($(this).data('orgid') != 0) {
-            $(this).css({'color': 'lightgrey'});
-            $(this).find('input').attr("disabled", true);
-        }
-    });
+    // $('#divisionselectcreate').find('label').each(function () {
+    //     if ($(this).data('orgid') != 0) {
+    //         $(this).css({'color': 'lightgrey'});
+    //         $(this).find('input').attr("disabled", true);
+    //     }
+    // });
 
-    $('#organisationselecteventround').on('change', function() {
-        var value = this.value;
-
-        // For update
-        $('#divisionselect').find('label').each(function () {
-            // Remove all checked fields
-            $(this).find('input').prop("checked", false);
-
-            if ($(this).data('orgid') == value) {
-                $(this).css({'color':'black'});
-                $(this).find('input').removeAttr("disabled");
-            } else {
-                $(this).css({'color':'lightgrey'});
-                $(this).find('input').attr("disabled", true);
-            }
-        });
-
-        // For Create
-        $('#divisionselectcreate').find('label').each(function () {
-            // Remove all checked fields
-            $(this).find('input').prop("checked", false);
-
-            if ($(this).data('orgid') == value) {
-                $(this).css({'color':'black'});
-                $(this).find('input').removeAttr("disabled");
-            } else {
-                $(this).css({'color':'lightgrey'});
-                $(this).find('input').attr("disabled", true);
-            }
-        });
-    });
+    // $('#organisationselecteventround').on('change', function() {
+    //     var value = this.value;
+    //
+    //     // For update
+    //     $('#divisionselect').find('label').each(function () {
+    //         // Remove all checked fields
+    //         $(this).find('input').prop("checked", false);
+    //
+    //         if ($(this).data('orgid') == value) {
+    //             $(this).css({'color':'black'});
+    //             $(this).find('input').removeAttr("disabled");
+    //         } else {
+    //             $(this).css({'color':'lightgrey'});
+    //             $(this).find('input').attr("disabled", true);
+    //         }
+    //     });
+    //
+    //     // For Create
+    //     $('#divisionselectcreate').find('label').each(function () {
+    //         // Remove all checked fields
+    //         $(this).find('input').prop("checked", false);
+    //
+    //         if ($(this).data('orgid') == value) {
+    //             $(this).css({'color':'black'});
+    //             $(this).find('input').removeAttr("disabled");
+    //         } else {
+    //             $(this).css({'color':'lightgrey'});
+    //             $(this).find('input').attr("disabled", true);
+    //         }
+    //     });
+    // });
 
     $(".processleaguebtn").click(function(){
         event.stopPropagation();
