@@ -134,6 +134,7 @@ class EventRegistrationController extends Controller
                 $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
                 $evententry->phone = html_entity_decode($request->input('phone'));
                 $evententry->address = html_entity_decode($request->input('address'));
+                $evententry->notes = html_entity_decode($request->input('notes'));
                 $evententry->entrystatusid = '1';
                 $evententry->eventid = html_entity_decode($request->eventid);
                 $evententry->eventroundid = html_entity_decode($eventroundid);
@@ -191,6 +192,8 @@ class EventRegistrationController extends Controller
             $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
             $evententry->phone = htmlentities($request->input('phone'));
             $evententry->address = htmlentities($request->input('address'));
+            $evententry->notes = html_entity_decode($request->input('notes'));
+
             $evententry->entrystatusid = '1';
             $evententry->eventid = htmlentities($request->eventid);
             $evententry->eventroundid = html_entity_decode($request->input('eventroundid'));
@@ -325,6 +328,8 @@ class EventRegistrationController extends Controller
                 $entry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
                 $entry->phone = htmlentities($request->input('phone'));
                 $entry->address = htmlentities($request->input('address'));
+                $entry->notes = html_entity_decode($request->input('notes'));
+
                 $entry->gender = in_array($request->input('gender'), ['M','W']) ? $request->input('gender') : '';
                 $entry->fullname = htmlentities($request->input('name'));
                 $entry->save();
@@ -376,6 +381,7 @@ class EventRegistrationController extends Controller
             $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
             $evententry->phone = htmlentities($request->input('phone'));
             $evententry->address = htmlentities($request->input('address'));
+            $evententry->notes = html_entity_decode($request->input('notes'));
             $evententry->entrystatusid = '1';
             $evententry->eventid = htmlentities($request->eventid);
 
@@ -427,6 +433,7 @@ class EventRegistrationController extends Controller
         $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
         $evententry->phone = html_entity_decode($request->input('phone'));
         $evententry->address = html_entity_decode($request->input('address'));
+        $evententry->notes = html_entity_decode($request->input('notes'));
         $evententry->entrystatusid = '1';
         $evententry->eventid = html_entity_decode($request->eventid);
         $evententry->eventroundid = $eventroundid;
