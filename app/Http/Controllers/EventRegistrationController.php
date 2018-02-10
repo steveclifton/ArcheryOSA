@@ -30,8 +30,11 @@ class EventRegistrationController extends Controller
         }
         $eventround = EventRound::where('eventid', $event->eventid)->get();
 
-        $divisions = Division::whereIn('divisionid', $this->processEventRoundDivisions($eventround))->orderBy('name', 'asc')->get(); // collection array of divisions
+        $divArr = unserialize($event->divisions);
 
+
+        $divisions = Division::whereIn('divisionid', $divArr)->orderBy('name', 'asc')->get(); // collection array of divisions
+//        dd($divisions);
 
         $clubs = Club::where('organisationid', $event->organisationid)->get();
 
@@ -83,7 +86,8 @@ class EventRegistrationController extends Controller
         $event = Event::where('eventid', urlencode($request->eventid))->get()->first();
         $eventrounds = EventRound::where('eventid', $event->eventid)->get();
 
-        $divisions = Division::whereIn('divisionid', $this->processEventRoundDivisions($eventrounds))->orderBy('name', 'asc')->get(); // collection array of divisions
+        $divArr = unserialize($event->divisions);
+        $divisions = Division::whereIn('divisionid', $divArr)->orderBy('name', 'asc')->get(); // collection array of divisions
         $clubs = Club::where('organisationid', $event->organisationid)->get();
 
         $organisationname = Organisation::where('organisationid', $event->organisationid)->pluck('name')->first();

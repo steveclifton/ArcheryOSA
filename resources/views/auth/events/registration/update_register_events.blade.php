@@ -196,10 +196,23 @@
                             <label for="address" class="col-md-4 control-label">Address</label>
 
                             <div class="col-md-6">
-                                <textarea rows="5" id="address" type="text" class="form-control" name="address" >{!! $eventregistration->first()->address ?? old('address') !!}</textarea>
+                                <textarea rows="3" id="address" type="text" class="form-control" name="address" >{!! $eventregistration->first()->address ?? old('address') !!}</textarea>
                                 @if ($errors->has('address'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('address') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('notes') ? ' has-error' : '' }}">
+                            <label for="address" class="col-md-4 control-label">Notes</label>
+
+                            <div class="col-md-6">
+                                <textarea rows="5" id="address" type="text" class="form-control" name="notes" >{!! $eventregistration->first()->notes ?? old('notes') !!}</textarea>
+                                @if ($errors->has('notes'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('notes') }}</strong>
                                     </span>
                                 @endif
                             </div>
