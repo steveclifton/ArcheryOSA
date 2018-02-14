@@ -17,8 +17,8 @@
                         <a class="btn btn-primary eventButtons pull-right" href="{{route('geteventresults', urlencode($event->name)) }}" role="button">Results</a>
                     @endif
 
-                    @if ($event->scoringenabled && ( ($userevententry->entrystatusid ?? 0) == 2 || Auth::id() == $event->createdby))
-                        <a class="btn btn-success eventButtons pull-right" href="{{route('getscoringview', urlencode($event->name)) }}" role="button">Scoring</a>
+                    @if ($event->scoringenabled && ( ($userevententry->entrystatusid ?? 0) == 2 || Auth::id() == $event->createdby || Auth::user()->usertype == 1))
+                        <a class="btn btn-success eventButtons pull-right" href="{{route('getscoringview', [urlencode($event->name), $event->eventid ] ) }}" role="button">Scoring</a>
                     @endif
 
                     <a class="btn btn-info eventButtons pull-right" href="{{route('eventdetails', urlencode($event->name)) }}" role="button">Details</a>
