@@ -66,10 +66,10 @@ class ScoringController extends Controller
         foreach ($userResults as $user) {
 
             $evententry = EventEntry::where('userid', $user['userid'])
-                                    ->where('evententryid', $user['evententryid'])
-                                    ->where('divisionid', $user['divisionid'])
-                                    ->get()
-                                    ->first();
+                ->where('evententryid', $user['evententryid'])
+                ->where('divisionid', $user['divisionid'])
+                ->get()
+                ->first();
 
             if (is_null($evententry)) {
 
@@ -77,7 +77,7 @@ class ScoringController extends Controller
 
                 $username = User::where('userid', $user['userid'])->get()->first();
                 if (!is_null($username)) {
-                   $errorstring = 'Error with score for ' . ucwords($username->firstname) . ', please try again';
+                    $errorstring = 'Error with score for ' . ucwords($username->firstname) . ', please try again';
                 }
 
                 $errors[] = $errorstring;
@@ -460,6 +460,7 @@ class ScoringController extends Controller
     public function getScoringChoiceView(Request $request)
     {
         $event = Event::where('name', urldecode($request->eventname))
+            ->where('eventid', $request->eventid)
             ->get()
             ->first();
 
@@ -512,7 +513,7 @@ class ScoringController extends Controller
         }
 
 
-        $eventrounds = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, er.`location`, e.`status`, er.`eventroundid`, r.`unit`, er.`divisions`
+        $eventrounds = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, er.`location`, e.`status`, er.`eventroundid`, r.`unit`
             FROM `eventrounds` er 
             JOIN `rounds` r USING (`roundid`)
             JOIN `events` e USING (`eventid`)
@@ -521,17 +522,6 @@ class ScoringController extends Controller
             ",
             ['eventid' => $event->eventid, 'rounddate' => $rounddate]
         );
-
-
-
-        // unserialise the divisions
-        foreach ($eventrounds as $eventround ) {
-            $eventround->divisions = unserialize($eventround->divisions);
-            $result = DB::select("SELECT count(*) as `count` FROM `evententry` WHERE `divisionid` IN (" . implode(',', $eventround->divisions ?? ['-1'] ). ")");
-            $eventround->usercount = $result[0]->count?? 0;
-        }
-
-
 
         if ( is_null($eventrounds) ) {
             return redirect()->back()->with('failure', 'Invalid Request');
@@ -551,16 +541,26 @@ class ScoringController extends Controller
             JOIN `divisions` d USING (`divisionid`)
             WHERE ee.`eventid` = :eventid
             ", ['eventid' => $event->eventid,
-            ]);
+        ]);
 
         foreach ($users as $user) {
+
             foreach ($eventrounds as $eventround) {
                 $result = $this->getExistingScore($user->userid, $user->evententryid, $eventround->eventroundid, $user->divisionid);
                 if (!is_null($result)) {
                     $user->result[$eventround->eventroundid] = $result;
                 }
             }
+
         }
+
+        // unserialise the divisions
+        foreach ($eventrounds as $eventround ) {
+            $result = EventEntry::where('eventroundid', $eventround->eventroundid)->count();
+            $eventround->usercount = $result;
+        }
+
+
 
         // User Entry
         $userevententry = EventEntry::where('userid', Auth::id())->where('eventid', $event->eventid)->get()->first();
@@ -569,11 +569,8 @@ class ScoringController extends Controller
         }
 
 
-
-//        dd($eventrounds);
-
-
         return view('auth.events.event_scoringrounds', compact('users', 'eventround', 'eventrounds', 'distances', 'event', 'userevententry', 'results', 'daterange'));
+
     }
 
 
