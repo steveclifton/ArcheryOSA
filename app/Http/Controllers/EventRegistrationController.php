@@ -330,7 +330,7 @@ class EventRegistrationController extends Controller
                 $entry->address = htmlentities($request->input('address'));
                 $entry->notes = html_entity_decode($request->input('notes'));
 
-                $entry->gender = in_array($request->input('gender'), ['M','W']) ? $request->input('gender') : '';
+                $entry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
                 $entry->fullname = htmlentities($request->input('name'));
                 $entry->save();
             }
@@ -437,7 +437,7 @@ class EventRegistrationController extends Controller
         $evententry->entrystatusid = '1';
         $evententry->eventid = html_entity_decode($request->eventid);
         $evententry->eventroundid = $eventroundid;
-        $evententry->gender = in_array($request->input('gender'), ['M','W']) ? $request->input('gender') : '';
+        $evententry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
 
         $evententry->save();
 

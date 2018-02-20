@@ -17,12 +17,7 @@
             {{--collapsed-box--}}
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Event Rounds</h3>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse">Click to Open &nbsp;
-                            <i class="fa fa-minus"></i>
-                        </button>
-                    </div>
+                    <h3 class="box-title">Schedule</h3>
                 </div>
 
                 <div class="box-body">
@@ -43,25 +38,25 @@
                             </div>
                         </div>
 
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th class="hidden-xs">Location</th>
-                                <th>Round</th>
-                            </tr>
-                            </thead>
+                        {{--<table class="table">--}}
+                            {{--<thead>--}}
+                            {{--<tr>--}}
+                                {{--<th>Name</th>--}}
+                                {{--<th class="hidden-xs">Location</th>--}}
+                                {{--<th>Round</th>--}}
+                            {{--</tr>--}}
+                            {{--</thead>--}}
 
-                            <tbody>
-                            @foreach($eventrounds as $eventround)
-                                <tr onmouseover="this.style.backgroundColor='lightgrey'" onmouseout="this.style.backgroundColor='white'">
-                                    <td>{{ ucwords($eventround->roundname) }}</td>
-                                    <td class="hidden-xs">{{ ucwords($eventround->location) }}</td>
-                                    <td>{{ ucwords($eventround->name) }}</td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                            {{--<tbody>--}}
+                            {{--@foreach($eventrounds as $eventround)--}}
+                                {{--<tr onmouseover="this.style.backgroundColor='lightgrey'" onmouseout="this.style.backgroundColor='white'">--}}
+                                    {{--<td>{{ ucwords($eventround->roundname) }}</td>--}}
+                                    {{--<td class="hidden-xs">{{ ucwords($eventround->location) }}</td>--}}
+                                    {{--<td>{{ ucwords($eventround->name) }}</td>--}}
+                                {{--</tr>--}}
+                            {{--@endforeach--}}
+                            {{--</tbody>--}}
+                        {{--</table>--}}
                     </div>
                 </div>
             </div>
@@ -103,15 +98,15 @@
                                             </th>
                                         @endif
                                         @if (!is_null($eventround->dist2))
-                                            <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">{!! $eventround->dist2 . $eventround->unit !!}
+                                            <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">{!! $eventround->dist2 . $eventround->unit !!}*
                                             </th>
                                         @endif
                                         @if (!is_null($eventround->dist3))
-                                            <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">{!! $eventround->dist3 . $eventround->unit !!}
+                                            <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">{!! $eventround->dist3 . $eventround->unit !!}*
                                             </th>
                                         @endif
                                         @if (!is_null($eventround->dist4))
-                                            <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">{!! $eventround->dist4 . $eventround->unit !!}
+                                            <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">{!! $eventround->dist4 . $eventround->unit !!}*
                                             </th>
                                         @endif
                                         <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">Total*</th>
@@ -186,9 +181,9 @@
                         @endforeach
                         {{--end foreach here--}}
                         @if(!empty($eventrounds))
-                        <button type="submit" class="btn btn-success pull-right" value="submit" name="submit">
-                            Submit Scores
-                        </button>
+                            <button type="submit" class="btn btn-success pull-right" value="submit" name="submit">
+                                Submit Scores
+                            </button>
                         @endif
 
                     </form>

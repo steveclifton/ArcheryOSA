@@ -30,7 +30,7 @@ class UserController extends Controller
             WHERE `userid` = :userid
             AND `divisionid` = :divisionid
             AND `eventid` = :eventid
-            ORDER BY `points`
+            ORDER BY `points` DESC
             LIMIT 10
             ",['userid'=>$userid, 'divisionid'=>$divisionid, 'eventid' => $eventid]);
 
@@ -61,7 +61,7 @@ class UserController extends Controller
             WHERE `userid` = :userid
             AND `divisionid` = :divisionid
             AND `eventid` = :eventid
-            ORDER BY `total_score`
+            ORDER BY `total_score` DESC
             LIMIT 10
             ",['userid'=>$userid, 'divisionid'=>$divisionid, 'eventid' => $eventid]);
 
