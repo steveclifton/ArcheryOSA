@@ -250,19 +250,21 @@ class EventRegistrationController extends Controller
             $evententry = EventEntry::where('userid', $userids[$i])
                                     ->where('eventid', $request->eventid)
                                     ->where('divisionid', $userdivisionid[$i])
-                                    ->get()
-                                    ->first();
+                                    ->get();
 
-            if (is_null($evententry)) {
+            if (empty($evententry)) {
                 continue;
             }
 
 
+            foreach ($evententry as $event) {
+                $event->paid = intval($userpaid[$i]) ?: 0;
+                $event->entrystatusid = intval($userstatus[$i]) ?: 0;
+                $event->save();
+            }
 
-            $evententry->paid = intval($userpaid[$i]) ?: 0;
-            $evententry->entrystatusid = intval($userstatus[$i]) ?: 0;
-            $evententry->save();
         }
+        
 
         return Redirect::route('updateevent', $request->eventid)->with('message', 'Update Successful');
     } // updateEventEntryStatus
