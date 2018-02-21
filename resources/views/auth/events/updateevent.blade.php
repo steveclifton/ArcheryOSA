@@ -37,31 +37,20 @@
                                             <thead>
                                             <tr>
                                                 <th>Archers Name</th>
-                                                <th>Club</th>
                                                 <th>Division</th>
                                                 <th>Status</th>
                                                 <th>Paid</th>
+                                                <th>Email Sent</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             @foreach($users as $user)
                                                 @php
                                                     switch ($user->entrystatusid) {
-                                                        case 1 :
-                                                            $colour = '#FAD9AE';
-                                                        break;
-
-                                                        case 2 :
-                                                            $colour = '#CDFAAE';
-                                                        break;
-
-                                                        case 3 :
-                                                            $colour = '#AEDAFA';
-                                                        break;
-
-                                                        case 4 :
-                                                            $colour = '#FAAEAE';
-                                                        break;
+                                                        case 1 :$colour = '#FAD9AE';break;
+                                                        case 2 :$colour = '#CDFAAE';break;
+                                                        case 3 :$colour = '#AEDAFA';break;
+                                                        case 4 :$colour = '#FAAEAE';break;
                                                     }
 
                                                 @endphp
@@ -69,8 +58,7 @@
                                                 <tr onmouseover="this.style.backgroundColor='lightgrey'" onmouseout="this.style.backgroundColor='{{$colour}}'" style="background: {{$colour}}">
                                                     <input type="hidden" name="userid[]" value="{{$user->userid}}">
                                                     <input type="hidden" name="divisionid[]" value="{{$user->divisionid}}">
-                                                    <td>{!! ucwords(strtolower($user->fullname)) !!}</td>
-                                                    <td>{{$user->club}}</td>
+                                                    <td><a href="{{route('userentrydetails', [urlencode($event->first()->name), $user->hash])}}">{!! ucwords(strtolower($user->fullname)) !!}</a></td>
                                                     <td>{{$user->division}}</td>
                                                     <td>
                                                         <select name="userstatus[]" id="userstatusselect">
@@ -82,12 +70,16 @@
                                                         </select>
                                                     </td>
                                                     <td>
+
                                                         <select name="userpaid[]" id="userpaidselect">
-                                                            <option value="0" <?= ($user->paid == 0) ? 'selected' : '' ?>>No</option>
-                                                            <option value="1" <?= ($user->paid == 1) ? 'selected' : '' ?>>Yes</option>
-                                                            <option value="2" <?= ($user->paid == 2) ? 'selected' : '' ?>>N/A</option>
+                                                            <option value="0" <?php echo ($user->paid == 0) ? 'selected' : '' ?>>No</option>
+                                                            <option value="1" <?php echo ($user->paid == 1) ? 'selected' : '' ?>>Yes</option>
+                                                            <option value="2" <?php echo ($user->paid == 2) ? 'selected' : '' ?>>N/A</option>
                                                         </select>
                                                     </td>
+
+                                                    <td><input type="checkbox" disabled checked></td>
+
                                                 </tr>
                                             @endforeach
                                             </tbody>
