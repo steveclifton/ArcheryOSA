@@ -166,6 +166,7 @@ class ScoringController extends Controller
 
             $result = $this->validateUsersScores($user, $round);
 
+
             if ($result === false) {
                 continue;
             } else if (!empty($result)) {
@@ -815,6 +816,7 @@ class ScoringController extends Controller
         $count10 = $request->input(10);
         $countx = $request->input('x');
 
+
         $userResults = [];
 
         foreach ($evententry as $userevent) {
@@ -832,8 +834,8 @@ class ScoringController extends Controller
             $userResults[$index]['distance4'] = $distance4[$userevent] ?? '';
             $userResults[$index]['total'] = $total[$userevent]['total'] ?? '';
             $userResults[$index]['hits'] = $hits[$userevent]['hits'] ?? '';
-            $userResults[$index]['count10'] = $count10[$userevent]['count10'] ?? '';
-            $userResults[$index]['countx'] = $countx[$userevent]['countx'] ?? '';
+            $userResults[$index]['count10'] = $count10[$userevent][10] ?? '';
+            $userResults[$index]['countx'] = $countx[$userevent]['x'] ?? '';
         }
         return $userResults;
 
@@ -841,7 +843,6 @@ class ScoringController extends Controller
 
     private function setUsersScore($user, $score, $evententry, $event, $eventround, $round)
     {
-
         $score->userid = $user['userid'];
         $score->enteredbyuserid = Auth::id();
         $score->evententryid = $evententry->evententryid;
