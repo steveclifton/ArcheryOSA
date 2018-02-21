@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Classes\EventDateRange;
+use App\Club;
 use App\EntryStatus;
 use App\EventEntry;
 use App\Score;
@@ -192,12 +193,17 @@ class EventController extends Controller
 
 
 
-        $users = DB::select("SELECT ee.`userid`, ee.`fullname`, ee.`entrystatusid`, ee.`clubid`, c.`name` as club, ee.`paid`, d.`name` as division, ee.`divisionid`
+        $users = DB::select("
+            SELECT ee.`userid`, ee.`fullname`, ee.`hash`, ee.`entrystatusid`, ee.`clubid`, 
+              c.`name` as club, ee.`paid`, d.`name` as division, ee.`divisionid`, er.`name` as eventname
             FROM `evententry` ee
             LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
             LEFT JOIN `clubs` c ON(c.`clubid` = ee.`clubid`)
+            LEFT JOIN `eventrounds` er ON (ee.`eventroundid` = er.`eventroundid`)
             WHERE ee.`eventid` = :eventid
+            GROUP BY ee.`userid`
             ORDER BY ee.`entrystatusid`, d.`name`, ee.`fullname`
+            
             ", ['eventid' => $request->eventid]);
 
         foreach ($users as $user) {
@@ -208,6 +214,34 @@ class EventController extends Controller
         $entrystatus = EntryStatus::get();
 
         return view('auth.events.updateevent', compact('event', 'divisions', 'eventdivisions', 'eventrounds', 'organisations', 'users', 'entrystatus', 'weeks'));
+    }
+
+    public function getUserEntryDetails(Request $request)
+    {
+        $userdetails = new \stdClass;
+
+        $user = EventEntry::where('hash', $request->entryhash)->get()->first();
+        $user = EventEntry::where('userid', $user->userid)->where('eventid', $user->eventid)->get();
+
+        $userdetails->club = Club::where('clubid', $user->first()->clubid)->pluck('name')->first();
+        $userdetails->division = Division::where('divisionid', $user->first()->divisionid)->pluck('name')->first();
+        if ($user->first()->paid == 0) {
+            $userdetails->entrystatus = 'Not Paid';
+        } else if ($user->first()->paid == 1) {
+            $userdetails->entrystatus = 'Paid';
+        } else {
+            $userdetails->entrystatus = 'NA';
+
+        }
+
+        foreach ($user as $u) {
+            $userdetails->rounds[] = EventRound::where('eventroundid', $u->eventroundid)->get()->first();
+        }
+
+//        dd($userdetails);
+
+        return view('auth.events.event_userentry', compact('user', 'userdetails'));
+
     }
 
     public function create(Request $request)
