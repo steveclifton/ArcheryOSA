@@ -64,8 +64,8 @@ Route::middleware(['web'])->group(function() {
 
 
         Route::get('/event/registration/update/{eventid}', 'EventRegistrationController@getUpdateEventRegistrationView')->name('updateeventregistrationview');
-
         Route::post('/event/registration/update/{eventid}/{eventname}', 'EventRegistrationController@updateEventRegistration')->name('updateeventregistration');
+
 
 
 
@@ -89,6 +89,7 @@ Route::middleware(['web'])->group(function() {
         Route::post('/admin/events/update/{eventid}', 'EventController@update')->name('updateevent');
         Route::post('/admin/events/create', 'EventController@create')->name('createevent');
         Route::get('/admin/events/delete/{eventid}/{eventname}', 'EventController@delete')->name('deleteevent');
+        Route::get('/admin/events/userentry/{eventname}/{entryhash}', 'EventController@getUserEntryDetails')->name('userentrydetails');
 
         // Event Rounds
         Route::get('/admin/events/create/eventround/{eventid}', 'EventRoundController@getCreateEventRoundView')->name('createeventroundview');
