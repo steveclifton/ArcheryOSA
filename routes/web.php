@@ -12,6 +12,9 @@ Route::get('/results/{eventname}', 'ScoringController@getLeagueEventResults')->n
 Route::get('/users/{username}', 'UserController@getPublicProfile')->name('getpublicuserview');
 
 
+// TouchURLS
+Route::get('/sendconfirmationemail/{userid}/{evententryid}/{eventhash}', 'SenderController@sendconfirmationemail');
+
 
 Route::middleware(['web'])->group(function() {
 
