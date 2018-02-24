@@ -159,7 +159,7 @@ class EventRegistrationController extends Controller
         }
 
         $eventname = Event::where('eventid', $request->eventid)->pluck('name')->first();
-        $this->sendEventEntryConfirmation($eventname);
+        $this->sendEntryReceivedEmail($eventname);
 
         return Redirect::route('eventdetails', ['name' => $request->eventname])->with('message', 'Registration Successful');
 
@@ -252,16 +252,27 @@ class EventRegistrationController extends Controller
                                     ->where('divisionid', $userdivisionid[$i])
                                     ->get();
 
+
+
             if (empty($evententry)) {
                 continue;
             }
 
 
             foreach ($evententry as $event) {
+
+                $waseventstatus = intval($event->entrystatusid);
                 $event->paid = intval($userpaid[$i]) ?: 0;
                 $event->entrystatusid = intval($userstatus[$i]) ?: 0;
+                if ($waseventstatus == 1 && intval($userstatus[$i] == 2)) {
+                    $this->touchurl('sendconfirmationemail/' . $event->userid . '/' . $event->evententryid . '/' . $event->hash);
+                    $event->confirmationemail = 1;
+                }
+
                 $event->save();
+
             }
+
 
         }
         
@@ -269,17 +280,17 @@ class EventRegistrationController extends Controller
         return Redirect::route('updateevent', $request->eventid)->with('message', 'Update Successful');
     } // updateEventEntryStatus
 
-    private function processEventRoundDivisions($eventRounds)
-    {
-        $la_divisions = [];
-        foreach ($eventRounds as $eventRound) {
-            $la_div = unserialize($eventRound->divisions);
-            foreach ($la_div as $li_div) {
-                $la_divisions[$li_div] = $li_div;
-            }
-        }
-       return $la_divisions;
-    } // processEventRoundDivisions
+//    private function processEventRoundDivisions($eventRounds)
+//    {
+//        $la_divisions = [];
+//        foreach ($eventRounds as $eventRound) {
+//            $la_div = unserialize($eventRound->divisions);
+//            foreach ($la_div as $li_div) {
+//                $la_divisions[$li_div] = $li_div;
+//            }
+//        }
+//       return $la_divisions;
+//    } // processEventRoundDivisions
 
     private function singleEntryUpdate($request)
     {
@@ -341,6 +352,7 @@ class EventRegistrationController extends Controller
 
     private function multipleEntryUpdate($request)
     {
+
         // current divisions
         $currentdivisions = EventEntry::where('userid', Auth::id())
             ->where('eventid', $request->eventid)
@@ -371,23 +383,24 @@ class EventRegistrationController extends Controller
                                     ->first();
 
             if (is_null($userentry)) {
-            // create a new one here
-            $evententry = new EventEntry();
+                // create a new one here
+                $evententry = new EventEntry();
 
-            $evententry->fullname = htmlentities($request->input('name'));
-            $evententry->userid = Auth::id();
-            $evententry->clubid = htmlentities($request->input('clubid'));
-            $evententry->email = htmlentities($request->input('email'));
-            $evententry->divisionid = htmlentities($division);
-            $evententry->membershipcode = htmlentities($request->input('membershipcode'));
-            $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
-            $evententry->phone = htmlentities($request->input('phone'));
-            $evententry->address = htmlentities($request->input('address'));
-            $evententry->notes = html_entity_decode($request->input('notes'));
-            $evententry->entrystatusid = '1';
-            $evententry->eventid = htmlentities($request->eventid);
+                $evententry->fullname = htmlentities($request->input('name'));
+                $evententry->userid = Auth::id();
+                $evententry->clubid = htmlentities($request->input('clubid'));
+                $evententry->email = htmlentities($request->input('email'));
+                $evententry->divisionid = htmlentities($division);
+                $evententry->membershipcode = htmlentities($request->input('membershipcode'));
+                $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
+                $evententry->phone = htmlentities($request->input('phone'));
+                $evententry->address = htmlentities($request->input('address'));
+                $evententry->notes = html_entity_decode($request->input('notes'));
+                $evententry->entrystatusid = '1';
+                $evententry->eventid = htmlentities($request->eventid);
 
-            $evententry->save();
+                $evententry->save();
+
 
 
             } else {
@@ -415,11 +428,14 @@ class EventRegistrationController extends Controller
             ->delete();
     } // deleteUserEventRound
 
-    private function sendEventEntryConfirmation($eventname)
+    private function sendEntryReceivedEmail($eventname)
     {
+
         Mail::to(Auth::user()->email)
             ->send(new EntryConfirmation(ucwords($eventname)));
-    } // sendEventEntryConfirmation
+    } // sendEntryReceivedEmail
+
+
 
     private function createEntry($request, $eventroundid)
     {
@@ -444,5 +460,7 @@ class EventRegistrationController extends Controller
         $evententry->save();
 
     } // createEntry
+
+
 }
 
