@@ -264,6 +264,7 @@ class EventRegistrationController extends Controller
                 $waseventstatus = intval($event->entrystatusid);
                 $event->paid = intval($userpaid[$i]) ?: 0;
                 $event->entrystatusid = intval($userstatus[$i]) ?: 0;
+
                 if ($waseventstatus == 1 && intval($userstatus[$i] == 2)) {
                     $this->touchurl('sendconfirmationemail/' . $event->userid . '/' . $event->evententryid . '/' . $event->hash);
                     $event->confirmationemail = 1;
