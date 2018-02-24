@@ -19,7 +19,7 @@ class SenderController extends Controller
     public function sendconfirmationemail(Request $request)
     {
         Log::info($request->ip());
-        if ($request->ip() !== '127.0.0.1') {
+        if ( $request->ip() != strval( getenv('IP_ADDRESS') ) ) {
 
             die('Invalid Request - IP Invalid');
         }
