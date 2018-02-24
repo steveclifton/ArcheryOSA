@@ -78,7 +78,7 @@
                                                         </select>
                                                     </td>
 
-                                                    <td><input type="checkbox" disabled checked></td>
+                                                    <td><input type="checkbox" disabled {!! $user->confirmationemail ? 'checked' : '' !!}></td>
 
                                                 </tr>
                                             @endforeach
