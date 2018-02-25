@@ -429,12 +429,6 @@ class EventRegistrationController extends Controller
             ->delete();
     } // deleteUserEventRound
 
-    private function sendEntryReceivedEmail($eventname)
-    {
-
-        Mail::to(Auth::user()->email)
-            ->send(new EntryConfirmation(ucwords($eventname)));
-    } // sendEntryReceivedEmail
 
 
 
