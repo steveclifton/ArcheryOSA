@@ -9,6 +9,13 @@ $(document).ready(function() {
 
     });
 
+    $('table.userentry').DataTable({
+        "paging": false,
+        "info": false,
+        "searching": false,
+        "order": []
+    });
+
 
 
     if (typeof collapse_siderbar !== 'undefined') {

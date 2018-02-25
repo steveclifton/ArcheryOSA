@@ -29,19 +29,20 @@
                                 </div>
                             </div>
                             <div class="box-body">
-                                <div class="table-responsive">
+                                <div class="table-responsive ">
                                     <form class="form-horizontal" method="POST" action="{{route('updateregistrationstatus', $event->first()->eventid)}}" id="eventformupdate">
                                         {{ csrf_field() }}
 
-                                        <table class="table">
+                                        <table class="table userentry">
                                             <thead>
-                                            <tr>
-                                                <th>Archers Name</th>
-                                                <th>Division</th>
-                                                <th>Status</th>
-                                                <th>Paid</th>
-                                                <th>Email Sent</th>
-                                            </tr>
+                                                <tr>
+                                                    <th>Archers Name</th>
+                                                    <th>Division</th>
+                                                    <th>Status</th>
+                                                    <th>Paid</th>
+                                                    <th>Date</th>
+                                                    <th>Email Sent</th>
+                                                </tr>
                                             </thead>
                                             <tbody>
                                             @foreach($users as $user)
@@ -77,8 +78,9 @@
                                                             <option value="2" <?php echo ($user->paid == 2) ? 'selected' : '' ?>>N/A</option>
                                                         </select>
                                                     </td>
+                                                    <td>{!! date('Y-m-d', strtotime($user->created_at)) !!}</td>
 
-                                                    <td><input type="checkbox" disabled {!! $user->confirmationemail ? 'checked' : '' !!}></td>
+                                                    <td><input type="checkbox" disabled value="{{$user->confirmationemail}}" {!! $user->confirmationemail ? 'checked' : '' !!}></td>
 
                                                 </tr>
                                             @endforeach

@@ -194,7 +194,7 @@ class EventController extends Controller
 
 
         $users = DB::select("
-            SELECT ee.`userid`,  ee.`confirmationemail`, ee.`fullname`, ee.`hash`, ee.`entrystatusid`, ee.`clubid`, 
+            SELECT ee.`userid`, ee.`created_at`,  ee.`confirmationemail`, ee.`fullname`, ee.`hash`, ee.`entrystatusid`, ee.`clubid`, 
               c.`name` as club, ee.`paid`, d.`name` as division, ee.`divisionid`, er.`name` as eventname
             FROM `evententry` ee
             LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
