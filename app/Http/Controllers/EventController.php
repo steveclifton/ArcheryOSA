@@ -69,7 +69,7 @@ class EventController extends Controller
                         ->first();
 
 
-        if (is_null($event)) {
+        if (empty($event)) {
             return Redirect::route('home');
         }
         $event->numberofweeks = ceil($event->daycount / 7);
@@ -87,15 +87,13 @@ class EventController extends Controller
             ['eventid' => $event->eventid]
         );
 
-        //dd($eventrounds);
-
         // Events rounds distances
         $event->distancestring = $this->makeDistanceString($eventrounds);
 
 
         // User Entry
         $userevententry = EventEntry::where('userid', Auth::id())->where('eventid', $event->eventid)->get()->first();
-        if (!is_null($userevententry)) {
+        if (!empty($userevententry)) {
             $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
         }
 
@@ -120,7 +118,7 @@ class EventController extends Controller
 
 
         $results = Score::where('eventid', $event->eventid)->get()->first();
-        if (!is_null($results)) {
+        if (!empty($results)) {
 
             $week = '';
             if ($request->exists('week') ) {
@@ -142,16 +140,30 @@ class EventController extends Controller
         $resultdistances = $this->getDistances($eventrounds);
 
 
-        return view ('publicevents.eventdetails', compact('event', 'eventrounds', 'distances', 'userevententry', 'users', 'results', 'resultdistances'));
+        // show scoring tab or not
+        $canscore = false;
+        if ($event->scoringenabled) {
+            if (
+                ($userevententry->entrystatusid ?? 0) == 2
+                || Auth::id() == $event->createdby
+                || !empty(Auth::user()->usertype)
+                && Auth::user()->usertype == 1
+            )
+            $canscore = true;
+        }
+
+        return view ('publicevents.eventdetails', compact('event', 'canscore', 'eventrounds', 'distances', 'userevententry', 'users', 'results', 'resultdistances'));
     }
+
+
+
+
 
     /****************************************************
     *                                                   *
     *                ADMIN / AUTH METHODS               *
     *                                                   *
     *****************************************************/
-
-
 
     public function getEventsView()
     {
