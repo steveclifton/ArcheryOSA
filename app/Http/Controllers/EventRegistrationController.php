@@ -102,6 +102,7 @@ class EventRegistrationController extends Controller
 
     public function eventRegister(EventRegisterValidator $request)
     {
+
         $event = Event::where('eventid', $request->eventid)->where('name', urldecode($request->eventname))->get()->first();
 
         if (is_null($event)) {
@@ -149,17 +150,17 @@ class EventRegistrationController extends Controller
         } else {
 
             /* league processing */
-            $result = $this->league_eventRegister($request);
+            $evententry = $this->league_eventRegister($request);
 
-            if (!$result) {
+
+            if (!$evententry) {
                 return back()->with('failure', 'Registration Failed, please contact archeryosa@gmail.com');
             }
 
-
         }
 
-        $eventname = Event::where('eventid', $request->eventid)->pluck('name')->first();
-        $this->sendEntryReceivedEmail($eventname);
+
+        $this->touchurl('sendregistrationemail/' . $evententry->userid . '/' . $evententry->evententryid . '/' . $evententry->hash);
 
         return Redirect::route('eventdetails', ['name' => $request->eventname])->with('message', 'Registration Successful');
 
@@ -193,19 +194,16 @@ class EventRegistrationController extends Controller
             $evententry->phone = htmlentities($request->input('phone'));
             $evententry->address = htmlentities($request->input('address'));
             $evententry->notes = html_entity_decode($request->input('notes'));
-
+            $evententry->hash = substr(md5(time()),0,10);
             $evententry->entrystatusid = '1';
             $evententry->eventid = htmlentities($request->eventid);
             $evententry->eventroundid = html_entity_decode($request->input('eventroundid'));
             $evententry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
 
-
             $evententry->save();
-            return true;
-
         }
 
-        return false;
+        return $evententry;
     } // league_eventRegister
 
     public function updateEventRegistration(UpdateEventRegisterValidator $request)
@@ -280,18 +278,6 @@ class EventRegistrationController extends Controller
 
         return Redirect::route('updateevent', $request->eventid)->with('message', 'Update Successful');
     } // updateEventEntryStatus
-
-//    private function processEventRoundDivisions($eventRounds)
-//    {
-//        $la_divisions = [];
-//        foreach ($eventRounds as $eventRound) {
-//            $la_div = unserialize($eventRound->divisions);
-//            foreach ($la_div as $li_div) {
-//                $la_divisions[$li_div] = $li_div;
-//            }
-//        }
-//       return $la_divisions;
-//    } // processEventRoundDivisions
 
     private function singleEntryUpdate($request)
     {
@@ -428,9 +414,6 @@ class EventRegistrationController extends Controller
             ->where('eventroundid', $roundid)
             ->delete();
     } // deleteUserEventRound
-
-
-
 
     private function createEntry($request, $eventroundid)
     {
