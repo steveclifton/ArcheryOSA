@@ -14,7 +14,7 @@ class Controller extends BaseController
 
     public function touchurl($url)
     {
-        $curl = 'curl --location -k --max-time 60 --speed-time 10 --speed-limit 999999999999999 --silent ' . getenv('APP_URL') . '/' . $url . ' > /dev/null &';
+        $curl = 'curl --location -k --max-time 60 --speed-time 10 --speed-limit 999999999999999 --silent ' . getenv('APP_URL') . getenv('SEND_PATH') . $url . ' > /dev/null &';
         shell_exec($curl);
     }
 
