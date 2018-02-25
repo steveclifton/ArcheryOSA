@@ -13,7 +13,8 @@ Route::get('/users/{username}', 'UserController@getPublicProfile')->name('getpub
 
 
 // TouchURLS
-Route::get('/sendconfirmationemail/{userid}/{evententryid}/{eventhash}', 'SenderController@sendconfirmationemail');
+Route::get(getenv('SEND_PATH') .'sendconfirmationemail/{userid}/{evententryid}/{eventhash}', 'SenderController@sendconfirmationemail');
+Route::get(getenv('SEND_PATH') .'sendregistrationemail/{userid}/{evententryid}/{eventhash}', 'SenderController@sendregistrationemail');
 
 
 Route::middleware(['web'])->group(function() {
