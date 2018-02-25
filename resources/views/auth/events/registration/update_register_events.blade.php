@@ -85,7 +85,7 @@
 
 
 
-                        @if ($event->multipledivisions == 0)
+                        @if ($event->multipledivisions == 1)
 
                             <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="organisation">
                                 <label for="organisation" class="col-md-4 control-label">Division</label>
