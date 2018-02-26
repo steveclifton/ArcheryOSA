@@ -517,9 +517,19 @@ class ScoringController extends Controller
             $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
         }
 
-
-
-        return view ('auth.events.event_results', compact('event', 'eventrounds', 'userevententry', 'users', 'results', 'resultdistances', 'userevententry'));
+        // show scoring tab or not
+        $canscore = false;
+        if ($event->scoringenabled) {
+            if (
+                ($userevententry->entrystatusid ?? 0) == 2
+                || Auth::id() == $event->createdby
+                || !empty(Auth::user()->usertype)
+                && Auth::user()->usertype == 1
+            )
+                $canscore = true;
+        }
+        
+        return view ('auth.events.event_results', compact('event', 'canscore', 'eventrounds', 'userevententry', 'users', 'results', 'resultdistances', 'userevententry'));
 
     }
 
@@ -636,7 +646,19 @@ class ScoringController extends Controller
         }
 
 
-        return view('auth.events.event_scoringrounds', compact('users', 'eventround', 'eventrounds', 'distances', 'event', 'userevententry', 'results', 'daterange'));
+        // show scoring tab or not
+        $canscore = false;
+        if ($event->scoringenabled) {
+            if (
+                ($userevententry->entrystatusid ?? 0) == 2
+                || Auth::id() == $event->createdby
+                || !empty(Auth::user()->usertype)
+                && Auth::user()->usertype == 1
+            )
+                $canscore = true;
+        }
+
+        return view('auth.events.event_scoringrounds', compact('users', 'canscore','eventround', 'eventrounds', 'distances', 'event', 'userevententry', 'results', 'daterange'));
 
     }
 
@@ -693,8 +715,19 @@ class ScoringController extends Controller
             return back()->with('failure', 'Unable to score at this time')->withInput();
         }
 
+        // show scoring tab or not
+        $canscore = false;
+        if ($event->scoringenabled) {
+            if (
+                ($userevententry->entrystatusid ?? 0) == 2
+                || Auth::id() == $event->createdby
+                || !empty(Auth::user()->usertype)
+                && Auth::user()->usertype == 1
+            )
+                $canscore = true;
+        }
 
-        return view('auth.events.event_league_scoringrounds', compact('users', 'eventround', 'eventrounds', 'distances', 'event', 'userevententry', 'results'));
+        return view('auth.events.event_league_scoringrounds', compact('users', 'canscore', 'eventround', 'eventrounds', 'distances', 'event', 'userevententry', 'results'));
 
     }
 //    private function getScoringData($event)
