@@ -18,7 +18,8 @@ class ExportController extends Controller
             die();
         }
 
-        $entries = DB::select("SELECT ee.`fullname`, c.`name` as clubname, ee.`email`, ee.`address`, ee.`phone`, d.`name` as divisionname, ee.`membershipcode`, ee.`paid`, ee.`gender`, ee.`notes`
+        $entries = DB::select("SELECT ee.`fullname`, c.`name` as clubname, ee.`email`, ee.`address`, ee.`phone`, d.`name` as divisionname, ee.`membershipcode`, ee.`paid`, ee.`gender`, ee.`notes`,
+              ee.`created_at`, ee.`updated_at`
             FROM `evententry` ee
             LEFT JOIN `clubs` c using (`clubid`)
             LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
@@ -31,7 +32,7 @@ class ExportController extends Controller
 
         $csv = Writer::createFromFileObject(new \SplTempFileObject());
 
-        $csv->insertOne(['Name', 'Club', 'Email', 'Address', 'Phone', 'Division', 'Membership', 'Paid Status', 'Gender', 'Notes' ]);
+        $csv->insertOne(['Name', 'Club', 'Email', 'Address', 'Phone', 'Division', 'Membership', 'Paid Status', 'Gender', 'Notes', 'Created Date', 'Updated Date' ]);
 
         foreach ($entries as $entry) {
             if ($entry->paid == 0) {
@@ -41,6 +42,8 @@ class ExportController extends Controller
             } else {
                 $entry->paid = 'N/A';
             }
+            $entry->created_at = date('d-m-Y', strtotime($entry->created_at));
+            $entry->updated_at = date('d-m-Y', strtotime($entry->updated_at));
             $csv->insertOne((array) $entry);
         }
 
