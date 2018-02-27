@@ -78,7 +78,7 @@ Route::middleware(['web'])->group(function() {
 
 	// Admin
 	Route::middleware(['admin'])->group(function () {
-
+        Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 	    Route::get('/admin/test','TestController@test')->name('teststuffs');
 
 	    //Users

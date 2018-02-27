@@ -2,6 +2,7 @@
 
 return [
 
+    Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
     /*
     |--------------------------------------------------------------------------
     | Application Name
