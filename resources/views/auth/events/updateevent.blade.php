@@ -87,6 +87,10 @@
                                             </tbody>
                                         </table>
 
+
+                                        <a href="{{route('exportevententries', [$event->first()->eventid, $event->first()->hash])}}" class="btn btn-warning col-md-offset-10" role="button">Export</a>
+
+
                                         <button type="submit" class="btn btn-success pull-right" value="update" name="update">
                                             Update
                                         </button>
@@ -109,7 +113,10 @@
                             <i class="fa fa-backward" >  Back</i>
                         </button>
                     </a>
+
                 </div>
+
+
 
                 <div class="panel-body">
                     <h3 style="text-align: center;font-weight: bold;">{{$event->first()->name}}</h3><br>
