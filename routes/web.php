@@ -71,7 +71,7 @@ Route::middleware(['web'])->group(function() {
         Route::post('/event/registration/update/{eventid}/{eventname}', 'EventRegistrationController@updateEventRegistration')->name('updateeventregistration');
 
 
-
+        Route::get('/export/events/{eventid}/{hash}', 'ExportController@exportevententries')->name('exportevententries');
 
 
     });
