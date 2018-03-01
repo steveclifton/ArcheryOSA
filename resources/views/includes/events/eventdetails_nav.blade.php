@@ -12,7 +12,7 @@
                             </a>
                         @endif
                     @endif
-                    @if ($event->eventid == 36 && Auth::user()->usertype == 1)
+                    @if ($event->eventid == 36 && !empty(Auth::user()->usertype ?? -1 == 1))
                         <a class="btn btn-primary eventButtons pull-right" href="{{route('geteventresults', urlencode($event->name)) }}" role="button">Results</a>
                     @endif
 
