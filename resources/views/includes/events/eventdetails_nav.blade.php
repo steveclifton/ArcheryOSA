@@ -3,8 +3,8 @@
         <div class="col-xs-12 col-md-12 pull-right" >
             <div class="box">
                 <div class="box-body">
-                    @if ($event->visible || !is_null($userevententry))
-                        @if (!is_null($userevententry))
+                    @if ($event->visible || !empty($userevententry))
+                        @if (!empty($userevententry))
                             <a href="{{ route('updateeventregistrationview', $event->eventid) }}" class="btn btn-warning pull-right eventButtons" role="button">My Entry</a>
                         @else
                             <a href="{{ route('eventregistrationview', ['eventid' => $event->eventid, 'name' => urlencode($event->name)] ) }}" class="btn btn-primary pull-right eventButtons" role="button">
