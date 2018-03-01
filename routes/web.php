@@ -8,7 +8,7 @@ Route::get('/upcomingevents', 'EventController@PUBLIC_getAllUpcomingEventsView')
 Route::get('/previousevents', 'EventController@PUBLIC_getAllPreviousEventsView');
 Route::get('/eventdetails/{name}', 'EventController@PUBLIC_getEventDetailsView')->name('eventdetails');
 Route::get('/authorisearcherrelation/{hash}', 'UserController@authoriseUserRelationship')->name('authoriseuserrelationship');
-Route::get('/results/{eventname}', 'ScoringController@getLeagueEventResults')->name('geteventresults');
+Route::get('/results/{eventname}', 'ScoringController@getResults')->name('geteventresults');
 Route::get('/users/{username}', 'UserController@getPublicProfile')->name('getpublicuserview');
 
 
