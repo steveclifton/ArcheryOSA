@@ -12,8 +12,13 @@
                             </a>
                         @endif
                     @endif
+                    @if ($event->eventid == 36 && Auth::user()->usertype == 1)
+                        <a class="btn btn-primary eventButtons pull-right" href="{{route('geteventresults', urlencode($event->name)) }}" role="button">Results</a>
+                    @endif
 
-                    <a class="btn btn-primary eventButtons pull-right" href="{{route('geteventresults', urlencode($event->name)) }}" role="button">Results</a>
+                    @if ($event->eventid == 33)
+                        <a class="btn btn-primary eventButtons pull-right" href="{{route('geteventresults', urlencode($event->name)) }}" role="button">Results</a>
+                    @endif
 
                     @if ($canscore)
                         <a class="btn btn-success eventButtons pull-right" href="{{route('getscoringview', [urlencode($event->name), $event->eventid ] ) }}" role="button">Scoring</a>
