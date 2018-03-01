@@ -48,6 +48,6 @@ class ExportController extends Controller
         }
 
         $csv->output(str_replace(' ', '-', $event->name) .'-' . date('d-m', time()) . '.csv');
-        return back();
+        die();
     }
 }
