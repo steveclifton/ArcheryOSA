@@ -17,6 +17,38 @@
 
     <div class="row">
         <div class="col-md-12">
+            {{--collapsed-box--}}
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Schedule</h3>
+                </div>
+
+                <div class="box-body">
+                    <div class="table-responsive">
+
+                        <div class="form-group" id="status" style="padding-bottom: 40px">
+
+                            <div class="col-md-4">
+                                <select name="currentweek" class="form-control shootingday">
+                                    @php
+                                        $i = 0;
+                                    @endphp
+                                    @foreach ($daterange as $date)
+                                        <option value="{!! $i; !!}" {!! ( ($_GET['day'] ?? -1) == $i) ? 'selected' : '' !!} >{{ date('d F', strtotime($date)) }}</option>
+                                        @php $i++; @endphp
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title">Results</h3>
@@ -26,23 +58,6 @@
                     <div class="padding10">
                         <div class="table-responsive">
                             <br>
-                            @if ($event->eventtype == 1)
-                                <div class="col-md-3" style="padding-bottom: 20px">
-                                    <select class="week form-control" class="form-control">
-
-                                        <option value="overall">Overall</option>
-
-                                        @foreach (range(1, $event->numberofweeks) as $week)
-                                            @php
-                                                $currentweek = $event->selectedweek ?? $event->currentweek;
-                                            @endphp
-                                            <option @if ( $week == $currentweek) {{'selected'}} @endif value="{{$week}}">
-                                                Week {{$week}}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            @endif
 
                             @if (empty($results))
 
@@ -57,45 +72,6 @@
                                         </tr>
                                     </thead>
                                 </table>
-                            @elseif ($event->selectedweek == 'overall')
-
-                                @foreach($results as $divisionaname => $divisionresults)
-
-                                    <table class="table table-bordered table-responsive table-striped resultstables">
-                                        <caption>{{$divisionaname}}</caption>
-                                        <thead>
-                                            <tr>
-                                                <th class="col-md-2 col-xs-2 col-sm-2">Archer</th>
-
-                                                @if ($event->eventtype == 1)
-                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Average</th>
-                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Top 10 Scores</th>
-                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Top 10 Points</th>
-                                                @endif
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-
-                                            @foreach($divisionresults as $result)
-
-                                                <tr style="">
-                                                    <td><a href="{{route('getpublicuserview', $result->username)}}">{{ucwords($result->firstname) . ' ' . ucwords($result->lastname)}}</a></td>
-
-
-                                                    @if ($event->eventtype == 1)
-                                                        <td class="alignCenter">{!! number_format($result->avg_total_score, 2) !!}</td>
-                                                        <td class="alignCenter">{{$result->top10scores ?? 0}}</td>
-                                                        <td class="alignCenter">{{$result->totalpoints ?? 0}}</td>
-                                                    @endif
-                                                </tr>
-                                            @endforeach
-
-                                        </tbody>
-
-                                    </table>
-                                @endforeach
-
                             @else
 
                                 @foreach($results as $divisionaname => $divisionresults)
@@ -129,29 +105,14 @@
                                                 <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">10+X</th>
                                                 <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">X</th>
 
-                                                @if ($event->eventtype == 1)
-                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Average</th>
-                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Handicap</th>
-                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Points</th>
-                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Total Points</th>
-                                                @endif
                                             </tr>
                                         </thead>
 
                                         <tbody>
                                             @foreach($divisionresults as $result)
-                                            @php
-                                                $colour = '';
-                                                if (($result->weekpoints ?? -1) == 10) {
-                                                    $colour = '#ffdc96';
-                                                } else if (($result->weekpoints ?? -1) == 9) {
-                                                    $colour = '#d6d5d4';
-                                                } else if (($result->weekpoints ?? -1) == 8){
-                                                    $colour = '#e2cabc';
-                                                }
-                                            @endphp
-                                            <tr style="background: {{$colour}}">
-                                                <td><a href="{{route('getpublicuserview', $result->username)}}">{{ucwords($result->firstname) . ' ' . ucwords($result->lastname)}}</a></td>
+
+                                            <tr>
+                                                <td><a href="{{route('getpublicuserview', $result->username)}}">{{ucwords($result->fullname)}}</a></td>
 
                                                 @if (isset($resultdistances['Distance-1']))
                                                     <td class="alignCenter">{{$result->distance1_total}}</td>
@@ -174,12 +135,6 @@
                                                 <td class="alignCenter">{{$result->total_10}}</td>
                                                 <td class="alignCenter">{{$result->total_x}}</td>
 
-                                                @if ($event->eventtype == 1)
-                                                    <td class="alignCenter">{!! number_format($result->avg_total_score, 2) !!}</td>
-                                                    <td class="alignCenter">{!! number_format($result->handicapscore ?? 0, 2) !!}</td>
-                                                    <td class="alignCenter">{{$result->weekpoints ?? 0}}</td>
-                                                    <td class="alignCenter">{{$result->totalpoints ?? 0}}</td>
-                                                @endif
                                             </tr>
                                         @endforeach
                                         </tbody>
