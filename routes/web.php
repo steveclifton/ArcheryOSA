@@ -49,7 +49,7 @@ Route::middleware(['web'])->group(function() {
 
         Route::get('/scoring/{eventname}/{eventid}', 'ScoringController@getScoringChoiceView')->name('getscoringview');
 
-        Route::get('/scoring/{eventroundid}/{eventid}/{eventname}', 'ScoringController@getScoringView')->name('getenterscoreview');
+        //Route::get('/scoring/{eventroundid}/{eventid}/{eventname}', 'ScoringController@getScoringView')->name('getenterscoreview');
         Route::post('/scoring/{eventroundid}/{eventid}/{currentweek}', 'ScoringController@enterScores')->name('enterscores');
         Route::post('/scoring/eventscoring/{eventid}', 'ScoringController@enterEventScores')->name('entereventscores');
 
