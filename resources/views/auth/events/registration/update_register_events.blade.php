@@ -128,7 +128,7 @@
                                 <div class="col-md-6">
                                     <input class="form-check-input" type="radio" name="gender" value="M" {!! $eventregistration->first()->gender == 'M' ? 'checked' : '' !!}>
                                     <label class="form-check-label" style="margin-left: 10px">Mens</label><br>
-                                    <input class="form-check-input" type="radio" name="gender" value="W" {!! $eventregistration->first()->gender == 'W' ? 'checked' : '' !!}>
+                                    <input class="form-check-input" type="radio" name="gender" value="F" {!! $eventregistration->first()->gender == 'F' ? 'checked' : '' !!}>
                                     <label class="form-check-label" style="margin-left: 10px">Womens</label>
                                 </div>
                             @endif
