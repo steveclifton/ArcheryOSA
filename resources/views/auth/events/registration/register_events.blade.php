@@ -133,7 +133,7 @@
                                 <div class="col-md-6">
                                     <input class="form-check-input" type="radio" name="gender" value="M">
                                     <label class="form-check-label" style="margin-left: 10px">Mens</label><br>
-                                    <input class="form-check-input" type="radio" name="gender" value="W">
+                                    <input class="form-check-input" type="radio" name="gender" value="F">
                                     <label class="form-check-label" style="margin-left: 10px">Womens</label>
 
                                 </div>
