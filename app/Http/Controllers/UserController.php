@@ -93,9 +93,12 @@ class UserController extends Controller
         $results = DB::select("SELECT us.*, lp.`points` as weekspoints
             FROM `userscores` us
             LEFT JOIN `leaguepoints` lp ON (us.`user_id` = lp.`userid` AND us.`week` = lp.`week` AND us.`divisionid` = lp.`divisionid` AND us.`eventid` = lp.`eventid`)
-            WHERE `user_id` = :userid   
+            WHERE us.`user_id` = :userid   
+            
             ORDER BY `created_at` DESC
         ", ['userid' => $user->userid]);
+
+//        dd($results);
 
         $resultssorted = [];
         $leagueresultoverall = [];

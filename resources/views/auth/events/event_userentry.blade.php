@@ -17,7 +17,7 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">User Entry
-                    <a href="{{URL::previous()}}">
+                    <a href="{!! route('updateeventview', $event->eventid) !!}">
                         <button type="submit" class="btn btn-default pull-right" id="addevent">
                             <i class="fa fa-backward" > Back</i>
                         </button>
@@ -78,6 +78,17 @@
                                 @foreach($userdetails->rounds as $r)
                                     {{$r->name}} <br>
                                 @endforeach
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Confirmation Email</th>
+                            <td>
+                                @if (!empty($hasemail) )
+                                    <a href="?a=send" class="btn btn-danger">Send Again</a>
+                                @else
+                                    <a href="?a=send" class="btn btn-warning">Send</a>
+                                @endif
                             </td>
                         </tr>
                         </tbody>

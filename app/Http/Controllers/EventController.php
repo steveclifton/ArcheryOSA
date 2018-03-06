@@ -230,9 +230,12 @@ class EventController extends Controller
 
     public function getUserEntryDetails(Request $request)
     {
+
+
         $userdetails = new \stdClass;
 
         $user = EventEntry::where('hash', $request->entryhash)->get()->first();
+        $event = Event::where('eventid', $user->eventid)->get()->first();
         $user = EventEntry::where('userid', $user->userid)->where('eventid', $user->eventid)->get();
 
         $userdetails->club = Club::where('clubid', $user->first()->clubid)->pluck('name')->first();
@@ -243,16 +246,29 @@ class EventController extends Controller
             $userdetails->entrystatus = 'Paid';
         } else {
             $userdetails->entrystatus = 'NA';
-
         }
 
         foreach ($user as $u) {
             $userdetails->rounds[] = EventRound::where('eventroundid', $u->eventroundid)->get()->first();
         }
 
-//        dd($userdetails);
+        if (!empty($request->a)) {
+            $this->touchurl('sendconfirmationemail/' . $user->first()->userid . '/' . $user->first()->evententryid . '/' . $user->first()->hash);
+            foreach ($user as $u) {
+                $u->confirmationemail = 1;
+                $u->save();
+            }
+        }
 
-        return view('auth.events.event_userentry', compact('user', 'userdetails'));
+        $hasemail = false;
+        foreach ($user as $u) {
+            if ($u->confirmationemail == 1) {
+                $hasemail = true;
+            }
+        }
+
+
+        return view('auth.events.event_userentry', compact('user', 'userdetails', 'hasemail', 'event'));
 
     }
 
