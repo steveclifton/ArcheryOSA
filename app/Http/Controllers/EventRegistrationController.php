@@ -67,6 +67,7 @@ class EventRegistrationController extends Controller
 
 
 
+
         if (is_null($eventregistration)) {
             return Redirect::route('eventdetails', urlencode($request->name))->with('failure', 'Unable to find registration, please contact ArcheryOSA Admin');
         }
@@ -225,12 +226,12 @@ class EventRegistrationController extends Controller
         } else if ($event->multipledivisions == 0) {
             // Single entry comp
             $this->singleEntryUpdate($request);
-            return Redirect::route('eventdetails', ['name' => $request->eventname])->with('message', 'Update Successful');
+            return redirect()->back()->withInput()->with('message', 'Update Successful');
 
         } else {
             // Multiple entry comp
             $this->multipleEntryUpdate($request);
-            return Redirect::route('eventdetails', ['name' => $request->eventname])->with('message', 'Update Successful');
+            return redirect()->back()->withInput()->with('message', 'Update Successful');
 
         }
 
@@ -281,12 +282,15 @@ class EventRegistrationController extends Controller
 
     private function singleEntryUpdate($request)
     {
+
         // get all the rounds, if any is missing , delete it
-        $userentry = EventEntry::where('userid', Auth::id())
+        $userentry = EventEntry::where('userid', $request->userid)
             ->where('eventid', $request->eventid)
             ->get();
 
-        if (is_null($userentry)) {
+
+
+        if (empty($userentry)) {
             return false;
         } else {
 
@@ -304,10 +308,12 @@ class EventRegistrationController extends Controller
 
 
 
+
             // add those that need to be added
             foreach (array_diff($newroundids, $existingroundids) as $add) {
                 $this->createEntry($request, $add);
             }
+
 
             // remove those that need to be deleted
             foreach(array_diff($existingroundids, $newroundids) as $delete) {
@@ -318,7 +324,6 @@ class EventRegistrationController extends Controller
 
             // need to find rounds that have been unticked - IE removed
             foreach ($userentry as $entry) {
-
                 // update anything that is needed
                 $entry->fullname = htmlentities($request->input('name'));
                 $entry->clubid = htmlentities($request->input('clubid'));
@@ -329,9 +334,9 @@ class EventRegistrationController extends Controller
                 $entry->phone = htmlentities($request->input('phone'));
                 $entry->address = htmlentities($request->input('address'));
                 $entry->notes = html_entity_decode($request->input('notes'));
-
                 $entry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
                 $entry->fullname = htmlentities($request->input('name'));
+
                 $entry->save();
             }
         }
@@ -421,7 +426,7 @@ class EventRegistrationController extends Controller
 
         $evententry = new EventEntry();
         $evententry->fullname = html_entity_decode($request->input('name'));
-        $evententry->userid = Auth::id();
+        $evententry->userid = html_entity_decode($request->input('userid'));
         $evententry->clubid = html_entity_decode($request->input('clubid'));
         $evententry->email = html_entity_decode($request->input('email'));
         $evententry->divisionid = html_entity_decode($request->input('divisions'));
