@@ -266,9 +266,26 @@ class EventController extends Controller
                 $hasemail = true;
             }
         }
+        $clubs = Club::where('organisationid', $event->organisationid)->get();
+        $divArr = unserialize($event->divisions);
+        $divisions = Division::whereIn('divisionid', $divArr)->orderBy('name', 'asc')->get(); // collection array of divisions
+        $eventrounds = EventRound::where('eventid', $event->eventid)->get();
+
+        $userdivisions = [];
+        $usereventrounds = [];
+        foreach ($user as $u) {
+            $userdivisions[] = $u->divisionid;
+            $usereventrounds[] = $u->eventroundid;
+        }
+        $organisationname = Organisation::where('organisationid', $event->organisationid)->pluck('name')->first();
+
+        if (is_null($organisationname)) {
+            $organisationname = '';
+        }
 
 
-        return view('auth.events.event_userentry', compact('user', 'userdetails', 'hasemail', 'event'));
+
+        return view('auth.events.event_userentry', compact('user', 'userdetails', 'hasemail', 'event', 'clubs', 'divisions', 'userdivisions', 'usereventrounds', 'eventrounds', 'organisationname'));
 
     }
 
