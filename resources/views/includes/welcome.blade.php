@@ -48,6 +48,7 @@
                                             <td>{{date('d/m/Y', strtotime($event->startdate))}}</td>
 
                                             <?php
+                                            $colour = '';
                                             switch ($event->eventstatus) :
 
                                                 case 'open' :
@@ -144,6 +145,7 @@
                                 <td><?= !empty($event->closeentry) ? date('d-m-Y', strtotime($event->closeentry)) : ''  ?></td>
                                 <td>{{date('d-m-Y', strtotime($event->startdate)) }}</td>
                                 <?php
+                                $colour = '';
                                     switch ($event->status) :
                                         case 'open' :
                                             $colour = 'limegreen';
@@ -154,8 +156,8 @@
                                         case 'completed' :
                                             $colour = 'red';
                                             break;
-                                        case 'closed' :
-                                            $colour = 'grey';
+                                        case 'entries-closed' :
+                                            $colour = 'red';
                                             break;
                                         case 'waitlist' :
                                             $colour = 'orange';
