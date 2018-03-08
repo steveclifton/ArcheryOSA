@@ -29,6 +29,7 @@
 
                     <form class="form-horizontal" method="POST" action="{{ route('updateeventregistration', ['eventid' => $event->eventid, 'eventname' => urlencode($event->name)]) }}" >
                         {{ csrf_field() }}
+                        <input type="hidden" name="userid" value="{!! $eventregistration->first()->userid ?? old('userid') !!}" >
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label  class="col-md-4 control-label">Name</label>
