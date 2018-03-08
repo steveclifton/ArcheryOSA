@@ -15,7 +15,7 @@ class HomeController extends Controller
     {
         $events = DB::select("SELECT *
                         FROM `events`
-                        WHERE `status` IN ('open', 'waitlist', 'pending')
+                        WHERE `status` IN ('open', 'waitlist', 'pending', 'entries-closed')
                         AND `visible` = 1
                         ORDER BY `startdate` DESC
                         ");
@@ -25,8 +25,10 @@ class HomeController extends Controller
                         LEFT JOIN `events` e USING (`eventid`)
                         LEFT JOIN `entrystatuses` es ON (ee.`entrystatusid` = es.`entrystatusid`)
                         WHERE ee.`userid` = '" . Auth::id(). "'
+                        AND e.`status` NOT IN ('completed')
                         GROUP BY e.`eventid`
                         ");
+
 
         return view ('includes.welcome', compact('events', 'userevents'));
     }
