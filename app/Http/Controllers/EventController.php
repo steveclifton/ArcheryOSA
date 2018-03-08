@@ -39,7 +39,10 @@ class EventController extends Controller
 {
     public function PUBLIC_getAllUpcomingEventsView()
     {
-        $events = Event::whereIn( 'status', ['open', 'waitlist', 'pending', 'in-progress'] )->where('visible', 1)->orderBy('startdate')->get();
+        $events = Event::whereIn( 'status', ['open', 'waitlist', 'pending', 'in-progress', 'entries-closed'] )
+            ->where('visible', 1)
+            ->orderBy('startdate')
+            ->get();
 
         return view('publicevents.upcomingevents', compact('events'));
     }
