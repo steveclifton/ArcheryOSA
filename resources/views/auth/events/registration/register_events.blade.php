@@ -170,7 +170,7 @@
                             <label for="name" class="col-md-4 control-label">{{$organisationname}} Membership Code</label>
 
                             <div class="col-md-6">
-                                <input id="membershipcode" type="text" class="form-control" name="membershipcode" value="{{$userorgid}}" required autofocus>
+                                <input id="membershipcode" type="text" class="form-control" name="membershipcode" value="{{$userorgid}}">
 
                                 @if ($errors->has('membershipcode'))
                                     <span class="help-block">

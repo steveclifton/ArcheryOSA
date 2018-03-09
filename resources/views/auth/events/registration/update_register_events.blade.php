@@ -168,7 +168,7 @@
                             <label for="name" class="col-md-4 control-label">{{$organisationname}} Membership Code</label>
 
                             <div class="col-md-6">
-                                <input id="membershipcode" type="text" class="form-control" name="membershipcode" value="{{ $eventregistration->first()->membershipcode }}" required autofocus>
+                                <input id="membershipcode" type="text" class="form-control" name="membershipcode" value="{{ $eventregistration->first()->membershipcode }}" >
 
                                 @if ($errors->has('membershipcode'))
                                     <span class="help-block">

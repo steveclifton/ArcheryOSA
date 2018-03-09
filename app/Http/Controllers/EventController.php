@@ -399,7 +399,7 @@ class EventController extends Controller
         $event->bankreference = htmlentities($request->input('bankreference'));
         $event->divisions = serialize($request->input('divisions'));
         $event->schedule = htmlentities($request->input('schedule'));
-        $event->information = htmlentities($request->input('information'));
+        $event->information = html_entity_decode($request->input('information'));
         $event->scoringenabled = $scoringenabled;
         $event->userscanscore = $userscanscore;
         $event->sponsored = $sponsored;
@@ -548,7 +548,7 @@ class EventController extends Controller
             $event->bankaccount = htmlentities($request->input('bankaccount'));
             $event->bankreference = htmlentities($request->input('bankreference'));
             $event->schedule = htmlentities(trim($request->input('schedule')));
-            $event->information = htmlentities(trim($request->input('information')));
+            $event->information = html_entity_decode(trim($request->input('information')));
             $event->scoringenabled = $scoringenabled;
             $event->userscanscore = $userscanscore;
             $event->sponsored = $sponsored;
