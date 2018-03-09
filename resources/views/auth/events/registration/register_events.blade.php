@@ -126,21 +126,20 @@
                             </div>
                         @endif
 
-
+                        @if ($event->ignoregenders == 0)
                         <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="gender">
-                            @if ($event->eventtype == 0)
+
                                 <label for="gender" class="col-md-4 control-label">Gender</label>
                                 <div class="col-md-6">
                                     <input class="form-check-input" type="radio" name="gender" value="M">
                                     <label class="form-check-label" style="margin-left: 10px">Mens</label><br>
                                     <input class="form-check-input" type="radio" name="gender" value="F">
                                     <label class="form-check-label" style="margin-left: 10px">Womens</label>
-
                                 </div>
-                            @endif
+
                         </div>
 
-
+                        @endif
 
                         <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="Rounds">
 
