@@ -142,6 +142,13 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Ignore Genders</label>
+                            <div class="col-md-6">
+                                <input type="checkbox" name="ignoregenders" style="margin-top: 10px">
+                            </div>
+                        </div>
+
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Name*</label>
@@ -262,7 +269,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('bankreference') ? ' has-error' : '' }}">
-                            <label for="bankreference" class="col-md-4 control-label">Bank Account*</label>
+                            <label for="bankreference" class="col-md-4 control-label">Bank Reference*</label>
                             <div class="col-md-6">
                                 <input id="bankreference" type="text" class="form-control" name="bankreference" value="{{ old('bankreference') }}" required autofocus>
                                 @if ($errors->has('bankreference'))
