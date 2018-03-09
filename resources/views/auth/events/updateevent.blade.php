@@ -238,6 +238,23 @@
                             </div>
                         </div>
 
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Ignore Genders</label>
+                            <div class="col-md-6">
+                                @if (!empty($event))
+                                    <?php
+                                    $status='';
+                                    if ($event->first()->ignoregenders == 1) {
+                                        $status = 'checked';
+                                    }
+                                    ?>
+                                    <input style="margin-top: 10px" type="checkbox" name="ignoregenders" {{$status}}>
+                                @endif
+                            </div>
+                        </div>
+
+
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Name*</label>
 
