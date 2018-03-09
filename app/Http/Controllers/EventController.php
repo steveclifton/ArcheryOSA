@@ -170,7 +170,12 @@ class EventController extends Controller
 
     public function getEventsView()
     {
-        $events = Event::orderBy('eventid', 'desc')->get();
+        if (Auth::user()->usertype == 1) {
+            $events = Event::orderBy('eventid', 'desc')->get();
+        }
+        else {
+            $events = Event::where('createdby', Auth::user()->userid)->orderBy('eventid', 'desc')->get();
+        }
 
         return view('auth.events.events', compact('events'));
     }
@@ -343,6 +348,11 @@ class EventController extends Controller
             $sponsored = 1;
         }
 
+        $ignoregender = 0;
+        if (!empty($request->input('ignoregenders'))) {
+            $ignoregender = 1;
+        }
+
 
         $event = new Event();
 
@@ -395,6 +405,7 @@ class EventController extends Controller
         $event->sponsored = $sponsored;
         $event->sponsortext = htmlentities($request->input('sponsortext'));
         $event->sponsorimageurl = htmlentities($request->input('sponsorimageurl'));
+        $event->ignoregenders = $ignoregender;
 
         $event->visible = $visible;
         $event->save();
@@ -479,6 +490,11 @@ class EventController extends Controller
                 $sponsored = 1;
             }
 
+            $ignoregender = 0;
+            if (!empty($request->input('ignoregenders'))) {
+                $ignoregender = 1;
+            }
+
             if ($request->hasFile('dtimage')) {
                 //clean up old image
                 if (empty($event->dtimage) !== true) {
@@ -539,7 +555,7 @@ class EventController extends Controller
             $event->sponsortext = htmlentities($request->input('sponsortext'));
             $event->sponsorimageurl = htmlentities($request->input('sponsorimageurl'));
             $event->hash = md5($request->input('name') . time());
-
+            $event->ignoregenders = $ignoregender;
             $event->currentweek = htmlentities($request->input('currentweek')) ?? 1;
 
             $event->visible = $visible;
