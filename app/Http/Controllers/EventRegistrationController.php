@@ -36,7 +36,7 @@ class EventRegistrationController extends Controller
         $divisions = Division::whereIn('divisionid', $divArr)->orderBy('name', 'asc')->get(); // collection array of divisions
 //        dd($divisions);
 
-        $clubs = Club::where('organisationid', $event->organisationid)->get();
+        $clubs = Club::orderby('name')->get();
 
         $organisationids = DB::select("SELECT `membershipcode`
                                             FROM `usermemberships`
@@ -89,7 +89,7 @@ class EventRegistrationController extends Controller
 
         $divArr = unserialize($event->divisions);
         $divisions = Division::whereIn('divisionid', $divArr)->orderBy('name', 'asc')->get(); // collection array of divisions
-        $clubs = Club::where('organisationid', $event->organisationid)->get();
+        $clubs = Club::orderby('name')->get();
 
         $organisationname = Organisation::where('organisationid', $event->organisationid)->pluck('name')->first();
 
