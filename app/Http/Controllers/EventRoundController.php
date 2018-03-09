@@ -32,13 +32,12 @@ class EventRoundController extends Controller
     {
         $rounds = Round::where('visible', 1)->get();
         $divisions = Division::where('visible', 1)->orderBy('organisationid')->get();
-        $organisations = Organisation::where('visible', 1)->get();
         $event = Event::where('eventid', $eventid)->get()->first();
 
         $daterange = new EventDateRange($event->startdate, $event->enddate);
 
 
-        return view('auth.events.createeventround', compact('eventid', 'event', 'rounds', 'divisions', 'organisations', 'daterange'));
+        return view('auth.events.createeventround', compact('eventid', 'event', 'rounds', 'divisions', 'daterange'));
     }
 
     public function getUpdateRoundEventView(Request $request)
@@ -76,16 +75,10 @@ class EventRoundController extends Controller
             'roundid.required' => 'Please select a round',
         ]);
 
-        $eventid = Event::where('eventid', $request->input('eventid'))->pluck('organisationid')->first();
-
-        if (!$eventid) {
-            return redirect()->back()->with('failure', 'Invalid Request');
-        }
 
         $eventround->name = htmlentities($request->input('name'));
         $eventround->eventid = htmlentities($request->input('eventid'));
         $eventround->location = htmlentities($request->input('location'));
-        $eventround->organisationid = $eventid;
         $eventround->roundid = htmlentities($request->input('roundid'));
         $eventround->schedule = htmlentities($request->input('schedule'));
         $eventround->date = htmlentities($request->input('date'));
@@ -113,17 +106,11 @@ class EventRoundController extends Controller
             'date' => 'required'
         ]);
 
-        $eventid = Event::where('eventid', $request->input('eventid'))->pluck('organisationid')->first();
-
-        if (empty($eventid)) {
-            return redirect()->back()->with('failure', 'Invalid Request');
-        }
 
         if ($request->eventroundid == $eventround->eventroundid) {
 
             $eventround->name = htmlentities($request->input('name'));
             $eventround->location = htmlentities($request->input('location'));
-            $eventround->organisationid = $eventid;
             $eventround->roundid = htmlentities($request->input('roundid'));
             $eventround->schedule = htmlentities($request->input('schedule'));
             $eventround->date = htmlentities($request->input('date'));
