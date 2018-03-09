@@ -29,7 +29,14 @@ class HomeController extends Controller
                         GROUP BY e.`eventid`
                         ");
 
+        $prevevents = DB::select("SELECT *
+                        FROM `events`
+                        WHERE `deleted` = 0
+                        AND `status` IN ('completed')
+                        AND `visible` = 1
+                        ORDER BY `startdate` DESC
+                        ");
 
-        return view ('includes.welcome', compact('events', 'userevents'));
+        return view ('includes.welcome', compact('events', 'userevents', 'prevevents'));
     }
 }
