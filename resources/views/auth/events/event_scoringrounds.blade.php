@@ -60,7 +60,9 @@
                 </div>
                 <div class="box-body">
                     Please enter only the scores that you wish to be submitted. Leave ALL other fields blank.<br>
-                    Hits, 10s and Xs are used to decide winners in the event of a tie. You are encouraged to enter these if scored.
+                    Hits, 10s and Xs are used to decide winners in the event of a tie. You are encouraged to enter these if scored.<br>
+                    Leave the fields blank to ignore scores
+
                 </div>
                 <hr>
                 <div class="box-body">
@@ -114,36 +116,37 @@
                                                     <td>
                                                         <input type="text" class="form-control distance" name="distance1[{{$u->evententryid}}][total]" data-formtype="1" data-userrow1="{!! md5($u->evententryid . $u->divisionname) !!}" value="{{ old("distance1.$u->evententryid.total") ?? $u->result->distance1_total ?? '' }}">
                                                         <span class="label label-warning addmoredetails" data-row="{{$u->evententryid}}-1">Add more details</span>
-                                                        <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$u->evententryid}}-1" name="distance1[{{$u->evententryid}}][hits]" value="{{ old("distance1.$u->evententryid.hits") ?? $u->result->distance1_hits ?? '' }}">
-                                                        <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$u->evententryid}}-1" name="distance1[{{$u->evententryid}}][10]" value="{{ old("distance1.$u->evententryid.10") ?? $u->result->distance1_10 ?? '' }}">
-                                                        <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$u->evententryid}}-1" name="distance1[{{$u->evententryid}}][x]" value="{{ old("distance1.$u->evententryid.x") ?? $u->result->distance1_x ?? '' }}">
+
+                                                        <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$u->evententryid}}-1" name="distance1[{{$u->evententryid}}][hits]" value="{!!  old("distance1.$u->evententryid.hits") ?? !empty($u->result->distance1_hits) ? $u->result->distance1_hits : '' !!}">
+                                                        <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$u->evententryid}}-1" name="distance1[{{$u->evententryid}}][10]" value="{!! old("distance1.$u->evententryid.10") ?? !empty($u->result->distance1_10) ? $u->result->distance1_10 : ''  !!}">
+                                                        <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$u->evententryid}}-1" name="distance1[{{$u->evententryid}}][x]" value="{!! old("distance1.$u->evententryid.x") ?? !empty($u->result->distance1_x) ? $u->result->distance1_x : ''  !!}">
                                                     </td>
                                                 @endif
                                                 @if (!empty($user[0]->eventroundobj->dist2))
                                                     <td>
                                                         <input type="text" class="form-control distance" name="distance2[{{$u->evententryid}}][total]" data-formtype="1" data-userrow1="{!! md5($u->evententryid . $u->divisionname) !!}" value="{{ old("distance2.$u->evententryid.total") ?? $u->result->distance2_total ?? '' }}">
                                                         <span class="label label-warning addmoredetails" data-row="{{$u->evententryid}}-2">Add more details</span>
-                                                        <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$u->evententryid}}-2" name="distance2[{{$u->evententryid}}][hits]" value="{{ old("distance2.$u->evententryid.hits") ?? $u->result->distance2_hits  ?? ''}}">
-                                                        <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$u->evententryid}}-2" name="distance2[{{$u->evententryid}}][10]" value="{{ old("distance2.$u->evententryid.10") ?? $u->result->distance2_10 ?? '' }}">
-                                                        <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$u->evententryid}}-2" name="distance2[{{$u->evententryid}}][x]" value="{{ old("distance2.$u->evententryid.x") ?? $u->result->distance2_x ?? '' }}">
+                                                        <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$u->evententryid}}-2" name="distance2[{{$u->evententryid}}][hits]" value="{!!  old("distance2.$u->evententryid.hits") ?? !empty($u->result->distance2_hits) ? $u->result->distance2_hits : '' !!}">
+                                                        <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$u->evententryid}}-2" name="distance2[{{$u->evententryid}}][10]" value="{!! old("distance2.$u->evententryid.10") ?? !empty($u->result->distance2_10) ? $u->result->distance2_10 : ''!!}">
+                                                        <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$u->evententryid}}-2" name="distance2[{{$u->evententryid}}][x]" value="{!! old("distance2.$u->evententryid.x") ?? !empty($u->result->distance2_x) ? $u->result->distance2_x : '' !!}">
                                                     </td>
                                                 @endif
                                                 @if (!empty($user[0]->eventroundobj->dist3))
                                                     <td>
                                                         <input type="text" class="form-control distance" name="distance3[{{$u->evententryid}}][total]" data-formtype="1" data-userrow1="{!! md5($u->evententryid . $u->divisionname) !!}" value="{{ old("distance3.$u->evententryid.total") ?? $u->result->distance3_total ?? '' }}">
                                                         <span class="label label-warning addmoredetails" data-row="{{$u->evententryid}}-3">Add more details</span>
-                                                        <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$u->evententryid}}-3" name="distance3[{{$u->evententryid}}][hits]" value="{{ old("distance3.$u->evententryid.hits") ?? $u->result->distance3_hits ?? '' }}">
-                                                        <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$u->evententryid}}-3" name="distance3[{{$u->evententryid}}][10]" value="{{ old("distance3.$u->evententryid.10") ?? $u->result->distance3_10 ?? '' }}">
-                                                        <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$u->evententryid}}-3" name="distance3[{{$u->evententryid}}][x]" value="{{ old("distance3.$u->evententryid.x") ?? $u->result->distance3_x ?? '' }}">
+                                                        <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$u->evententryid}}-3" name="distance3[{{$u->evententryid}}][hits]" value="{!! old("distance3.$u->evententryid.hits") ?? !empty($u->result->distance3_hits) ? $u->result->distance3_hits : ''!!}">
+                                                        <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$u->evententryid}}-3" name="distance3[{{$u->evententryid}}][10]" value="{!! old("distance3.$u->evententryid.10") ?? !empty($u->result->distance3_10) ? $u->result->distance3_10 : '' !!}">
+                                                        <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$u->evententryid}}-3" name="distance3[{{$u->evententryid}}][x]" value="{!! old("distance3.$u->evententryid.x") ?? !empty($u->result->distance3_x) ? $u->result->distance3_x : '' !!}">
                                                     </td>
                                                 @endif
                                                 @if (!empty($user[0]->eventroundobj->dist4))
                                                     <td>
                                                         <input type="text" class="form-control distance" name="distance4[{{$u->evententryid}}][total]" data-formtype="1" data-userrow1="{!! md5($u->evententryid . $u->divisionname) !!}" value="{{ old("distance4.$u->evententryid.total") ?? $u->result->distance4_total ?? '' }}">
                                                         <span class="label label-warning addmoredetails" data-row="{{$u->evententryid}}-4">Add more details</span>
-                                                        <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$u->evententryid}}-4" name="distance4[{{$u->evententryid}}][hits]" value="{{ old("distance4.$u->evententryid.hits") ?? $u->result->distance4_hits ?? '' }}">
-                                                        <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$u->evententryid}}-4" name="distance4[{{$u->evententryid}}][10]" value="{{ old("distance4.$u->evententryid.10") ?? $u->result->distance4_10 ?? '' }}">
-                                                        <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$u->evententryid}}-4" name="distance4[{{$u->evententryid}}][x]" value="{{ old("distance4.$u->evententryid.x") ?? $u->result->distance4_x ?? '' }}">
+                                                        <input type="text" placeholder="Hits" class="form-control hidden" data-id="{{$u->evententryid}}-4" name="distance4[{{$u->evententryid}}][hits]" value="{!! old("distance4.$u->evententryid.hits") ?? !empty($u->result->distance4_hits) ? $u->result->distance4_hits : '' !!}">
+                                                        <input type="text" placeholder="10s" class="form-control hidden" data-id="{{$u->evententryid}}-4" name="distance4[{{$u->evententryid}}][10]" value="{!! old("distance4.$u->evententryid.10") ?? !empty($u->result->distance4_10) ? $u->result->distance4_10 : '' !!}">
+                                                        <input type="text" placeholder="Xs" class="form-control hidden" data-id="{{$u->evententryid}}-4" name="distance4[{{$u->evententryid}}][x]" value="{!! old("distance4.$u->evententryid.x") ?? !empty($u->result->distance4_x) ? $u->result->distance4_x  : '' !!}">
                                                     </td>
                                                 @endif
 
