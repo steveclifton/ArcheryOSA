@@ -84,19 +84,19 @@
                                                 <th class="col-md-2 col-xs-2 col-sm-2">Archer</th>
 
                                                 @if (isset($resultdistances['Distance-1']))
-                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >{!! $resultdistances['Distance-1'] . $resultdistances['Distance-1-unit']!!}
+                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >{!! $divisionresults[0]->distance1_label . $divisionresults[0]->distanceunit!!}
                                                     </th>
                                                 @endif
                                                 @if (isset($resultdistances['Distance-2']))
-                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >{!! $resultdistances['Distance-2'] . $resultdistances['Distance-2-unit']!!}
+                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >{!! $divisionresults[0]->distance2_label . $divisionresults[0]->distanceunit!!}
                                                     </th>
                                                 @endif
                                                 @if (isset($resultdistances['Distance-3']))
-                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >{!! $resultdistances['Distance-3'] . $resultdistances['Distance-3-unit']!!}
+                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >{!! $divisionresults[0]->distance3_label . $divisionresults[0]->distanceunit!!}
                                                     </th>
                                                 @endif
                                                 @if (isset($resultdistances['Distance-4']))
-                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >{!! $resultdistances['Distance-4'] . $resultdistances['Distance-4-unit']!!}
+                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >{!! $divisionresults[0]->distance4_label . $divisionresults[0]->distanceunit!!}
                                                     </th>
                                                 @endif
 
