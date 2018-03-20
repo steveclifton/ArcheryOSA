@@ -144,16 +144,7 @@ class EventController extends Controller
 
 
         // show scoring tab or not
-        $canscore = false;
-        if ($event->scoringenabled) {
-            if (
-                ($userevententry->entrystatusid ?? 0) == 2
-                || Auth::id() == $event->createdby
-                || !empty(Auth::user()->usertype)
-                && Auth::user()->usertype == 1
-            )
-            $canscore = true;
-        }
+        $canscore = $this->canScore($event, $userevententry);
 
         return view ('publicevents.eventdetails', compact('event', 'canscore', 'eventrounds', 'distances', 'userevententry', 'users', 'results', 'resultdistances'));
     }
@@ -238,7 +229,6 @@ class EventController extends Controller
 
     public function getUserEntryDetails(Request $request)
     {
-
 
         $userdetails = new \stdClass;
 
@@ -380,31 +370,31 @@ class EventController extends Controller
             $event->mobimage = $filename;
         }
 
-        $event->name = htmlentities($request->input('name'));
-        $event->email = htmlentities($request->input('email'));
-        $event->contact = htmlentities($request->input('contact'));
-        $event->eventtype = htmlentities($request->input('eventtype'));
-        $event->status = htmlentities($request->input('status'));
-        $event->organisationid = htmlentities($request->input('organisationid'));
+        $event->name = $request->input('name');
+        $event->email = $request->input('email');
+        $event->contact = $request->input('contact');
+        $event->eventtype = $request->input('eventtype');
+        $event->status = $request->input('status');
+        $event->organisationid = $request->input('organisationid');
         $event->createdby = Auth::user()->userid; // set the created by as the person who is logged in
-        $event->startdate = htmlentities($startdate);
-        $event->enddate = htmlentities($enddate);
-        $event->closeentry = htmlentities($closeentry);
-        $event->daycount = htmlentities($dayCount);
-        $event->hostclub = htmlentities($request->input('hostclub'));
-        $event->location = htmlentities($request->input('location'));
+        $event->startdate = $startdate;
+        $event->enddate = $enddate;
+        $event->closeentry = $closeentry;
+        $event->daycount = $dayCount;
+        $event->hostclub = $request->input('hostclub');
+        $event->location = $request->input('location');
         $event->multipledivisions = $multipledivisions;
-        $event->cost = htmlentities($request->input('cost'));
-        $event->bankaccount = htmlentities($request->input('bankaccount'));
-        $event->bankreference = htmlentities($request->input('bankreference'));
+        $event->cost = $request->input('cost');
+        $event->bankaccount = $request->input('bankaccount');
+        $event->bankreference = $request->input('bankreference');
         $event->divisions = serialize($request->input('divisions'));
-        $event->schedule = htmlentities($request->input('schedule'));
-        $event->information = html_entity_decode($request->input('information'));
+        $event->schedule = $request->input('schedule');
+        $event->information = $request->input('information');
         $event->scoringenabled = $scoringenabled;
         $event->userscanscore = $userscanscore;
         $event->sponsored = $sponsored;
-        $event->sponsortext = htmlentities($request->input('sponsortext'));
-        $event->sponsorimageurl = htmlentities($request->input('sponsorimageurl'));
+        $event->sponsortext = $request->input('sponsortext');
+        $event->sponsorimageurl = $request->input('sponsorimageurl');
         $event->ignoregenders = $ignoregender;
 
         $event->visible = $visible;
@@ -530,33 +520,33 @@ class EventController extends Controller
             }
 
 
-            $event->name = htmlentities($request->input('name'));
-            $event->email = htmlentities($request->input('email'));
-            $event->contact = htmlentities($request->input('contact'));
-            $event->eventtype = htmlentities($request->input('eventtype'));
-            $event->closeentry = htmlentities($closeentry);
-            $event->status = htmlentities($request->input('status'));
-            $event->organisationid = htmlentities($request->input('organisationid'));
-            $event->startdate = htmlentities($startdate);
-            $event->enddate = htmlentities($enddate);
-            $event->daycount = htmlentities($dayCount);
-            $event->hostclub = htmlentities($request->input('hostclub'));
-            $event->location = htmlentities($request->input('location'));
-            $event->cost = htmlentities($request->input('cost'));
+            $event->name = $request->input('name');
+            $event->email = $request->input('email');
+            $event->contact = $request->input('contact');
+            $event->eventtype = $request->input('eventtype');
+            $event->closeentry = $closeentry;
+            $event->status = $request->input('status');
+            $event->organisationid = $request->input('organisationid');
+            $event->startdate = $startdate;
+            $event->enddate = $enddate;
+            $event->daycount = $dayCount;
+            $event->hostclub = $request->input('hostclub');
+            $event->location = $request->input('location');
+            $event->cost = $request->input('cost');
             $event->multipledivisions = $multipledivisions;
             $event->divisions = serialize($request->input('divisions'));
-            $event->bankaccount = htmlentities($request->input('bankaccount'));
-            $event->bankreference = htmlentities($request->input('bankreference'));
-            $event->schedule = htmlentities(trim($request->input('schedule')));
-            $event->information = html_entity_decode(trim($request->input('information')));
+            $event->bankaccount = $request->input('bankaccount');
+            $event->bankreference = $request->input('bankreference');
+            $event->schedule = trim($request->input('schedule'));
+            $event->information = trim($request->input('information'));
             $event->scoringenabled = $scoringenabled;
             $event->userscanscore = $userscanscore;
             $event->sponsored = $sponsored;
-            $event->sponsortext = htmlentities($request->input('sponsortext'));
-            $event->sponsorimageurl = htmlentities($request->input('sponsorimageurl'));
+            $event->sponsortext = $request->input('sponsortext');
+            $event->sponsorimageurl = $request->input('sponsorimageurl');
             $event->hash = md5($request->input('name') . time());
             $event->ignoregenders = $ignoregender;
-            $event->currentweek = htmlentities($request->input('currentweek')) ?? 1;
+            $event->currentweek = $request->input('currentweek') ?? 1;
 
             $event->visible = $visible;
             $event->save();
