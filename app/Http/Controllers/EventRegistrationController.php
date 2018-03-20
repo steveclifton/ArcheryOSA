@@ -218,6 +218,7 @@ class EventRegistrationController extends Controller
                         ->get()
                         ->first();
 
+
         if ($request->input('submit') == 'remove') {
             $this->deleteUserEntry($request);
             // Send email to confirm removing entry
@@ -226,13 +227,13 @@ class EventRegistrationController extends Controller
         } else if ($event->multipledivisions == 0) {
             // Single entry comp
             $this->singleEntryUpdate($request);
+
             return redirect()->back()->withInput()->with('message', 'Update Successful');
 
         } else {
             // Multiple entry comp
             $this->multipleEntryUpdate($request);
             return redirect()->back()->withInput()->with('message', 'Update Successful');
-
         }
 
     } // updateEventRegistration
@@ -288,18 +289,16 @@ class EventRegistrationController extends Controller
             ->where('eventid', $request->eventid)
             ->get();
 
-
-
         if (empty($userentry)) {
             return false;
         } else {
-
+            $hash = '';
             // These are rounds that are already in the database
             $existingroundids = [];
             foreach ($userentry as $entry) {
                 $existingroundids[$entry->eventroundid] = $entry->eventroundid;
+                $hash = $entry->hash;
             }
-
             // Create a new array that has the new ones
             $newroundids = [];
             foreach ($request->input('eventroundid') as $entryid) {
@@ -307,19 +306,14 @@ class EventRegistrationController extends Controller
             }
 
 
-
-
             // add those that need to be added
             foreach (array_diff($newroundids, $existingroundids) as $add) {
-                $this->createEntry($request, $add);
+                $this->createEntry($request, $add, $hash);
             }
-
-
             // remove those that need to be deleted
             foreach(array_diff($existingroundids, $newroundids) as $delete) {
-                $this->deleteUserEventRound($request->eventid, $delete);
+                $this->deleteUserEventRound($request->userid, $request->eventid, $delete);
             }
-
 
 
             // need to find rounds that have been unticked - IE removed
@@ -412,34 +406,36 @@ class EventRegistrationController extends Controller
 
     } // deleteUserEntry
 
-    private function deleteUserEventRound($eventid, $roundid)
+    private function deleteUserEventRound($userid, $eventid, $roundid)
     {
-        EventEntry::where('userid', Auth::id())
+
+        EventEntry::where('userid', $userid)
             ->where('eventid', $eventid)
             ->where('eventroundid', $roundid)
             ->delete();
+
     } // deleteUserEventRound
 
-    private function createEntry($request, $eventroundid)
+    private function createEntry($request, $eventroundid, $hash)
     {
 
 
         $evententry = new EventEntry();
-        $evententry->fullname = html_entity_decode($request->input('name'));
-        $evententry->userid = html_entity_decode($request->input('userid'));
-        $evententry->clubid = html_entity_decode($request->input('clubid'));
-        $evententry->email = html_entity_decode($request->input('email'));
-        $evententry->divisionid = html_entity_decode($request->input('divisions'));
-        $evententry->membershipcode = html_entity_decode($request->input('membershipcode'));
+        $evententry->fullname = $request->input('name');
+        $evententry->userid = $request->input('userid');
+        $evententry->clubid = $request->input('clubid');
+        $evententry->email = $request->input('email');
+        $evententry->divisionid = $request->input('divisions');
+        $evententry->membershipcode = $request->input('membershipcode');
         $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
-        $evententry->phone = html_entity_decode($request->input('phone'));
-        $evententry->address = html_entity_decode($request->input('address'));
-        $evententry->notes = html_entity_decode($request->input('notes'));
+        $evententry->phone = $request->input('phone');
+        $evententry->address = $request->input('address');
+        $evententry->notes = $request->input('notes');
         $evententry->entrystatusid = '1';
-        $evententry->eventid = html_entity_decode($request->eventid);
+        $evententry->eventid = $request->eventid;
         $evententry->eventroundid = $eventroundid;
         $evententry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
-        $evententry->hash = substr(md5(time()),0,10);
+        $evententry->hash = $hash;
         $evententry->save();
 
     } // createEntry
