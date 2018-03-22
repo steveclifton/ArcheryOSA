@@ -437,10 +437,10 @@ class ScoringController extends Controller
                 JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
                 WHERE s.`eventid` = :eventid
                 AND er.`date` = :date
+                
                 ", ['eventid' => $event->eventid, 'date' => $rounddate]
 
             );
-
 
             $resultssorted = [];
             foreach ($results as $result) {
@@ -449,12 +449,39 @@ class ScoringController extends Controller
                 } else {
                     $result->gender = 'Male';
                 }
-
                 $resultssorted[$result->roundname . ' '.$result->divisonname . " " . $result->gender][] = $result;
             }
-            //ksort($resultssorted);
+
+            foreach ($resultssorted as $key => &$result) {
+                usort($result, function ($a, $b) {
+
+                    // return 1 when B greater than A
+                    //dump($a, $b);
+                    if (intval($b->total_score) == intval($a->total_score)) {
+                        if (intval($b->total_hits) == intval($a->total_hits)) {
+                            if (intval($b->total_10) > intval($a->total_10)) {
+                                return 1;
+                            }
+                        }
+
+                        else if (intval($b->total_hits) > intval($a->total_hits)) {
+                            return 1;
+                        }
+                    }
+
+                    else if (intval($b->total_score) > intval($a->total_score)) {
+                        return 1;
+                    }
+
+                    return -1;
+
+                });
+            }
+
             $results = $resultssorted;
         }
+
+
 
         $eventrounds = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, er.`location`, e.`status`, er.`eventroundid`, r.`unit`
             FROM `eventrounds` er
@@ -482,6 +509,8 @@ class ScoringController extends Controller
 
 
         $canscore = $this->canScore($event, $userevententry);
+
+
 
         return view ('auth.events.event_results', compact('daterange','event', 'canscore', 'eventrounds', 'userevententry', 'users', 'results', 'resultdistances', 'userevententry'));
 
