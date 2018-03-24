@@ -35,4 +35,8 @@ class AdminUserController extends Controller
     {
         dd($request);
     }
+
+    public function test(Request $r) {
+        dd(phpinfo());
+    }
 }
