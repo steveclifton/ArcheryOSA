@@ -62,7 +62,7 @@
                             <label for="event" class="col-md-4 control-label">Round Code*</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="code" value="{{ old('code', $round->first()->code) }}" required autofocus>
+                                <input type="text" class="form-control" name="code" value="{{ old('code', $round->first()->code) }}" >
 
                                 @if ($errors->has('code'))
                                     <span class="help-block">
@@ -76,7 +76,7 @@
                             <label for="event" class="col-md-4 control-label">Description*</label>
 
                             <div class="col-md-6">
-                                <textarea class="form-control" name="description" required autofocus >{{ old('description', $round->first()->description) }}</textarea>
+                                <textarea class="form-control" name="description" >{{ old('description', $round->first()->description) }}</textarea>
 
                                 @if ($errors->has('description'))
                                     <span class="help-block">
@@ -99,7 +99,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('dist1') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Distance 1</label>
+                            <label for="event" class="col-md-4 control-label">Distance 1*</label>
 
                             <div class="col-md-2">
                                 <input type="text" class="form-control" name="dist1" value="{{ old('dist1', $round->first()->dist1) }}"  required autofocus>
@@ -253,19 +253,19 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('total10') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Max Total 10-Count*</label>
+                        {{--<div class="form-group{{ $errors->has('total10') ? ' has-error' : '' }}">--}}
+                            {{--<label for="event" class="col-md-4 control-label">Max Total 10 (6 for field) Count*</label>--}}
 
-                            <div class="col-md-2">
-                                <input type="text" class="form-control" name="total10" value="{{ old('total10', $round->first()->total10) }}" >
+                            {{--<div class="col-md-2">--}}
+                                {{--<input type="text" class="form-control" name="total10" value="{{ old('total10', $round->first()->total10) }}" >--}}
 
-                                @if ($errors->has('total10'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('total10') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+                                {{--@if ($errors->has('total10'))--}}
+                                    {{--<span class="help-block">--}}
+                                        {{--<strong>{{ $errors->first('total10') }}</strong>--}}
+                                    {{--</span>--}}
+                                {{--@endif--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
 
 
                         <div class="form-group">

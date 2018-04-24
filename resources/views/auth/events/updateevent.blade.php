@@ -87,13 +87,17 @@
                                             </tbody>
                                         </table>
 
+                                        <a href="{{route('adminaddarcher', [$event->first()->eventid, $event->first()->hash])}}" class="btn btn-info" role="button">Add Archer</a>
 
-                                        <a href="{{route('exportevententries', [$event->first()->eventid, $event->first()->hash])}}" class="btn btn-warning col-md-offset-10" role="button">Export</a>
+                                        <a href="{{route('exportevententries', [$event->first()->eventid, $event->first()->hash])}}" class="btn btn-warning col-md-offset-9" role="button">Export</a>
+
 
 
                                         <button type="submit" class="btn btn-success pull-right" value="update" name="update">
                                             Update
                                         </button>
+
+
                                     </form>
                                 </div>
                             </div>
@@ -422,22 +426,22 @@
                         <hr>
                             <h3>Setup</h3>
 
-                            {{--<div class="form-group{{ $errors->has('multipledivisions') ? ' has-error' : '' }}">--}}
-                                {{--<label for="bankaccount" class="col-md-4 control-label">Multiple Division Entries</label>--}}
-                                {{--<div class="col-md-6">--}}
+                            <div class="form-group{{ $errors->has('multipledivisions') ? ' has-error' : '' }}">
+                                <label for="bankaccount" class="col-md-4 control-label">Multiple Division Entries</label>
+                                <div class="col-md-6">
 
-                                    {{--@if (!empty($event))--}}
-                                        {{--@php--}}
-                                        {{--$multipledivisions='';--}}
-                                        {{--if ($event->first()->multipledivisions == 1) {--}}
-                                            {{--$multipledivisions = 'checked';--}}
-                                        {{--}--}}
-                                        {{--@endphp--}}
-                                        {{--<input style="margin-top: 10px" type="checkbox" name="multipledivisions" {{$multipledivisions}}>--}}
-                                    {{--@endif--}}
+                                    @if (!empty($event))
+                                        @php
+                                        $multipledivisions='';
+                                        if ($event->first()->multipledivisions == 1) {
+                                            $multipledivisions = 'checked';
+                                        }
+                                        @endphp
+                                        <input style="margin-top: 10px" type="checkbox" name="multipledivisions" {{$multipledivisions}}>
+                                    @endif
 
-                                {{--</div>--}}
-                            {{--</div>--}}
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Visible</label>

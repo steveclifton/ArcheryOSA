@@ -78,7 +78,7 @@
                             <label class="col-md-4 control-label">Email</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="text" class="form-control" name="email" value="{!! $user->first()->email ?? old('email') !!}" required autofocus>
+                                <input id="email" type="text" class="form-control" name="email" value="{!! $user->first()->email ?? old('email') !!}" >
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -96,7 +96,7 @@
                                 <label for="organisation" class="col-md-4 control-label">Division</label>
 
                                 <div class="col-md-6">
-                                    <select name="divisions" class="form-control" id="organisation" required>
+                                    <select name="divisions" class="form-control" id="organisation" >
                                         <option value="" disabled selected>Please select</option>
                                         @foreach ($divisions as $division)
                                             <option value="{{$division->divisionid}}" <?= (in_array($division->divisionid, $userdivisions)) ? 'selected' : '' ?>>{{$division->name}}</option>
@@ -172,7 +172,7 @@
                             <label for="name" class="col-md-4 control-label">{{$organisationname}} Membership Code</label>
 
                             <div class="col-md-6">
-                                <input id="membershipcode" type="text" class="form-control" name="membershipcode" value="{{ $user->first()->membershipcode }}" required autofocus>
+                                <input id="membershipcode" type="text" class="form-control" name="membershipcode" value="{{ $user->first()->membershipcode }}"  autofocus>
 
                                 @if ($errors->has('membershipcode'))
                                     <span class="help-block">
@@ -186,7 +186,7 @@
                             <label for="name" class="col-md-4 control-label">Phone</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control" name="phone" value="{!! $user->first()->phone ?? old('phone') !!}" required autofocus>
+                                <input id="phone" type="text" class="form-control" name="phone" value="{!! $user->first()->phone ?? old('phone') !!}"  autofocus>
 
                                 @if ($errors->has('phone'))
                                     <span class="help-block">

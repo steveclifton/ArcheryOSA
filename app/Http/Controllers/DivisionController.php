@@ -60,7 +60,6 @@ class DivisionController extends Controller
 
         $this->validate($request, [
             'name' => 'required|unique:divisions,name',
-            'code' => 'unique:divisions,code'
         ]);
 
         $visible = 0;
@@ -95,7 +94,6 @@ class DivisionController extends Controller
 
         $this->validate($request, [
             'name' => 'required|unique:divisions,name,'. $request->divisionid. ',divisionid',
-            'code' => 'required|unique:divisions,code,'.$division->code.',code',
         ]);
 
         if ($request->divisionid == $division->divisionid) {

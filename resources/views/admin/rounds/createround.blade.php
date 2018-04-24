@@ -58,7 +58,7 @@
                             <label for="event" class="col-md-4 control-label">Round Code*</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="code" required autofocus value="{{ old('code')}}">
+                                <input type="text" class="form-control" name="code"  value="{{ old('code')}}">
 
                                 @if ($errors->has('code'))
                                     <span class="help-block">
@@ -72,7 +72,7 @@
                             <label for="event" class="col-md-4 control-label">Description*</label>
 
                             <div class="col-md-6">
-                                <textarea class="form-control" name="description" required autofocus >{{ old('description')}}</textarea>
+                                <textarea class="form-control" name="description"  >{{ old('description')}}</textarea>
 
                                 @if ($errors->has('description'))
                                     <span class="help-block">
@@ -247,19 +247,19 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('total10') ? ' has-error' : '' }}">
-                            <label for="event" class="col-md-4 control-label">Max Total 10-Count*</label>
+                        {{--<div class="form-group{{ $errors->has('total10') ? ' has-error' : '' }}">--}}
+                            {{--<label for="event" class="col-md-4 control-label">Max Total 10-Count*</label>--}}
 
-                            <div class="col-md-2">
-                                <input type="text" class="form-control" name="total10" value="{{ old('total10')}}">
+                            {{--<div class="col-md-2">--}}
+                                {{--<input type="text" class="form-control" name="total10" value="{{ old('total10')}}">--}}
 
-                                @if ($errors->has('total10'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('total10') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+                                {{--@if ($errors->has('total10'))--}}
+                                    {{--<span class="help-block">--}}
+                                        {{--<strong>{{ $errors->first('total10') }}</strong>--}}
+                                    {{--</span>--}}
+                                {{--@endif--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
 
 
                         <div class="form-group">

@@ -199,6 +199,7 @@ class EventController extends Controller
         $weeks = ($daterange != 0) ? count($daterange) / 7 : 1;
 
         $divisions = Division::where('visible', 1)->orderBy('name')->get();
+//        dd($event->first()->divisions);
         $eventdivisions = unserialize($event->first()->divisions);
         $divisions = $this->sortDivisions($eventdivisions, $divisions);
 
@@ -641,6 +642,9 @@ class EventController extends Controller
 
     private function sortDivisions($eventdivisions, $divisions)
     {
+        if (empty($eventdivisions)) {
+            return [];
+        }
         $first = [];
         $second = [];
         foreach ($divisions as $division) {

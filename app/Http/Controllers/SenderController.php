@@ -46,8 +46,11 @@ class SenderController extends Controller
 
         $event = Event::where('eventid', $evententry->eventid)->get()->first();
 
-        Mail::to($evententry->email)
-            ->send(new SendEntryConfirmationEmail(ucwords($event->name), ucwords($user->firstname), $this->getEventUrl($event->name)));
+        if ( filter_var($evententry->email, FILTER_VALIDATE_EMAIL) ) {
+            Mail::to($evententry->email)
+                ->send(new SendEntryConfirmationEmail(ucwords($event->name), ucwords($user->firstname), $this->getEventUrl($event->name)));
+        }
+
 
     } // sendEntryConfirmationEmail
 
@@ -81,9 +84,11 @@ class SenderController extends Controller
 
         $event = Event::where('eventid', $evententry->eventid)->get()->first();
 
+        if ( filter_var($evententry->email, FILTER_VALIDATE_EMAIL ) ) {
+            Mail::to($evententry->email)
+                ->send(new EntryConfirmation(ucwords($event->name)));
+        }
 
-        Mail::to($evententry->email)
-            ->send(new EntryConfirmation(ucwords($event->name)));
 
     }
 

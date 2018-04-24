@@ -182,7 +182,7 @@
                             <label for="name" class="col-md-4 control-label">Phone</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control" name="phone" value="{!! $eventregistration->first()->phone ?? old('phone') !!}" required autofocus>
+                                <input id="phone" type="text" class="form-control" name="phone" value="{!! $eventregistration->first()->phone ?? old('phone') !!}" >
 
                                 @if ($errors->has('phone'))
                                     <span class="help-block">

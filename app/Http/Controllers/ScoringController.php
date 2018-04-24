@@ -132,7 +132,8 @@ class ScoringController extends Controller
         // At this point we have a valid form routed request
         $userResults = $this->getUsersFormData($request);
 
-
+        dd(phpinfo());
+        dd($userResults);
 
 
         foreach ($userResults as $user) {
@@ -363,6 +364,7 @@ class ScoringController extends Controller
             ->get()
             ->first();
 
+//        dd($userevententry);
 
         if (!empty($userevententry)) {
             $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();

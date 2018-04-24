@@ -310,17 +310,17 @@
 
                         <hr>
                             <h3>Setup</h3>
-                            {{--<div class="form-group{{ $errors->has('multipledivisions') ? ' has-error' : '' }}">--}}
-                                {{--<label for="bankaccount" class="col-md-4 control-label">Multiple Division Entries</label>--}}
-                                {{--<div class="col-md-6">--}}
-                                    {{--<input type="checkbox"  name="multipledivisions" style="margin-top: 10px">--}}
-                                    {{--@if ($errors->has('multipledivisions'))--}}
-                                        {{--<span class="help-block">--}}
-                                            {{--<strong>{{ $errors->first('multipledivisions') }}</strong>--}}
-                                        {{--</span>--}}
-                                    {{--@endif--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
+                            <div class="form-group{{ $errors->has('multipledivisions') ? ' has-error' : '' }}">
+                                <label for="bankaccount" class="col-md-4 control-label">Multiple Division Entries</label>
+                                <div class="col-md-6">
+                                    <input type="checkbox"  name="multipledivisions" style="margin-top: 10px">
+                                    @if ($errors->has('multipledivisions'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('multipledivisions') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Visible</label>

@@ -1,5 +1,56 @@
 $(document).ready(function() {
 
+    $(document).keyup('#searchuser', function () {
+
+        var email = $('#searchuser').val();
+
+
+       if (email.length > 6) {
+           $.ajax({
+               method: "POST",
+               headers: {
+                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+               },
+               url: "/admin/ajaxsearchuserbyemail",
+               data: {
+                   email: email
+               }
+           }).done(function( json ) {
+               $('.foundusers').empty();
+               $('#searchuserresults').css('display', 'none');
+
+               if (json.success) {
+
+
+                   json.users.forEach(function(element) {
+
+                       var markup = '<label class="form-check-label" >\n' +
+                                        '<input class="form-check-input selecteduser" type="checkbox" ' +
+                                        'data-userid="'+element.userid+'"' +
+                                        'data-name="'+ element.firstname + ' ' + element.lastname +'" ' +
+                                        'value="'+element.email+'">\n' +
+                                        element.email +
+                                    '</label><br>'
+                       $('.foundusers').append(markup);
+                   });
+                   $('#searchuserresults').css('display', 'block');
+               }
+
+            });
+       }
+    });
+
+    $(document).on('click', '.selecteduser', function () {
+
+        var userid = $(this).attr('data-userid');
+        var fullname = $(this).attr('data-name');
+
+        $('input[name="userid"]').attr('value', userid);
+        $('input[name="name"]').val(fullname);
+        $('.foundusers').empty();
+        $('#searchuserresults').css('display', 'none');
+    });
+
 
     $('table.resultstables').DataTable({
         "paging": false,

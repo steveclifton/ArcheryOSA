@@ -54,7 +54,6 @@ class RoundController extends Controller
         $this->validate($request, [
             'name' => 'required|unique:rounds,name',
             'unit' => 'required',
-            'code' => 'required',
             'dist1' => 'required|integer|between:0,100',
             'dist1max' => 'required|integer|min:0',
             'dist2' => 'integer|nullable|between:0,100',
@@ -65,7 +64,6 @@ class RoundController extends Controller
             'dist4max' => 'integer|nullable|min:0',
             'totalmax' => 'required|integer|min:0',
             'totalx' => 'required|integer|min:0',
-            'total10' => 'required|integer|min:0',
 
         ], [
             'dist1.integer' => 'Invalid Distance',
@@ -80,7 +78,6 @@ class RoundController extends Controller
             'totalx.integer' => 'Invalid max x-count',
             'total10.integer' => 'Invalid max 10-count',
             'totalx.integer' => 'Invalid count',
-            'total10.integer' => 'Invalid count',
         ]);
 
         $visible = 0;
@@ -105,7 +102,7 @@ class RoundController extends Controller
         $round->totalmax = htmlentities($request->input('totalmax'));
         $round->totalhits = htmlentities($request->input('totalhits'));
         $round->totalx = htmlentities($request->input('totalx'));
-        $round->total10 = htmlentities($request->input('total10'));
+        $round->total10 = htmlentities($request->input('totalx')); // the same as since they will always be the sale;
 
         $round->save();
 
@@ -123,7 +120,6 @@ class RoundController extends Controller
         $this->validate($request, [
             'name' => 'required|unique:rounds,name,'.$round->roundid.',roundid',
             'unit' => 'required',
-            'code' => 'required',
             'dist1' => 'required|integer|between:0,100',
             'dist1max' => 'required|integer|min:0',
             'dist2' => 'integer|nullable|between:0,100',
@@ -134,7 +130,6 @@ class RoundController extends Controller
             'dist4max' => 'integer|nullable|min:0',
             'totalmax' => 'required|integer|min:0',
             'totalx' => 'required|integer|min:0',
-            'total10' => 'required|integer|min:0',
 
         ], [
             'dist1.integer' => 'Invalid Distance',
@@ -147,7 +142,6 @@ class RoundController extends Controller
             'dist4max.integer' => 'Invalid max score',
             'totalmax' => 'Invalid max score',
             'totalx' => 'Invalid max x-count',
-            'total10' => 'Invalid max 10-count'
         ]);
 
         if ($request->roundid == $round->roundid) {
@@ -174,7 +168,7 @@ class RoundController extends Controller
             $round->totalmax = htmlentities($request->input('totalmax'));
             $round->totalhits = htmlentities($request->input('totalhits'));
             $round->totalx = htmlentities($request->input('totalx'));
-            $round->total10 = htmlentities($request->input('total10'));
+            $round->total10 = htmlentities($request->input('totalx')); // since they will be the same
 
 
             $round->save();

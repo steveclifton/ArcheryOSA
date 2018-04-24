@@ -73,6 +73,9 @@ Route::middleware(['web'])->group(function() {
 
         Route::get('/export/events/{eventid}/{hash}', 'ExportController@exportevententries')->name('exportevententries');
 
+        // ajax
+        Route::post('/admin/ajaxsearchuserbyemail', 'AjaxMethods@searchUserByEmail');
+
 
     });
 
@@ -85,6 +88,7 @@ Route::middleware(['web'])->group(function() {
         Route::get('/admin/users', 'AdminUserController@getAllUsers')->name('getallusers');
         Route::get('/admin/userprofile/{userid}', 'AdminUserController@getUserProfile')->name('getuserprofile');
         Route::post('/admin/updateuserprofile/{userid}', 'AdminUserController@updateUsersProfile')->name('updateuserprofile');
+        Route::post('/admin/manualadduser/{eventid}', 'EventRegistrationController@adminAddUser')->name('adminadduser');
 
 	    // Events
         Route::get('/admin/events', 'EventController@getEventsView')->name('events');
@@ -94,6 +98,8 @@ Route::middleware(['web'])->group(function() {
         Route::post('/admin/events/create', 'EventController@create')->name('createevent');
         Route::get('/admin/events/delete/{eventid}/{eventname}', 'EventController@delete')->name('deleteevent');
         Route::get('/admin/events/userentry/{eventname}/{entryhash}', 'EventController@getUserEntryDetails')->name('userentrydetails');
+        Route::get('/admin/events/adduser/{eventid}/{eventhash}', 'EventRegistrationController@getAddUserView')->name('adminaddarcher');
+
 
         // Event Rounds
         Route::get('/admin/events/create/eventround/{eventid}', 'EventRoundController@getCreateEventRoundView')->name('createeventroundview');
@@ -143,6 +149,8 @@ Route::middleware(['web'])->group(function() {
         Route::post('/admin/clubs/create', 'ClubController@create')->name('createclub');
         Route::get('/admin/clubs/delete/{clubid}/{clubname}', 'ClubController@delete')->name('deleteclub');
 
+
+        // ajax
 
     });
 });

@@ -8,6 +8,7 @@ use App\Http\Requests\Events\UpdateEventRegisterValidator;
 use App\Mail\EntryConfirmation;
 use App\Organisation;
 use App\Round;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Club;
 use App\Division;
@@ -21,11 +22,122 @@ use Illuminate\Support\Facades\Redirect;
 class EventRegistrationController extends Controller
 {
 
+    public function getAddUserView(Request $request)
+    {
+        //dd($request->eventid, $request->eventhash);
+
+        $event = Event::where('eventid', $request->eventid)
+                        ->where('hash', $request->eventhash)
+                        ->get()
+                        ->first();
+
+        if (empty($event)) {
+            return back()->with('failure', 'Invalid Request');
+        }
+
+
+        $eventround = EventRound::where('eventid', $event->eventid)->get();
+
+        $divArr = unserialize($event->divisions);
+
+
+        $divisions = Division::whereIn('divisionid', $divArr)->orderBy('name', 'asc')->get(); // collection array of divisions
+
+        $clubs = Club::orderby('name')->get();
+
+        $organisationids = DB::select("SELECT `membershipcode`
+                                            FROM `usermemberships`
+                                            WHERE `userid` = " . Auth::user()->userid . "
+                                            AND `organisationid` = '". $event->organisationid ."'
+                                            LIMIT 1
+                                        ");
+
+        $userorgid = $organisationids[0]->membershipcode ?? ''; // set the userorganisationid to be the return or an empty string
+
+        $organisationname = Organisation::where('organisationid', $event->organisationid)->pluck('name')->first();
+
+        if (is_null($organisationname)) {
+            $organisationname = '';
+        }
+
+        return view('auth.events.registration.manual_adduser', compact('event', 'eventround', 'clubs', 'divisions', 'userorgid', 'organisationname'));
+
+    }
+
+    public function adminAddUser(Request $request)
+    {
+        if (empty($request->eventid)) {
+            return redirect()->route('/');
+        }
+
+        $request->validate([
+            'eventid' => 'required',
+            'enteredbyuserid' => 'required',
+            'name' => 'required',
+            'divisions' => 'required',
+            'eventroundid' => 'required'
+        ], [
+            'name.required' => 'Please enter the Archer\'s name',
+            'divisions.required' => 'Please select a division',
+            'eventroundid.required' => 'Please select a round'
+        ]);
+
+
+        if ($request->input('userid') != -1) {
+            // create an event entry with the users details
+            $user = User::where('userid', $request->input('userid'))->get()->first();
+            if (empty($user)) {
+                return back()->with('failure', 'User not found. Please contact ArcheryOSA');
+            }
+
+            $alreadyentered = EventEntry::where('userid', $user->userid)
+                ->where('eventid', $request->eventid)
+                ->wherein('eventroundid', $request->input('eventroundid'))
+                ->get()
+                ->first();
+
+            if (!empty($alreadyentered)) {
+                return back()->with('failure', 'User already Entered');
+            }
+        } else {
+            // create new user
+            $user = new User();
+            list($first, $last) = explode(' ', $request->input('name'));
+            $user->firstname = !empty($first) ? $first : '';
+            $user->lastname = !empty($last) ? $last : '';
+            $user->username = $first . $last;
+            $user->usertype = '3';
+            $user->email = substr(md5(time()),0,20);
+            $user->username = strtolower(preg_replace("/[^a-zA-Z0-9]/", "", $user->username)) . rand(1,1440);
+            $user->save();
+
+        }
+
+
+        foreach ($request->input('eventroundid') as $eventroundid) {
+
+            $evententry = new EventEntry();
+            $evententry->fullname = $request->input('name');
+            $evententry->userid = $user->userid;
+            $evententry->email = $user->email;
+            $evententry->divisionid = $request->input('divisions');
+            $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
+            $evententry->entrystatusid = '1';
+            $evententry->eventid = $request->eventid;
+            $evententry->eventroundid = $eventroundid;
+            $evententry->membershipcode = '';
+            $evententry->hash = substr(md5(time()),0,10);
+            $evententry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
+            $evententry->save();
+        }
+        return back()->with('message', 'Archer Added');
+    }
+
     public function getRegisterForEventView(Request $request)
     {
         $event = Event::where('eventid', urlencode($request->eventid))->get()->first();
 
-        if (is_null($event)) {
+        if (empty($event)) {
             return Redirect::route('home');
         }
         $eventround = EventRound::where('eventid', $event->eventid)->get();
@@ -127,19 +239,19 @@ class EventRegistrationController extends Controller
 
             foreach ($request->input('eventroundid') as $eventroundid) {
                 $evententry = new EventEntry();
-                $evententry->fullname = html_entity_decode($request->input('name'));
+                $evententry->fullname = $request->input('name');
                 $evententry->userid = Auth::id();
-                $evententry->clubid = html_entity_decode($request->input('clubid'));
-                $evententry->email = html_entity_decode($request->input('email'));
-                $evententry->divisionid = html_entity_decode($request->input('divisions'));
-                $evententry->membershipcode = html_entity_decode($request->input('membershipcode'));
+                $evententry->clubid = $request->input('clubid');
+                $evententry->email = $request->input('email');
+                $evententry->divisionid = $request->input('divisions');
+                $evententry->membershipcode = $request->input('membershipcode');
                 $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
-                $evententry->phone = html_entity_decode($request->input('phone'));
-                $evententry->address = html_entity_decode($request->input('address'));
-                $evententry->notes = html_entity_decode($request->input('notes'));
+                $evententry->phone = $request->input('phone');
+                $evententry->address = $request->input('address');
+                $evententry->notes = $request->input('notes');
                 $evententry->entrystatusid = '1';
-                $evententry->eventid = html_entity_decode($request->eventid);
-                $evententry->eventroundid = html_entity_decode($eventroundid);
+                $evententry->eventid = $request->eventid;
+                $evententry->eventroundid = $eventroundid;
                 $evententry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
                 $evententry->hash = substr(md5(time()),0,10);
                 $evententry->save();
@@ -185,20 +297,20 @@ class EventRegistrationController extends Controller
 
             $evententry = new EventEntry();
 
-            $evententry->fullname = htmlentities($request->input('name'));
+            $evententry->fullname = $request->input('name');
             $evententry->userid = Auth::id();
-            $evententry->clubid = htmlentities($request->input('clubid'));
-            $evententry->email = htmlentities($request->input('email'));
-            $evententry->divisionid = htmlentities($division);
-            $evententry->membershipcode = htmlentities($request->input('membershipcode'));
+            $evententry->clubid = $request->input('clubid');
+            $evententry->email = $request->input('email');
+            $evententry->divisionid = $division;
+            $evententry->membershipcode = $request->input('membershipcode');
             $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
-            $evententry->phone = htmlentities($request->input('phone'));
-            $evententry->address = htmlentities($request->input('address'));
+            $evententry->phone = $request->input('phone');
+            $evententry->address = $request->input('address');
             $evententry->notes = html_entity_decode($request->input('notes'));
             $evententry->hash = substr(md5(time()),0,10);
             $evententry->entrystatusid = '1';
-            $evententry->eventid = htmlentities($request->eventid);
-            $evententry->eventroundid = html_entity_decode($request->input('eventroundid'));
+            $evententry->eventid = $request->eventid;
+            $evententry->eventroundid = $request->input('eventroundid');
             $evententry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
 
             $evententry->save();
@@ -400,7 +512,7 @@ class EventRegistrationController extends Controller
 
     private function deleteUserEntry($request)
     {
-        $userentries = EventEntry::where('userid', Auth::id())
+        $userentries = EventEntry::where('userid', $request->userid)
                     ->where('eventid', $request->eventid)
                     ->delete();
 
