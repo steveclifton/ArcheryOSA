@@ -414,7 +414,6 @@ class EventRegistrationController extends Controller
     private function createEntry($request, $eventroundid, $hash)
     {
 
-
         $evententry = new EventEntry();
         $evententry->fullname = $request->input('name');
         $evententry->userid = $request->input('userid');
@@ -436,10 +435,11 @@ class EventRegistrationController extends Controller
     } // createEntry
 
     /**
-     * Updates a Single Entry
+     * CREATES as well as updates a Single Entry
      */
     private function singleEntryUpdate($request)
     {
+
         // get all the rounds, if any is missing , delete it
         $userentry = EventEntry::where('userid', $request->userid)
             ->where('eventid', $request->eventid)
