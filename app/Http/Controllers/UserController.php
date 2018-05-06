@@ -114,17 +114,7 @@ class UserController extends Controller
      *                PRIVATE METHODS                     *
      *****************************************************/
 
-    /**
-     * Create a random hash
-     */
-    private function createHash()
-    {
-        $hash = password_hash(rand( getenv('RAND_START'), getenv('RAND_END')), PASSWORD_DEFAULT);
-        $hash = password_hash($hash, PASSWORD_DEFAULT);
-        $hash = substr($hash, 7, 17);
 
-        return str_replace('/',rand(1,999), $hash);
-    }
 
 
 

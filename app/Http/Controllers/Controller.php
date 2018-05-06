@@ -112,5 +112,17 @@ class Controller extends BaseController
 
     }
 
+    /**
+     * Create a random hash
+     */
+    public function createHash()
+    {
+        $hash = password_hash(rand( getenv('RAND_START'), getenv('RAND_END')), PASSWORD_DEFAULT);
+        $hash = password_hash($hash, PASSWORD_DEFAULT);
+        $hash = substr($hash, 7, 17);
+
+        return str_replace('/',rand(1,999), $hash);
+    }
+
 
 }
