@@ -238,9 +238,12 @@ class EventRegistrationController extends Controller
 
         /* non league */
         if ($event->eventtype == 0 && $event->multipledivisions == 0) {
-
             // Multiple entry comp
-            $this->singleEntryUpdate($request);
+            $return = $this->singleEntryUpdate($request);
+
+            if ($return == false ){
+                return redirect()->back()->withInput()->with('failure', 'Please check entry and try again');
+            }
             return redirect()->back()->withInput()->with('message', 'Update Successful');
 
         }
