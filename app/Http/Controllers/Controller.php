@@ -121,7 +121,7 @@ class Controller extends BaseController
         $hash = password_hash($hash, PASSWORD_DEFAULT);
         $hash = substr($hash, 7, 17);
 
-        return str_replace('/',rand(1,999), $hash);
+        return str_replace(['/', '.', '#'],rand(1,999), $hash);
     }
 
 
