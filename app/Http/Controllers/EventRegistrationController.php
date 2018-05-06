@@ -442,11 +442,23 @@ class EventRegistrationController extends Controller
 
         // get all the rounds, if any is missing , delete it
         $userentry = EventEntry::where('userid', $request->userid)
-            ->where('eventid', $request->eventid)
-            ->get();
+                        ->where('eventid', $request->eventid)
+                        ->get();
 
 
-        if (empty($userentry)) {
+        $hash = '';
+        // These are rounds that are already in the database
+        $existingroundids = [];
+        foreach ($userentry as $entry) {
+            $existingroundids[$entry->eventroundid] = $entry->eventroundid;
+            $hash = !empty($entry->hash) ? $entry->hash : '';
+        }
+
+        if (empty($hash)){
+            $hash = $this->createHash();
+        }
+
+        if (empty($request->input('eventroundid'))) {
             return false;
         }
         else {
