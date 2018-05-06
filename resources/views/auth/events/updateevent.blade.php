@@ -59,7 +59,9 @@
                                                 <tr onmouseover="this.style.backgroundColor='lightgrey'" onmouseout="this.style.backgroundColor='{{$colour}}'" style="background: {{$colour}}">
                                                     <input type="hidden" name="userid[]" value="{{$user->userid}}">
                                                     <input type="hidden" name="divisionid[]" value="{{$user->divisionid}}">
-                                                    <td><a href="{{route('userentrydetails', [urlencode($event->first()->name), $user->hash])}}">{!! ucwords(strtolower($user->fullname)) !!}</a></td>
+                                                    <td>
+                                                        <a href="{{route('userentrydetails', [urlencode($event->first()->name), $user->hash])}}">{!! ucwords(strtolower($user->fullname)) !!}</a>
+                                                    </td>
                                                     <td>{{$user->division}}</td>
                                                     <td>
                                                         <select name="userstatus[]" id="userstatusselect">
