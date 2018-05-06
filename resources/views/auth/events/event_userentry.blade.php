@@ -34,6 +34,7 @@
                         {{ csrf_field() }}
 
                         <input type="hidden" name="userid" value="{!! $user->first()->userid ?? old('userid') !!}" >
+                        <input type="text" name="eventid" hidden value="{{$event->eventid}}">
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label  class="col-md-4 control-label">Name</label>
