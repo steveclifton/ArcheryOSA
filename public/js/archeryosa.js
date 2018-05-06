@@ -4,14 +4,13 @@ $(document).ready(function() {
 
         var email = $('#searchuser').val();
 
-
-       if (email.length > 6) {
+        if (email.length > 5) {
            $.ajax({
                method: "POST",
                headers: {
                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                },
-               url: "/admin/ajaxsearchuserbyemail",
+               url: "/ajaxsearchuserbyemail",
                data: {
                    email: email
                }
@@ -38,7 +37,46 @@ $(document).ready(function() {
 
             });
        }
+
+
     });
+
+    $('#selectarcher').on('change', function (e) {
+        var optionSelected = $("option:selected", this).val();
+        var eventid = $('input[name="eventid"]').val();
+
+        $.ajax({
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "/ajaxgetusersentryform",
+            data: {
+                userid: optionSelected,
+                eventid: eventid
+            }
+        }).done(function( json ) {
+
+            if (json.success) {
+                $('#formdata').empty();
+                $('#formdata').append(json.html);
+
+                if (json.existing) {
+                    $('.enterbutton').addClass('hidden');
+                    $('.updateremovebutton').removeClass('hidden');
+                } else {
+                    $('.enterbutton').removeClass('hidden');
+                    $('.updateremovebutton').addClass('hidden');
+                }
+            }
+
+        });
+
+    });
+
+
+
+
 
     $(document).on('click', '.selecteduser', function () {
 
@@ -274,7 +312,7 @@ $(document).ready(function() {
     //     });
     // });
 
-    $(".processleaguebtn").click(function(){
+    $(document).on('click', '.processleaguebtn', function(){
         event.stopPropagation();
 
         if (!confirm("Are you sure you want to process the event??")) {
@@ -283,23 +321,17 @@ $(document).ready(function() {
     });
 
 
-    $("a#deleteBtn").click(function(){
+    $(document).on('click', '#deleteBtn', function() {
         event.stopPropagation();
 
         if (!confirm("Are you sure you want to delete?")) {
             event.preventDefault();
         }
+
     });
 
-    // $("#deleteBtn").click(function(){
-    //     event.stopPropagation();
-    //
-    //     if (!confirm("Are you sure you want to remove your entry to this event?")) {
-    //         event.preventDefault();
-    //     }
-    // });
 
-    $("a#deleteUserRelation").click(function(){
+    $(document).on('click', 'a#deleteUserRelation', function(){
         event.stopPropagation();
 
         if (!confirm("Do you want to delete?")) {
@@ -307,7 +339,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#showmoreentries').click(function () {
+    $(document).on('click', '#showmoreentries', function () {
         $('.item').removeClass('hidden');
         $('.showmore').empty();
     });

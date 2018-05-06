@@ -71,7 +71,6 @@ class EventController extends Controller
                         ->get()
                         ->first();
 
-
         if (empty($event)) {
             return Redirect::route('home');
         }
@@ -120,6 +119,7 @@ class EventController extends Controller
 
 
 
+
         $results = Score::where('eventid', $event->eventid)->get()->first();
         if (!empty($results)) {
 
@@ -145,6 +145,7 @@ class EventController extends Controller
 
         // show scoring tab or not
         $canscore = $this->canScore($event, $userevententry);
+
 
         return view ('publicevents.eventdetails', compact('event', 'canscore', 'eventrounds', 'distances', 'userevententry', 'users', 'results', 'resultdistances'));
     }

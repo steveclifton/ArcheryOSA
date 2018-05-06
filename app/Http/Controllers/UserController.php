@@ -7,7 +7,6 @@ use App\LeaguePoint;
 use App\Mail\ArcherRelationRequest;
 use App\Mail\ConfirmArcherRelation;
 use App\Mail\Welcome;
-use Carbon\Carbon;
 use Image;
 use Validator;
 use App\User;
@@ -22,6 +21,12 @@ use App\Http\Requests\Users\UpdateProfileValidator;
 
 class UserController extends Controller
 {
+
+
+
+    /*****************************************************
+     *                PUBLIC STATIC METHODS              *
+     *****************************************************/
 
     public static function getUserTotalPoints($userid, $divisionid, $eventid)
     {
@@ -72,16 +77,86 @@ class UserController extends Controller
         return $totalscore;
     }
 
+
+
+
+    /*****************************************************
+     *                EMAIL METHODS                      *
+     *****************************************************/
+
+    /**
+     * EMAIL
+     * Sends the relationship email
+     */
+    private function sendRelationshipEmail($email, $firstname, $requestusername, $hash)
+    {
+        Mail::to($email)
+            ->send(new ArcherRelationRequest($firstname, $requestusername, $hash));
+    }
+
+    /**
+     * EMAIL
+     * Sends welcome email
+     */
+    private function sendWelcomeEmail()
+    {
+        Mail::to(Auth::user()->email)
+            ->send(new Welcome(ucwords(Auth::user()->firstname)));
+    }
+
+
+
+
+
+
+
+    /*****************************************************
+     *                PRIVATE METHODS                     *
+     *****************************************************/
+
+    /**
+     * Create a random hash
+     */
+    private function createHash()
+    {
+        $hash = password_hash(rand( getenv('RAND_START'), getenv('RAND_END')), PASSWORD_DEFAULT);
+        $hash = password_hash($hash, PASSWORD_DEFAULT);
+        $hash = substr($hash, 7, 17);
+
+        return str_replace('/',rand(1,999), $hash);
+    }
+
+
+
+
+
+
+    /*****************************************************
+     *                PUBLIC METHODS                     *
+     *****************************************************/
+
+    /**
+     * GET
+     * Returns the register page
+     */
     public function PUBLIC_getRegisterView()
     {
         return view ('auth.register');
     }
 
+    /**
+     * GET
+     * Returns the login page
+     */
     public function PUBLIC_getLoginView()
     {
         return view ('auth.login');
     }
 
+    /**
+     * GET
+     * Returns a users public profile, including scores
+     */
     public function getPublicProfile(Request $request)
     {
 
@@ -98,8 +173,6 @@ class UserController extends Controller
             ORDER BY `created_at` DESC
         ", ['userid' => $user->userid]);
 
-//        dd($results);
-
         $resultssorted = [];
         $leagueresultoverall = [];
         foreach ($results as $result) {
@@ -110,23 +183,20 @@ class UserController extends Controller
                 $leagueresultoverall[$result->eventname][$result->divisionname]['averagescore'] = $result->avg_total_score;
             }
         }
-        //dd($resultssorted, $leagueresultoverall);
+
 
         return view('auth.user.PUBLIC_user_results', compact('resultssorted', 'user', 'leagueresultoverall'));
     }
 
+
+
     /*****************************************************
-     *                                                   *
      *                ADMIN / AUTH METHODS               *
-     *                                                   *
      *****************************************************/
 
-
-
-
     /**
-     * @param Request $request
-     * @return mixed
+     * GET
+     * Logs a User in
      */
     public function login(Request $request)
     {
@@ -136,14 +206,14 @@ class UserController extends Controller
                 ->withInput()
                 ->withErrors(['email'=>' ', 'password'=>'Invalid Email or Password']);
         }
+
         return Redirect::route('home');
+
     }
 
-
-
     /**
-     * @param Request $request
-     * @return mixed
+     * GET
+     * Creates/Registers a new user
      */
     public function register(RegisterValidator $request)
     {
@@ -154,8 +224,8 @@ class UserController extends Controller
         $user->password         = Hash::make($request->input('password'));
         $user->lastipaddress    = $request->ip();
         $user->usertype         = 3;
-        $user->username = $request->input('firstname') . $request->input('lastname');
-        $user->username = strtolower(preg_replace("/[^a-zA-Z0-9]/", "", $user->username)) . rand(1,1440);
+        $user->username         = $request->input('firstname') . $request->input('lastname');
+        $user->username         = strtolower(preg_replace("/[^a-zA-Z0-9]/", "", $user->username)) . rand(1,1440);
 
         $user->save();
 
@@ -168,7 +238,8 @@ class UserController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * GET
+     * Returns the current users profile view
      */
     public function getProfileView()
     {
@@ -186,24 +257,22 @@ class UserController extends Controller
             WHERE ur.`userid` = '". Auth::id() . "'
         ");
 
+        $childaccounts = DB::select("SELECT u.`email`, ur.`authorised`, u.`firstname`, u.`lastname`, ur.`hash`, u.`userid`
+            FROM `userrelationships` ur
+            JOIN `users` u ON (ur.`relationuserid` = u.`userid`)
+            WHERE ur.`userid` = '". Auth::id() . "'
+            AND ur.`parentuserid` = '". Auth::id() . "'
+        ");
 
-        return view('auth.profile', compact('user', 'organisations', 'relationships'));
-    }
 
 
-    public function getUserEventsView()
-    {
-        $userevents = DB::select("SELECT e.`eventid`, e.`startdate`, es.`name` as usereventstatus, e.`name`, e.`status` as eventstatus 
-                        FROM `evententry` ee
-                        LEFT JOIN `events` e USING (`eventid`)
-                        LEFT JOIN `entrystatuses` es ON (ee.`entrystatusid` = es.`entrystatusid`)
-                        WHERE ee.`userid` = '" . Auth::id(). "'
-                        ");
-        return view('auth.myevents', compact('userevents'));
+
+        return view('auth.profile', compact('user', 'organisations', 'relationships', 'childaccounts'));
     }
 
     /**
-     * @return $this|\Illuminate\Http\RedirectResponse
+     * POST
+     * Updates a users profile
      */
     public function updateProfile(UpdateProfileValidator $request)
     {
@@ -242,17 +311,9 @@ class UserController extends Controller
         return redirect('/profile')->with('key', 'Update Successful');
     }
 
-
-
-    public function forgotpassword()
-    {
-        $user = Auth::user();
-
-        dd($user);
-    }
-
     /**
-     * @return mixed
+     * GET
+     * Logs a user out, returns them to home
      */
     public function logout()
     {
@@ -260,21 +321,45 @@ class UserController extends Controller
         return Redirect::route('home');
     }
 
-
-    public function sendWelcomeEmail()
+    /**
+     * GET
+     * Returns a users registered events view
+     */
+    public function getUserEventsView()
     {
-        //$when = Carbon::now()->addMinutes(1);
 
-        Mail::to(Auth::user()->email)
-            ->send(new Welcome(ucwords(Auth::user()->firstname)));
+        $userevents = DB::select("SELECT e.`eventid`, e.`startdate`, es.`name` as usereventstatus, e.`name`, e.`status` as eventstatus 
+                        FROM `evententry` ee
+                        LEFT JOIN `events` e USING (`eventid`)
+                        LEFT JOIN `entrystatuses` es ON (ee.`entrystatusid` = es.`entrystatusid`)
+                        WHERE ee.`userid` = '" . Auth::id(). "'
+                        ");
+
+        return view('auth.myevents', compact('userevents'));
     }
 
 
+
+
+    /*****************************************************
+     *                RELATIONSHIP METHODS                *
+     *****************************************************/
+
+    /**
+     * GET
+     * Returns the add archery relationship view
+     */
     public function getCreateArcherRelationship()
     {
         return view('auth.user.addarcherrelation');
     }
 
+    /**
+     * POST
+     * Creates the relationship between two users
+     * Sends the email to get confirmation
+     * Returns back to the Profile page
+     */
     public function createArcherRelationship(Request $request)
     {
 
@@ -296,15 +381,10 @@ class UserController extends Controller
 
         $authfullname = ucwords(Auth::user()->firstname ?? '') . ' ' . ucwords(Auth::user()->lastname ?? '') . '(' . Auth::user()->email . ')';
 
-        $hash = password_hash(rand( getenv('RAND_START'), getenv('RAND_END')), PASSWORD_DEFAULT);
-        $hash = password_hash($hash, PASSWORD_DEFAULT);
-        $hash = substr($hash, 7, 17);
-        $hash = str_replace('/',rand(1,999), $hash);
-
         $archerrelation = new ArcherRelation();
         $archerrelation->userid = Auth::id();
         $archerrelation->relationuserid = $user->userid;
-        $archerrelation->hash = $hash;
+        $archerrelation->hash = $this->createHash();;
         $archerrelation->save();
 
         $this->sendRelationshipEmail($user->email, $user->firstname, $authfullname, $hash);
@@ -313,18 +393,17 @@ class UserController extends Controller
 
     }
 
-    private function sendRelationshipEmail($email, $firstname, $requestusername, $hash)
-    {
-        Mail::to($email)
-            ->send(new ArcherRelationRequest($firstname, $requestusername, $hash));
-    }
-
+    /**
+     * GET
+     * Authorises a users relationship with another
+     * Returns to the add archer view
+     */
     public function authoriseUserRelationship(Request $request) {
 
         if (!empty($request->hash)) {
             $addarcher = ArcherRelation::where('hash', strval($request->hash))->where('authorised', 0)->get()->first();
 
-            if (!is_null($addarcher)) {
+            if (!empty($addarcher)) {
                 $archer = User::where('userid', $addarcher->userid)->get()->first();
                 $requestarcher = User::where('userid', $addarcher->relationuserid)->get()->first();
                 $addarcher->authorised = 1;
@@ -346,20 +425,132 @@ class UserController extends Controller
 
     }
 
+    /**
+     * GET
+     * Removes the relationship
+     */
     public function removeUserRelationship(Request $request)
     {
         $relation = ArcherRelation::where('hash', $request->hash)->get()->first();
 
-        if (!is_null($relation)) {
-            if ($relation->delete() ) {
-                return redirect('/profile')->with('key', 'Update success');
-            }
+        if (!empty($relation) && $relation->delete()) {
+            return redirect('/profile')->with('key', 'Update success');
         }
 
         return redirect('/profile')->with('failure', 'Invalid Request');
     }
 
-} // classend
+
+
+
+
+    /*****************************************************
+     *                CHILD ACCOUNT METHODS               *
+     *****************************************************/
+    /**
+     * GET
+     * Returns the create child account view
+     */
+    public function getCreateAccountView()
+    {
+        return view('auth.user.createchildaccount');
+
+    }
+
+    /**
+     * GET
+     * Returns the update child account view
+     */
+    public function getUpdateAccountView(Request $request)
+    {
+        $relationship = ArcherRelation::where('userid', Auth::id())
+                        ->where('relationuserid', $request->childid)
+                        ->get()
+                        ->first();
+
+        if (empty($relationship)) {
+            return back()->with('failure', 'Error, you are not authorised to view this user');
+        }
+
+        $child = User::where('userid', $request->childid)
+                    ->get()
+                    ->first();
+
+        return view('auth.user.updatechildaccount', compact('child'));
+    }
+
+    /**
+     * POST
+     * Creates an bare-basic account which will be related to the logged in user
+     */
+    public function createChildAccount(Request $request)
+    {
+
+        Validator::make($request->all(), [
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'email' => 'unique:users,email'
+        ])->validate();
+
+        $user = new User();
+        $user->firstname = $request->input('firstname');
+        $user->lastname = $request->input('lastname');
+        $user->usertype = 3;
+        $user->email = !empty($request->input('email')) ? $request->input('email') : mt_rand(0, time());
+        $user->username = $request->input('firstname') . $request->input('lastname');
+        $user->username = strtolower(preg_replace("/[^a-zA-Z0-9]/", "", $user->username)) . rand(1,1440);
+        $user->semiaccount = 1;
+        $user->save();
+
+        $archerrelation = new ArcherRelation();
+        $archerrelation->userid = Auth::id();
+
+        $archerrelation->relationuserid = $user->userid;
+        $archerrelation->hash = $this->createHash();
+        $archerrelation->authorised = 1;
+        $archerrelation->parentuserid = Auth::id();
+        $archerrelation->save();
+
+        return redirect('/profile')->with('key', 'The archer has been created');
+
+    }
+
+    /**
+     * POST
+     * Updates an account
+     */
+    public function updateChildAccount(Request $request)
+    {
+
+        $relationship = ArcherRelation::where('userid', Auth::id())
+            ->where('relationuserid', $request->userid)
+            ->get()
+            ->first();
+
+        $child = User::where('userid', $request->userid)
+            ->get()
+            ->first();
+
+        if (empty($relationship) || empty($child)) {
+            return back()->with('failure', 'Error, you are not authorised to view this user');
+        }
+
+        $child->firstname = $request->input('firstname');
+        $child->lastname = $request->input('lastname');
+        $child->email = !empty($request->input('email')) ? $request->input('email') : mt_rand(0, time());
+        $child->save();
+
+
+        return redirect('/profile')->with('key', 'Updated Profile');
+
+
+    }
+
+
+
+
+
+} // class
 
 
 

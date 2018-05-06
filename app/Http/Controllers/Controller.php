@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\EntryStatus;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\Process\Process;
+use App\EventEntry;
+use App\User;
 
 class Controller extends BaseController
 {
@@ -25,24 +27,90 @@ class Controller extends BaseController
         return 'https://archeryosa.com/eventdetails/' . urlencode($eventname);
     }
 
+
+    /**
+     * Checks to see whether the current user can score
+     */
     protected function canScore($event, $userevententry)
     {
-        $canscore = false;
+
         if ($event->scoringenabled) {
 
-            if (
-                    ($userevententry->entrystatusid ?? 0) == 2
-                    || Auth::id() == $event->createdby
-                    || !empty(Auth::user()->usertype)
-                    && Auth::user()->usertype == 1
-                )
-                    {
-                        $canscore = true;
-                    } // if
+            $entrystatus = ($userevententry->entrystatusid ?? 0) == 2;
+            $createdby = Auth::id() == $event->createdby;
+            $usertype = !empty(Auth::user()->usertype) && Auth::user()->usertype == 1;
+            $usercanscore = ($event->userscanscore == 1);
+
+            // If an admin - admins can score for anything
+            if ($usertype) {
+                return true;
+            }
+
+            // if the event is created by the logged in user
+            else if ($createdby == true) {
+                return true;
+            }
+
+            // if users CAN score *AND* their entry status is confirmed
+            else if ($usercanscore && $entrystatus) {
+                return true;
+            }
+
 
         } // if
 
-        return $canscore;
+        return false;
 
-    } //canScore
+    }
+
+
+    /**
+     * PRIVATE
+     * Returns a archer object that will contain their entry if it exists
+     */
+    public function getArchersEntry($eventid, $userid)
+    {
+
+        $returnObj = new \stdClass;
+
+        $user = User::where('userid', $userid)->get()->first();
+
+        if (empty($user)) {
+            return false;
+        }
+
+        $eventregistration = EventEntry::where('eventid', $eventid)
+            ->where('userid', $userid)
+            ->get();
+
+        foreach ($eventregistration as $reg) {
+            $reg->status = ucwords(EntryStatus::where('entrystatusid', $reg->entrystatusid)->pluck('name')->first());
+        }
+
+
+
+        $returnObj->eventregistration = !$eventregistration->isEmpty() ? $eventregistration : [];
+
+        $returnObj->userdivisions = [];
+        foreach ($eventregistration as $registration) {
+            $returnObj->userdivisions[] = $registration->divisionid;
+        }
+
+        $returnObj->usereventrounds = [];
+        foreach ($eventregistration as $registration) {
+            $returnObj->usereventrounds[] = $registration->eventroundid;
+        }
+
+        $returnObj->user = User::where('userid', $userid)->get()->first();
+
+        // This makes the default email address the Person who is logged in
+        if ($returnObj->user->semiaccount == 1) {
+            $returnObj->user->email = User::where('userid', Auth::id())->pluck('email')->first();
+        }
+
+        return $returnObj;
+
+    }
+
+
 }

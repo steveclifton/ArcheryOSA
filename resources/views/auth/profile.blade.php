@@ -147,11 +147,12 @@
                         <div>
                             <hr>
                             <h4>Archer Relations</h4>
-                            <a href="{{route('createaddarcherview')}}" class="btn btn-primary" role="button">Add Archer</a>
+                            <a href="{{route('createaddarcherview')}}" class="btn btn-primary" role="button">Add Existing Archer</a>
                         </div>
+                        <br>
                         @foreach ($relationships as $relation)
                             <div class="form-group">
-                                <label for="organsationname" class="col-md-4 control-label">{{$relation->firstname}} {{$relation->lastname}}</label>
+                                <label for="organsationname" class="col-md-4 control-label">{{ucwords($relation->firstname)}} {{ucwords($relation->lastname)}}</label>
                                 <div class="col-md-4">
                                     <input type="text" class="form-control" name="code" disabled placeholder="{!! ($relation->authorised) ? 'AUTHORISED' : 'PENDING' !!}">Status
                                 </div>
@@ -159,6 +160,21 @@
                             </div>
                         @endforeach
 
+                        <div>
+                            <hr>
+                            <h4>Create Child ArcheryOSA Account</h4>
+                            <a href="{{route('createchildaccountview')}}" class="btn btn-primary" role="button">Add Existing Archer</a>
+                        </div>
+                        <br>
+                        @foreach ($childaccounts as $child)
+                            <div class="form-group">
+                                <label for="organsationname" class="col-md-6 control-label">
+                                    <a href="{{route('updatechildaccountview', $child->userid)}}">
+                                        {{ucwords($child->firstname)}} {{ucwords($child->lastname)}}
+                                    </a>
+                                </label>
+                            </div>
+                        @endforeach
                     </form>
                 </div>
             </div>

@@ -54,11 +54,16 @@ Route::middleware(['web'])->group(function() {
         Route::post('/scoring/eventscoring/{eventid}', 'ScoringController@enterEventScores')->name('entereventscores');
 
         Route::get('/updateprofile/addarcher', 'UserController@getCreateArcherRelationship')->name('createaddarcherview');
+        Route::get('/updateprofile/createchildaccount', 'UserController@getCreateAccountView')->name('createchildaccountview');
+        Route::get('/updateprofile/updatechildaccount/{childid}', 'UserController@getUpdateAccountView')->name('updatechildaccountview');
+
         Route::get('/updateprofile/addmembership', 'UserMembershipController@getCreateView')->name('createusermembershipview');
         Route::get('/updateprofile/updatemembership/{membershipcode}', 'UserMembershipController@getUpdateView')->name('updateusermembershipview');
         Route::get('/updateprofile/removearcherrelation/{hash}', 'UserController@removeUserRelationship')->name('removeuserrelation');
 
         Route::post('/updateprofile/addarcher/submit', 'UserController@createArcherRelationship')->name('createarcherrelationship');
+        Route::post('/updateprofile/addchildaccount/submit', 'UserController@createChildAccount')->name('addchildaccount');
+        Route::post('/updateprofile/updatechildaccount/submit', 'UserController@updateChildAccount')->name('updatechildaccount');
         Route::post('/updateprofile/addorganisation/submit', 'UserMembershipController@create')->name('createusermembership');
         Route::post('/updateprofile/updateorganisation/submit/{usermembershipid}', 'UserMembershipController@update')->name('updateusermembership');
 
@@ -66,15 +71,14 @@ Route::middleware(['web'])->group(function() {
 		Route::get('/event/register/{eventid}/{name}', 'EventRegistrationController@getRegisterForEventView')->name('eventregistrationview');
 		Route::post('/event/register/{eventid}/{eventname}', 'EventRegistrationController@eventRegister')->name('eventregistration');
 
-
-        Route::get('/event/registration/update/{eventid}', 'EventRegistrationController@getUpdateEventRegistrationView')->name('updateeventregistrationview');
         Route::post('/event/registration/update/{eventid}/{eventname}', 'EventRegistrationController@updateEventRegistration')->name('updateeventregistration');
 
 
         Route::get('/export/events/{eventid}/{hash}', 'ExportController@exportevententries')->name('exportevententries');
 
         // ajax
-        Route::post('/admin/ajaxsearchuserbyemail', 'AjaxMethods@searchUserByEmail');
+        Route::post('/ajaxsearchuserbyemail', 'AjaxMethods@searchUserByEmail');
+        Route::post('/ajaxgetusersentryform', 'AjaxMethods@getArchersEntryForm');
 
 
     });

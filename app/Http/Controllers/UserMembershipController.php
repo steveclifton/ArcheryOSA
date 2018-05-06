@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\UserMemberships;
 use Illuminate\Http\Request;
 use App\UserOrganisation;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use App\Organisation;
@@ -13,17 +12,21 @@ use Validator;
 
 class UserMembershipController extends Controller
 {
-    public function getAllMemberships()
-    {
-        dd(Auth::user());
-    }
 
+    /**
+     * GET
+     * Returns the view where a user can create an organisation membership code
+     */
     public function getCreateView()
     {
         $organisations = Organisation::where('visible', 1)->get();
         return view ('auth.user.addmembership', compact('organisations'));
     }
 
+    /**
+     * GET
+     * Returns the view where a user can update an organisation membership code
+     */
     public function getUpdateView(Request $request)
     {
         $usermembership = UserMemberships::where('userid', Auth::id())->where('usermembershipid', $request->membershipcode)->get();
@@ -36,6 +39,10 @@ class UserMembershipController extends Controller
         return view ('auth.user.updatemembership', compact('organisations', 'usermembership'));
     }
 
+    /**
+     * POST
+     * Creates the users membership code
+     */
     public function create(Request $request)
     {
 
@@ -59,6 +66,10 @@ class UserMembershipController extends Controller
 
     }
 
+    /**
+     * POST
+     * Updates the users membership code
+     */
     public function update(Request $request)
     {
         Validator::make($request->all(), [
@@ -85,28 +96,4 @@ class UserMembershipController extends Controller
         return Redirect::route('profile');
     }
 
-    public function delete(Request $request)
-    {
-
-    }
-
-    private function isValidMembershipcode($usermembershipid, $membershipcode, $organisationid)
-    {
-        $results = DB::select("SELECT *
-            FROM `usermemberships`
-            WHERE `organisationid` = :organisationid
-            AND `membershipcode` = :membershipcode 
-            LIMIT 1",
-            ['organisationid' => $organisationid, 'membershipcode' => $membershipcode]
-        );
-
-        foreach ($results as $result) {
-
-            if ($result->usermembershipid != $usermembershipid) {
-                return false;
-            }
-        }
-        return true;
-
-    }
 }

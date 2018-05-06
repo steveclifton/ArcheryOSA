@@ -132,10 +132,6 @@ class ScoringController extends Controller
         // At this point we have a valid form routed request
         $userResults = $this->getUsersFormData($request);
 
-        dd(phpinfo());
-        dd($userResults);
-
-
         foreach ($userResults as $user) {
 
             $evententry = EventEntry::where('userid', $user['userid'])
@@ -143,9 +139,6 @@ class ScoringController extends Controller
                 ->where('divisionid', $user['divisionid'])
                 ->get()
                 ->first();
-
-//            dump($evententry);
-
 
             if (empty($evententry)) {
                 $errorstring = 'Error with score, please try again';
@@ -223,7 +216,8 @@ class ScoringController extends Controller
         if ($event->eventtype == 1) {
             // get league scoring view
             return $this->getLeagueScoringView($event);
-        } else {
+        }
+        else {
             // normal event
             return $this->getEventScoringView($event);
         }
@@ -299,9 +293,6 @@ class ScoringController extends Controller
         $users = $userssorted;
         ksort($users);
 
-//        dd($users);
-
-
         $results = Score::where('eventid', $event->eventid)->get()->first();
 
         // User Entry
@@ -364,7 +355,6 @@ class ScoringController extends Controller
             ->get()
             ->first();
 
-//        dd($userevententry);
 
         if (!empty($userevententry)) {
             $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
