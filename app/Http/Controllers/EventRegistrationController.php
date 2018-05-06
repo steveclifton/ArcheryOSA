@@ -461,48 +461,45 @@ class EventRegistrationController extends Controller
         if (empty($request->input('eventroundid'))) {
             return false;
         }
-        else {
-            $hash = '';
-            // These are rounds that are already in the database
-            $existingroundids = [];
-            foreach ($userentry as $entry) {
-                $existingroundids[$entry->eventroundid] = $entry->eventroundid;
-                $hash = $entry->hash;
-            }
-            // Create a new array that has the new ones
-            $newroundids = [];
-            foreach ($request->input('eventroundid') as $entryid) {
-                $newroundids[$entryid] = intval($entryid);
-            }
 
-            // add those that need to be added
-            foreach (array_diff($newroundids, $existingroundids) as $add) {
-                $this->createEntry($request, $add, $hash);
-            }
-            // remove those that need to be deleted
-            foreach(array_diff($existingroundids, $newroundids) as $delete) {
-                $this->deleteUserEventRound($request->userid, $request->eventid, $delete);
-            }
-
-
-            // need to find rounds that have been unticked - IE removed
-            foreach ($userentry as $entry) {
-                // update anything that is needed
-                $entry->fullname = htmlentities($request->input('name'));
-                $entry->clubid = htmlentities($request->input('clubid'));
-                $entry->email = htmlentities($request->input('email'));
-                $entry->divisionid = htmlentities($request->input('divisions'));
-                $entry->membershipcode = htmlentities($request->input('membershipcode'));
-                $entry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
-                $entry->phone = htmlentities($request->input('phone'));
-                $entry->address = htmlentities($request->input('address'));
-                $entry->notes = html_entity_decode($request->input('notes'));
-                $entry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
-                $entry->fullname = htmlentities($request->input('name'));
-
-                $entry->save();
-            }
+        // Create a new array that has the new ones
+        $newroundids = [];
+        foreach ($request->input('eventroundid') as $entryid) {
+            $newroundids[$entryid] = intval($entryid);
         }
+
+        // add those that need to be added
+        foreach (array_diff($newroundids, $existingroundids) as $add) {
+            $this->createEntry($request, $add, $hash);
+        }
+
+        // remove those that need to be deleted
+        foreach(array_diff($existingroundids, $newroundids) as $delete) {
+            $this->deleteUserEventRound($request->userid, $request->eventid, $delete);
+        }
+
+
+        // need to find rounds that have been unticked - IE removed
+        foreach ($userentry as $entry) {
+            // update anything that is needed
+            $entry->fullname = htmlentities($request->input('name'));
+            $entry->clubid = htmlentities($request->input('clubid'));
+            $entry->email = htmlentities($request->input('email'));
+            $entry->divisionid = htmlentities($request->input('divisions'));
+            $entry->membershipcode = htmlentities($request->input('membershipcode'));
+            $entry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
+            $entry->phone = htmlentities($request->input('phone'));
+            $entry->address = htmlentities($request->input('address'));
+            $entry->notes = html_entity_decode($request->input('notes'));
+            $entry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
+            $entry->fullname = htmlentities($request->input('name'));
+            $entry->hash = $this->createHash();
+
+            $entry->save();
+        } // foreach
+
+        return true;
+
     } // singleEntryUpdate
 
     /**
