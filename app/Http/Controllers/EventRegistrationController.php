@@ -320,7 +320,7 @@ class EventRegistrationController extends Controller
      * Updates a users event registration
      *  - Calls the appropraite method
      */
-    public function updateEventRegistration($request)
+    public function updateEventRegistration(Request $request)
     {
         $request->validate([
             'name' => 'required',
