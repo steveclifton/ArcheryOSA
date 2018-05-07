@@ -410,7 +410,7 @@ class EventRegistrationController extends Controller
     /**
      * Creates a Single Entry
      */
-    private function createEntry($request, $eventroundid, $hash)
+    public function createEntry($request, $eventroundid, $hash)
     {
 
         $evententry = new EventEntry();
@@ -436,7 +436,7 @@ class EventRegistrationController extends Controller
     /**
      * CREATES as well as updates a Single Entry
      */
-    private function singleEntryUpdate($request)
+    public function singleEntryUpdate($request)
     {
 
         // get all the rounds, if any is missing , delete it
@@ -504,7 +504,7 @@ class EventRegistrationController extends Controller
     /**
      * Updates a Multiple Entry
      */
-    private function multipleEntryUpdate($request)
+    public function multipleEntryUpdate($request)
     {
 
         // current divisions
@@ -536,7 +536,7 @@ class EventRegistrationController extends Controller
                                     ->get()
                                     ->first();
 
-            if (is_null($userentry)) {
+            if (empty($userentry)) {
                 // create a new one here
                 $evententry = new EventEntry();
 
@@ -555,21 +555,20 @@ class EventRegistrationController extends Controller
 
                 $evententry->save();
 
-
-
-            } else {
+            }
+            else {
                 // exisiting, update timestamp
                 $userentry->save();
             }
         }
 
-
+        return true;
     } // multipleEntryUpdate
 
     /**
      * Deletes a users entry to the whole competition
      */
-    private function deleteUserEntry($userid, $eventid)
+    public function deleteUserEntry($userid, $eventid)
     {
         return EventEntry::where('userid', $userid)
                     ->where('eventid', $eventid)
@@ -580,7 +579,7 @@ class EventRegistrationController extends Controller
     /**
      * Deletes a users SINGLE entry to the whole competition
      */
-    private function deleteUserEventRound($userid, $eventid, $roundid)
+    public function deleteUserEventRound($userid, $eventid, $roundid)
     {
         return EventEntry::where('userid', $userid)
             ->where('eventid', $eventid)
