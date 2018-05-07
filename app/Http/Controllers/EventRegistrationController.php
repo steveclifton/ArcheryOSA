@@ -16,7 +16,6 @@ use App\EventRound;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
-use function Sodium\compare;
 
 class EventRegistrationController extends Controller
 {
@@ -206,8 +205,9 @@ class EventRegistrationController extends Controller
      */
     public function eventRegister(EventRegisterValidator $request)
     {
+
         if ($request->input('submit') == 'remove') {
-            $this->updateEventRegistration($request);
+            $this->deleteUserEntry($request->input('userid'), $request->input('eventid'));
             return back()->with('message', 'Entry Removed');
         }
 
@@ -232,8 +232,6 @@ class EventRegistrationController extends Controller
                 return back()->with('failure', 'Registration Failed, please contact archeryosa@gmail.com');
             }
         }
-
-
 
 
         /* non league */
