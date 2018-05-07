@@ -428,6 +428,36 @@
                         <hr>
                             <h3>Setup</h3>
 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Visible</label>
+                                <div class="col-md-6">
+                                    @if (!empty($event))
+                                        <?php
+                                        $status='';
+                                        if ($event->first()->visible == 1) {
+                                            $status = 'checked';
+                                        }
+                                        ?>
+                                        <input style="margin-top: 10px" type="checkbox" name="visible" {{$status}}>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Date of Birth Required</label>
+                                <div class="col-md-6">
+                                    @if (!empty($event))
+                                        <?php
+                                        $status='';
+                                        if ($event->first()->dob == 1) {
+                                            $status = 'checked';
+                                        }
+                                        ?>
+                                        <input style="margin-top: 10px" type="checkbox" name="dob" {{$status}}>
+                                    @endif
+                                </div>
+                            </div>
+
                             <div class="form-group{{ $errors->has('multipledivisions') ? ' has-error' : '' }}">
                                 <label for="bankaccount" class="col-md-4 control-label">Multiple Division Entries</label>
                                 <div class="col-md-6">
@@ -445,35 +475,22 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">Visible</label>
-                                <div class="col-md-6">
-                                    @if (!empty($event))
-                                        <?php
-                                        $status='';
-                                        if ($event->first()->visible == 1) {
-                                            $status = 'checked';
-                                        }
-                                        ?>
-                                        <input style="margin-top: 10px" type="checkbox" name="visible" {{$status}}>
-                                    @endif
-                                </div>
-                            </div>
 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">Scoring Enabled</label>
-                                <div class="col-md-6">
-                                    @if (!empty($event))
-                                        <?php
-                                        $status='';
-                                        if ($event->first()->scoringenabled == 1) {
-                                            $status = 'checked';
-                                        }
-                                        ?>
-                                        <input style="margin-top: 10px" type="checkbox" name="scoringenabled" {{$status}}>
-                                    @endif
-                                </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Scoring Enabled</label>
+                            <div class="col-md-6">
+                                @if (!empty($event))
+                                    <?php
+                                    $status='';
+                                    if ($event->first()->scoringenabled == 1) {
+                                        $status = 'checked';
+                                    }
+                                    ?>
+                                    <input style="margin-top: 10px" type="checkbox" name="scoringenabled" {{$status}}>
+                                @endif
                             </div>
+                        </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Users Can Score</label>
