@@ -565,6 +565,7 @@ class EventRegistrationController extends Controller
         return true;
     } // multipleEntryUpdate
 
+
     /**
      * Deletes a users entry to the whole competition
      */
