@@ -8,6 +8,7 @@ use App\Http\Requests\Events\EventRegisterValidator;
 use App\Http\Requests\Events\UpdateEventRegisterValidator;
 use App\Organisation;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Club;
 use App\Division;
@@ -237,6 +238,7 @@ class EventRegistrationController extends Controller
         /* non league */
         if ($event->eventtype == 0 && $event->multipledivisions == 0) {
             // Multiple entry comp
+
             $evententry = $this->singleEntryUpdate($request);
 
             if (empty($evententry)){
@@ -281,6 +283,12 @@ class EventRegistrationController extends Controller
                 continue;
             }
 
+            if (!empty($request->input('dateofbirth'))) {
+                $dateofbirth = Carbon::createFromFormat('d/m/Y', $request->input('dateofbirth'));
+                $request->replace(['dateofbirth' => $dateofbirth]);
+            }
+
+
             $evententry = new EventEntry();
             $evententry->fullname = $request->input('name');
             $evententry->userid = $request->input('userid');
@@ -297,6 +305,7 @@ class EventRegistrationController extends Controller
             $evententry->eventid = $request->eventid;
             $evententry->eventroundid = $request->input('eventroundid');
             $evententry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
+            $evententry->dateofbirth = !empty($request->input('dateofbirth')) ? $request->input('dateofbirth') : NULL;
 
             $evententry->save();
 
@@ -410,6 +419,10 @@ class EventRegistrationController extends Controller
      */
     public function createEntry($request, $eventroundid, $hash)
     {
+        $dateofbirth = NULL;
+        if (!empty($request->input('dateofbirth'))) {
+            $dateofbirth = Carbon::createFromFormat('d/m/Y', $request->input('dateofbirth'));
+        }
 
         $evententry = new EventEntry();
         $evententry->fullname = $request->input('name');
@@ -427,6 +440,8 @@ class EventRegistrationController extends Controller
         $evententry->eventroundid = $eventroundid;
         $evententry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
         $evententry->hash = $hash;
+        $evententry->dateofbirth = $dateofbirth;
+
         $evententry->save();
 
     } // createEntry
@@ -450,7 +465,6 @@ class EventRegistrationController extends Controller
             $existingroundids[$entry->eventroundid] = $entry->eventroundid;
             $hash = !empty($entry->hash) ? $entry->hash : '';
         }
-
         if (empty($hash)){
             $hash = $this->createHash();
         }
@@ -458,6 +472,8 @@ class EventRegistrationController extends Controller
         if (empty($request->input('eventroundid'))) {
             return false;
         }
+
+
 
         // Create a new array that has the new ones
         $newroundids = [];
@@ -475,22 +491,28 @@ class EventRegistrationController extends Controller
             $this->deleteUserEventRound($request->userid, $request->eventid, $delete);
         }
 
+        $dateofbirth = NULL;
+        if (!empty($request->input('dateofbirth'))) {
+            $dateofbirth = Carbon::createFromFormat('d/m/Y', $request->input('dateofbirth'));
+        }
+
 
         // need to find rounds that have been unticked - IE removed
         foreach ($userentry as $entry) {
             // update anything that is needed
-            $entry->fullname = htmlentities($request->input('name'));
-            $entry->clubid = htmlentities($request->input('clubid'));
-            $entry->email = htmlentities($request->input('email'));
-            $entry->divisionid = htmlentities($request->input('divisions'));
-            $entry->membershipcode = htmlentities($request->input('membershipcode'));
+            $entry->fullname = $request->input('name');
+            $entry->clubid = $request->input('clubid');
+            $entry->email = $request->input('email');
+            $entry->divisionid = $request->input('divisions');
+            $entry->membershipcode = $request->input('membershipcode');
             $entry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
-            $entry->phone = htmlentities($request->input('phone'));
-            $entry->address = htmlentities($request->input('address'));
-            $entry->notes = html_entity_decode($request->input('notes'));
+            $entry->phone = $request->input('phone');
+            $entry->address = $request->input('address');
+            $entry->notes = $request->input('notes');
             $entry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
-            $entry->fullname = htmlentities($request->input('name'));
-            $entry->hash = $this->createHash();
+            $entry->fullname = $request->input('name');
+            $entry->hash = $hash;
+            $entry->dateofbirth = $dateofbirth;
 
             $entry->save();
         } // foreach
