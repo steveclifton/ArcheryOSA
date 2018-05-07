@@ -231,62 +231,39 @@ class EventController extends Controller
 
     public function getUserEntryDetails(Request $request)
     {
-
-        $userdetails = new \stdClass;
-
         $user = EventEntry::where('hash', $request->entryhash)->get()->first();
         $event = Event::where('eventid', $user->eventid)->get()->first();
-        $user = EventEntry::where('userid', $user->userid)->where('eventid', $user->eventid)->get();
 
-        $userdetails->club = Club::where('clubid', $user->first()->clubid)->pluck('name')->first();
-        $userdetails->division = Division::where('divisionid', $user->first()->divisionid)->pluck('name')->first();
-        if ($user->first()->paid == 0) {
-            $userdetails->entrystatus = 'Not Paid';
-        } else if ($user->first()->paid == 1) {
-            $userdetails->entrystatus = 'Paid';
-        } else {
-            $userdetails->entrystatus = 'NA';
+        $er = new EventRegistrationController();
+
+        $data = $er->getRegisterEventDetails($event->eventid, $user->userid );
+        $data['relations'] = [];
+
+        return view('auth.events.event_userentry', $data);
+
+    }
+
+    public function updateUsersEntry(Request $request)
+    {
+        $event = Event::where('eventid', $request->input('eventid'))->get()->first();
+
+        $er = new EventRegistrationController();
+        // Remove the users entry
+        if ($request->input('submit') == 'remove') {
+            $er->deleteUserEntry($request->input('userid'), $request->input('eventid'));
         }
 
-        foreach ($user as $u) {
-            $userdetails->rounds[] = EventRound::where('eventroundid', $u->eventroundid)->get()->first();
+        /* non league */
+        if ($event->eventtype == 0 && $event->multipledivisions == 0) {
+            // Multiple entry comp
+            $er->singleEntryUpdate($request);
+        }
+        /* league processing */
+        else {
+            $er->league_eventRegister($request);
         }
 
-        if (!empty($request->a)) {
-            $this->touchurl('sendconfirmationemail/' . $user->first()->userid . '/' . $user->first()->evententryid . '/' . $user->first()->hash);
-            foreach ($user as $u) {
-                $u->confirmationemail = 1;
-                $u->save();
-            }
-        }
-
-        $hasemail = false;
-        foreach ($user as $u) {
-            if ($u->confirmationemail == 1) {
-                $hasemail = true;
-            }
-        }
-        $clubs = Club::where('organisationid', $event->organisationid)->get();
-        $divArr = unserialize($event->divisions);
-        $divisions = Division::whereIn('divisionid', $divArr)->orderBy('name', 'asc')->get(); // collection array of divisions
-        $eventrounds = EventRound::where('eventid', $event->eventid)->get();
-
-        $userdivisions = [];
-        $usereventrounds = [];
-        foreach ($user as $u) {
-            $userdivisions[] = $u->divisionid;
-            $usereventrounds[] = $u->eventroundid;
-        }
-        $organisationname = Organisation::where('organisationid', $event->organisationid)->pluck('name')->first();
-
-        if (is_null($organisationname)) {
-            $organisationname = '';
-        }
-
-
-
-        return view('auth.events.event_userentry', compact('user', 'userdetails', 'hasemail', 'event', 'clubs', 'divisions', 'userdivisions', 'usereventrounds', 'eventrounds', 'organisationname'));
-
+        return redirect()->back()->withInput()->with('message', 'Update Successful');
     }
 
     public function create(Request $request)
