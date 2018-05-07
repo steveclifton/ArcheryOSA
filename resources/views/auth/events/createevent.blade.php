@@ -310,6 +310,22 @@
 
                         <hr>
                             <h3>Setup</h3>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Visible</label>
+                                <div class="col-md-6">
+                                    <input type="checkbox" name="visible" style="margin-top: 10px">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Date of Birth Required</label>
+                                <div class="col-md-6">
+                                    <input type="checkbox" name="dob" style="margin-top: 10px">
+                                </div>
+                            </div>
+
+
                             <div class="form-group{{ $errors->has('multipledivisions') ? ' has-error' : '' }}">
                                 <label for="bankaccount" class="col-md-4 control-label">Multiple Division Entries</label>
                                 <div class="col-md-6">
@@ -322,12 +338,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">Visible</label>
-                                <div class="col-md-6">
-                                    <input type="checkbox" name="visible" style="margin-top: 10px">
-                                </div>
-                            </div>
+
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Scoring Enabled</label>
