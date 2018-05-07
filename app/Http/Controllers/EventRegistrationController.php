@@ -211,7 +211,6 @@ class EventRegistrationController extends Controller
             return back()->with('message', 'Entry Removed');
         }
 
-
         $event = Event::where('eventid', $request->eventid)
                         ->where('name', urldecode($request->eventname))
                         ->get()
@@ -234,16 +233,15 @@ class EventRegistrationController extends Controller
         }
 
 
+
         /* non league */
         if ($event->eventtype == 0 && $event->multipledivisions == 0) {
             // Multiple entry comp
-            $return = $this->singleEntryUpdate($request);
+            $evententry = $this->singleEntryUpdate($request);
 
-            if ($return == false ){
+            if (empty($evententry)){
                 return redirect()->back()->withInput()->with('failure', 'Please check entry and try again');
             }
-            return redirect()->back()->withInput()->with('message', 'Update Successful');
-
         }
         /* league processing */
         else {
@@ -497,7 +495,7 @@ class EventRegistrationController extends Controller
             $entry->save();
         } // foreach
 
-        return true;
+        return $entry;
 
     } // singleEntryUpdate
 
