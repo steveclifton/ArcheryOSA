@@ -444,6 +444,8 @@ class EventRegistrationController extends Controller
 
         $evententry->save();
 
+        return $evententry;
+
     } // createEntry
 
     /**
@@ -483,7 +485,7 @@ class EventRegistrationController extends Controller
 
         // add those that need to be added
         foreach (array_diff($newroundids, $existingroundids) as $add) {
-            $this->createEntry($request, $add, $hash);
+            $entry = $this->createEntry($request, $add, $hash);
         }
 
         // remove those that need to be deleted
