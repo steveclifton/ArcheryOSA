@@ -78,6 +78,53 @@
         </div>
     </div>
 
+    @if ($event->dob == 1)
+        <div class="form-group {{ $errors->has('dateofbirth') ? ' has-error' : '' }}">
+            <label class="col-md-4 control-label">Date of Birth</label>
+
+            <div class="col-md-6">
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" name="dateofbirth" class="form-control pull-right" id="dateofbirth" >
+                </div>
+                @if ($errors->has('dateofbirth'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('dateofbirth') }}</strong>
+                    </span>
+                @endif
+            </div>
+        </div>
+
+        <script src="{{URL::asset('bower_components/moment/min/moment.min.js')}}"></script>
+        <script src="{{URL::asset('bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+        <!-- datepicker -->
+        <script src="{{URL::asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+        <?php
+            $date = time();
+            if (!empty($archerentry->eventregistration)) {
+                $date = strtotime($archerentry->eventregistration->first()->dateofbirth);
+            }
+        ?>
+        <script>
+            $(function () {
+                //Initialize Select2 Elements
+                $('.select2').select2();
+
+                $('#dateofbirth').datepicker({
+                    startView: 2,
+                    format: 'dd/mm/yyyy',
+                    autoclose: true
+
+                }).datepicker("update", "<?= date('d/m/Y', $date) ?>"); //
+
+            });
+
+        </script>
+    @endif
+
+
     @if ($event->multipledivisions == 0)
         <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="organisation">
             <label for="organisation" class="col-md-4 control-label">Division</label>
