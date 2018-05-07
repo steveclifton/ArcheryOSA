@@ -281,6 +281,7 @@ class EventController extends Controller
         ])->validate();
 
 
+
         // Format date
         $date = explode(' - ', $request->input('datetime'));
         $startdate = Carbon::createFromFormat('d/m/Y', $date[0]);
@@ -312,6 +313,12 @@ class EventController extends Controller
         if (!empty($request->input('multipledivisions'))) {
             $multipledivisions = 1;
         }
+
+        $dobrequired = 0;
+        if (!empty($request->input('dob'))) {
+            $dobrequired = 1;
+        }
+
         $sponsored = 0;
         if (!empty($request->input('sponsored'))) {
             $sponsored = 1;
@@ -375,6 +382,7 @@ class EventController extends Controller
         $event->sponsortext = $request->input('sponsortext');
         $event->sponsorimageurl = $request->input('sponsorimageurl');
         $event->ignoregenders = $ignoregender;
+        $event->dob = $dobrequired;
 
         $event->visible = $visible;
         $event->save();
@@ -454,6 +462,11 @@ class EventController extends Controller
                 $multipledivisions = 1;
             }
 
+            $dobrequired = 0;
+            if (!empty($request->input('dob'))) {
+                $dobrequired = 1;
+            }
+
             $sponsored = 0;
             if (!empty($request->input('sponsored'))) {
                 $sponsored = 1;
@@ -526,8 +539,9 @@ class EventController extends Controller
             $event->hash = md5($request->input('name') . time());
             $event->ignoregenders = $ignoregender;
             $event->currentweek = $request->input('currentweek') ?? 1;
-
             $event->visible = $visible;
+            $event->dob = $dobrequired;
+
             $event->save();
 
             return Redirect::route('updateevent', $request->eventid)->with('message', 'Update Successful');
