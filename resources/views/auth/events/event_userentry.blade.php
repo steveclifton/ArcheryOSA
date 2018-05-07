@@ -30,230 +30,15 @@
 
                 <div class="panel-body">
 
-                    <form class="form-horizontal" method="POST" action="{{ route('updateeventregistration', ['eventid' => $event->eventid, 'eventname' => urlencode($event->name)]) }}" >
+                    <form class="form-horizontal" method="POST" action="{{ route('updateuserentry', ['eventid' => $event->eventid, 'eventname' => urlencode($event->name)]) }}" >
                         {{ csrf_field() }}
 
-                        <input type="hidden" name="userid" value="{!! $user->first()->userid ?? old('userid') !!}" >
+
                         <input type="text" name="eventid" hidden value="{{$event->eventid}}">
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label  class="col-md-4 control-label">Name</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{!! $user->first()->fullname ?? old('name') !!}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                        <div id="formdata">
+                            @include('includes.forms.entryform')
                         </div>
-
-                        <div class="form-group {{ $errors->has('clubid') ? ' has-error' : '' }}" id="club">
-                            <label class="col-md-4 control-label">Club</label>
-
-                            <input type="text" id="userclubvalue" hidden value="{{ $user->first()->clubid }}">
-
-                            <div class="col-md-6">
-                                <select name="clubid" class="form-control" id="clubselect" required autofocus>
-
-                                    <option value="0">None</option>
-
-                                    @foreach ($clubs as $club)
-                                        <option value="{{$club->clubid}}">{{$club->name}}</option>
-                                    @endforeach
-
-                                </select>
-                                @if ($errors->has('clubid'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('clubid') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Email</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="text" class="form-control" name="email" value="{!! $user->first()->email ?? old('email') !!}" >
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-
-
-                        @if ($event->multipledivisions == 0)
-
-                            <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="organisation">
-                                <label for="organisation" class="col-md-4 control-label">Division</label>
-
-                                <div class="col-md-6">
-                                    <select name="divisions" class="form-control" id="organisation" >
-                                        <option value="" disabled selected>Please select</option>
-                                        @foreach ($divisions as $division)
-                                            <option value="{{$division->divisionid}}" <?= (in_array($division->divisionid, $userdivisions)) ? 'selected' : '' ?>>{{$division->name}}</option>
-                                        @endforeach
-
-                                    </select>
-                                    @if ($errors->has('division'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('division') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                        @else
-                            <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="organisation">
-                                <label for="organisation" class="col-md-4 control-label">Division</label>
-
-                                <div class="col-md-6" style="overflow-y:scroll; height:200px; margin-bottom:10px;">
-
-                                    @foreach ($divisions as $division)
-                                        <label class="form-check-label" style="margin-left: 10px" >
-                                            <input class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" <?= (in_array($division->divisionid, $userdivisions)) ? 'checked' : '' ?>>
-                                            {{$division->name}}
-                                        </label><br>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-
-                        <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="gender">
-                            @if ($event->eventtype == 0)
-                                <label for="gender" class="col-md-4 control-label">Gender</label>
-                                <div class="col-md-6">
-                                    <input class="form-check-input" type="radio" name="gender" value="M" {!! $user->first()->gender == 'M' ? 'checked' : '' !!}>
-                                    <label class="form-check-label" style="margin-left: 10px">Mens</label><br>
-                                    <input class="form-check-input" type="radio" name="gender" value="F" {!! $user->first()->gender == 'F' ? 'checked' : '' !!}>
-                                    <label class="form-check-label" style="margin-left: 10px">Womens</label>
-                                </div>
-                            @endif
-                        </div>
-
-
-
-                        <div class="form-group {{ $errors->has('division') ? ' has-error' : '' }}" id="Rounds">
-
-
-                            @if ($event->eventtype == 1)
-
-                                <label for="Rounds" class="col-md-4 control-label">Round</label>
-                                <div class="col-md-6">
-                                    @foreach ($eventrounds as $round)
-                                        <input class="form-check-input" type="checkbox" checked disabled name="eventroundid" value="{{$round->eventroundid}}" >
-                                        <label class="form-check-label" style="margin-left: 10px" >{!! $round->name!!}</label><br>
-                                    @endforeach
-                                </div>
-
-                            @else
-                                <label for="Rounds" class="col-md-4 control-label">Rounds</label>
-                                <div class="col-md-6">
-                                    @foreach ($eventrounds as $round)
-                                        <input class="form-check-input" type="checkbox" name="eventroundid[]" value="{{$round->eventroundid}}" <?= (in_array($round->eventroundid, $usereventrounds)) ? 'checked' : '' ?> >
-                                        <label class="form-check-label" style="margin-left: 10px" >{!! date('d F', strtotime($round->date)) . " - " .$round->name!!}</label><br>
-                                    @endforeach
-                                </div>
-                            @endif
-
-
-                        </div>
-
-
-                        <div class="form-group{{ $errors->has('membershipcode') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">{{$organisationname}} Membership Code</label>
-
-                            <div class="col-md-6">
-                                <input id="membershipcode" type="text" class="form-control" name="membershipcode" value="{{ $user->first()->membershipcode }}"  autofocus>
-
-                                @if ($errors->has('membershipcode'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('membershipcode') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Phone</label>
-
-                            <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control" name="phone" value="{!! $user->first()->phone ?? old('phone') !!}"  autofocus>
-
-                                @if ($errors->has('phone'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('phone') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-
-                        <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
-                            <label for="address" class="col-md-4 control-label">Address</label>
-
-                            <div class="col-md-6">
-                                <textarea rows="3" id="address" type="text" class="form-control" name="address" >{!! $user->first()->address ?? old('address') !!}</textarea>
-                                @if ($errors->has('address'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('address') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('notes') ? ' has-error' : '' }}">
-                            <label for="address" class="col-md-4 control-label">Notes</label>
-
-                            <div class="col-md-6">
-                                <textarea rows="5" id="address" type="text" class="form-control" name="notes" >{!! $user->first()->notes ?? old('notes') !!}</textarea>
-                                @if ($errors->has('notes'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('notes') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-
-                        <div class="form-group{{ $errors->has('cost') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Cost</label>
-
-                            <div class="col-md-6">
-                                <input id="cost" type="text" class="form-control" name="cost" value="${{$event->cost}}" disabled>
-
-                                @if ($errors->has('cost'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('cost') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-
-                        <div class="form-group{{ $errors->has('bankaccount') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Events Bank Account</label>
-
-                            <div class="col-md-6">
-                                <input id="bankaccount" type="text" class="form-control" name="bankaccount" value="{{$event->bankaccount}}" disabled>
-
-                                @if ($errors->has('bankaccount'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('bankaccount') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
@@ -261,47 +46,13 @@
                                     Update
                                 </button>
 
-                                @if (!empty($hasemail) )
-                                    <a href="?a=send" class="btn btn-danger">Send Email Again</a>
-                                @else
-                                    <a href="?a=send" class="btn btn-warning">Send Email </a>
-                                @endif
-
                                 <button type="submit" class="btn btn-danger pull-right" value="remove" name="submit" id="deleteBtn">
                                     Remove Entry
                                 </button>
                             </div>
                         </div>
 
-
-
-
-
-
-                        {{--@foreach ($eventrounds as $eventround)--}}
-
-                        {{--<div class="form-group">--}}
-                        {{--<a href="{{route('updateeventroundview', $eventround->eventroundid)}}">--}}
-                        {{--<label for="eventround" class="col-md-4 control-label">{{$eventround->name}}</label>--}}
-                        {{--</a>--}}
-                        {{--<div class="col-md-4">--}}
-                        {{--<input type="text" class="form-control" name="cost" disabled placeholder="{{$eventround->name ?? ''}}">Round--}}
-                        {{--</div>--}}
-
-                        {{--<div class="col-md-2">--}}
-                        {{--<input type="text" class="form-control" name="cost" disabled placeholder="{{ '105 Entries' ?? ''}}">User count--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
-
-                        {{--<hr>--}}
-                        {{--@endforeach--}}
-
                     </form>
-
-
-
-
-
 
                 </div>
             </div>
