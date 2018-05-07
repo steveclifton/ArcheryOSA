@@ -45,6 +45,8 @@
                             </div>
                         </div>
 
+
+
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
@@ -54,8 +56,22 @@
                                 <a class="btn btn-link" href="resetpassword">
                                     Forgot Your Password?
                                 </a>
+
+
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <div class="checkbox">
+                                    <a class="btn btn-link" href="register">
+                                        Dont have an account? Register here!
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </form>
                 </div>
             </div>
