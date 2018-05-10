@@ -23,6 +23,7 @@ class SenderController extends Controller
             Log::info($request->ip());
             die('Invalid Request - IP Invalid');
         }
+        usleep(rand(10,50));
 
         $userid = $request->userid;
         $evententryid = $request->evententryid;
@@ -61,6 +62,7 @@ class SenderController extends Controller
             Log::info($request->ip());
             die('Invalid Request - IP Invalid');
         }
+        usleep(rand(10,50));
 
         $userid = $request->userid;
         $evententryid = $request->evententryid;

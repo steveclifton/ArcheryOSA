@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\ArcherRelation;
 use App\EventEntry;
 use App\Http\Requests\Events\EventRegisterValidator;
-use App\Http\Requests\Events\UpdateEventRegisterValidator;
 use App\Organisation;
 use App\User;
 use Carbon\Carbon;
@@ -160,7 +159,9 @@ class EventRegistrationController extends Controller
     } // getRegisterForEventView
 
 
-
+    /**
+     * Returns the information required for a users event registration form
+     */
     public function getRegisterEventDetails($eventid, $userid)
     {
         $event = Event::where('eventid', urlencode($eventid))->get()->first();
@@ -320,46 +321,7 @@ class EventRegistrationController extends Controller
 
     } // league_eventRegister
 
-    /**
-     * POST
-     * Updates a users event registration
-     *  - Calls the appropraite method
-     */
-//    public function updateEventRegistration(Request $request)
-//    {
-//        $request->validate([
-//            'name' => 'required',
-//            'clubid' => 'required',
-//            'email' => 'email|required',
-//            'divisions' => 'required',
-//        ], [
-//            'name.required' => 'Please enter the Archer\'s name',
-//            'divisions.required' => 'Please select a division',
-//        ]);
-//
-//        $event = Event::where('eventid', $request->eventid)->where('name', urldecode($request->eventname))->get()->first();
-//        if (empty($event)) {
-//            return back()->with('failure', 'Registration Failed, please contact archeryosa@gmail.com');
-//        }
-//
-//        dd($event);
-//        // Remove the users entry
-//        if ($request->input('submit') == 'remove') {
-//            $this->deleteUserEntry($request->input('userid'), $request->input('eventid'));
-//            return true;
-//        }
-//        else if ($event->multipledivisions == 0) {
-//            // Single entry comp
-//            $this->singleEntryUpdate($request);
-//            return redirect()->back()->withInput()->with('message', 'Update Successful');
-//        }
-//        else {
-//            // Multiple entry comp
-//            $this->multipleEntryUpdate($request);
-//            return redirect()->back()->withInput()->with('message', 'Update Successful');
-//        }
-//
-//    } // updateEventRegistration
+
 
     /**
      * POST
@@ -586,7 +548,6 @@ class EventRegistrationController extends Controller
 
         return true;
     } // multipleEntryUpdate
-
 
     /**
      * Deletes a users entry to the whole competition
