@@ -1,6 +1,6 @@
 <tbody>
 
-@if (!is_null($userevententry))
+@if (!empty($userevententry))
     <tr>
         <th style="width: 25%">Status</th>
         <td>
@@ -11,7 +11,7 @@
     </tr>
 @endif
 
-@if (!is_null($userevententry))
+@if (!empty($userevententry))
     <tr>
         <th style="width: 25%">Paid</th>
         <td>

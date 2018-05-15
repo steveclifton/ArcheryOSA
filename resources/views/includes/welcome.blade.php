@@ -33,7 +33,7 @@
                                 <table class="table no-margin">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
+                                            <th style="width: 35%;">Name</th>
                                             <th>Start Date</th>
                                             <th>Event Status</th>
                                             <th>Entry Status</th>
@@ -119,67 +119,67 @@
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title">Upcoming Events</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-                <div class="table-responsive">
-                    <table class="table no-margin">
-                        <thead>
-                            <tr>
-                                <th style="width: 25%;">Name</th>
-                                <th style="width: 30%">Location</th>
-                                <th>Enteries Close</th>
-                                <th>Start</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($events as $event)
-                            <tr>
-                                <td>
-                                    <a href="{{route('eventdetails', [urlencode($event->name)])}}">{{$event->name}}</a>
-                                </td>
-                                <td>{{ (strlen($event->location) > 60) ? mb_substr($event->location, 0, 60) . ".." : $event->location }}</td>
-                                <td><?= !empty($event->closeentry) ? date('d-m-Y', strtotime($event->closeentry)) : ''  ?></td>
-                                <td>{{date('d-m-Y', strtotime($event->startdate)) }}</td>
-                                <?php
-                                $colour = '';
-                                    switch ($event->status) :
-                                        case 'open' :
-                                            $colour = 'limegreen';
-                                            break;
-                                        case 'entriesclosed' :
-                                            $colour = 'orange';
-                                            break;
-                                        case 'completed' :
-                                            $colour = 'red';
-                                            break;
-                                        case 'entries-closed' :
-                                            $colour = 'red';
-                                            break;
-                                        case 'waitlist' :
-                                            $colour = 'orange';
-                                            break;
-                                        case 'pending' :
-                                            $colour = 'orange';
-                                            break;
-                                        case 'cancelled' :
-                                            $colour = 'red';
-                                            break;
-                                    endswitch;
-                                ?>
-                                <td style="color: {{$colour}}"><strong>{!! ucwords($event->status) !!}</strong></td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                <div class="box-header with-border">
+                    <h3 class="box-title">Upcoming Events</h3>
                 </div>
-                <!-- /.table-responsive -->
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                                <tr>
+                                    <th style="width: 35%;">Name</th>
+                                    <th style="width: 35%">Location</th>
+                                    <th style="width: 15%">Enteries Close</th>
+                                    <th style="width: 15%">Start</th>
+                                    <th style="width: 5%">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($events as $event)
+                                <tr>
+                                    <td>
+                                        <a href="{{route('eventdetails', [urlencode($event->name)])}}">{{$event->name}}</a>
+                                    </td>
+                                    <td>{{ (strlen($event->location) > 60) ? mb_substr($event->location, 0, 60) . ".." : $event->location }}</td>
+                                    <td><?= !empty($event->closeentry) ? date('d-m-Y', strtotime($event->closeentry)) : ''  ?></td>
+                                    <td>{{date('d-m-Y', strtotime($event->startdate)) }}</td>
+                                    <?php
+                                    $colour = '';
+                                        switch ($event->status) :
+                                            case 'open' :
+                                                $colour = 'limegreen';
+                                                break;
+                                            case 'entriesclosed' :
+                                                $colour = 'orange';
+                                                break;
+                                            case 'completed' :
+                                                $colour = 'red';
+                                                break;
+                                            case 'entries-closed' :
+                                                $colour = 'red';
+                                                break;
+                                            case 'waitlist' :
+                                                $colour = 'orange';
+                                                break;
+                                            case 'pending' :
+                                                $colour = 'orange';
+                                                break;
+                                            case 'cancelled' :
+                                                $colour = 'red';
+                                                break;
+                                        endswitch;
+                                    ?>
+                                    <td style="color: {{$colour}}"><strong>{!! ucwords($event->status) !!}</strong></td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.box-footer -->
             </div>
-            <!-- /.box-footer -->
-        </div>
         </div>
     </div>
 
@@ -187,35 +187,31 @@
     {{-- <div class="container"> --}}
     <div class="row">
         <div class="col-xs-12">
-            <div class="box">
-
-                <div class="box-header">
-
+            <div class="box box-primary">
+                <div class="box-header with-border">
                     <h3 class="box-title">Previous Events</h3>
-
-
                 </div>
-                <!-- /.box-header -->
-                <div class="box-body table-responsive no-padding">
-
-
-                    <table class="table table-hover">
-                        <tr>
-                            <th style="width: 17%;">Name</th>
-                            <th style="width: 40%">Location</th>
-                            <th>Dates</th>
-                        </tr>
-
-                        @foreach($prevevents as $event)
-                            <tr>
-                                <td><a href="{{ route('eventdetails', urlencode($event->name)) }}">{{$event->name}}</a></td>
-                                <td>{{ (strlen($event->location) > 60) ? mb_substr($event->location, 0, 60) . ".." : $event->location }}</td>
-                                <td>{{date('d F Y', strtotime($event->startdate))}} - {{date('d F Y', strtotime($event->enddate))}}</td>
-                            </tr>
-                        @endforeach
-
-
-                    </table>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                                <tr>
+                                    <th style="width: 35%;">Name</th>
+                                    <th style="width: 40%">Location</th>
+                                    <th style="width: 35%">Dates</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($prevevents as $event)
+                                <tr>
+                                    <td><a href="{{ route('eventdetails', urlencode($event->name)) }}">{{$event->name}}</a></td>
+                                    <td>{{ (strlen($event->location) > 60) ? mb_substr($event->location, 0, 60) . ".." : $event->location }}</td>
+                                    <td>{{date('d F Y', strtotime($event->startdate))}} - {{date('d F Y', strtotime($event->enddate))}}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.box-body -->
             </div>

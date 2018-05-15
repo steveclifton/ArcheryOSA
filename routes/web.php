@@ -155,6 +155,7 @@ Route::middleware(['web'])->group(function() {
 
 
         // ajax
+        Route::post('/admin/geteventdata', 'EventController@getEventAjaxData');
 
     });
 });

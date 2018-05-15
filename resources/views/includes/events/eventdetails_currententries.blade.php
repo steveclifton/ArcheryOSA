@@ -7,7 +7,6 @@
                         <div>
                             <h1 class="box-title">Current Entries</h1>
                         </div>
-
                     </div>
                     <div class="box-body">
                         <div class="table-responsive">

@@ -65,6 +65,12 @@
 
                 </div>
                 <hr>
+
+                @if(empty($users))
+                    <div class="box-body">
+                    <h4>No entries so far</h4>
+                    </div>
+                @else
                 <div class="box-body">
                     <form class="form-horizontal" method="POST" action="{{ route('entereventscores', [$event->eventid])  }}" id="scoringform">
                         {{ csrf_field() }}
@@ -174,6 +180,7 @@
 
                     </form>
                 </div>
+                @endif
             </div>{{-- .box--}}
         </div>
 

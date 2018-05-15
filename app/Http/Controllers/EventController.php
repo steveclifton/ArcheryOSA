@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Classes\EventDateRange;
-use App\Club;
 use App\EntryStatus;
 use App\EventEntry;
-use App\Score;
+
 use Illuminate\Support\Facades\DB;
 use App\EventRound;
 use Carbon\Carbon;
@@ -20,6 +19,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Image;
 
+use Illuminate\Support\Facades\View;
 
 
 /**
@@ -60,25 +60,50 @@ class EventController extends Controller
         return view('publicevents.previousevents', compact('events'));
     }
 
-
-
-
-
     public function PUBLIC_getEventDetailsView(Request $request)
     {
-        // Events
-        $event = Event::where('name', urldecode($request->name))
-                        ->get()
-                        ->first();
+        $data = $this->getEventData($request->name);
 
-        if (empty($event)) {
+        if (empty($data)) {
             return Redirect::route('home');
         }
+
+        // User Entry
+        $userevententry = EventEntry::where('userid', Auth::id())
+                                        ->where('eventid', $data['event']->eventid)
+                                        ->get()
+                                        ->first();
+        if (!empty($userevententry)) {
+            $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
+        }
+
+        $data['userevententry'] = $userevententry;
+        $data['users'] = $this->getEventUsers($data['event']->eventid)['users'];
+        $data['entrystatus'] = $this->getEventUsers($data['event']->eventid)['entrystatus'];
+        $data['canscore'] = $this->canScore($data['event'], $userevententry);
+
+        return view ('publicevents.eventdetails', $data);
+    }
+
+    /**
+     * Returns the information required for the eventdetails_details view
+     */
+    private function getEventData($event)
+    {
+
+        $event = Event::where('name', urldecode($event))
+            ->get()
+            ->first();
+
+        if (empty($event)) {
+            return false;
+        }
+
         $event->numberofweeks = ceil($event->daycount / 7);
 
-
         // Event Rounds stuff
-        $eventrounds = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, er.`location`, e.`status`, er.`eventroundid`, r.`unit`
+        $eventrounds = DB::select("
+            SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, er.`location`, e.`status`, er.`eventroundid`, r.`unit`
             FROM `eventrounds` er 
             JOIN `rounds` r USING (`roundid`)
             JOIN `events` e USING (`eventid`)
@@ -92,67 +117,68 @@ class EventController extends Controller
         // Events rounds distances
         $event->distancestring = $this->makeDistanceString($eventrounds);
 
+        return ['event' => $event, 'eventrounds' => $eventrounds];
+    }
 
-        // User Entry
-        $userevententry = EventEntry::where('userid', Auth::id())->where('eventid', $event->eventid)->get()->first();
-        if (!empty($userevententry)) {
-            $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
+    private function getEventFormData($eventid)
+    {
+        $event = Event::where('eventid', urlencode($eventid))->get();
+
+        if (empty($event)) {
+            return false;
         }
 
 
-        // Users
-        $userids = [];
-        $users = DB::select("SELECT DISTINCT ee.`userid`, ee.`fullname`, ee.`entrystatusid`, ee.`clubid` as club, ee.`paid`, d.`name` as division, u.`username`
+        $organisations = Organisation::where('visible', 1)->get();
+
+        $daterange = new EventDateRange($event->first()->startdate, $event->first()->enddate);
+        $daterange = $daterange->getDateRange();
+
+        $weeks = ($daterange != 0) ? count($daterange) / 7 : 1;
+
+        $divisions = Division::where('visible', 1)->orderBy('name')->get();
+        $eventdivisions = unserialize($event->first()->divisions);
+        $divisions = $this->sortDivisions($eventdivisions, $divisions);
+
+
+
+        return [
+            'event' => $event,
+            'organisations' => $organisations,
+            'daterange' => $daterange,
+            'weeks' => $weeks,
+            'divisions' => $divisions,
+            'eventdivisions' => $eventdivisions,
+        ];
+
+    }
+
+    private function getEventUsers($eventid)
+    {
+        $data = [];
+        $data['users'] = DB::select("
+            SELECT ee.`userid`, ee.`created_at`,  ee.`confirmationemail`, ee.`fullname`, ee.`hash`, ee.`entrystatusid`, ee.`clubid`, 
+              c.`name` as club, ee.`paid`, d.`name` as division, ee.`divisionid`, er.`name` as eventname, u.`username`
             FROM `evententry` ee
             LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
             LEFT JOIN `clubs` c ON(c.`clubid` = ee.`clubid`)
+            LEFT JOIN `eventrounds` er ON (ee.`eventroundid` = er.`eventroundid`)
             LEFT JOIN `users` u ON(ee.`userid` = u.`userid`)
             WHERE ee.`eventid` = :eventid
-            ORDER BY d.`name`, ee.`fullname`
-            ", ['eventid' => $event->eventid]);
+            GROUP BY ee.`userid`
+            ORDER BY ee.`entrystatusid`, d.`name`, ee.`fullname`
+            
+            ", ['eventid' => $eventid]);
 
-        foreach ($users as $user) {
+        foreach ($data['users'] as $user) {
             $user->label = $this->getLabel($user->division);
-            $userids[] = $user->userid;
         }
 
+        $data['entrystatus'] = EntryStatus::get();
 
+        return $data;
 
-
-
-        $results = Score::where('eventid', $event->eventid)->get()->first();
-        if (!empty($results)) {
-
-            $week = '';
-            if ($request->exists('week') ) {
-                $week = 'AND s.`week` = ' . intval($request->input('week'));
-            }
-
-            $results = DB::select("SELECT s.*, u.`firstname`, u.`lastname`, d.`name` as divisonname
-            FROM `scores` s 
-            JOIN `users` u USING (`userid`)
-            JOIN `divisions` d ON (s.`divisionid` = d.`divisionid`)
-            WHERE s.`userid` IN (" . implode(',', $userids) . ")
-            AND s.`eventid` = :eventid
-            $week
-            ORDER BY s.`total_score` DESC
-        ", ['eventid' => $event->eventid]);
-
-        }
-
-        $resultdistances = $this->getDistances($eventrounds);
-
-
-        // show scoring tab or not
-        $canscore = $this->canScore($event, $userevententry);
-
-
-        return view ('publicevents.eventdetails', compact('event', 'canscore', 'eventrounds', 'distances', 'userevententry', 'users', 'results', 'resultdistances'));
     }
-
-
-
-
 
     /****************************************************
     *                                                   *
@@ -163,10 +189,13 @@ class EventController extends Controller
     public function getEventsView()
     {
         if (Auth::user()->usertype == 1) {
-            $events = Event::orderBy('eventid', 'desc')->get();
+            $events = Event::orderBy('eventid', 'desc')
+                            ->get();
         }
         else {
-            $events = Event::where('createdby', Auth::user()->userid)->orderBy('eventid', 'desc')->get();
+            $events = Event::where('createdby', Auth::user()->userid)
+                            ->orderBy('eventid', 'desc')
+                            ->get();
         }
 
         return view('auth.events.events', compact('events'));
@@ -174,9 +203,21 @@ class EventController extends Controller
 
     public function getCreateView()
     {
-        $divisions = Division::where('visible', 1)->where('deleted', 0)->orderBy('name')->get();
-        $organisations = Organisation::where('visible', 1)->get();
-        $rounds = Round::where('visible', 1)->where('deleted', 0)->get();
+        if ((Auth::user()->usertype ?? -1) != 1 || (Auth::user()->usertype ?? -1) != 2) {
+            return Redirect::route('home');
+        }
+
+        $divisions = Division::where('visible', 1)
+                                ->where('deleted', 0)
+                                ->orderBy('name')
+                                ->get();
+
+        $organisations = Organisation::where('visible', 1)
+                                        ->get();
+
+        $rounds = Round::where('visible', 1)
+                            ->where('deleted', 0)
+                            ->get();
 
         return view('auth.events.createevent', compact('divisions', 'rounds', 'organisations', 'rounds'));
     }
@@ -184,55 +225,37 @@ class EventController extends Controller
     public function getUpdateEventView(Request $request)
     {
 
-        $event = Event::where('eventid', urlencode($request->eventid))->get();
+        $event = Event::where('eventid', $request->eventid)
+                        ->get()
+                        ->first();
 
-        if ($event->isEmpty()) {
+        $canedit = $this->canEditEvent( ($event->eventid ?? -1), Auth::id() );
+
+        if (empty($event) || ! $canedit)  {
             return redirect('home');
         }
 
-        $eventrounds = EventRound::where('eventid', $request->eventid)->get();
 
-        $organisations = Organisation::where('visible', 1)->get();
+        $data = $this->getEventData(urlencode($event->name));
 
-        $daterange = new EventDateRange($event->first()->startdate, $event->first()->enddate);
-        $daterange = $daterange->getDateRange();
-
-        $weeks = ($daterange != 0) ? count($daterange) / 7 : 1;
-
-        $divisions = Division::where('visible', 1)->orderBy('name')->get();
-//        dd($event->first()->divisions);
-        $eventdivisions = unserialize($event->first()->divisions);
-        $divisions = $this->sortDivisions($eventdivisions, $divisions);
-
-
-
-        $users = DB::select("
-            SELECT ee.`userid`, ee.`created_at`,  ee.`confirmationemail`, ee.`fullname`, ee.`hash`, ee.`entrystatusid`, ee.`clubid`, 
-              c.`name` as club, ee.`paid`, d.`name` as division, ee.`divisionid`, er.`name` as eventname
-            FROM `evententry` ee
-            LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
-            LEFT JOIN `clubs` c ON(c.`clubid` = ee.`clubid`)
-            LEFT JOIN `eventrounds` er ON (ee.`eventroundid` = er.`eventroundid`)
-            WHERE ee.`eventid` = :eventid
-            GROUP BY ee.`userid`
-            ORDER BY ee.`entrystatusid`, d.`name`, ee.`fullname`
-            
-            ", ['eventid' => $request->eventid]);
-
-        foreach ($users as $user) {
-            $user->label = $this->getLabel($user->division);
-        }
-
-
-        $entrystatus = EntryStatus::get();
-
-        return view('auth.events.updateevent', compact('event', 'divisions', 'eventdivisions', 'eventrounds', 'organisations', 'users', 'entrystatus', 'weeks'));
+        return view('auth.events.updateevent', $data);
     }
 
     public function getUserEntryDetails(Request $request)
     {
-        $user = EventEntry::where('hash', $request->entryhash)->get()->first();
-        $event = Event::where('eventid', $user->eventid)->get()->first();
+        $user = EventEntry::where('hash', $request->entryhash)
+                            ->get()
+                            ->first();
+
+        $event = Event::where('eventid', $user->eventid)
+                        ->get()
+                        ->first();
+
+        $canedit = $this->canEditEvent( ($event->eventid ?? -1), Auth::id() );
+
+        if (!$canedit)  {
+            return redirect('home');
+        }
 
         $er = new EventRegistrationController();
 
@@ -393,11 +416,10 @@ class EventController extends Controller
     public function update(Request $request)
     {
 
-
         // Used for adding days to the event
         if ($request->input('submit') == 'createeventround') {
 
-            return Redirect::route('createeventroundview', $request->input('eventid'));
+            return Redirect::route('createeventroundview', $request->eventid);
         }
 
         $event = Event::where('eventid', $request->eventid)->first();
@@ -609,29 +631,6 @@ class EventController extends Controller
         }
     }
 
-    private function getDistances($eventround)
-    {
-        $distances = [];
-        foreach ($eventround as $eventround) {
-            $distances['Distance-1'] = $eventround->dist1;
-            $distances['Distance-1-unit'] = $eventround->unit;
-            if (!is_null($eventround->dist2)) {
-                $distances['Distance-2'] = $eventround->dist2;
-                $distances['Distance-2-unit'] = $eventround->unit;
-            }
-            if (!is_null($eventround->dist3)) {
-                $distances['Distance-3'] = $eventround->dist3;
-                $distances['Distance-3-unit'] = $eventround->unit;
-            }
-            if (!is_null($eventround->dist4)) {
-                $distances['Distance-4'] = $eventround->dist4;
-                $distances['Distance-4-unit'] = $eventround->unit;
-            }
-        }
-        return $distances;
-
-    }
-
     private function sortDivisions($eventdivisions, $divisions)
     {
         if (empty($eventdivisions)) {
@@ -650,6 +649,76 @@ class EventController extends Controller
         return array_merge($first, $second);
     }
 
+
+    public function getEventAjaxData(Request $request)
+    {
+
+        $event = Event::where('eventid', $request->eventid)
+                        ->get()
+                        ->first();
+
+        $caneditevent = $this->canEditEvent( ($event->eventid ?? -1), Auth::id() );
+
+
+        // If the event is empty OR the user is not allowed to edit the event, return false
+        if (empty($event) || empty($caneditevent) || empty($request->type)) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $data = [];
+        switch ($request->type) {
+            case 'summary' :
+                $data = $this->getEventData(urlencode($event->name));
+                $view = View::make('includes.events.eventdetails_details', $data);
+                $html = $view->render();
+                break;
+
+            case 'scoring':
+                break;
+
+            case 'edit':
+                $data = $this->getEventFormData($event->eventid);
+                $view = View::make('includes.adminevents.eventdetailsform', $data);
+                $html = $view->render();
+                break;
+
+            case 'rounds':
+                $data['event'] = $event;
+                $data['eventrounds'] = EventRound::where('eventid', $event->eventid)->get();
+
+                $view = View::make('includes.adminevents.eventrounds', $data);
+                $html = $view->render();
+                break;
+
+            case 'entries':
+                $data = $this->getEventUsers($event->eventid);
+                $data['event'] = $event;
+
+                $view = View::make('includes.adminevents.evententries', $data);
+                $html = $view->render();
+                break;
+
+            case 'targets':
+
+                $view = View::make('includes.adminevents.targetallocation');
+                $html = $view->render();
+                break;
+
+
+
+        } // switch
+
+
+        return response()->json([
+            'success' => true,
+            'html' => $html
+        ]);
+
+
+
+    }
 
 }
 

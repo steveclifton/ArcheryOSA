@@ -10,6 +10,7 @@ use App\EventRound;
 use App\Organisation;
 use App\Round;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use DateTime;
 use DateInterval;
@@ -30,9 +31,18 @@ class EventRoundController extends Controller
 
     public function getCreateEventRoundView($eventid)
     {
+        $event = Event::where('eventid', $eventid)
+            ->get()
+            ->first();
+
+        if (!$this->canEditEvent($event->eventid ?? -1, Auth::id())) {
+            return Redirect::route('home');
+        }
+
         $rounds = Round::where('visible', 1)->get();
         $divisions = Division::where('visible', 1)->orderBy('organisationid')->get();
-        $event = Event::where('eventid', $eventid)->get()->first();
+
+
 
         $daterange = new EventDateRange($event->startdate, $event->enddate);
 
@@ -45,11 +55,15 @@ class EventRoundController extends Controller
 
         $eventround = EventRound::where('eventroundid', $request->eventroundid)->get();
 
-        if ($eventround->isEmpty()) {
+        $event = Event::where('eventid', $eventround->first()->eventid)
+                        ->get()
+                        ->first();
+
+        if ($eventround->isEmpty() || !$this->canEditEvent($event->eventid ?? -1, Auth::id())) {
             return redirect('divisions');
         }
 
-        $event = Event::where('eventid', $eventround->first()->eventid)->get()->first();
+
 
         $daterange = new EventDateRange($event->startdate, $event->enddate);
 
@@ -132,6 +146,10 @@ class EventRoundController extends Controller
             $eventround = EventRound::where('eventroundid', $request->eventroundid)->where('name', urldecode($request->eventroundname) );
 
             $eventid = $eventround->first()->eventid;
+
+            if (!$this->canEditEvent($eventid, Auth::id())) {
+                return Redirect::route('home');
+            }
 
             // delete record
             $eventround->first()->delete();

@@ -228,7 +228,7 @@ class ScoringController extends Controller
     {
 
         if ( ($event->scoringenabled ?? -1) != 1) {
-            return redirect()->back()->with('failure', 'Invalid Request');
+            return redirect()->back()->with('failure', 'Scoring currently disabled, please check with the event organiser');
         }
 
         $daterange = new EventDateRange($event->startdate, $event->enddate);

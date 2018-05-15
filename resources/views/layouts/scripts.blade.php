@@ -37,3 +37,6 @@
 <script src="{{URL::asset('js/adminlte.min.js')}}"></script>
 <script src="{{URL::asset('js/archeryosa.js')}}"></script>
 
+@if (Auth::check() && (Auth::user()->usertype == 1 || Auth::user()->usertype == 2))
+    <script src="{{URL::asset('js/adminaosa.js')}}"></script>
+@endif
