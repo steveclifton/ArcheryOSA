@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\EntryStatus;
+use App\Event;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -112,6 +113,7 @@ class Controller extends BaseController
 
     }
 
+
     /**
      * Create a random hash
      */
@@ -123,6 +125,33 @@ class Controller extends BaseController
 
         return str_replace(['/', '.', '#'],rand(1,999), $hash);
     }
+
+
+    /**
+     * Simple check to see if a user is able to edit an event
+     */
+    public function canEditEvent($eventid, $userid)
+    {
+        if (empty($eventid) || empty($userid)) {
+            return false;
+        }
+
+        $user = User::where('userid', $userid)->get()->first();
+        $event = Event::where('eventid', $eventid)->get()->first();
+
+
+        if (!empty($user) && !empty($event)) {
+            if ($user->usertype == 1 || $user->usertype == 2) {
+                return true;
+            }
+            if ($event->createdby == $userid) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
 
 }
