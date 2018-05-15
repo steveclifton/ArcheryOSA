@@ -152,6 +152,20 @@ class Controller extends BaseController
         return false;
     }
 
+    public function canManageEvents()
+    {
+        if ((Auth::user()->usertype == 1 || Auth::user()->usertype == 2)) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getUsersManagedEvents()
+    {
+        return Event::where('createdby', Auth::id())
+            ->get();
+    }
+
 
 
 }

@@ -82,7 +82,7 @@
             </ul>
         </li>
 
-        @if ( !empty(Auth::check()) && Auth::user()->usertype == 1 )
+        @if ( !empty(Auth::check()) && (Auth::user()->usertype == 1 || Auth::user()->usertype == 2))
             <li class="treeview menu-open">
                 <a href="javascript:;">
                     <i class="fa fa-cog"></i> <span>Admin</span>
