@@ -82,7 +82,7 @@
             </ul>
         </li>
 
-        @if ( Auth::canManageEvents() && !empty( Auth::getUsersManagedEvents() ) )
+        @if ( Auth::user()->usertype == 1 )
             <li class="treeview menu-open">
                 <a href="javascript:;">
                     <i class="fa fa-cog"></i> <span>Admin</span>
