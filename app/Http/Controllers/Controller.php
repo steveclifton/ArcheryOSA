@@ -16,6 +16,20 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+
+
+    public function makeurl($name, $eventid)
+    {
+        $url = prepurl($name) . '-' . $eventid;
+        return $url;
+    }
+
+    public function geteventurlid($name)
+    {
+        $arr = explode('-', $name);
+        return end($arr);
+    }
+
     public function touchurl($url)
     {
         $curl = 'curl --location -k --max-time 60 --speed-time 10 --speed-limit 999999999999999 --silent ' . getenv('APP_URL') . getenv('SEND_PATH') . $url . ' > /dev/null &';
