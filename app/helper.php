@@ -6,3 +6,12 @@ function prepurl($url)
     $url = preg_replace(['/[^0-9a-z\-]/', '/-+/'], ['', '-'], $url);
     return trim($url, '-');
 }
+
+
+
+
+
+
+
+
+
