@@ -203,7 +203,7 @@ class EventController extends Controller
 
     public function getCreateView()
     {
-        if ((Auth::user()->usertype ?? -1) != 1 || (Auth::user()->usertype ?? -1) != 2) {
+        if (!$this->canManageEvents()) {
             return Redirect::route('home');
         }
 
