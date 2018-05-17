@@ -37,9 +37,9 @@ class Controller extends BaseController
     }
 
 
-    public function getEventUrl($eventname)
+    public function getEventUrl($url)
     {
-        return 'https://archeryosa.com/eventdetails/' . urlencode($eventname);
+        return 'https://archeryosa.com/eventdetails/' . prepurl($url);
     }
 
 

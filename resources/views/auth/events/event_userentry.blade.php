@@ -17,7 +17,7 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">User Entry
-                    <a href="{!! route('updateeventview', $event->eventid) !!}">
+                    <a href="{!! route('updateeventview', $event->url) !!}">
                         <button type="submit" class="btn btn-default pull-right" id="addevent">
                             <i class="fa fa-backward" > Back</i>
                         </button>
@@ -30,7 +30,7 @@
 
                 <div class="panel-body">
 
-                    <form class="form-horizontal" method="POST" action="{{ route('updateuserentry', ['eventid' => $event->eventid, 'eventname' => urlencode($event->name)]) }}" >
+                    <form class="form-horizontal" method="POST" action="{{ route('updateuserentry', ['eventurl' => $event->url]) }}" >
                         {{ csrf_field() }}
 
 

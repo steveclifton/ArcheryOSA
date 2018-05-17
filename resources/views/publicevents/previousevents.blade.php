@@ -32,7 +32,7 @@
 
                         @foreach($events as $event)
                             <tr>
-                                <td><a href="{{ route('eventdetails', urlencode($event->name)) }}">{{$event->name}}</a></td>
+                                <td><a href="{{ route('eventdetails', ['eventurl' => $event->url]) }}">{{$event->name}}</a></td>
                                 <td>{{ (strlen($event->location) > 60) ? mb_substr($event->location, 0, 60) . ".." : $event->location }}</td>
                                 <td>{{date('d F Y', strtotime($event->startdate))}} - {{date('d F Y', strtotime($event->enddate))}}</td>
                             </tr>

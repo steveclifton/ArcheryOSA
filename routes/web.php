@@ -6,9 +6,9 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/clubs', 'ClubController@PUBLIC_getViewClubs')->name('public.clubs');
 Route::get('/upcomingevents', 'EventController@PUBLIC_getAllUpcomingEventsView')->name('upcomingevents');
 Route::get('/previousevents', 'EventController@PUBLIC_getAllPreviousEventsView');
-Route::get('/eventdetails/{name}', 'EventController@PUBLIC_getEventDetailsView')->name('eventdetails');
+Route::get('/event/details/{eventurl}', 'EventController@PUBLIC_getEventDetailsView')->name('eventdetails');
 Route::get('/authorisearcherrelation/{hash}', 'UserController@authoriseUserRelationship')->name('authoriseuserrelationship');
-Route::get('/results/{eventname}', 'ScoringController@getResults')->name('geteventresults');
+Route::get('/event/results/{eventurl}', 'ScoringController@getResults')->name('geteventresults');
 Route::get('/users/{username}', 'UserController@getPublicProfile')->name('getpublicuserview');
 
 
@@ -47,7 +47,7 @@ Route::middleware(['web'])->group(function() {
 
         Route::post('/updateprofile', 'UserController@updateProfile')->name('updateprofile');
 
-        Route::get('/scoring/{eventname}/{eventid}', 'ScoringController@getScoringChoiceView')->name('getscoringview');
+        Route::get('/event/scoring/{eventurl}', 'ScoringController@getScoringChoiceView')->name('getscoringview');
 
         //Route::get('/scoring/{eventroundid}/{eventid}/{eventname}', 'ScoringController@getScoringView')->name('getenterscoreview');
         Route::post('/scoring/{eventroundid}/{eventid}/{currentweek}', 'ScoringController@enterScores')->name('enterscores');
@@ -68,10 +68,10 @@ Route::middleware(['web'])->group(function() {
         Route::post('/updateprofile/updateorganisation/submit/{usermembershipid}', 'UserMembershipController@update')->name('updateusermembership');
 
 
-		Route::get('/event/register/{eventid}/{name}', 'EventRegistrationController@getRegisterForEventView')->name('eventregistrationview');
-		Route::post('/event/register/{eventid}/{eventname}', 'EventRegistrationController@eventRegister')->name('eventregistration');
+		Route::get('/event/register/{eventurl}', 'EventRegistrationController@getRegisterForEventView')->name('eventregistrationview');
+		Route::post('/event/register/{eventurl}', 'EventRegistrationController@eventRegister')->name('eventregistration');
 
-        Route::post('/event/registration/update/{eventid}/{eventname}', 'EventController@updateUsersEntry')->name('updateuserentry');
+        Route::post('/event/registration/update/{eventurl}', 'EventController@updateUsersEntry')->name('updateuserentry');
 
 
         Route::get('/export/events/{eventid}/{hash}', 'ExportController@exportevententries')->name('exportevententries');
@@ -97,12 +97,12 @@ Route::middleware(['web'])->group(function() {
 	    // Events
         Route::get('/admin/events', 'EventController@getEventsView')->name('events');
         Route::get('/admin/events/create', 'EventController@getCreateView')->name('createeventview');
-        Route::get('/admin/events/update/{eventid}', 'EventController@getUpdateEventView')->name('updateeventview');
+        Route::get('/admin/events/update/{eventurl}', 'EventController@getUpdateEventView')->name('updateeventview');
         Route::post('/admin/events/update/{eventid}', 'EventController@update')->name('updateevent');
         Route::post('/admin/events/create', 'EventController@create')->name('createevent');
-        Route::get('/admin/events/delete/{eventid}/{eventname}', 'EventController@delete')->name('deleteevent');
-        Route::get('/admin/events/userentry/{eventname}/{entryhash}', 'EventController@getUserEntryDetails')->name('userentrydetails');
-        Route::get('/admin/events/adduser/{eventid}/{eventhash}', 'EventRegistrationController@getAddUserView')->name('adminaddarcher');
+        Route::get('/admin/events/delete/{eventurl}', 'EventController@delete')->name('deleteevent');
+        Route::get('/admin/events/userentry/{eventid}/{entryhash}', 'EventController@getUserEntryDetails')->name('userentrydetails');
+        Route::get('/admin/events/adduser/{eventurl}', 'EventRegistrationController@getAddUserView')->name('adminaddarcher');
 
 
         // Event Rounds

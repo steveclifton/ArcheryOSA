@@ -17,7 +17,7 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">Update Event Round
-                    <a href="{{route('updateeventview', $eventround->first()->eventid)}}">
+                    <a href="{{ route('eventdetails', ['eventurl' => $event->url]) }}">
                     <button type="submit" class="btn btn-default pull-right" id="addevent">
                         <i class="fa fa-backward" > Back</i>
                     </button>

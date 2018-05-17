@@ -489,7 +489,7 @@
                 Save
             </button>
 
-            <a href="{!! route('deleteevent', [$event->first()->eventid, urlencode($event->first()->name)]) !!}" class="btn btn-danger pull-right" role="button" id="deleteBtn">
+            <a href="{!! route('deleteevent', ['eventurl' => $event->first()->url]) !!}" class="btn btn-danger pull-right" role="button" id="deleteBtn">
                 Delete
             </a>
         </div>

@@ -62,8 +62,15 @@ class EventController extends Controller
 
     public function PUBLIC_getEventDetailsView(Request $request)
     {
-        $data = $this->getEventData($request->name);
 
+        $eventid = $this->geteventurlid($request->eventurl);
+
+
+        if (empty($eventid) && !is_int($eventid)) {
+            return Redirect::route('home');
+        }
+
+        $data = $this->getEventData($eventid);
         if (empty($data)) {
             return Redirect::route('home');
         }
@@ -88,10 +95,10 @@ class EventController extends Controller
     /**
      * Returns the information required for the eventdetails_details view
      */
-    private function getEventData($event)
+    private function getEventData($eventid)
     {
 
-        $event = Event::where('name', urldecode($event))
+        $event = Event::where('eventid', $eventid)
             ->get()
             ->first();
 
@@ -122,7 +129,7 @@ class EventController extends Controller
 
     private function getEventFormData($eventid)
     {
-        $event = Event::where('eventid', urlencode($eventid))->get();
+        $event = Event::where('eventid', $eventid)->get();
 
         if (empty($event)) {
             return false;
@@ -225,9 +232,10 @@ class EventController extends Controller
     public function getUpdateEventView(Request $request)
     {
 
-        $event = Event::where('eventid', $request->eventid)
+        $event = Event::where('eventid', $this->geteventurlid($request->eventurl))
                         ->get()
                         ->first();
+
 
         $canedit = $this->canEditEvent( ($event->eventid ?? -1), Auth::id() );
 
@@ -236,7 +244,10 @@ class EventController extends Controller
         }
 
 
-        $data = $this->getEventData(urlencode($event->name));
+        $data = $this->getEventData($event->eventid);
+        if (empty($data)) {
+            return Redirect::route('home');
+        }
 
         return view('auth.events.updateevent', $data);
     }
@@ -247,9 +258,10 @@ class EventController extends Controller
                             ->get()
                             ->first();
 
-        $event = Event::where('eventid', $user->eventid)
+        $event = Event::where('eventid', $user->eventid ?? -1)
                         ->get()
                         ->first();
+
 
         $canedit = $this->canEditEvent( ($event->eventid ?? -1), Auth::id() );
 
@@ -268,7 +280,15 @@ class EventController extends Controller
 
     public function updateUsersEntry(Request $request)
     {
-        $event = Event::where('eventid', $request->input('eventid'))->get()->first();
+        $eventid = $this->geteventurlid($request->eventurl);
+
+        if (empty($eventid) && !is_int($eventid)) {
+            return Redirect::route('home');
+        }
+
+        $event = Event::where('eventid', $eventid)
+                        ->get()
+                        ->first();
 
         $er = new EventRegistrationController();
         // Remove the users entry
@@ -279,20 +299,22 @@ class EventController extends Controller
         /* non league */
         if ($event->eventtype == 0 && $event->multipledivisions == 0) {
             // Multiple entry comp
-            $er->singleEntryUpdate($request);
+            $er->singleEntryUpdate($request, $event->eventid);
         }
         /* league processing */
         else {
-            $er->league_eventRegister($request);
+            $er->league_eventRegister($request, $event->eventid);
         }
 
         return redirect()->back()->withInput()->with('message', 'Update Successful');
     }
 
+
+
     public function create(Request $request)
     {
         Validator::make($request->all(), [
-            'name' => 'required',
+            'name' => 'required|unique:events,name',
             'datetime' => 'required',
             'eventtype' => 'required',
             'hostclub' => 'required',
@@ -410,7 +432,11 @@ class EventController extends Controller
         $event->visible = $visible;
         $event->save();
 
-        return Redirect::route('updateeventview', ['eventid' => urlencode($event->eventid)]);
+        $event->url = $this->makeurl($event->name, $event->eventid);
+        $event->save();
+
+
+        return Redirect::route('updateeventview', ['eventurl' => $event->url]);
     }
 
     public function update(Request $request)
@@ -575,26 +601,29 @@ class EventController extends Controller
     public function delete(Request $request)
     {
 
-        if (!empty($request->eventid) || !empty($request->eventname)) {
-            $event = Event::where('eventid', $request->eventid)->where('name', urldecode($request->eventname))->take(1);
+        $eventid = $this->geteventurlid($request->eventurl);
 
-            if (!is_null($event)) {
-                $eventrounds = EventRound::where('eventid', $request->eventid)->get();
-
-                foreach ($eventrounds as $round) {
-                    if (!is_null($round)) {
-                        $round->delete();
-                    }
-                }
-
-                $event->first()->delete();
-            }
-
-            return Redirect::route('events');
+        if (empty($eventid) && !is_int($eventid)) {
+            return Redirect::route('home');
         }
 
-        return Redirect::route('home');
 
+        $event = Event::where('eventid', $eventid)
+                        ->take(1);
+
+        if (!empty($event)) {
+            $eventrounds = EventRound::where('eventid', $request->eventid)->get();
+
+            foreach ($eventrounds as $round) {
+                if (!is_null($round)) {
+                    $round->delete();
+                }
+            }
+
+            $event->first()->delete();
+        }
+
+        return Redirect::route('events');
 
     }
 
@@ -670,7 +699,7 @@ class EventController extends Controller
         $data = [];
         switch ($request->type) {
             case 'summary' :
-                $data = $this->getEventData(urlencode($event->name));
+                $data = $this->getEventData($event->eventid);
                 $view = View::make('includes.events.eventdetails_details', $data);
                 $html = $view->render();
                 break;

@@ -22,10 +22,13 @@ class EventRegistrationController extends Controller
 
     public function getAddUserView(Request $request)
     {
-        //dd($request->eventid, $request->eventhash);
+        $eventid = $this->geteventurlid($request->eventurl);
 
-        $event = Event::where('eventid', $request->eventid)
-                        ->where('hash', $request->eventhash)
+        if (empty($eventid) && !is_int($eventid)) {
+            return Redirect::route('home');
+        }
+
+        $event = Event::where('eventid', $eventid)
                         ->get()
                         ->first();
 
@@ -138,11 +141,20 @@ class EventRegistrationController extends Controller
      */
     public function getRegisterForEventView(Request $request)
     {
-        $event = Event::where('eventid', urlencode($request->eventid))->get()->first();
+        $eventid = $this->geteventurlid($request->eventurl);
+
+        if (empty($eventid) && !is_int($eventid)) {
+            return Redirect::route('home');
+        }
+
+        $event = Event::where('eventid', $eventid)
+                        ->get()
+                        ->first();
 
         if (empty($event)) {
             return Redirect::route('home');
         }
+
 
         $data = $this->getRegisterEventDetails($event->eventid, Auth::id() );
 
@@ -164,7 +176,7 @@ class EventRegistrationController extends Controller
      */
     public function getRegisterEventDetails($eventid, $userid)
     {
-        $event = Event::where('eventid', urlencode($eventid))->get()->first();
+        $event = Event::where('eventid', $eventid)->get()->first();
 
         if (empty($event)) {
             return false;
@@ -213,8 +225,14 @@ class EventRegistrationController extends Controller
             return back()->with('message', 'Entry Removed');
         }
 
-        $event = Event::where('eventid', $request->eventid)
-                        ->where('name', urldecode($request->eventname))
+        $eventid = $this->geteventurlid($request->eventurl);
+
+        if (empty($eventid) && !is_int($eventid)) {
+            return Redirect::route('home');
+        }
+
+        $event = Event::where('eventid', $eventid)
+                        ->where('visible', 1)
                         ->get()
                         ->first();
 
@@ -240,7 +258,7 @@ class EventRegistrationController extends Controller
         if ($event->eventtype == 0 && $event->multipledivisions == 0) {
             // Multiple entry comp
 
-            $evententry = $this->singleEntryUpdate($request);
+            $evententry = $this->singleEntryUpdate($request, $event->eventid);
 
             if (empty($evententry)){
                 return redirect()->back()->withInput()->with('failure', 'Please check entry and try again');
@@ -249,7 +267,7 @@ class EventRegistrationController extends Controller
         /* league processing */
         else {
 
-            $evententry = $this->league_eventRegister($request);
+            $evententry = $this->league_eventRegister($request, $event->eventid);
             if (empty($evententry)) {
                 return back()->with('key', 'Entry Removed');
             }
@@ -257,25 +275,25 @@ class EventRegistrationController extends Controller
 
         $this->touchurl('sendregistrationemail/' . $evententry->userid . '/' . $evententry->evententryid . '/' . $evententry->hash);
 
-        return Redirect::route('eventdetails', ['name' => $request->eventname])->with('message', 'Registration Successful');
+        return redirect()->back()->withInput()->with('message', 'Registration Successful');
 
     } // eventRegister
 
     /**
      * Registers a user for a league event
      */
-    private function league_eventRegister($request)
+    private function league_eventRegister($request, $eventid)
     {
 
         if ($request->input('submit') == 'remove') {
-            $this->deleteUserEntry($request->input('userid'), $request->eventid);
+            $this->deleteUserEntry($request->input('userid'), $eventid);
             return false;
         }
 
         foreach ($request->input('divisions') as $division) {
 
             $alreadyentered = EventEntry::where('userid', $request->input('userid'))
-                ->where('eventid', $request->eventid)
+                ->where('eventid', $eventid)
                 ->where('divisionid', $division)
                 ->get()
                 ->first();
@@ -303,7 +321,7 @@ class EventRegistrationController extends Controller
             $evententry->notes = html_entity_decode($request->input('notes'));
             $evententry->hash = substr(md5(time()), 0, 10);
             $evententry->entrystatusid = '1';
-            $evententry->eventid = $request->eventid;
+            $evententry->eventid = $eventid;
             $evententry->eventroundid = $request->input('eventroundid');
             $evententry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
             $evententry->dateofbirth = !empty($request->input('dateofbirth')) ? $request->input('dateofbirth') : NULL;
@@ -313,7 +331,7 @@ class EventRegistrationController extends Controller
         } // foreach
 
         $evententry = EventEntry::where('userid', $request->input('userid'))
-                        ->where('eventid', $request->eventid)
+                        ->where('eventid', $eventid)
                         ->get()
                         ->first();
 
@@ -413,13 +431,13 @@ class EventRegistrationController extends Controller
     /**
      * CREATES as well as updates a Single Entry
      */
-    public function singleEntryUpdate($request)
+    public function singleEntryUpdate($request, $eventid)
     {
 
         // get all the rounds, if any is missing , delete it
         $userentry = EventEntry::where('userid', $request->userid)
-                        ->where('eventid', $request->eventid)
-                        ->get();
+                                ->where('eventid', $eventid)
+                                ->get();
 
 
         $hash = '';

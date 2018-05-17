@@ -5,7 +5,7 @@
     </h4>
     <hr>
     <h4>
-        <a href="{{route('getscoringview', ['eventname' => urlencode($event->name), 'eventid' => $event->eventid])}}" id="adminbar" >Scoring</a>
+        <a href="{{route('getscoringview', ['eventurl' => $event->url])}}" id="adminbar" >Scoring</a>
     </h4>
     <hr>
     <h4>

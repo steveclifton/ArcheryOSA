@@ -200,10 +200,18 @@ class ScoringController extends Controller
 
     public function getScoringChoiceView(Request $request)
     {
-        $event = Event::where('name', urldecode($request->eventname))
-            ->where('eventid', $request->eventid)
-            ->get()
-            ->first();
+        $eventid = $this->geteventurlid($request->eventurl);
+
+
+
+        if (empty($eventid) && !is_int($eventid)) {
+            return Redirect::route('home');
+        }
+
+        $event = Event::where('eventid', $eventid)
+                        ->where('eventid', $eventid)
+                        ->get()
+                        ->first();
 
 
         if (empty($event)) {
@@ -346,7 +354,9 @@ class ScoringController extends Controller
             $user->result = $result;
         }
 
-        $results = Score::where('eventid', $this->eventid)->get()->first();
+        $results = Score::where('eventid', $this->eventid)
+                            ->get()
+                            ->first();
 
         // User Entry
         $userevententry = EventEntry::where('userid', Auth::id())
@@ -375,7 +385,13 @@ class ScoringController extends Controller
     public function getResults(Request $request)
     {
 
-        $event = Event::where('name', urldecode($request->eventname))
+        $eventid = $this->geteventurlid($request->eventurl);
+
+        if (empty($eventid) && !is_int($eventid)) {
+            return Redirect::route('home');
+        }
+
+        $event = Event::where('eventid', $eventid)
                         ->get()
                         ->first();
 
@@ -491,7 +507,11 @@ class ScoringController extends Controller
 
 
         // User Entry
-        $userevententry = EventEntry::where('userid', Auth::id())->where('eventid', $event->eventid)->get()->first();
+        $userevententry = EventEntry::where('userid', Auth::id())
+                                    ->where('eventid', $event->eventid)
+                                    ->get()
+                                    ->first();
+
         if (!empty($userevententry)) {
             $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
         }
@@ -570,7 +590,8 @@ class ScoringController extends Controller
 
                 );
 
-            } else if ($request->input('week') == 'overall') {
+            }
+            else if ($request->input('week') == 'overall') {
 
                 $results = DB::select("SELECT u.`firstname`, u.`lastname`, u.`username`, d.`name` as divisonname, la.*
                 FROM `scores` s 
@@ -596,7 +617,6 @@ class ScoringController extends Controller
                 $result->top10scores = UserController::getUserTop10Scores($result->userid, $result->divisionid, $event->eventid);
 
             }
-
 
             if ($request->input('week') == 'overall') {
 
@@ -631,7 +651,6 @@ class ScoringController extends Controller
             ksort($resultssorted);
             $results = $resultssorted;
 
-
         }
 
 
@@ -642,7 +661,11 @@ class ScoringController extends Controller
 
 
         // User Entry
-        $userevententry = EventEntry::where('userid', Auth::id())->where('eventid', $event->eventid)->get()->first();
+        $userevententry = EventEntry::where('userid', Auth::id())
+                                    ->where('eventid', $event->eventid)
+                                    ->get()
+                                    ->first();
+
         if (!empty($userevententry)) {
             $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
         }
@@ -892,7 +915,11 @@ class ScoringController extends Controller
 
             if ($userscores['distance1']['total'] > $round->dist1max) {
                 $errors[] = 'Score for ' . $round->dist1 . $round->unit . ' must be less than ' . $round->dist1max;
-            } else {
+            }
+            else if ($userscores['distance1']['total'] == 0) {
+                $errors[] = 'Score for ' . $round->dist1 . $round->unit . ' must be more than zero';
+            }
+            else {
                 $user_totalscore += $userscores['distance1']['total'];
                 $user_totalhits += $userscores['distance1']['hits'] ?? 0;
                 $user_total10 += $userscores['distance1'][10] ?? 0;
@@ -903,7 +930,11 @@ class ScoringController extends Controller
         if (!empty($round->dist2max) && isset($userscores['distance2']['total'])) {
             if ($userscores['distance2']['total'] > $round->dist2max) {
                 $errors[] = 'Score for ' . $round->dist2 . $round->unit . ' must be less than ' . $round->dist2max;
-            } else {
+            }
+            else if ($userscores['distance2']['total'] == 0) {
+                $errors[] = 'Score for ' . $round->dist2 . $round->unit . ' must be more than zero';
+            }
+            else {
                 $user_totalscore += $userscores['distance2']['total'];
                 $user_totalhits += $userscores['distance2']['hits'];
                 $user_total10 += $userscores['distance2'][10];
@@ -914,7 +945,11 @@ class ScoringController extends Controller
         if (!empty($round->dist3max) && isset($userscores['distance3']['total'])) {
             if ($userscores['distance3']['total'] > $round->dist3max) {
                 $errors[] = 'Score for ' . $round->dist3 . $round->unit . ' must be less than ' . $round->dist3max;
-            } else {
+            }
+            else if ($userscores['distance3']['total'] == 0) {
+                $errors[] = 'Score for ' . $round->dist3 . $round->unit . ' must be more than zero';
+            }
+            else {
                 $user_totalscore += $userscores['distance3']['total'];
                 $user_totalhits += $userscores['distance3']['hits'];
                 $user_total10 += $userscores['distance3'][10];
@@ -925,7 +960,11 @@ class ScoringController extends Controller
         if (!empty($round->dist4max) && isset($userscores['distance4']['total'])) {
             if ($userscores['distance4']['total'] > $round->dist4max) {
                 $errors[] = 'Score for ' . $round->dist4 . $round->unit . ' must be less than ' . $round->dist4max;
-            } else {
+            }
+            else if ($userscores['distance4']['total'] == 0) {
+                $errors[] = 'Score for ' . $round->dist4 . $round->unit . ' must be more than zero';
+            }
+            else {
                 $user_totalscore += $userscores['distance4']['total'];
                 $user_totalhits += $userscores['distance4']['hits'];
                 $user_total10 += $userscores['distance4'][10];

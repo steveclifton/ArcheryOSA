@@ -4,17 +4,17 @@
             <div class="box">
                 <div class="box-body">
 
-                    <a href="{{ route('eventregistrationview', ['eventid' => $event->eventid, 'name' => urlencode($event->name)] ) }}" class="btn btn-warning pull-right eventButtons" role="button">
+                    <a href="{{ route('eventregistrationview', ['eventurl' => $event->url] ) }}" class="btn btn-warning pull-right eventButtons" role="button">
                         <i class="fa fa-mail-forward" aria-hidden="true"></i> Entry
                     </a>
 
-                    <a class="btn btn-primary eventButtons pull-right" href="{{route('geteventresults', urlencode($event->name)) }}" role="button">Results</a>
+                    <a class="btn btn-primary eventButtons pull-right" href="{{route('geteventresults', ['eventurl' => $event->url] ) }}" role="button">Results</a>
 
                     @if ($canscore)
-                        <a class="btn btn-success eventButtons pull-right" href="{{route('getscoringview', [urlencode($event->name), $event->eventid ] ) }}" role="button">Scoring</a>
+                        <a class="btn btn-success eventButtons pull-right" href="{{route('getscoringview', ['eventurl' => $event->url] ) }}" role="button">Scoring</a>
                     @endif
 
-                    <a class="btn btn-info eventButtons pull-right" href="{{route('eventdetails', urlencode($event->name)) }}" role="button">Details</a>
+                    <a class="btn btn-info eventButtons pull-right" href="{{route('eventdetails', ['eventurl' => $event->url] ) }}" role="button">Details</a>
 
                 </div>
             </div>

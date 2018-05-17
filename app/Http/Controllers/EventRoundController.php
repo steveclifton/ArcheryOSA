@@ -32,8 +32,8 @@ class EventRoundController extends Controller
     public function getCreateEventRoundView($eventid)
     {
         $event = Event::where('eventid', $eventid)
-            ->get()
-            ->first();
+                        ->get()
+                        ->first();
 
         if (!$this->canEditEvent($event->eventid ?? -1, Auth::id())) {
             return Redirect::route('home');
@@ -77,6 +77,14 @@ class EventRoundController extends Controller
 
     public function create(Request $request)
     {
+        $event = Event::where('eventid', $request->input('eventid'))
+                        ->get()
+                        ->first();
+
+        if (empty($event)) {
+            return redirect()->back()->with('failure', 'Error');
+        }
+
         $eventround = new EventRound();
 
         $this->validate($request, [
@@ -90,16 +98,16 @@ class EventRoundController extends Controller
         ]);
 
 
-        $eventround->name = htmlentities($request->input('name'));
-        $eventround->eventid = htmlentities($request->input('eventid'));
-        $eventround->location = htmlentities($request->input('location'));
-        $eventround->roundid = htmlentities($request->input('roundid'));
-        $eventround->schedule = htmlentities($request->input('schedule'));
-        $eventround->date = htmlentities($request->input('date'));
+        $eventround->name = $request->input('name');
+        $eventround->eventid = $event->eventid;
+        $eventround->location = $request->input('location');
+        $eventround->roundid = $request->input('roundid');
+        $eventround->schedule = $request->input('schedule');
+        $eventround->date = $request->input('date');
         $eventround->visible = 1;
         $eventround->save();
 
-        return Redirect::route('updateeventview', ['eventid' => urlencode($eventround->eventid)])->with('message', 'Round added successfully');
+        return Redirect::route('updateeventview', ['eventurl' => $event->url])->with('message', 'Round added successfully');
 
 
     }
@@ -109,9 +117,14 @@ class EventRoundController extends Controller
 
         $eventround = EventRound::where('eventroundid', $request->eventroundid)->first();
 
-        if (is_null($eventround)) {
-            return Redirect::route('eventrounds');
+        $event = Event::where('eventid', $request->input('eventid'))
+            ->get()
+            ->first();
+
+        if (empty($event) || empty($eventround)) {
+            return redirect()->back()->with('failure', 'Error');
         }
+
 
         $this->validate($request, [
             'name' => 'required',
@@ -131,7 +144,7 @@ class EventRoundController extends Controller
 
             $eventround->save();
 
-            return Redirect::route('updateeventview', ['eventid' => urlencode($eventround->eventid)])->with('message', 'Round updated successfully');;
+            return Redirect::route('updateeventview', ['eventurl' => $event->url])->with('message', 'Round added successfully');
         }
 
         return Redirect::route('events');
@@ -143,7 +156,8 @@ class EventRoundController extends Controller
 
         if (!empty($request->eventroundid) || !empty($request->eventroundname)) {
             // find record
-            $eventround = EventRound::where('eventroundid', $request->eventroundid)->where('name', urldecode($request->eventroundname) );
+            $eventround = EventRound::where('eventroundid', $request->eventroundid)
+                                    ->where('name', urldecode($request->eventroundname) );
 
             $eventid = $eventround->first()->eventid;
 
@@ -154,7 +168,9 @@ class EventRoundController extends Controller
             // delete record
             $eventround->first()->delete();
 
-            return Redirect::route('updateeventview', ['eventid' => $eventid]);
+            $event = Event::where('eventid', $eventid)->get()->first();
+
+            return Redirect::route('updateeventview', ['eventurl' => $event->url]);
         }
 
 

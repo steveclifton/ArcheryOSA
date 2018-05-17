@@ -31,7 +31,7 @@
                     <input type="hidden" name="userid[]" value="{{$user->userid}}">
                     <input type="hidden" name="divisionid[]" value="{{$user->divisionid}}">
                     <td>
-                        <a href="{{route('userentrydetails', [urlencode($event->first()->name), $user->hash])}}">{!! ucwords(strtolower($user->fullname)) !!}</a>
+                        <a href="{{route('userentrydetails', [$event->eventid, $user->hash])}}">{!! ucwords(strtolower($user->fullname)) !!}</a>
                     </td>
                     <td>{{$user->division}}</td>
                     <td>
@@ -60,9 +60,9 @@
             </tbody>
         </table>
 
-        <a href="{{route('adminaddarcher', [$event->first()->eventid, $event->first()->hash])}}" class="btn btn-info" role="button">Add Archer</a>
+        <a href="{{route('adminaddarcher', ['eventurl' => $event->url])}}" class="btn btn-info" role="button">Add Archer</a>
 
-        <a href="{{route('exportevententries', [$event->first()->eventid, $event->first()->hash])}}" class="btn btn-warning col-md-offset-9" role="button">Export</a>
+        <a href="{{route('exportevententries', [$event->eventid, $event->hash])}}" class="btn btn-warning col-md-offset-9" role="button">Export</a>
 
 
 

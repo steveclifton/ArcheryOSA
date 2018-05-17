@@ -23,7 +23,7 @@
 
                     <div class="box-tools">
                         <div class="input-group input-group-sm" style="width: 150px;">
-                            <a href="{{ route('eventdetails', urlencode($event->name)))//URL::previous()}}">
+                            <a href="{{ route('eventdetails', ['eventurl' => $event->url]) }}">
                                 <button type="submit" class="btn btn-primary pull-right" id="addevent">
                                     <i class="fa fa-backward" >
                                         <span style="font-family: sans-serif;"> Back</span>

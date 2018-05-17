@@ -20,7 +20,7 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">Event Registration
-                    <a href="{{route('eventdetails', urlencode($event->name)) }}">
+                    <a href="{{route('eventdetails', ['eventurl' => $event->url]) }}">
                         <button type="submit" class="btn btn-default pull-right" id="addevent">
                             <i class="fa fa-backward" > Back</i>
                         </button>
@@ -47,7 +47,7 @@
                         </div>
                     </form>
 
-                    <form class="form-horizontal" method="POST" action="{{ route('eventregistration', ['eventid' => $event->eventid, 'eventname' => urlencode($event->name) ]) }}" id="eventformupdate">
+                    <form class="form-horizontal" method="POST" action="{{ route('eventregistration', ['eventurl' => $event->url]) }}" id="eventformupdate">
 
                         <input type="text" name="eventid" hidden value="{{$event->eventid}}">
 

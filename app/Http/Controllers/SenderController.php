@@ -49,7 +49,7 @@ class SenderController extends Controller
 
         if ( filter_var($evententry->email, FILTER_VALIDATE_EMAIL) ) {
             Mail::to($evententry->email)
-                ->send(new SendEntryConfirmationEmail(ucwords($event->name), ucwords($user->firstname), $this->getEventUrl($event->name)));
+                ->send(new SendEntryConfirmationEmail(ucwords($event->name), ucwords($user->firstname), $this->getEventUrl($event->url)));
         }
 
 

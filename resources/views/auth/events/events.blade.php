@@ -42,7 +42,7 @@
 
                         @foreach($events as $event)
                             <tr>
-                                <td><a href="{{ route('updateeventview', urlencode($event->eventid)) }}">{{$event->name}}</a></td>
+                                <td><a href="{{ route('updateeventview', ['eventurl' => $event->url]) }}">{{$event->name}}</a></td>
                                 <td>{{ (strlen($event->location) > 60) ? mb_substr($event->location, 0, 60) . ".." : $event->location }}</td>
                                 <?php
 
