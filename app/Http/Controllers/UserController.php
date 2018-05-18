@@ -318,12 +318,14 @@ class UserController extends Controller
     public function getUserEventsView()
     {
 
-        $userevents = DB::select("SELECT e.`eventid`, e.`startdate`, es.`name` as usereventstatus, e.`name`, e.`status` as eventstatus 
+        $userevents = DB::select("SELECT e.`eventid`, e.`startdate`, es.`name` as usereventstatus, e.`name`, e.`status` as eventstatus, e.`url`
                         FROM `evententry` ee
                         LEFT JOIN `events` e USING (`eventid`)
                         LEFT JOIN `entrystatuses` es ON (ee.`entrystatusid` = es.`entrystatusid`)
                         WHERE ee.`userid` = '" . Auth::id(). "'
                         ");
+
+    
 
         return view('auth.myevents', compact('userevents'));
     }

@@ -27,7 +27,7 @@
                                     @foreach($userevents as $event)
                                         <tr>
                                             <td>
-                                                <a href="{{route('eventdetails', ['eventurl' => $event->ur])}}">{{$event->name}}</a>
+                                                <a href="{{route('eventdetails', ['eventurl' => $event->url])}}">{{$event->name}}</a>
                                             </td>
                                             <td>{{date('d/m/Y', strtotime($event->startdate))}}</td>
 
