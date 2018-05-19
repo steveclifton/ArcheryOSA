@@ -6,6 +6,8 @@ use App\Classes\EventDateRange;
 use App\EntryStatus;
 use App\EventEntry;
 
+use App\Jobs\SendEventUpdateEmail;
+use App\OutboundEmail;
 use Illuminate\Support\Facades\DB;
 use App\EventRound;
 use Carbon\Carbon;
@@ -92,6 +94,18 @@ class EventController extends Controller
         return view ('publicevents.eventdetails', $data);
     }
 
+
+    /**
+     * EMAILS
+     */
+
+    private function sendEventUpdateEmail($email, $eventname, $message)
+    {
+
+        return $this->dispatch(new SendEventUpdateEmail($email, $eventname, $message));
+    }
+
+
     /**
      * Returns the information required for the eventdetails_details view
      */
@@ -165,7 +179,7 @@ class EventController extends Controller
         $data = [];
         $data['users'] = DB::select("
             SELECT ee.`userid`, ee.`created_at`,  ee.`confirmationemail`, ee.`fullname`, ee.`hash`, ee.`entrystatusid`, ee.`clubid`, 
-              c.`name` as club, ee.`paid`, d.`name` as division, ee.`divisionid`, er.`name` as eventname, u.`username`
+              c.`name` as club, ee.`paid`, d.`name` as division, ee.`divisionid`, er.`name` as eventname, u.`username`, ee.email
             FROM `evententry` ee
             LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
             LEFT JOIN `clubs` c ON(c.`clubid` = ee.`clubid`)
@@ -501,7 +515,7 @@ class EventController extends Controller
     {
         $event = Event::where('eventid', $request->eventid)->first();
 
-        if (is_null($event)) {
+        if (empty($event)) {
             return Redirect::route('events');
         }
 
@@ -568,7 +582,7 @@ class EventController extends Controller
     {
         $event = Event::where('eventid', $request->eventid)->first();
 
-        if (is_null($event)) {
+        if (empty($event)) {
             return Redirect::route('events');
         }
 
@@ -601,6 +615,44 @@ class EventController extends Controller
         $event->save();
 
         return Redirect::route('updateevent', $request->eventid)->with('message', 'Update Successful');
+    }
+
+    public function sendEventUpdates(Request $request)
+    {
+        $event = Event::where('eventid', $request->eventid)->get()->first();
+
+        if (empty($event)) {
+            return Redirect::route('events');
+        }
+
+        if (empty($request->input('message'))) {
+            return redirect()->back()->with('failure', 'Message required for emails');
+        }
+
+        $evententrys = $this->getEventUsers($event->eventid);
+
+        if (empty($evententrys['users'])) {
+            return redirect()->back()->with('failure', 'Message required for emails');
+        }
+
+        $message = $request->input('message');
+
+        foreach ($evententrys['users'] as $evententry) {
+            $return = $this->sendEventUpdateEmail($evententry->email, ucwords($event->name), $message);
+
+            if (!empty($return)) {
+                $email = new OutboundEmail();
+                $email->userid = $evententry->userid;
+                $email->eventid = $event->eventid;
+                $email->senderuserid = Auth::id();
+                $email->message = $message;
+                $email->save();
+            }
+        }
+
+        return Redirect::route('updateevent', $request->eventid)->with('message', 'Emails Sent Successfully');
+
+
     }
 
     public function delete(Request $request)
@@ -714,6 +766,11 @@ class EventController extends Controller
                 break;
 
             case 'scoring':
+                break;
+
+            case 'emailall':
+                $view = View::make('includes.adminevents.eventemailupdate', ['event' =>$event]);
+                $html = $view->render();
                 break;
 
             case 'edit':
