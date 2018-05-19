@@ -22,6 +22,10 @@
     </h4>
     <hr>
     <h4>
+        <a href="javascript:;" id="adminbar" data-type="emailall" data-eventid="{{$event->eventid}}">Emails</a>
+    </h4>
+    <hr>
+    <h4>
         <a href="javascript:;" id="adminbar" data-type="sponsorship" data-eventid="{{$event->eventid}}">Sponsorship</a>
     </h4>
     <hr>
