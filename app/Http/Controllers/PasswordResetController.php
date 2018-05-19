@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendPasswordResetConfirmationEmail;
+use App\Jobs\SendPasswordResetEmail;
 use App\Mail\ResetPassword;
 use App\Mail\UpdatePassword;
 use App\User;
@@ -95,15 +97,13 @@ class PasswordResetController extends Controller
 
     }
 
-    public function sendResetPasswordEmail($hash, $email, $name)
+    public function sendResetPasswordEmail($hash, $email, $firstname)
     {
-        Mail::to($email)
-            ->send(new ResetPassword($hash, $email, ucwords($name)));
+        $this->dispatch(new SendPasswordResetEmail($email, $firstname, $hash));
     }
 
-    public function sendUpdatePasswordEmail($email, $name)
+    public function sendUpdatePasswordEmail($email, $firstname)
     {
-        Mail::to($email)
-            ->send(new UpdatePassword($name));
+        $this->dispatch(new SendPasswordResetConfirmationEmail($email, $firstname));
     }
 }
