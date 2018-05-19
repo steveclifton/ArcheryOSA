@@ -49,10 +49,6 @@
     <td>{!! ($event->eventtype == 1) ? 'Multi-week event' : 'Competition' !!}</td>
 </tr>
 <tr>
-    <th style="width: 25%">Contact Name</th>
-    <td>{{ $event->contact }}</td>
-</tr>
-<tr>
     <th style="width: 25%">Email</th>
     <td>{{ $event->email }}</td>
 </tr>
