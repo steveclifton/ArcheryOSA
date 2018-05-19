@@ -13,41 +13,41 @@
     <div class="row">
         @include('includes.events.eventdetails_nav')
     </div>
-
-
+    
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-info">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Results</h3>
-                </div>
+            <div class="row">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Results</h3>
+                    </div>
 
-                <div class="box-body">
-                    <div class="padding10">
-                        <div class="table-responsive">
-                            <br>
-                            @if ($event->eventtype == 1)
-                                <div class="col-md-3" style="padding-bottom: 20px">
-                                    <select class="week form-control" class="form-control">
+                    <div class="box-body">
+                        <div class="padding10">
+                            <div class="table-responsive">
+                                <br>
+                                @if ($event->eventtype == 1)
+                                    <div class="col-md-3" style="padding-bottom: 20px">
+                                        <select class="week form-control" class="form-control">
 
-                                        <option value="overall">Overall</option>
+                                            <option value="overall">Overall</option>
 
-                                        @foreach (range(1, $event->numberofweeks) as $week)
-                                            @php
-                                                $currentweek = $event->selectedweek ?? $event->currentweek;
-                                            @endphp
-                                            <option @if ( $week == $currentweek) {{'selected'}} @endif value="{{$week}}">
-                                                Week {{$week}}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            @endif
+                                            @foreach (range(1, $event->numberofweeks) as $week)
+                                                @php
+                                                    $currentweek = $event->selectedweek ?? $event->currentweek;
+                                                @endphp
+                                                <option @if ( $week == $currentweek) {{'selected'}} @endif value="{{$week}}">
+                                                    Week {{$week}}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @endif
 
-                            @if (empty($results))
+                                @if (empty($results))
 
-                                <table class="table table-bordered table-responsive table-striped">
-                                    <thead>
+                                    <table class="table table-bordered table-responsive table-striped">
+                                        <thead>
                                         <tr>
                                             <th>
                                                 <div class="alert alert-warning">
@@ -55,17 +55,17 @@
                                                 </div>
                                             </th>
                                         </tr>
-                                    </thead>
-                                </table>
-                            @elseif ($event->selectedweek == 'overall')
+                                        </thead>
+                                    </table>
+                                @elseif ($event->selectedweek == 'overall')
 
-                                @foreach($results as $divisionaname => $divisionresults)
+                                    @foreach($results as $divisionaname => $divisionresults)
 
-                                    <table class="table table-bordered table-responsive table-striped resultstables">
-                                        <caption>{{$divisionaname}}</caption>
-                                        <thead>
+                                        <table class="table table-bordered table-responsive table-striped resultstables">
+                                            <caption>{{$divisionaname}}</caption>
+                                            <thead>
                                             <tr>
-                                                <th class="col-md-2 col-xs-2 col-sm-2">Archer</th>
+                                                <th class="col-md-2 col-xs-3 col-sm-3">Archer</th>
 
                                                 @if ($event->eventtype == 1)
                                                     <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Average</th>
@@ -73,9 +73,9 @@
                                                     <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Top 10 Points</th>
                                                 @endif
                                             </tr>
-                                        </thead>
+                                            </thead>
 
-                                        <tbody>
+                                            <tbody>
 
                                             @foreach($divisionresults as $result)
 
@@ -91,24 +91,24 @@
                                                 </tr>
                                             @endforeach
 
-                                        </tbody>
+                                            </tbody>
 
-                                    </table>
-                                @endforeach
+                                        </table>
+                                    @endforeach
 
-                            @else
+                                @else
 
-                                @foreach($results as $divisionaname => $divisionresults)
+                                    @foreach($results as $divisionaname => $divisionresults)
 
 
-                                    <table class="table table-bordered table-responsive table-striped resultstables">
-                                        <caption>{{$divisionaname}}</caption>
-                                        <thead>
+                                        <table class="table table-bordered table-responsive table-striped resultstables">
+                                            <caption style="padding-left: 2%; text-decoration: underline; font-size: 18px">{{$divisionaname}}</caption>
+                                            <thead>
                                             <tr>
-                                                <th class="col-md-2 col-xs-2 col-sm-2">Archer</th>
+                                                <th class="col-md-2 col-xs-3 col-sm-3">Archer</th>
 
                                                 @if (isset($resultdistances['Distance-1']))
-                                                    <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" >{!! $resultdistances['Distance-1'] . $resultdistances['Distance-1-unit']!!}
+                                                    <th class="col-md-1 hidden-xs hidden-sm alignCenter" >{!! $resultdistances['Distance-1'] . $resultdistances['Distance-1-unit']!!}
                                                     </th>
                                                 @endif
                                                 @if (isset($resultdistances['Distance-2']))
@@ -125,8 +125,8 @@
                                                 @endif
 
                                                 <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">Total</th>
-                                                <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">Hits</th>
-                                                <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">10+X</th>
+                                                <th class="col-md-1 hidden-xs hidden-sm alignCenter">Hits</th>
+                                                <th class="col-md-1 hidden-xs hidden-sm alignCenter">10+X</th>
                                                 <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">X</th>
 
                                                 @if ($event->eventtype == 1)
@@ -136,57 +136,60 @@
                                                     <th class="col-md-1 col-xs-1 col-sm-1 alignCenter" style="background: lightblue;">Total Points</th>
                                                 @endif
                                             </tr>
-                                        </thead>
+                                            </thead>
 
-                                        <tbody>
+                                            <tbody>
                                             @foreach($divisionresults as $result)
-                                            @php
-                                                $colour = '';
-                                                if (($result->weekpoints ?? -1) == 10) {
-                                                    $colour = '#ffdc96';
-                                                } else if (($result->weekpoints ?? -1) == 9) {
-                                                    $colour = '#d6d5d4';
-                                                } else if (($result->weekpoints ?? -1) == 8){
-                                                    $colour = '#e2cabc';
-                                                }
-                                            @endphp
-                                            <tr style="background: {{$colour}}">
-                                                <td><a href="{{route('getpublicuserview', $result->username)}}">{{ucwords($result->firstname) . ' ' . ucwords($result->lastname)}}</a></td>
+                                                @php
+                                                    $colour = '';
+                                                    if (($result->weekpoints ?? -1) == 10) {
+                                                        $colour = '#ffdc96';
+                                                    } else if (($result->weekpoints ?? -1) == 9) {
+                                                        $colour = '#d6d5d4';
+                                                    } else if (($result->weekpoints ?? -1) == 8){
+                                                        $colour = '#e2cabc';
+                                                    }
+                                                @endphp
+                                                <tr style="background: {{$colour}}">
+                                                    <td>
+                                                        <a href="{{route('getpublicuserview', $result->username)}}">{{ucwords($result->firstname) . ' ' . ucwords($result->lastname)}}</a>
+                                                    </td>
 
-                                                @if (isset($resultdistances['Distance-1']))
-                                                    <td class="alignCenter">{{$result->distance1_total}}</td>
-                                                @endif
-                                                @if(isset($resultdistances['Distance-2']))
-                                                    <td class="alignCenter">{{$result->distance2_total}}</td>
+                                                    @if (isset($resultdistances['Distance-1']))
+                                                        <td class="hidden-xs hidden-sm alignCenter">{{$result->distance1_total}}</td>
+                                                    @endif
+                                                    @if(isset($resultdistances['Distance-2']))
+                                                        <td class="alignCenter">{{$result->distance2_total}}</td>
 
-                                                @endif
-                                                @if(isset($resultdistances['Distance-3']))
-                                                    <td class="alignCenter">{{$result->distance3_total}}</td>
+                                                    @endif
+                                                    @if(isset($resultdistances['Distance-3']))
+                                                        <td class="alignCenter">{{$result->distance3_total}}</td>
 
-                                                @endif
-                                                @if(isset($resultdistances['Distance-4']))
-                                                    <td class="alignCenter">{{$result->distance4_total}}</td>
+                                                    @endif
+                                                    @if(isset($resultdistances['Distance-4']))
+                                                        <td class="alignCenter">{{$result->distance4_total}}</td>
 
-                                                @endif
+                                                    @endif
 
-                                                <td class="alignCenter">{{$result->total_score}}</td>
-                                                <td class="alignCenter">{{$result->total_hits}}</td>
-                                                <td class="alignCenter">{{$result->total_10}}</td>
-                                                <td class="alignCenter">{{$result->total_x}}</td>
+                                                    <td class="alignCenter">{{$result->total_score}}</td>
+                                                    <td class="hidden-xs hidden-sm alignCenter">{{$result->total_hits}}</td>
+                                                    <td class="alignCenter hidden-xs hidden-sm">{{$result->total_10}}</td>
+                                                    <td class="alignCenter">{{$result->total_x}}</td>
 
-                                                @if ($event->eventtype == 1)
-                                                    <td class="alignCenter">{!! number_format($result->avg_total_score, 2) !!}</td>
-                                                    <td class="alignCenter">{!! number_format($result->handicapscore ?? 0, 2) !!}</td>
-                                                    <td class="alignCenter">{{$result->weekpoints ?? 0}}</td>
-                                                    <td class="alignCenter">{{$result->totalpoints ?? 0}}</td>
-                                                @endif
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                @endforeach
+                                                    @if ($event->eventtype == 1)
+                                                        <td class="alignCenter">{!! number_format($result->avg_total_score, 2) !!}</td>
+                                                        <td class="alignCenter">{!! number_format($result->handicapscore ?? 0, 2) !!}</td>
+                                                        <td class="alignCenter">{{$result->weekpoints ?? 0}}</td>
+                                                        <td class="alignCenter">{{$result->totalpoints ?? 0}}</td>
+                                                    @endif
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    @endforeach
                             </div>
-                        @endif
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>

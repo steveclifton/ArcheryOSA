@@ -6,22 +6,22 @@
         @include('layouts.scripts')
     </head>
     <body class="hold-transition skin-black sidebar-mini">
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K87KGQS"
-                      height="0" width="0" style="display:none;visibility:hidden"></iframe>
-    </noscript>
-    <!-- End Google Tag Manager (noscript) -->
+        <!-- Google Tag Manager (noscript) -->
+        <noscript>
+            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K87KGQS"
+                          height="0" width="0" style="display:none;visibility:hidden"></iframe>
+        </noscript>
+        <!-- End Google Tag Manager (noscript) -->
 
-    <script>
-        $(function () {
-            if (typeof collapse_siderbar !== 'undefined') {
-                if (collapse_siderbar) {
-                    $('.sidebar-toggle').trigger('click');
+        <script>
+            $(function () {
+                if (typeof collapse_siderbar !== 'undefined') {
+                    if (collapse_siderbar) {
+                        $('.sidebar-toggle').trigger('click');
+                    }
                 }
-            }
-        })
-    </script>
+            })
+        </script>
         <div class="wrapper">
             <header class="main-header">
                 <!-- Logo -->
@@ -56,7 +56,6 @@
 
                 <section class="content-header">
                     @yield('dashboard')
-
                 </section>
                 <!-- Main content -->
                 <section class="content">
