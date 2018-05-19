@@ -99,6 +99,8 @@ Route::middleware(['web'])->group(function() {
         Route::get('/admin/events/create', 'EventController@getCreateView')->name('createeventview');
         Route::get('/admin/events/update/{eventurl}', 'EventController@getUpdateEventView')->name('updateeventview');
         Route::post('/admin/events/update/{eventid}', 'EventController@update')->name('updateevent');
+        Route::post('/admin/events/updatesetup/{eventid}', 'EventController@updatesetup')->name('updateeventsetup');
+        Route::post('/admin/events/updatesponsorship/{eventid}', 'EventController@updatesponsorship')->name('updateeventsponsorship');
         Route::post('/admin/events/create', 'EventController@create')->name('createevent');
         Route::get('/admin/events/delete/{eventurl}', 'EventController@delete')->name('deleteevent');
         Route::get('/admin/events/userentry/{eventid}/{entryhash}', 'EventController@getUserEntryDetails')->name('userentrydetails');

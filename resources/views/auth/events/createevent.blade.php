@@ -24,6 +24,23 @@
                     <form class="form-horizontal" method="POST" action="{{ route('createevent') }}" id="eventform" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
+
+                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                            <label for="name" class="col-md-4 control-label">Name*</label>
+
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+
+                                @if ($errors->has('name'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
+
                         <div class="form-group {{ $errors->has('eventerror') ? ' has-error' : '' }}">
                             <label for="datetime" class="col-md-4 control-label">Dates*</label>
                             <div class="col-md-6">
@@ -114,55 +131,38 @@
                         </div>
 
 
-                        <div class="form-group {{ $errors->has('divisions') ? ' has-error' : '' }}" id="">
-                            <label for="event" class="col-md-4 control-label">Select Divisions</label>
+                        {{--<div class="form-group {{ $errors->has('divisions') ? ' has-error' : '' }}" id="">--}}
+                            {{--<label for="event" class="col-md-4 control-label">Select Divisions</label>--}}
 
-                            <div class="col-md-6">
-                                <div style="overflow-y:scroll; height:200px; margin-bottom:10px;" id="divisionselectcreate">
+                            {{--<div class="col-md-6">--}}
+                                {{--<div style="overflow-y:scroll; height:200px; margin-bottom:10px;" id="divisionselectcreate">--}}
 
-                                    <label class="form-check-label" style="margin-left: 10px" data-orgid="0">
-                                        @if (empty($divisions))
-                                            <input class="form-check-input" type="checkbox" name="divisions[]" value="0">Open
-                                        @endif
-                                    </label><br>
-                                    @foreach ($divisions as $division)
-                                        <label class="form-check-label" style="margin-left: 10px" data-orgid="{{$division->organisationid}}">
-                                            <input class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" >
-                                            {{$division->name}}
-                                        </label><br>
-                                    @endforeach
-                                </div>
+                                    {{--<label class="form-check-label" style="margin-left: 10px" data-orgid="0">--}}
+                                        {{--@if (empty($divisions))--}}
+                                            {{--<input class="form-check-input" type="checkbox" name="divisions[]" value="0">Open--}}
+                                        {{--@endif--}}
+                                    {{--</label><br>--}}
+                                    {{--@foreach ($divisions as $division)--}}
+                                        {{--<label class="form-check-label" style="margin-left: 10px" data-orgid="{{$division->organisationid}}">--}}
+                                            {{--<input class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" >--}}
+                                            {{--{{$division->name}}--}}
+                                        {{--</label><br>--}}
+                                    {{--@endforeach--}}
+                                {{--</div>--}}
 
-                                @if ($errors->has('divisions'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('divisions') }}</strong>
-                                    </span>
-                                @endif
+                                {{--@if ($errors->has('divisions'))--}}
+                                    {{--<span class="help-block">--}}
+                                        {{--<strong>{{ $errors->first('divisions') }}</strong>--}}
+                                    {{--</span>--}}
+                                {{--@endif--}}
 
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Ignore Genders</label>
-                            <div class="col-md-6">
-                                <input type="checkbox" name="ignoregenders" style="margin-top: 10px">
-                            </div>
-                        </div>
+                            {{--</div>--}}
+                        {{--</div>--}}
 
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name*</label>
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
 
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+
 
                         <div class="form-group" id="status">
                             <label for="event" class="col-md-4 control-label">Status</label>
@@ -212,19 +212,19 @@
                         </div>
 
 
-                        <div class="form-group{{ $errors->has('contact') ? ' has-error' : '' }}">
-                            <label for="contact" class="col-md-4 control-label">Contact Person*</label>
+                        {{--<div class="form-group{{ $errors->has('contact') ? ' has-error' : '' }}">--}}
+                            {{--<label for="contact" class="col-md-4 control-label">Contact Person*</label>--}}
 
-                            <div class="col-md-6">
-                                <input id="contact" type="text" class="form-control" name="contact" value="{{ old('contact') }}" required autofocus>
+                            {{--<div class="col-md-6">--}}
+                                {{--<input id="contact" type="text" class="form-control" name="contact" value="{{ old('contact') }}" required autofocus>--}}
 
-                                @if ($errors->has('contact'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('contact') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+                                {{--@if ($errors->has('contact'))--}}
+                                    {{--<span class="help-block">--}}
+                                        {{--<strong>{{ $errors->first('contact') }}</strong>--}}
+                                    {{--</span>--}}
+                                {{--@endif--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
 
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -243,10 +243,10 @@
 
 
                         <div class="form-group{{ $errors->has('cost') ? ' has-error' : '' }}">
-                            <label for="cost" class="col-md-4 control-label">Cost*</label>
+                            <label for="cost" class="col-md-4 control-label">Cost</label>
 
                             <div class="col-md-6">
-                                <input id="cost" type="text" class="form-control" name="cost" value="{{ old('cost') }}" required autofocus>
+                                <input id="cost" type="text" class="form-control" name="cost" value="{{ old('cost') }}">
 
                                 @if ($errors->has('cost'))
                                     <span class="help-block">
@@ -257,9 +257,9 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('bankaccount') ? ' has-error' : '' }}">
-                            <label for="bankaccount" class="col-md-4 control-label">Bank Account*</label>
+                            <label for="bankaccount" class="col-md-4 control-label">Bank Account</label>
                             <div class="col-md-6">
-                                <input id="bankaccount" type="text" class="form-control" name="bankaccount" value="{{ old('bankaccount') }}" required autofocus>
+                                <input id="bankaccount" type="text" class="form-control" name="bankaccount" value="{{ old('bankaccount') }}" >
                                 @if ($errors->has('bankaccount'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('bankaccount') }}</strong>
@@ -269,9 +269,9 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('bankreference') ? ' has-error' : '' }}">
-                            <label for="bankreference" class="col-md-4 control-label">Bank Reference*</label>
+                            <label for="bankreference" class="col-md-4 control-label">Bank Reference</label>
                             <div class="col-md-6">
-                                <input id="bankreference" type="text" class="form-control" name="bankreference" value="{{ old('bankreference') }}" required autofocus>
+                                <input id="bankreference" type="text" class="form-control" name="bankreference" value="{{ old('bankreference') }}" >
                                 @if ($errors->has('bankreference'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('bankreference') }}</strong>
@@ -308,118 +308,125 @@
                             </div>
                         </div>
 
-                        <hr>
-                            <h3>Setup</h3>
+                        {{--<hr>--}}
+                            {{--<h3>Setup</h3>--}}
 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">Visible</label>
-                                <div class="col-md-6">
-                                    <input type="checkbox" name="visible" style="margin-top: 10px">
-                                </div>
-                            </div>
+                            {{--<div class="form-group">--}}
+                                {{--<label class="col-md-4 control-label">Visible</label>--}}
+                                {{--<div class="col-md-6">--}}
+                                    {{--<input type="checkbox" name="visible" style="margin-top: 10px">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">Date of Birth Required</label>
-                                <div class="col-md-6">
-                                    <input type="checkbox" name="dob" style="margin-top: 10px">
-                                </div>
-                            </div>
+                            {{--<div class="form-group">--}}
+                                {{--<label class="col-md-4 control-label">Ignore Genders</label>--}}
+                                {{--<div class="col-md-6">--}}
+                                    {{--<input type="checkbox" name="ignoregenders" style="margin-top: 10px">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
 
-
-                            <div class="form-group{{ $errors->has('multipledivisions') ? ' has-error' : '' }}">
-                                <label for="bankaccount" class="col-md-4 control-label">Multiple Division Entries</label>
-                                <div class="col-md-6">
-                                    <input type="checkbox"  name="multipledivisions" style="margin-top: 10px">
-                                    @if ($errors->has('multipledivisions'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('multipledivisions') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
+                            {{--<div class="form-group">--}}
+                                {{--<label class="col-md-4 control-label">Date of Birth Required</label>--}}
+                                {{--<div class="col-md-6">--}}
+                                    {{--<input type="checkbox" name="dob" style="margin-top: 10px">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
 
 
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">Scoring Enabled</label>
-                                <div class="col-md-6">
-                                    <input type="checkbox" name="scoringenabled" style="margin-top: 10px">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">Users Can Score</label>
-                                <div class="col-md-6">
-                                    <input type="checkbox" name="userscanscore" style="margin-top: 10px">
-                                </div>
-                            </div>
+                            {{--<div class="form-group{{ $errors->has('multipledivisions') ? ' has-error' : '' }}">--}}
+                                {{--<label for="bankaccount" class="col-md-4 control-label">Multiple Division Entries</label>--}}
+                                {{--<div class="col-md-6">--}}
+                                    {{--<input type="checkbox"  name="multipledivisions" style="margin-top: 10px">--}}
+                                    {{--@if ($errors->has('multipledivisions'))--}}
+                                        {{--<span class="help-block">--}}
+                                            {{--<strong>{{ $errors->first('multipledivisions') }}</strong>--}}
+                                        {{--</span>--}}
+                                    {{--@endif--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
 
 
 
-                        <hr>
-                            <h3>Sponsorship</h3>
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">Sponsored Event</label>
-                                <div class="col-md-6">
-                                    <input type="checkbox" name="sponsored" style="margin-top: 10px">
-                                </div>
-                            </div>
+                            {{--<div class="form-group">--}}
+                                {{--<label class="col-md-4 control-label">Scoring Enabled</label>--}}
+                                {{--<div class="col-md-6">--}}
+                                    {{--<input type="checkbox" name="scoringenabled" style="margin-top: 10px">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
 
-                            <div class="form-group{{ $errors->has('dtimage') ? ' has-error' : '' }}">
-                                <label for="desktopimage" class="col-md-4 control-label">Desktop Image (1000x400px)</label>
+                            {{--<div class="form-group">--}}
+                                {{--<label class="col-md-4 control-label">Users Can Score</label>--}}
+                                {{--<div class="col-md-6">--}}
+                                    {{--<input type="checkbox" name="userscanscore" style="margin-top: 10px">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
 
-                                <div class="col-md-6">
-                                    <input type="file" class="form-control" name="dtimage">
 
-                                    @if ($errors->has('dtimage'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('dtimage') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
 
-                            <div class="form-group{{ $errors->has('dtimage') ? ' has-error' : '' }}">
-                                <label for="mobimage" class="col-md-4 control-label">Mobile Image(800x500px)</label>
+                        {{--<hr>--}}
+                            {{--<h3>Sponsorship</h3>--}}
+                            {{--<div class="form-group">--}}
+                                {{--<label class="col-md-4 control-label">Sponsored Event</label>--}}
+                                {{--<div class="col-md-6">--}}
+                                    {{--<input type="checkbox" name="sponsored" style="margin-top: 10px">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
 
-                                <div class="col-md-6">
-                                    <input type="file" class="form-control" name="mobimage">
+                            {{--<div class="form-group{{ $errors->has('dtimage') ? ' has-error' : '' }}">--}}
+                                {{--<label for="desktopimage" class="col-md-4 control-label">Desktop Image (1000x400px)</label>--}}
 
-                                    @if ($errors->has('mobimage'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('mobimage') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
+                                {{--<div class="col-md-6">--}}
+                                    {{--<input type="file" class="form-control" name="dtimage">--}}
 
-                            <div class="form-group{{ $errors->has('sponsorimageurl') ? ' has-error' : '' }}">
-                                <label for="sponsorimageurl" class="col-md-4 control-label">Sponsor Image URL</label>
+                                    {{--@if ($errors->has('dtimage'))--}}
+                                        {{--<span class="help-block">--}}
+                                            {{--<strong>{{ $errors->first('dtimage') }}</strong>--}}
+                                        {{--</span>--}}
+                                    {{--@endif--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
 
-                                <div class="col-md-6">
-                                    <input id="sponsorimageurl" type="text" class="form-control" name="sponsorimageurl" value="{{ old('sponsorimageurl')}}" >
+                            {{--<div class="form-group{{ $errors->has('dtimage') ? ' has-error' : '' }}">--}}
+                                {{--<label for="mobimage" class="col-md-4 control-label">Mobile Image(800x500px)</label>--}}
 
-                                    @if ($errors->has('sponsorimageurl'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('sponsorimageurl') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
+                                {{--<div class="col-md-6">--}}
+                                    {{--<input type="file" class="form-control" name="mobimage">--}}
 
-                            <div class="form-group{{ $errors->has('sponsortext') ? ' has-error' : '' }}">
-                                <label for="sponsortext" class="col-md-4 control-label">Sponsor Text</label>
+                                    {{--@if ($errors->has('mobimage'))--}}
+                                        {{--<span class="help-block">--}}
+                                            {{--<strong>{{ $errors->first('mobimage') }}</strong>--}}
+                                        {{--</span>--}}
+                                    {{--@endif--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
 
-                                <div class="col-md-6">
-                                    <textarea rows="5" id="sponsortext" type="text" class="form-control" name="sponsortext" >{{ old('sponsortext') }}</textarea>
-                                    @if ($errors->has('sponsortext'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('sponsortext') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                        <hr>
+                            {{--<div class="form-group{{ $errors->has('sponsorimageurl') ? ' has-error' : '' }}">--}}
+                                {{--<label for="sponsorimageurl" class="col-md-4 control-label">Sponsor Image URL</label>--}}
+
+                                {{--<div class="col-md-6">--}}
+                                    {{--<input id="sponsorimageurl" type="text" class="form-control" name="sponsorimageurl" value="{{ old('sponsorimageurl')}}" >--}}
+
+                                    {{--@if ($errors->has('sponsorimageurl'))--}}
+                                        {{--<span class="help-block">--}}
+                                            {{--<strong>{{ $errors->first('sponsorimageurl') }}</strong>--}}
+                                        {{--</span>--}}
+                                    {{--@endif--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+
+                            {{--<div class="form-group{{ $errors->has('sponsortext') ? ' has-error' : '' }}">--}}
+                                {{--<label for="sponsortext" class="col-md-4 control-label">Sponsor Text</label>--}}
+
+                                {{--<div class="col-md-6">--}}
+                                    {{--<textarea rows="5" id="sponsortext" type="text" class="form-control" name="sponsortext" >{{ old('sponsortext') }}</textarea>--}}
+                                    {{--@if ($errors->has('sponsortext'))--}}
+                                        {{--<span class="help-block">--}}
+                                            {{--<strong>{{ $errors->first('sponsortext') }}</strong>--}}
+                                        {{--</span>--}}
+                                    {{--@endif--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--<hr>--}}
 
 
                         <div class="form-group">

@@ -28,7 +28,7 @@ $(document).ready(function() {
 
     });
 
-    $(document).keyup('#searchuser', function (e) {
+    $(document).on('keyup','#searchuser', function (e) {
 
         var email = $('#searchuser').val();
 
@@ -47,7 +47,6 @@ $(document).ready(function() {
                 $('#searchuserresults').css('display', 'none');
 
                 if (json.success) {
-
 
                     json.users.forEach(function(element) {
 
@@ -103,5 +102,15 @@ $(document).ready(function() {
     });
 
 
+    $(document).on('click', '.selecteduser', function () {
+
+        var userid = $(this).attr('data-userid');
+        var fullname = $(this).attr('data-name');
+
+        $('input[name="userid"]').attr('value', userid);
+        $('input[name="name"]').val(fullname);
+        $('.foundusers').empty();
+        $('#searchuserresults').css('display', 'none');
+    });
 
 });

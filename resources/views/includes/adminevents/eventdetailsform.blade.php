@@ -121,7 +121,7 @@
                 </label><br>
                 @foreach ($divisions as $division)
                     <label class="form-check-label" style="margin-left: 10px" data-orgid="{{$division->organisationid}}">
-                        <input {!! (in_array($division->divisionid, $eventdivisions)) ? "checked" : '' !!} class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" >
+                        <input {!! (in_array($division->divisionid, !empty($eventdivisions) ? $eventdivisions : [])) ? "checked" : '' !!} class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" >
                         {{$division->name}}
                     </label><br>
                 @endforeach
@@ -129,29 +129,12 @@
 
             @if ($errors->has('divisions'))
                 <span class="help-block">
-                                        <strong>{{ $errors->first('divisions') }}</strong>
-                                    </span>
+                    <strong>{{ $errors->first('divisions') }}</strong>
+                </span>
             @endif
 
         </div>
     </div>
-
-
-    <div class="form-group">
-        <label class="col-md-4 control-label">Ignore Genders</label>
-        <div class="col-md-6">
-            @if (!empty($event))
-                <?php
-                $status='';
-                if ($event->first()->ignoregenders == 1) {
-                    $status = 'checked';
-                }
-                ?>
-                <input style="margin-top: 10px" type="checkbox" name="ignoregenders" {{$status}}>
-            @endif
-        </div>
-    </div>
-
 
 
 
@@ -198,23 +181,8 @@
 
             @if ($errors->has('location'))
                 <span class="help-block">
-                                        <strong>{{ $errors->first('location') }}</strong>
-                                    </span>
-            @endif
-        </div>
-    </div>
-
-
-    <div class="form-group{{ $errors->has('contact') ? ' has-error' : '' }}">
-        <label for="contact" class="col-md-4 control-label">Contact Person*</label>
-
-        <div class="col-md-6">
-            <input id="contact" type="text" class="form-control" name="contact" value="{{ old('contact') ?? $event->first()->contact }}" required >
-
-            @if ($errors->has('contact'))
-                <span class="help-block">
-                                        <strong>{{ $errors->first('contact') }}</strong>
-                                    </span>
+                    <strong>{{ $errors->first('location') }}</strong>
+                </span>
             @endif
         </div>
     </div>
@@ -228,51 +196,51 @@
 
             @if ($errors->has('email'))
                 <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
+                    <strong>{{ $errors->first('email') }}</strong>
+                </span>
             @endif
         </div>
     </div>
 
 
     <div class="form-group{{ $errors->has('cost') ? ' has-error' : '' }}">
-        <label for="cost" class="col-md-4 control-label">Cost*</label>
+        <label for="cost" class="col-md-4 control-label">Cost</label>
 
         <div class="col-md-6">
             <input id="cost" type="text" class="form-control" name="cost" value="{{ old('cost') ?? $event->first()->cost }}" required >
 
             @if ($errors->has('cost'))
                 <span class="help-block">
-                                        <strong>{{ $errors->first('cost') }}</strong>
-                                    </span>
+                    <strong>{{ $errors->first('cost') }}</strong>
+                </span>
             @endif
         </div>
     </div>
 
     <div class="form-group{{ $errors->has('bankaccount') ? ' has-error' : '' }}">
-        <label for="bankaccount" class="col-md-4 control-label">Bank Account*</label>
+        <label for="bankaccount" class="col-md-4 control-label">Bank Account</label>
 
         <div class="col-md-6">
             <input id="bankaccount" type="text" class="form-control" name="bankaccount" value="{{ old('bankaccount') ?? $event->first()->bankaccount }}" >
 
             @if ($errors->has('bankaccount'))
                 <span class="help-block">
-                                        <strong>{{ $errors->first('bankaccount') }}</strong>
-                                    </span>
+                    <strong>{{ $errors->first('bankaccount') }}</strong>
+                </span>
             @endif
         </div>
     </div>
 
     <div class="form-group{{ $errors->has('bankreference') ? ' has-error' : '' }}">
-        <label for="bankreference" class="col-md-4 control-label">Bank Reference*</label>
+        <label for="bankreference" class="col-md-4 control-label">Bank Reference</label>
         <div class="col-md-6">
 
             <input id="bankaccount" type="text" class="form-control" name="bankreference" value="{{ old('bankreference') ?? $event->first()->bankreference }}" >
 
             @if ($errors->has('bankreference'))
                 <span class="help-block">
-                                        <strong>{{ $errors->first('bankreference') }}</strong>
-                                    </span>
+                    <strong>{{ $errors->first('bankreference') }}</strong>
+                </span>
             @endif
         </div>
     </div>
@@ -284,8 +252,8 @@
             <textarea rows="5" id="information" type="text" class="form-control" name="information" >{{ old('information') ?? $event->first()->information }}</textarea>
             @if ($errors->has('information'))
                 <span class="help-block">
-                                        <strong>{{ $errors->first('information') }}</strong>
-                                    </span>
+                    <strong>{{ $errors->first('information') }}</strong>
+                </span>
             @endif
         </div>
     </div>
@@ -298,191 +266,11 @@
             <textarea rows="5" id="schedule" type="text" class="form-control" name="schedule" >{{ old('schedule') ?? $event->first()->schedule }}</textarea>
             @if ($errors->has('schedule'))
                 <span class="help-block">
-                                        <strong>{{ $errors->first('schedule') }}</strong>
-                                    </span>
-            @endif
-        </div>
-    </div>
-
-
-    <hr>
-    <h3>Setup</h3>
-
-    <div class="form-group">
-        <label class="col-md-4 control-label">Visible</label>
-        <div class="col-md-6">
-            @if (!empty($event))
-                <?php
-                $status='';
-                if ($event->first()->visible == 1) {
-                    $status = 'checked';
-                }
-                ?>
-                <input style="margin-top: 10px" type="checkbox" name="visible" {{$status}}>
-            @endif
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-md-4 control-label">Date of Birth Required</label>
-        <div class="col-md-6">
-            @if (!empty($event))
-                <?php
-                $status='';
-                if ($event->first()->dob == 1) {
-                    $status = 'checked';
-                }
-                ?>
-                <input style="margin-top: 10px" type="checkbox" name="dob" {{$status}}>
-            @endif
-        </div>
-    </div>
-
-    <div class="form-group{{ $errors->has('multipledivisions') ? ' has-error' : '' }}">
-        <label for="bankaccount" class="col-md-4 control-label">Multiple Division Entries</label>
-        <div class="col-md-6">
-
-            @if (!empty($event))
-                @php
-                    $multipledivisions='';
-                    if ($event->first()->multipledivisions == 1) {
-                        $multipledivisions = 'checked';
-                    }
-                @endphp
-                <input style="margin-top: 10px" type="checkbox" name="multipledivisions" {{$multipledivisions}}>
-            @endif
-
-        </div>
-    </div>
-
-
-
-    <div class="form-group">
-        <label class="col-md-4 control-label">Scoring Enabled</label>
-        <div class="col-md-6">
-            @if (!empty($event))
-                <?php
-                $status='';
-                if ($event->first()->scoringenabled == 1) {
-                    $status = 'checked';
-                }
-                ?>
-                <input style="margin-top: 10px" type="checkbox" name="scoringenabled" {{$status}}>
-            @endif
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-md-4 control-label">Users Can Score</label>
-        <div class="col-md-6">
-            @if (!empty($event))
-                <?php
-                $status='';
-                if ($event->first()->userscanscore == 1) {
-                    $status = 'checked';
-                }
-                ?>
-                <input style="margin-top: 10px" type="checkbox" name="userscanscore" {{$status}}>
-            @endif
-        </div>
-    </div>
-
-    @if ($event->first()->eventtype == 1)
-        <div class="form-group">
-            <div class="col-md-offset-4">
-                <h5>Process Weekly League Scores</h5>
-
-                <a href="{{route('processleague', [$event->first()->eventid, $event->first()->hash])}}" class="btn btn-info col-md-2 processleaguebtn" role="button">Process</a>
-
-                <div class="col-md-6">
-                    <input type="text" class="form-control" disabled value="{{'Last Run :' }}" >
-                </div>
-            </div>
-        </div>
-    @endif
-
-    <hr>
-    <h3>Sponsorship</h3>
-    <div class="form-group">
-        <label class="col-md-4 control-label">Sponsored Event</label>
-        <div class="col-md-6">
-
-            @if (!empty($event))
-                <?php
-                $sponsored='';
-                if ($event->first()->sponsored == 1) {
-                    $sponsored = 'checked';
-                }
-                ?>
-
-                <input type="checkbox" name="sponsored" style="margin-top: 10px" {{$sponsored}}>
-            @endif
-        </div>
-    </div>
-
-    <div class="form-group{{ $errors->has('dtimage') ? ' has-error' : '' }}">
-        <label for="desktopimage" class="col-md-4 control-label">Desktop Image (1000x400px)</label>
-
-        <div class="col-md-6">
-            <input type="file" class="form-control" name="dtimage">
-            @if (!empty($event->first()->dtimage))
-                <img id="blah" src="/content/sponsor/small/{{ (old('image')) ? old('image') : $event->first()->dtimage }}" alt="" style="width: 150px" />
-            @endif
-
-            @if ($errors->has('dtimage'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('dtimage') }}</strong>
+                    <strong>{{ $errors->first('schedule') }}</strong>
                 </span>
             @endif
         </div>
     </div>
-
-    <div class="form-group{{ $errors->has('dtimage') ? ' has-error' : '' }}">
-        <label for="mobimage" class="col-md-4 control-label">Mobile Image(800x500px)</label>
-
-        <div class="col-md-6">
-            <input type="file" class="form-control" name="mobimage">
-            @if (!empty($event->first()->mobimage))
-                <img id="blah" src="/content/sponsor/small/{{ (old('image')) ? old('image') : $event->first()->mobimage }}" alt="" style="width: 150px" />
-            @endif
-
-            @if ($errors->has('mobimage'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('mobimage') }}</strong>
-                </span>
-            @endif
-        </div>
-    </div>
-
-    <div class="form-group{{ $errors->has('sponsorimageurl') ? ' has-error' : '' }}">
-        <label for="sponsorimageurl" class="col-md-4 control-label">Sponsor Image URL</label>
-
-        <div class="col-md-6">
-            <input id="sponsorimageurl" type="text" class="form-control" name="sponsorimageurl" value="{{ old('sponsorimageurl') ?? $event->first()->sponsorimageurl }}" >
-
-            @if ($errors->has('sponsorimageurl'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('sponsorimageurl') }}</strong>
-                </span>
-            @endif
-        </div>
-    </div>
-
-    <div class="form-group{{ $errors->has('sponsortext') ? ' has-error' : '' }}">
-        <label for="sponsortext" class="col-md-4 control-label">Sponsor Text</label>
-
-        <div class="col-md-6">
-            <textarea rows="5" id="sponsortext" type="text" class="form-control" name="sponsortext" >{{ old('sponsortext') ?? $event->first()->sponsortext }}</textarea>
-            @if ($errors->has('sponsortext'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('sponsortext') }}</strong>
-                </span>
-            @endif
-        </div>
-    </div>
-    <hr>
-
-
 
 
 

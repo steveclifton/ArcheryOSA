@@ -17,8 +17,4 @@ use App\Mail\SendEntryConfirmationEmail;
 class SenderController extends Controller
 {
 
-
-
-
-
 }

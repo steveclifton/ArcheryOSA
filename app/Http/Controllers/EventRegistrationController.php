@@ -57,7 +57,9 @@ class EventRegistrationController extends Controller
                         ->get()
                         ->first();
 
-        if (empty($event)) {
+        $eventround = EventRound::where('eventid', $event->eventid)->get();
+
+        if (empty($event) || $eventround->isEmpty()) {
             return back()->with('failure', 'Invalid Request');
         }
 
@@ -68,6 +70,7 @@ class EventRegistrationController extends Controller
 
 
         $divisions = Division::whereIn('divisionid', $divArr)->orderBy('name', 'asc')->get(); // collection array of divisions
+
 
         $clubs = Club::orderby('name')->get();
 

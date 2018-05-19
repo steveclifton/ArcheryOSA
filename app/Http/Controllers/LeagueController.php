@@ -21,6 +21,8 @@ class LeagueController extends Controller
                         ->get()
                         ->first();
 
+
+
         // Get the Event Round
         $eventround = DB::select("SELECT r.`totalmax`
             FROM `eventrounds` er 
@@ -125,7 +127,8 @@ class LeagueController extends Controller
             }
         }
 
-
+        $event->currentweek++;
+        $event->save();
         return redirect()->back()->with('message', 'Updated Succesfully');
 
     }

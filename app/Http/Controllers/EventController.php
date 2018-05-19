@@ -319,9 +319,7 @@ class EventController extends Controller
             'eventtype' => 'required',
             'hostclub' => 'required',
             'location' => 'required',
-            'contact' => 'required',
             'email' => 'required',
-            'cost' => 'required',
             'status' => 'required',
         ])->validate();
 
@@ -339,97 +337,39 @@ class EventController extends Controller
 
         $dayCount = $startdate->diffInDays($enddate) + 1; // add 1 day to represent the actual number of competing days
 
-        $visible = 0;
-        if (!empty($request->input('visible'))) {
-            $visible = 1;
-        }
-
-        $scoringenabled = 0;
-        if (!empty($request->input('scoringenabled'))) {
-            $scoringenabled = 1;
-        }
-
-        $userscanscore = 0;
-        if (!empty($request->input('userscanscore'))) {
-            $userscanscore = 1;
-        }
-
-        $multipledivisions = 0;
-        if (!empty($request->input('multipledivisions'))) {
-            $multipledivisions = 1;
-        }
-
-        $dobrequired = 0;
-        if (!empty($request->input('dob'))) {
-            $dobrequired = 1;
-        }
-
-        $sponsored = 0;
-        if (!empty($request->input('sponsored'))) {
-            $sponsored = 1;
-        }
-
-        $ignoregender = 0;
-        if (!empty($request->input('ignoregenders'))) {
-            $ignoregender = 1;
-        }
 
 
         $event = new Event();
 
-        if ($request->hasFile('dtimage')) {
-
-            $image = $request->file('dtimage');
-            $filename = time() . rand(0,999) . '.' . $image->getClientOriginalExtension();
-            $location = public_path('content/sponsor/' . $filename);
-            $locationsmall = public_path('content/sponsor/small/' . $filename);
-            Image::make($image)->resize(1000,400)->save($location);
-            Image::make($image)->resize(100,40)->save($locationsmall);
-
-            $event->dtimage = $filename;
-        }
-
-        if ($request->hasFile('mobimage')) {
-
-            $image = $request->file('mobimage');
-            $filename = time() . rand(0,999) . '.' . $image->getClientOriginalExtension();
-            $location = public_path('content/sponsor/' . $filename);
-            $locationsmall = public_path('content/sponsor/small/' . $filename);
-            Image::make($image)->resize(800,500)->save($location);
-            Image::make($image)->resize(80,50)->save($locationsmall);
-
-            $event->mobimage = $filename;
-        }
 
         $event->name = $request->input('name');
         $event->email = $request->input('email');
-        $event->contact = $request->input('contact');
-        $event->eventtype = $request->input('eventtype');
-        $event->status = $request->input('status');
-        $event->organisationid = $request->input('organisationid');
-        $event->createdby = Auth::user()->userid; // set the created by as the person who is logged in
+
+        // dates
         $event->startdate = $startdate;
         $event->enddate = $enddate;
         $event->closeentry = $closeentry;
         $event->daycount = $dayCount;
+
+        $event->eventtype = $request->input('eventtype');
+        $event->status = $request->input('status');
+        $event->organisationid = $request->input('organisationid');
+        $event->createdby = Auth::id();
+
         $event->hostclub = $request->input('hostclub');
         $event->location = $request->input('location');
-        $event->multipledivisions = $multipledivisions;
+
         $event->cost = $request->input('cost');
+
         $event->bankaccount = $request->input('bankaccount');
         $event->bankreference = $request->input('bankreference');
-        $event->divisions = serialize($request->input('divisions'));
+        $event->divisions = serialize('');
         $event->schedule = $request->input('schedule');
         $event->information = $request->input('information');
-        $event->scoringenabled = $scoringenabled;
-        $event->userscanscore = $userscanscore;
-        $event->sponsored = $sponsored;
+
         $event->sponsortext = $request->input('sponsortext');
         $event->sponsorimageurl = $request->input('sponsorimageurl');
-        $event->ignoregenders = $ignoregender;
-        $event->dob = $dobrequired;
 
-        $event->visible = $visible;
         $event->save();
 
         $event->url = $this->makeurl($event->name, $event->eventid);
@@ -460,9 +400,7 @@ class EventController extends Controller
             'eventtype' => 'required',
             'hostclub' => 'required',
             'location' => 'required',
-            'contact' => 'required',
             'email' => 'required',
-            'cost' => 'required',
             'status' => 'required'
 
         ],[
@@ -489,41 +427,6 @@ class EventController extends Controller
 
 
         if ($request->eventid == $event->eventid) {
-
-            $visible = 0;
-            if (!empty($request->input('visible'))) {
-                $visible = 1;
-            }
-
-            $scoringenabled = 0;
-            if (!empty($request->input('scoringenabled'))) {
-                $scoringenabled = 1;
-            }
-
-            $userscanscore = 0;
-            if (!empty($request->input('userscanscore'))) {
-                $userscanscore = 1;
-            }
-
-            $multipledivisions = 0;
-            if (!empty($request->input('multipledivisions'))) {
-                $multipledivisions = 1;
-            }
-
-            $dobrequired = 0;
-            if (!empty($request->input('dob'))) {
-                $dobrequired = 1;
-            }
-
-            $sponsored = 0;
-            if (!empty($request->input('sponsored'))) {
-                $sponsored = 1;
-            }
-
-            $ignoregender = 0;
-            if (!empty($request->input('ignoregenders'))) {
-                $ignoregender = 1;
-            }
 
             if ($request->hasFile('dtimage')) {
                 //clean up old image
@@ -573,20 +476,82 @@ class EventController extends Controller
             $event->hostclub = $request->input('hostclub');
             $event->location = $request->input('location');
             $event->cost = $request->input('cost');
-            $event->multipledivisions = $multipledivisions;
             $event->divisions = serialize($request->input('divisions'));
             $event->bankaccount = $request->input('bankaccount');
             $event->bankreference = $request->input('bankreference');
             $event->schedule = trim($request->input('schedule'));
             $event->information = trim($request->input('information'));
-            $event->scoringenabled = $scoringenabled;
-            $event->userscanscore = $userscanscore;
-            $event->sponsored = $sponsored;
+
             $event->sponsortext = $request->input('sponsortext');
             $event->sponsorimageurl = $request->input('sponsorimageurl');
             $event->hash = md5($request->input('name') . time());
-            $event->ignoregenders = $ignoregender;
+
             $event->currentweek = $request->input('currentweek') ?? 1;
+
+
+            $event->save();
+
+            return Redirect::route('updateevent', $request->eventid)->with('message', 'Update Successful')->with('edit', true);
+
+        }
+
+    }
+
+    public function updatesetup(Request $request)
+    {
+        $event = Event::where('eventid', $request->eventid)->first();
+
+        if (is_null($event)) {
+            return Redirect::route('events');
+        }
+
+
+        if ($request->eventid == $event->eventid) {
+
+            $visible = 0;
+            if (!empty($request->input('visible'))) {
+                $visible = 1;
+            }
+
+            $scoringenabled = 0;
+            if (!empty($request->input('scoringenabled'))) {
+                $scoringenabled = 1;
+            }
+
+            $userscanscore = 0;
+            if (!empty($request->input('userscanscore'))) {
+                $userscanscore = 1;
+            }
+
+            $multipledivisions = 0;
+            if (!empty($request->input('multipledivisions'))) {
+                $multipledivisions = 1;
+            }
+
+            $dobrequired = 0;
+            if (!empty($request->input('dob'))) {
+                $dobrequired = 1;
+            }
+
+            $sponsored = 0;
+            if (!empty($request->input('sponsored'))) {
+                $sponsored = 1;
+            }
+
+            $ignoregender = 0;
+            if (!empty($request->input('ignoregenders'))) {
+                $ignoregender = 1;
+            }
+
+
+
+            $event->multipledivisions = $multipledivisions;
+
+            $event->scoringenabled = $scoringenabled;
+            $event->userscanscore = $userscanscore;
+            $event->sponsored = $sponsored;
+
+            $event->ignoregenders = $ignoregender;
             $event->visible = $visible;
             $event->dob = $dobrequired;
 
@@ -596,6 +561,46 @@ class EventController extends Controller
 
         }
 
+
+    }
+
+    public function updatesponsorship(Request $request)
+    {
+        $event = Event::where('eventid', $request->eventid)->first();
+
+        if (is_null($event)) {
+            return Redirect::route('events');
+        }
+
+        if ($request->hasFile('dtimage')) {
+
+            $image = $request->file('dtimage');
+            $filename = time() . rand(0,999) . '.' . $image->getClientOriginalExtension();
+            $location = public_path('content/sponsor/' . $filename);
+            $locationsmall = public_path('content/sponsor/small/' . $filename);
+            Image::make($image)->resize(1000,400)->save($location);
+            Image::make($image)->resize(100,40)->save($locationsmall);
+
+            $event->dtimage = $filename;
+        }
+
+        if ($request->hasFile('mobimage')) {
+
+            $image = $request->file('mobimage');
+            $filename = time() . rand(0,999) . '.' . $image->getClientOriginalExtension();
+            $location = public_path('content/sponsor/' . $filename);
+            $locationsmall = public_path('content/sponsor/small/' . $filename);
+            Image::make($image)->resize(800,500)->save($location);
+            Image::make($image)->resize(80,50)->save($locationsmall);
+
+            $event->mobimage = $filename;
+        }
+
+        $event->sponsortext = $request->input('sponsortext');
+        $event->sponsorimageurl = $request->input('sponsorimageurl');
+        $event->save();
+
+        return Redirect::route('updateevent', $request->eventid)->with('message', 'Update Successful');
     }
 
     public function delete(Request $request)
@@ -662,9 +667,13 @@ class EventController extends Controller
 
     private function sortDivisions($eventdivisions, $divisions)
     {
+        // if nothing is selected, show everything
         if (empty($eventdivisions)) {
-            return [];
+
+            return $divisions;
         }
+
+
         $first = [];
         $second = [];
         foreach ($divisions as $division) {
@@ -712,11 +721,15 @@ class EventController extends Controller
                 $view = View::make('includes.adminevents.eventdetailsform', $data);
                 $html = $view->render();
                 break;
+            case 'editsetup' :
+                $data = $this->getEventFormData($event->eventid);
+                $view = View::make('includes.adminevents.eventsetupform', $data);
+                $html = $view->render();
+                break;
 
             case 'rounds':
                 $data['event'] = $event;
                 $data['eventrounds'] = EventRound::where('eventid', $event->eventid)->get();
-
                 $view = View::make('includes.adminevents.eventrounds', $data);
                 $html = $view->render();
                 break;
@@ -724,18 +737,20 @@ class EventController extends Controller
             case 'entries':
                 $data = $this->getEventUsers($event->eventid);
                 $data['event'] = $event;
-
                 $view = View::make('includes.adminevents.evententries', $data);
                 $html = $view->render();
                 break;
 
-            case 'targets':
-
-                $view = View::make('includes.adminevents.targetallocation');
+            case 'sponsorship' :
+                $data = $this->getEventFormData($event->eventid);
+                $view = View::make('includes.adminevents.eventsponsorship', $data);
                 $html = $view->render();
                 break;
 
-
+            case 'targets':
+                $view = View::make('includes.adminevents.targetallocation');
+                $html = $view->render();
+                break;
 
         } // switch
 

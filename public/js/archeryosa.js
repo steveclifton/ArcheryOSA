@@ -3,19 +3,6 @@ $(document).ready(function() {
 
 
 
-
-    $(document).on('click', '.selecteduser', function () {
-
-        var userid = $(this).attr('data-userid');
-        var fullname = $(this).attr('data-name');
-
-        $('input[name="userid"]').attr('value', userid);
-        $('input[name="name"]').val(fullname);
-        $('.foundusers').empty();
-        $('#searchuserresults').css('display', 'none');
-    });
-
-
     $('table.resultstables').DataTable({
         "paging": false,
         "info": false,
@@ -35,7 +22,7 @@ $(document).ready(function() {
 
     if (typeof collapse_siderbar !== 'undefined') {
         if (collapse_siderbar) {
-            $('.sidebar-mini').addClass('sidebar-collapse');
+            $('.sidebar-toggle').trigger('click');
         }
     }
 
@@ -85,11 +72,7 @@ $(document).ready(function() {
             alert('Please check invalid scores and try again');
         }
     });
-    
-    $('.readmore').click(function () {
-        $(this).remove();
-        $('.moreschedule').removeClass('hidden');
-    });
+
 
     $('.addmoredetails').click(function () {
 
@@ -186,11 +169,6 @@ $(document).ready(function() {
     function getPathFromUrl(url) {
         return url.split("?")[0];
     }
-
-
-
-
-
 
     $(document).on('click', '.processleaguebtn', function(){
         event.stopPropagation();
