@@ -10,7 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Mail;
 
-class SendWelcomeEmail implements ShouldQueue
+class SendWelcomeEmail extends ArcheryOSASender implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -34,7 +34,10 @@ class SendWelcomeEmail implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->email)
-            ->send(new Welcome(ucwords($this->firstname)));
+        if ($this->checkEmailAddress($this->email)) {
+            Mail::to($this->email)
+                ->send(new Welcome(ucwords($this->firstname)));
+        }
+
     }
 }
