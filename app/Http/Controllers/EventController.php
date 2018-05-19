@@ -660,6 +660,7 @@ class EventController extends Controller
             if (!empty($return)) {
                 $email = new OutboundEmail();
                 $email->userid = $evententry->userid;
+                $email->email = $evententry->email;
                 $email->eventid = $event->eventid;
                 $email->senderuserid = Auth::id();
                 $email->message = $message;
