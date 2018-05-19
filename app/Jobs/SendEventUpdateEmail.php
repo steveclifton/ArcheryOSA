@@ -10,7 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Mail;
 
-class SendEventUpdateEmail implements ShouldQueue
+class SendEventUpdateEmail extends ArcheryOSASender implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -37,7 +37,10 @@ class SendEventUpdateEmail implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->email)
-            ->send(new EventUpdate(ucwords($this->eventname), $this->emailmessage));
+        if ($this->checkEmailAddress($this->email)) {
+            Mail::to($this->email)
+                ->send(new EventUpdate(ucwords($this->eventname), $this->emailmessage));
+        }
+
     }
 }
