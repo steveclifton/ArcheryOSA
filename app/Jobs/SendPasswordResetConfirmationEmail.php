@@ -10,7 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Mail;
 
-class SendPasswordResetConfirmationEmail implements ShouldQueue
+class SendPasswordResetConfirmationEmail extends ArcheryOSASender implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -34,7 +34,11 @@ class SendPasswordResetConfirmationEmail implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->email)
-            ->send(new UpdatePassword($this->name));
+
+        if ($this->checkEmailAddress($this->email)) {
+            Mail::to($this->email)
+                ->send(new UpdatePassword($this->name));
+        }
+
     }
 }
