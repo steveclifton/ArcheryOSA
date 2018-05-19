@@ -10,7 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Mail;
 
-class SendRelationshipEmail implements ShouldQueue
+class SendRelationshipEmail extends ArcheryOSASender implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -39,7 +39,10 @@ class SendRelationshipEmail implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->email)
-            ->send(new ArcherRelationRequest($this->firstname, $this->requestusername, $this->hash));
+        if ($this->checkEmailAddress($this->email)) {
+            Mail::to($this->email)
+                ->send(new ArcherRelationRequest($this->firstname, $this->requestusername, $this->hash));
+        }
+
     }
 }
