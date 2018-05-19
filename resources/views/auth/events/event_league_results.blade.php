@@ -25,6 +25,7 @@
                     <div class="box-body">
                         <div class="padding10">
                             <div class="table-responsive">
+                                <div class="row">
                                 <br>
                                 @if ($event->eventtype == 1)
                                     <div class="col-md-3" style="padding-bottom: 20px">
@@ -43,7 +44,7 @@
                                         </select>
                                     </div>
                                 @endif
-
+                                </div>
                                 @if (empty($results))
 
                                     <table class="table table-bordered table-responsive table-striped">
@@ -77,19 +78,19 @@
 
                                             <tbody>
 
-                                            @foreach($divisionresults as $result)
+                                                @foreach($divisionresults as $result)
 
-                                                <tr style="">
-                                                    <td><a href="{{route('getpublicuserview', $result->username)}}">{{ucwords($result->firstname) . ' ' . ucwords($result->lastname)}}</a></td>
+                                                    <tr style="">
+                                                        <td><a href="{{route('getpublicuserview', $result->username)}}">{{ucwords($result->firstname) . ' ' . ucwords($result->lastname)}}</a></td>
 
 
-                                                    @if ($event->eventtype == 1)
-                                                        <td class="alignCenter">{!! number_format($result->avg_total_score, 2) !!}</td>
-                                                        <td class="alignCenter">{{$result->top10scores ?? 0}}</td>
-                                                        <td class="alignCenter">{{$result->totalpoints ?? 0}}</td>
-                                                    @endif
-                                                </tr>
-                                            @endforeach
+                                                        @if ($event->eventtype == 1)
+                                                            <td class="alignCenter">{!! number_format($result->avg_total_score, 2) !!}</td>
+                                                            <td class="alignCenter">{{$result->top10scores ?? 0}}</td>
+                                                            <td class="alignCenter">{{$result->totalpoints ?? 0}}</td>
+                                                        @endif
+                                                    </tr>
+                                                @endforeach
 
                                             </tbody>
 
