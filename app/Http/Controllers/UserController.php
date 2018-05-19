@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\ArcherRelation;
+use App\Jobs\SendRelationshipConfirmationEmail;
 use App\Jobs\SendRelationshipEmail;
 use App\Jobs\SendWelcomeEmail;
 use App\LeaguePoint;
-use App\Mail\ArcherRelationRequest;
 use App\Mail\ConfirmArcherRelation;
-use App\Mail\Welcome;
-use Illuminate\Support\Facades\Log;
 use Image;
 use Validator;
 use App\User;
@@ -93,7 +91,9 @@ class UserController extends Controller
      */
     private function sendRelationshipEmail($email, $firstname, $requestusername, $hash)
     {
-        $this->dispatch(new SendRelationshipEmail($email, $firstname, $requestusername, $hash));
+        if ( filter_var($email, FILTER_VALIDATE_EMAIL ) ) {
+            $this->dispatch(new SendRelationshipEmail($email, $firstname, $requestusername, $hash));
+        }
     }
 
     /**
@@ -102,11 +102,18 @@ class UserController extends Controller
      */
     private function sendWelcomeEmail()
     {
-        $this->dispatch(new SendWelcomeEmail(Auth::user()->email, Auth::user()->firstname));
+        if ( filter_var(Auth::user()->email, FILTER_VALIDATE_EMAIL ) ) {
+            $this->dispatch(new SendWelcomeEmail(Auth::user()->email, Auth::user()->firstname));
+        }
     }
 
 
-
+    private function sendRelationshipConfirmationEmail($email, $firstname, $requestusername)
+    {
+        if ( filter_var($email, FILTER_VALIDATE_EMAIL ) ) {
+            $this->dispatch(new SendRelationshipConfirmationEmail($email, $firstname, $requestusername));
+        }
+    }
 
 
 
@@ -152,7 +159,7 @@ class UserController extends Controller
     {
 
         $user = User::where('username', $request->username)->get()->first();
-        if (is_null($user)) {
+        if (empty($user)) {
             return redirect()->back()->with('failure', 'Invalid Request');
         }
 
@@ -209,9 +216,9 @@ class UserController extends Controller
     public function register(RegisterValidator $request)
     {
         $user                   = new User();
-        $user->firstname        = htmlentities($request->input('firstname'));
-        $user->lastname         = htmlentities($request->input('lastname'));
-        $user->email            = htmlentities($request->input('email'));
+        $user->firstname        = $request->input('firstname');
+        $user->lastname         = $request->input('lastname');
+        $user->email            = $request->input('email');
         $user->password         = Hash::make($request->input('password'));
         $user->lastipaddress    = $request->ip();
         $user->usertype         = 3;
@@ -276,11 +283,11 @@ class UserController extends Controller
         }
 
         $user               = Auth::user();
-        $user->email        = htmlentities(request('email'));
-        $user->firstname    = htmlentities(request('firstname'));
-        $user->lastname     = htmlentities(request('lastname'));
-        $user->phone        = htmlentities(request('phone'));
-        $user->address        = htmlentities(request('address'));
+        $user->email        = request('email');
+        $user->firstname    = request('firstname');
+        $user->lastname     = request('lastname');
+        $user->phone        = request('phone');
+        $user->address        = request('address');
 
         if ($request->hasFile('profileimage')) {
             //clean up old image
@@ -360,15 +367,17 @@ class UserController extends Controller
             'email' => 'email|required',
         ])->validate();
 
-        $user = User::where('email', $request->input('email'))->get()->first();
+        $user = User::where('email', $request->input('email'))
+                    ->get()
+                    ->first();
 
-        if (is_null($user)) {
+        if (empty($user)) {
             return back()->with('failure', 'User with that email address is unavailable');
         }
 
         $existingrequest = ArcherRelation::where('userid', Auth::id())->where('relationuserid', $user->userid)->get()->first();
 
-        if (!is_null($existingrequest)) {
+        if (!empty($existingrequest)) {
             return back()->with('failure', 'Request already pending');
         }
 
@@ -377,7 +386,7 @@ class UserController extends Controller
         $archerrelation = new ArcherRelation();
         $archerrelation->userid = Auth::id();
         $archerrelation->relationuserid = $user->userid;
-        $archerrelation->hash = $this->createHash();;
+        $archerrelation->hash = $this->createHash();
         $archerrelation->save();
 
         $this->sendRelationshipEmail($user->email, $user->firstname, $authfullname, $archerrelation->hash);
@@ -404,8 +413,7 @@ class UserController extends Controller
 
                 $success = 'Great! We have authorised the request and now ' . ucwords($requestarcher->firstname ?? '') . ' can score for you!';
 
-                Mail::to($archer->email)
-                    ->send(new ConfirmArcherRelation($archer->firstname ?? '', $requestarcher->firstname ?? ''));
+                $this->sendRelationshipConfirmationEmail($archer->email, $archer->firstname ?? '', $requestarcher->firstname ?? '');
 
                 return view('landingpages.addarcherlanding', compact('success'));
             }
@@ -516,13 +524,13 @@ class UserController extends Controller
     {
 
         $relationship = ArcherRelation::where('userid', Auth::id())
-            ->where('relationuserid', $request->userid)
-            ->get()
-            ->first();
+                                        ->where('relationuserid', $request->userid)
+                                        ->get()
+                                        ->first();
 
         $child = User::where('userid', $request->userid)
-            ->get()
-            ->first();
+                        ->get()
+                        ->first();
 
         if (empty($relationship) || empty($child)) {
             return back()->with('failure', 'Error, you are not authorised to view this user');
