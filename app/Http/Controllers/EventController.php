@@ -201,6 +201,16 @@ class EventController extends Controller
 
     }
 
+    private function getEventsDivisions($eventid)
+    {
+        $event = Event::where('eventid', $eventid)->get()->first();
+
+        if (!empty($event->divisions)) {
+            return unserialize($event->divisions);
+        }
+        return false;
+    }
+
     /****************************************************
     *                                                   *
     *                ADMIN / AUTH METHODS               *
@@ -519,6 +529,8 @@ class EventController extends Controller
             return Redirect::route('events');
         }
 
+        $divisions =$this->getEventsDivisions($event->eventid);
+
 
         if ($request->eventid == $event->eventid) {
 
@@ -526,6 +538,11 @@ class EventController extends Controller
             if (!empty($request->input('visible'))) {
                 $visible = 1;
             }
+
+            if ($visible == 1 && empty($divisions)) {
+                return Redirect::route('updateevent', $request->eventid)->with('failure', 'Event must have divisions selected before you can make visible');
+            }
+
 
             $scoringenabled = 0;
             if (!empty($request->input('scoringenabled'))) {
