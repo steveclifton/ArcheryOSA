@@ -236,9 +236,23 @@
 
                                     <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 25px; padding-left: 25px; padding-top: 5px; padding-bottom: 20px;"><![endif]-->
                                     <div style="font-family:'Lato', Tahoma, Verdana, Segoe, sans-serif;line-height:180%;color:#555555; padding-right: 25px; padding-left: 25px; padding-top: 5px; padding-bottom: 20px;">
-                                        <div style="font-size:12px;line-height:22px;color:#555555;font-family:'Lato', Tahoma, Verdana, Segoe, sans-serif;text-align:left;"><p style="margin: 0;font-size: 14px;line-height: 25px;text-align: center"><span style="font-size: 16px; line-height: 28px;"><span style="line-height: 28px; font-size: 16px;">An update for {{$eventname}}</span></span></p><p style="margin: 0;font-size: 14px;line-height: 25px;text-align: center"><span style="font-size: 16px; line-height: 28px;">
-                                                    <span style="line-height: 28px; font-size: 16px;">{{$message}}</span>
-                                                </span></p><p style="margin: 0;font-size: 14px;line-height: 25px;text-align: center"><span style="font-size: 16px; line-height: 28px;"><span style="line-height: 28px; font-size: 16px;"></span></span></p></div>
+                                        <div style="font-size:12px;line-height:22px;color:#555555;font-family:'Lato', Tahoma, Verdana, Segoe, sans-serif;text-align:left;">
+                                            <p style="margin: 0;font-size: 14px;line-height: 25px;text-align: center">
+                                                <span style="font-size: 16px; line-height: 28px;">
+                                                    <span style="line-height: 28px; font-size: 16px;">An update for {{$eventname}}</span>
+                                                </span>
+                                            </p>
+                                            <p style="margin: 0;font-size: 14px;line-height: 25px;text-align: center">
+                                                <span style="font-size: 16px; line-height: 28px;">
+                                                    "<span style="line-height: 28px; font-size: 16px;">{!! nl2br($emailmessage) !!}</span>"
+                                                </span>
+                                            </p>
+                                            <p style="margin: 0;font-size: 14px;line-height: 25px;text-align: center">
+                                                <span style="font-size: 16px; line-height: 28px;">
+                                                    <span style="line-height: 28px; font-size: 11px;">*This is an automated email, please do not reply</span>
+                                                </span>
+                                            </p>
+                                        </div>
                                     </div>
                                     <!--[if mso]></td></tr></table><![endif]-->
 
