@@ -13,7 +13,7 @@
     <div class="row">
         @include('includes.events.eventdetails_nav')
     </div>
-    
+
     <div class="row">
         <div class="col-md-12">
             <div class="row">
@@ -99,13 +99,11 @@
                                 @else
 
                                     @foreach($results as $divisionaname => $divisionresults)
-
-
                                         <table class="table table-bordered table-responsive table-striped resultstables">
                                             <caption style="padding-left: 2%; text-decoration: underline; font-size: 18px">{{$divisionaname}}</caption>
                                             <thead>
                                             <tr>
-                                                <th class="col-md-2 col-xs-3 col-sm-3">Archer</th>
+                                                <th class="col-md-2 col-xs-3 col-sm-3" style="padding-right: 20%">Archer</th>
 
                                                 @if (isset($resultdistances['Distance-1']))
                                                     <th class="col-md-1 hidden-xs hidden-sm alignCenter" >{!! $resultdistances['Distance-1'] . $resultdistances['Distance-1-unit']!!}
