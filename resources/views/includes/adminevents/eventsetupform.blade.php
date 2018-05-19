@@ -7,7 +7,7 @@
     <input type="hidden" name="eventid" value="{{ $event->first()->eventid }}">
 
     <div class="form-group">
-        <label class="col-md-6 col-sm-6 col-xs-6 control-label">Visible of Event</label>
+        <label class="col-md-6 col-sm-6 col-xs-6 control-label">Visiblity of Event</label>
         <div class="col-md-6 col-sm-6 col-xs-1">
             <?php
             $status='';
