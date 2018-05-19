@@ -101,8 +101,9 @@ class EventController extends Controller
 
     private function sendEventUpdateEmail($email, $eventname, $message)
     {
-
-        return $this->dispatch(new SendEventUpdateEmail($email, $eventname, $message));
+        if ( filter_var($email, FILTER_VALIDATE_EMAIL ) ) {
+            return $this->dispatch(new SendEventUpdateEmail($email, $eventname, $message));
+        }
     }
 
 
