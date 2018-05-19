@@ -85,12 +85,16 @@ class EventRoundController extends Controller
             return redirect()->back()->with('failure', 'Error');
         }
 
+        $round = Round::where('roundid', $request->input('roundid'))->get()->first();
+        if (empty($round)) {
+            return redirect()->back()->with('failure', 'Error');
+        }
+
         $eventround = new EventRound();
 
         $this->validate($request, [
-            'name' => 'required',
             'eventid' => 'required',
-            'location' => 'required',
+
             'roundid' => 'required',
             'date' => 'required'
         ], [
@@ -98,7 +102,7 @@ class EventRoundController extends Controller
         ]);
 
 
-        $eventround->name = $request->input('name');
+        $eventround->name = $round->name;
         $eventround->eventid = $event->eventid;
         $eventround->location = $request->input('location');
         $eventround->roundid = $request->input('roundid');
@@ -127,8 +131,7 @@ class EventRoundController extends Controller
 
 
         $this->validate($request, [
-            'name' => 'required',
-            'location' => 'required',
+
             'roundid' => 'required',
             'date' => 'required'
         ]);
@@ -136,11 +139,10 @@ class EventRoundController extends Controller
 
         if ($request->eventroundid == $eventround->eventroundid) {
 
-            $eventround->name = htmlentities($request->input('name'));
-            $eventround->location = htmlentities($request->input('location'));
-            $eventround->roundid = htmlentities($request->input('roundid'));
-            $eventround->schedule = htmlentities($request->input('schedule'));
-            $eventround->date = htmlentities($request->input('date'));
+            $eventround->location = $request->input('location');
+            $eventround->roundid = $request->input('roundid');
+            $eventround->schedule = $request->input('schedule');
+            $eventround->date = $request->input('date');
 
             $eventround->save();
 

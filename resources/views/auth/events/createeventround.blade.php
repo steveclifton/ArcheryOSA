@@ -32,23 +32,6 @@
 
                         <input type="hidden" name="eventid" value="{{$eventid}}" >
 
-
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Event Round Name</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{old('name')}}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-
-
                         <div class="form-group {{ $errors->has('date') ? ' has-error' : '' }}" id="date">
                             <label for="event" class="col-md-4 control-label">Date</label>
                             <div class="col-md-6">
@@ -80,7 +63,7 @@
                             <label for="location" class="col-md-4 control-label">Location</label>
 
                             <div class="col-md-6">
-                                <input id="location" type="text" class="form-control" name="location" value="{{old('location')}}" required autofocus>
+                                <input id="location" type="text" class="form-control" name="location" value="{{old('location')}}" placeholder="This is where the round will be shot">
 
                                 @if ($errors->has('location'))
                                     <span class="help-block">
@@ -114,60 +97,13 @@
                         </div>
 
 
-                        {{--<div class="form-group {{ $errors->has('organisationid') ? ' has-error' : '' }}" id="organisationelement">--}}
-                            {{--<label for="event" class="col-md-4 control-label">Parent Organisation</label>--}}
-
-                            {{--<div class="col-md-6">--}}
-
-                                {{--<select name="organisationid" class="form-control" id="organisationselecteventround">--}}
-                                    {{--<option value="0">None</option>--}}
-                                    {{--@foreach ($organisations as $organisation)--}}
-                                        {{--<option value="{{$organisation->organisationid}}">{{$organisation->name}}</option>--}}
-                                    {{--@endforeach--}}
-                                {{--</select>--}}
-                                {{--@if ($errors->has('organisationid'))--}}
-                                    {{--<span class="help-block">--}}
-                                    {{--<strong>{{ $errors->first('organisationid') }}</strong>--}}
-                                {{--</span>--}}
-                                {{--@endif--}}
-                            {{--</div>--}}
-
-                        {{--</div>--}}
-
-
-                        {{--<div class="form-group {{ $errors->has('divisions') ? ' has-error' : '' }}" id="divisionelement">--}}
-                            {{--<label for="event" class="col-md-4 control-label">Select Divisions</label>--}}
-
-                            {{--<div class="col-md-6">--}}
-                                {{--<div style="overflow-y:scroll; height:200px; margin-bottom:10px;" id="divisionselectcreate">--}}
-
-                                    {{--<label class="form-check-label" style="margin-left: 10px" data-orgid="0">--}}
-                                        {{--<input class="form-check-input" type="checkbox" name="divisions[]" value="0" >--}}
-                                        {{--Open--}}
-                                    {{--</label><br>--}}
-                                    {{--@foreach ($divisions as $division)--}}
-                                        {{--<label class="form-check-label" style="margin-left: 10px" data-orgid="{{$division->organisationid}}">--}}
-                                            {{--<input class="form-check-input" type="checkbox" name="divisions[]" value="{{$division->divisionid}}" >--}}
-                                            {{--{{$division->name}}--}}
-                                        {{--</label><br>--}}
-                                    {{--@endforeach--}}
-                                {{--</div>--}}
-
-                                {{--@if ($errors->has('divisions'))--}}
-                                    {{--<span class="help-block">--}}
-                                        {{--<strong>{{ $errors->first('divisions') }}</strong>--}}
-                                    {{--</span>--}}
-                                {{--@endif--}}
-
-                            {{--</div>--}}
-                        {{--</div>--}}
 
 
                         <div class="form-group{{ $errors->has('schedule') ? ' has-error' : '' }}">
                             <label for="schedule" class="col-md-4 control-label">Schedule</label>
 
                             <div class="col-md-6">
-                                <textarea rows="5" id="schedule" type="text" class="form-control" name="schedule" ></textarea>
+                                <textarea rows="5" id="schedule" type="text" class="form-control" name="schedule" placeholder="Optional"></textarea>
                                 @if ($errors->has('schedule'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('schedule') }}</strong>

@@ -24,7 +24,7 @@
         <div class="col-md-6">
             @php
                 $name = ucwords($archerentry->user->firstname) . " " . ucwords($archerentry->user->lastname);
-                if (!empty($archerentry->eventregistration->first()->fullname)) {
+                if (!empty($archerentry->eventregistration)) {
                     $name = $archerentry->eventregistration->first()->fullname;
                 }
             @endphp

@@ -56,8 +56,6 @@
                         @include('includes.events.eventdetails_details')
                     @endif
 
-
-
                 </div>
             </div>
         </div>

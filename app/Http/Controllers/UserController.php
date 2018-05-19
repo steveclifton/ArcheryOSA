@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\ArcherRelation;
+use App\Jobs\SendRelationshipEmail;
+use App\Jobs\SendWelcomeEmail;
 use App\LeaguePoint;
 use App\Mail\ArcherRelationRequest;
 use App\Mail\ConfirmArcherRelation;
 use App\Mail\Welcome;
+use Illuminate\Support\Facades\Log;
 use Image;
 use Validator;
 use App\User;
@@ -90,8 +93,7 @@ class UserController extends Controller
      */
     private function sendRelationshipEmail($email, $firstname, $requestusername, $hash)
     {
-        Mail::to($email)
-            ->send(new ArcherRelationRequest($firstname, $requestusername, $hash));
+        $this->dispatch(new SendRelationshipEmail($email, $firstname, $requestusername, $hash));
     }
 
     /**
@@ -100,8 +102,7 @@ class UserController extends Controller
      */
     private function sendWelcomeEmail()
     {
-        Mail::to(Auth::user()->email)
-            ->send(new Welcome(ucwords(Auth::user()->firstname)));
+        $this->dispatch(new SendWelcomeEmail(Auth::user()->email, Auth::user()->firstname));
     }
 
 
@@ -325,7 +326,7 @@ class UserController extends Controller
                         WHERE ee.`userid` = '" . Auth::id(). "'
                         ");
 
-    
+
 
         return view('auth.myevents', compact('userevents'));
     }
@@ -379,7 +380,7 @@ class UserController extends Controller
         $archerrelation->hash = $this->createHash();;
         $archerrelation->save();
 
-        $this->sendRelationshipEmail($user->email, $user->firstname, $authfullname, $hash);
+        $this->sendRelationshipEmail($user->email, $user->firstname, $authfullname, $archerrelation->hash);
 
         return redirect('/profile')->with('key', 'The archer has been alerted to your request. Please wait for confirmation email');
 

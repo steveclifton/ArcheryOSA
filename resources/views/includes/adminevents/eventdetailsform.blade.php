@@ -6,6 +6,22 @@
     {{ csrf_field() }}
     <input type="hidden" name="eventid" value="{{ $event->first()->eventid }}">
 
+
+    <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+        <label for="name" class="col-md-4 control-label">Name*</label>
+
+        <div class="col-md-6">
+            <input id="name" type="text" class="form-control" name="name" value="{{ old('name') ?? $event->first()->name }}" required >
+
+            @if ($errors->has('name'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('name') }}</strong>
+                </span>
+            @endif
+        </div>
+    </div>
+
+
     <div class="form-group">
         <label for="datetime" class="col-md-4 control-label">Dates*</label>
 
@@ -137,19 +153,7 @@
     </div>
 
 
-    <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-        <label for="name" class="col-md-4 control-label">Name*</label>
 
-        <div class="col-md-6">
-            <input id="name" type="text" class="form-control" name="name" value="{{ old('name') ?? $event->first()->name }}" required >
-
-            @if ($errors->has('name'))
-                <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-            @endif
-        </div>
-    </div>
 
     <div class="form-group" id="status">
         <label for="event" class="col-md-4 control-label">Status</label>
@@ -179,8 +183,8 @@
 
             @if ($errors->has('hostclub'))
                 <span class="help-block">
-                                        <strong>{{ $errors->first('hostclub') }}</strong>
-                                    </span>
+                    <strong>{{ $errors->first('hostclub') }}</strong>
+                </span>
             @endif
         </div>
     </div>
@@ -427,8 +431,8 @@
 
             @if ($errors->has('dtimage'))
                 <span class="help-block">
-                                            <strong>{{ $errors->first('dtimage') }}</strong>
-                                        </span>
+                    <strong>{{ $errors->first('dtimage') }}</strong>
+                </span>
             @endif
         </div>
     </div>
@@ -444,8 +448,8 @@
 
             @if ($errors->has('mobimage'))
                 <span class="help-block">
-                                            <strong>{{ $errors->first('mobimage') }}</strong>
-                                        </span>
+                    <strong>{{ $errors->first('mobimage') }}</strong>
+                </span>
             @endif
         </div>
     </div>

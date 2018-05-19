@@ -17,7 +17,7 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">Update Event Round
-                    <a href="{{ route('eventdetails', ['eventurl' => $event->url]) }}">
+                    <a href="{{route('updateeventview', $eventround->first()->eventid)}}">
                     <button type="submit" class="btn btn-default pull-right" id="addevent">
                         <i class="fa fa-backward" > Back</i>
                     </button>
@@ -31,20 +31,6 @@
                         <input type="hidden" name="eventid" value="{{$eventround->first()->eventid}}" >
 
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Event Round Name</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') ?? $eventround->first()->name }}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
                         <div class="form-group" id="date">
                             <label for="event" class="col-md-4 control-label">Date</label>
 
@@ -52,7 +38,7 @@
 
                                 <input type="text" hidden id="dateeventroundval" value="{{ $eventround->first()->date }}">
 
-                                <select name="date" class="form-control" id="dateselect">
+                                <select name="date" class="form-control" id="dateselect" required>
 
                                     @if($event->eventtype == 1)
 
@@ -73,7 +59,7 @@
                             <label for="location" class="col-md-4 control-label">Location</label>
 
                             <div class="col-md-6">
-                                <input id="location" type="text" class="form-control" name="location" value="{{ old('location') ?? $eventround->first()->location }}" required autofocus>
+                                <input id="location" type="text" class="form-control" name="location" value="{{ old('location') ?? $eventround->first()->location }}">
 
                                 @if ($errors->has('location'))
                                     <span class="help-block">

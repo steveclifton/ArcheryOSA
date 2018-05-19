@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\ArcherRelation;
 use App\EventEntry;
 use App\Http\Requests\Events\EventRegisterValidator;
+use App\Jobs\SendEventEntryConfirmationEmail;
+use App\Jobs\SendEventEntryEmail;
 use App\Organisation;
 use App\User;
 use Carbon\Carbon;
@@ -15,10 +17,33 @@ use App\Event;
 use App\EventRound;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 
 class EventRegistrationController extends Controller
 {
+
+    private function sendEventRegisterEmail($email, $eventname)
+    {
+
+        // check that it is a valid email address and not a placeholder one
+        if ( filter_var($email, FILTER_VALIDATE_EMAIL ) ) {
+            $this->dispatch(new SendEventEntryEmail($email, $eventname));
+            return true;
+        }
+        return false;
+    }
+
+    private function sendEventRegisterConfirmation($email, $firstname, $eventname, $eventurl)
+    {
+        // check that it is a valid email address and not a placeholder one
+        if ( filter_var($email, FILTER_VALIDATE_EMAIL ) ) {
+            $this->dispatch(new SendEventEntryConfirmationEmail($email, $firstname, $eventname, $eventurl));
+            return true;
+        }
+        return false;
+
+    }
 
     public function getAddUserView(Request $request)
     {
@@ -273,7 +298,7 @@ class EventRegistrationController extends Controller
             }
         }
 
-        $this->touchurl('sendregistrationemail/' . $evententry->userid . '/' . $evententry->evententryid . '/' . $evententry->hash);
+        $this->sendEventRegisterEmail($evententry->email ?? 'none', $event->name);
 
         return redirect()->back()->withInput()->with('message', 'Registration Successful');
 
@@ -353,6 +378,9 @@ class EventRegistrationController extends Controller
         $userpaid = $request->input('userpaid');
         $userdivisionid = $request->input('divisionid');
 
+        // define the event here, set the obj in the foreach loop
+        $event = null;
+
         for ($i = 0; $i < count($userids); $i++) {
             $evententry = EventEntry::where('userid', $userids[$i])
                                     ->where('eventid', $request->eventid)
@@ -364,19 +392,26 @@ class EventRegistrationController extends Controller
             }
 
 
-            foreach ($evententry as $event) {
 
-                $waseventstatus = intval($event->entrystatusid);
-                $event->paid = intval($userpaid[$i]) ?: 0;
-                $event->entrystatusid = intval($userstatus[$i]) ?: 0;
+            foreach ($evententry as $ee) {
 
-                if ($waseventstatus == 1 && intval($userstatus[$i] == 2)) {
-                    $this->touchurl('sendconfirmationemail/' . $event->userid . '/' . $event->evententryid . '/' . $event->hash);
-                    $event->confirmationemail = 1;
-                    usleep(40); // sleep for 40ms
+                // Set the event on the first occurance of the loop
+                if (empty($event)){
+                    $event = Event::where('eventid', $ee->eventid)->get()->first();
                 }
 
-                $event->save();
+                $waseventstatus = intval($ee->entrystatusid);
+                $ee->paid = intval($userpaid[$i]) ?: 0;
+                $ee->entrystatusid = intval($userstatus[$i]) ?: 0;
+
+                if ($waseventstatus == 1 && intval($userstatus[$i] == 2)) {
+
+                    $this->sendEventRegisterConfirmation($ee->email, $ee->fullname, $event->name ?? '', $event->url ?? '');
+
+                    $ee->confirmationemail = 1;
+                }
+
+                $ee->save();
 
             }
 
