@@ -12,6 +12,16 @@
                       height="0" width="0" style="display:none;visibility:hidden"></iframe>
     </noscript>
     <!-- End Google Tag Manager (noscript) -->
+
+    <script>
+        $(function () {
+            if (typeof collapse_siderbar !== 'undefined') {
+                if (collapse_siderbar) {
+                    $('.sidebar-toggle').trigger('click');
+                }
+            }
+        })
+    </script>
         <div class="wrapper">
             <header class="main-header">
                 <!-- Logo -->

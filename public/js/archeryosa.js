@@ -1,7 +1,10 @@
 $(document).ready(function() {
 
-
-
+    if (typeof collapse_siderbar !== 'undefined') {
+        if (collapse_siderbar) {
+            $('.sidebar-toggle').trigger('click');
+        }
+    }
 
     $('table.resultstables').DataTable({
         "paging": false,
@@ -20,11 +23,7 @@ $(document).ready(function() {
 
 
 
-    if (typeof collapse_siderbar !== 'undefined') {
-        if (collapse_siderbar) {
-            $('.sidebar-toggle').trigger('click');
-        }
-    }
+
 
     $('.distance').on('keyup', function () {
         var formtype = $(this).data('formtype');
