@@ -132,7 +132,7 @@ class EventRegistrationController extends Controller
         } else {
             // create new user
             $user = new User();
-            list($first, $last) = explode(' ', $request->input('name'));
+            @list($first, $last) = explode(' ', $request->input('name'));
             $user->firstname = !empty($first) ? $first : '';
             $user->lastname = !empty($last) ? $last : '';
             $user->username = $first . $last;
