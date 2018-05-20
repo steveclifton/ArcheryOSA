@@ -2,11 +2,13 @@
 
 namespace App\Jobs;
 
+use App\Mail\ConfirmArcherRelation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Mail;
 
 class SendRelationshipConfirmationEmail extends ArcheryOSASender implements ShouldQueue
 {
@@ -40,6 +42,6 @@ class SendRelationshipConfirmationEmail extends ArcheryOSASender implements Shou
             Mail::to($this->email)
                 ->send(new ConfirmArcherRelation($this->userfirstname, $this->requestuserfirstname));
         }
-
+        
     }
 }
