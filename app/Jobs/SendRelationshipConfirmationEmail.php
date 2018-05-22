@@ -42,6 +42,6 @@ class SendRelationshipConfirmationEmail extends ArcheryOSASender implements Shou
             Mail::to($this->email)
                 ->send(new ConfirmArcherRelation($this->userfirstname, $this->requestuserfirstname));
         }
-        
+
     }
 }

@@ -1,5 +1,36 @@
 $(document).ready(function() {
 
+
+    $(document).on('change','#selectround', function (e) {
+
+        var dateSelected = $("option:selected", this).val();
+        var eventid = $('input[name="eventid"]').val();
+
+
+        $.ajax({
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "/admin/geteventdata",
+            data: {
+                date: dateSelected,
+                eventid: eventid,
+                type: 'targets'
+            }
+        }).done(function( json ) {
+            if (json.success) {
+                $('#adminevents').empty();
+                $('#adminevents').append(json.html);
+            }
+
+        });
+
+
+    });
+
+
+
     $(document).on('click','#adminbar', function (e) {
 
         var type = $(this).attr('data-type');

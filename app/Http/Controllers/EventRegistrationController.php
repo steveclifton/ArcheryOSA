@@ -629,6 +629,38 @@ class EventRegistrationController extends Controller
     } // deleteUserEventRound
 
 
+    public function updateTargetAllocation(Request $request)
+    {
+        if ( empty($request->input('eventid')) || empty($request->input('name'))) {
+            return redirect()->back()->with('failure', 'Target Allocations failed, please contact ArcheryOSA');
+        }
+
+        $event = Event::where('eventid', $request->input('eventid'))
+                                ->get()
+                                ->first();
+
+
+        if (empty($event)) {
+            return redirect()->back()->with('failure', 'Update failed, please contact ArcheryOSA');
+        }
+
+        foreach ($request->input('name') as $key => $ta) {
+            $evententry = EventEntry::where('evententryid', $key)
+                                        ->get()
+                                        ->first();
+
+            if (!empty($evententry)) {
+                $evententry->targetallocation = $ta;
+                $evententry->save();
+            }
+
+        }
+
+        return redirect()->back()->with('message', 'Update Succesfull');
+
+    }
+
+
 
 }
 

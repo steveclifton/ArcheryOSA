@@ -101,7 +101,7 @@
                                                 @endif
 
                                                 <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">Total</th>
-                                                <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">Hits</th>
+                                                <th class="col-md-1 col-xs-1 col-sm-1 hidden-sm-down alignCenter">Hits</th>
                                                 <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">10+X</th>
                                                 <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">X</th>
 

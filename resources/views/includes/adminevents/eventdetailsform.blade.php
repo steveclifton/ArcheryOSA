@@ -1,4 +1,3 @@
-
 <h3 style="text-align: center;padding-bottom: 5%">Edit Event</h3>
 
 

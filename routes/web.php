@@ -98,15 +98,16 @@ Route::middleware(['web'])->group(function() {
         Route::get('/admin/events', 'EventController@getEventsView')->name('events');
         Route::get('/admin/events/create', 'EventController@getCreateView')->name('createeventview');
         Route::get('/admin/events/update/{eventurl}', 'EventController@getUpdateEventView')->name('updateeventview');
-        Route::post('/admin/events/update/{eventid}', 'EventController@update')->name('updateevent');
-        Route::post('/admin/events/updatesetup/{eventid}', 'EventController@updatesetup')->name('updateeventsetup');
-        Route::post('/admin/events/updatesponsorship/{eventid}', 'EventController@updatesponsorship')->name('updateeventsponsorship');
-        Route::post('/admin/events/eventupdateemail/{eventid}', 'EventController@sendEventUpdates')->name('sendeventupdateemail');
-        Route::post('/admin/events/create', 'EventController@create')->name('createevent');
         Route::get('/admin/events/delete/{eventurl}', 'EventController@delete')->name('deleteevent');
         Route::get('/admin/events/userentry/{eventid}/{entryhash}', 'EventController@getUserEntryDetails')->name('userentrydetails');
         Route::get('/admin/events/adduser/{eventurl}', 'EventRegistrationController@getAddUserView')->name('adminaddarcher');
 
+        Route::post('/admin/events/update/{eventid}', 'EventController@update')->name('updateevent');
+        Route::post('/admin/events/updatesetup/{eventid}', 'EventController@updatesetup')->name('updateeventsetup');
+        Route::post('/admin/events/updatesponsorship/{eventid}', 'EventController@updatesponsorship')->name('updateeventsponsorship');
+        Route::post('/admin/events/eventupdateemail/{eventid}', 'EventController@sendEventUpdates')->name('sendeventupdateemail');
+        Route::post('/admin/events/eventtargetallocation', 'EventRegistrationController@updateTargetAllocation')->name('updateeventtargetallocation');
+        Route::post('/admin/events/create', 'EventController@create')->name('createevent');
 
         // Event Rounds
         Route::get('/admin/events/create/eventround/{eventid}', 'EventRoundController@getCreateEventRoundView')->name('createeventroundview');

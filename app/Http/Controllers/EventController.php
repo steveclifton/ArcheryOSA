@@ -161,7 +161,7 @@ class EventController extends Controller
         $divisions = Division::where('visible', 1)->orderBy('name')->get();
         $eventdivisions = unserialize($event->first()->divisions);
         $divisions = $this->sortDivisions($eventdivisions, $divisions);
-
+        $rounds = EventRound::where('eventid', $eventid)->get();
 
 
         return [
@@ -171,6 +171,7 @@ class EventController extends Controller
             'weeks' => $weeks,
             'divisions' => $divisions,
             'eventdivisions' => $eventdivisions,
+            'rounds' => $rounds
         ];
 
     }
@@ -766,6 +767,7 @@ class EventController extends Controller
                         ->get()
                         ->first();
 
+
         $caneditevent = $this->canEditEvent( ($event->eventid ?? -1), Auth::id() );
 
 
@@ -824,7 +826,12 @@ class EventController extends Controller
                 break;
 
             case 'targets':
-                $view = View::make('includes.adminevents.targetallocation');
+                $data = $this->getEventFormData($event->eventid);
+                $targetallocation = new TargetAllocationController();
+                $data['evententries'] = $targetallocation->getTargetAllocations($event->eventid, $request->date, $data);
+                $data['dateset'] = $request->date ?? '';
+
+                $view = View::make('includes.adminevents.targetallocation', $data);
                 $html = $view->render();
                 break;
 
