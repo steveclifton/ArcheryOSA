@@ -124,7 +124,7 @@
                                                 @endif
 
                                                 <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">Total</th>
-                                                <th class="col-md-1 hidden-xs hidden-sm alignCenter">Hits</th>
+                                                {{--<th class="col-md-1 hidden-xs hidden-sm alignCenter">Hits</th>--}}
                                                 <th class="col-md-1 hidden-xs hidden-sm alignCenter">10+X</th>
                                                 <th class="col-md-1 col-xs-1 col-sm-1 alignCenter">X</th>
 
@@ -171,7 +171,7 @@
                                                     @endif
 
                                                     <td class="alignCenter">{{$result->total_score}}</td>
-                                                    <td class="hidden-xs hidden-sm alignCenter">{{$result->total_hits}}</td>
+                                                    {{--<td class="hidden-xs hidden-sm alignCenter">{{$result->total_hits}}</td>--}}
                                                     <td class="alignCenter hidden-xs hidden-sm">{{$result->total_10}}</td>
                                                     <td class="alignCenter">{{$result->total_x}}</td>
 

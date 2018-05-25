@@ -524,7 +524,7 @@ class ScoringController extends Controller
 
 
 
-        return view ('auth.events.event_results', compact('daterange','event', 'canscore', 'eventrounds', 'userevententry', 'users', 'results', 'resultdistances', 'userevententry'));
+        return view ('publicevents.event_results', compact('daterange','event', 'canscore', 'eventrounds', 'userevententry', 'users', 'results', 'resultdistances', 'userevententry'));
 
     }
 
@@ -673,7 +673,7 @@ class ScoringController extends Controller
         // show scoring tab or not
         $canscore = $this->canScore($event, $userevententry);
         
-        return view ('auth.events.event_league_results', compact('event', 'canscore', 'eventrounds', 'userevententry', 'users', 'results', 'resultdistances', 'userevententry'));
+        return view ('publicevents.event_league_results', compact('event', 'canscore', 'eventrounds', 'userevententry', 'users', 'results', 'resultdistances', 'userevententry'));
 
     }
 

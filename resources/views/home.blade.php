@@ -14,13 +14,13 @@
         <!-- End Google Tag Manager (noscript) -->
 
         <script>
-            $(function () {
-                if (typeof collapse_siderbar !== 'undefined') {
+           // $(function () {
+                if (typeof collapse_siderbar != 'undefined') {
                     if (collapse_siderbar) {
                         $('.sidebar-toggle').trigger('click');
                     }
                 }
-            })
+            //});
         </script>
         <div class="wrapper">
             <header class="main-header">
