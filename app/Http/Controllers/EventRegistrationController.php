@@ -334,8 +334,7 @@ class EventRegistrationController extends Controller
                 $dateofbirth = Carbon::createFromFormat('d/m/Y', $request->input('dateofbirth'));
                 $request->replace(['dateofbirth' => $dateofbirth]);
             }
-
-
+            $eventround = EventRound::where('eventid', $eventid)->pluck('eventroundid')->first();
             $evententry = new EventEntry();
             $evententry->fullname = $request->input('name');
             $evententry->userid = $request->input('userid');
@@ -350,7 +349,7 @@ class EventRegistrationController extends Controller
             $evententry->hash = substr(md5(time()), 0, 10);
             $evententry->entrystatusid = '1';
             $evententry->eventid = $eventid;
-            $evententry->eventroundid = $request->input('eventroundid');
+            $evententry->eventroundid = $eventround ?? '';
             $evententry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
             $evententry->dateofbirth = !empty($request->input('dateofbirth')) ? $request->input('dateofbirth') : NULL;
 
