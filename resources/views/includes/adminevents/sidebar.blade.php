@@ -29,10 +29,12 @@
         <a href="javascript:;" id="adminbar" data-type="sponsorship" data-eventid="{{$event->eventid}}">Sponsorship</a>
     </h4>
     <hr>
+    @if ($event->eventtype != 1)
     <h4>
         <a href="javascript:;" id="adminbar" data-type="targets" data-eventid="{{$event->eventid}}">Target Allocation</a>
     </h4>
     <hr>
+    @endif
     <h4>
         <a href="{{route('getscoringview', ['eventurl' => $event->url])}}" id="adminbar" >Scoring</a>
     </h4>
