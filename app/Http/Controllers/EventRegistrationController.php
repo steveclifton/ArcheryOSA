@@ -8,6 +8,7 @@ use App\Http\Requests\Events\EventRegisterValidator;
 use App\Jobs\SendEventEntryConfirmationEmail;
 use App\Jobs\SendEventEntryEmail;
 use App\Organisation;
+use App\Round;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
