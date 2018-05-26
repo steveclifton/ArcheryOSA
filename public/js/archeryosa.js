@@ -127,8 +127,8 @@ $(document).ready(function() {
     var eventorganisationid = $('#organisationidvalue').val();
     $('#organisationselect option[value=' + eventorganisationid +']').attr('selected','selected');
 
-    var clubvalue = $('#userclubvalue').val();
-    $('#clubselect option[value=' + clubvalue +']').attr('selected','selected');
+    // var clubvalue = $('#userclubvalue').val();
+    // $('#clubselect option[value=' + clubvalue +']').attr('selected','selected');
 
     var divisionvalue = $('#userdivisionvalue').val();
     $('#divisionselect option[value=' + divisionvalue +']').attr('selected','selected');
