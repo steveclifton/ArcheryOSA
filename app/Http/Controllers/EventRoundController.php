@@ -94,15 +94,15 @@ class EventRoundController extends Controller
 
         $this->validate($request, [
             'eventid' => 'required',
-
             'roundid' => 'required',
             'date' => 'required'
         ], [
             'roundid.required' => 'Please select a round',
         ]);
 
+        $roundname = !empty($request->input('name')) ? $request->input('name') : Round::where('roundid', $request->input('roundid'))->pluck('name')->first();
 
-        $eventround->name = $round->name;
+        $eventround->name = $roundname;
         $eventround->eventid = $event->eventid;
         $eventround->location = $request->input('location');
         $eventround->roundid = $request->input('roundid');
@@ -131,14 +131,15 @@ class EventRoundController extends Controller
 
 
         $this->validate($request, [
-
             'roundid' => 'required',
             'date' => 'required'
         ]);
 
 
         if ($request->eventroundid == $eventround->eventroundid) {
+            $roundname = !empty($request->input('name')) ? $request->input('name') : Round::where('roundid', $request->input('roundid'))->pluck('name')->first();
 
+            $eventround->name = $roundname;
             $eventround->location = $request->input('location');
             $eventround->roundid = $request->input('roundid');
             $eventround->schedule = $request->input('schedule');
