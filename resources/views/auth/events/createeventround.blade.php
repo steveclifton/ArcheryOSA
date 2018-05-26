@@ -32,6 +32,22 @@
 
                         <input type="hidden" name="eventid" value="{{$eventid}}" >
 
+                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                            <label for="name" class="col-md-4 control-label">Event Round Name</label>
+
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control" name="name" value="{{old('name')}}" placeholder="Optional, replaces the round name">
+
+                                @if ($errors->has('name'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
+
                         <div class="form-group {{ $errors->has('date') ? ' has-error' : '' }}" id="date">
                             <label for="event" class="col-md-4 control-label">Date</label>
                             <div class="col-md-6">
