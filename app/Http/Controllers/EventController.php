@@ -319,11 +319,12 @@ class EventController extends Controller
         $er = new EventRegistrationController();
         // Remove the users entry
         if ($request->input('submit') == 'remove') {
+
             $er->deleteUserEntry($request->input('userid'), $request->input('eventid'));
         }
 
         /* non league */
-        if ($event->eventtype == 0 && $event->multipledivisions == 0) {
+        else if ($event->eventtype == 0 && $event->multipledivisions == 0) {
             // Multiple entry comp
             $er->singleEntryUpdate($request, $event->eventid);
         }
@@ -331,8 +332,7 @@ class EventController extends Controller
         else {
             $er->league_eventRegister($request, $event->eventid);
         }
-
-        return redirect()->back()->withInput()->with('message', 'Update Successful');
+        return Redirect::route('updateeventview', ['eventurl' => $request->eventurl])->with('message', 'Update Successful');
     }
 
 
