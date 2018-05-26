@@ -916,7 +916,7 @@ class ScoringController extends Controller
             if ($userscores['distance1']['total'] > $round->dist1max) {
                 $errors[] = 'Score for ' . $round->dist1 . $round->unit . ' must be less than ' . $round->dist1max;
             }
-            else if ($userscores['distance1']['total'] == 0) {
+            else if ($userscores['distance1']['total'] < 0) {
                 $errors[] = 'Score for ' . $round->dist1 . $round->unit . ' must be more than zero';
             }
             else {
@@ -931,7 +931,7 @@ class ScoringController extends Controller
             if ($userscores['distance2']['total'] > $round->dist2max) {
                 $errors[] = 'Score for ' . $round->dist2 . $round->unit . ' must be less than ' . $round->dist2max;
             }
-            else if ($userscores['distance2']['total'] == 0) {
+            else if ($userscores['distance2']['total'] < 0) {
                 $errors[] = 'Score for ' . $round->dist2 . $round->unit . ' must be more than zero';
             }
             else {
@@ -946,7 +946,7 @@ class ScoringController extends Controller
             if ($userscores['distance3']['total'] > $round->dist3max) {
                 $errors[] = 'Score for ' . $round->dist3 . $round->unit . ' must be less than ' . $round->dist3max;
             }
-            else if ($userscores['distance3']['total'] == 0) {
+            else if ($userscores['distance3']['total'] < 0) {
                 $errors[] = 'Score for ' . $round->dist3 . $round->unit . ' must be more than zero';
             }
             else {
@@ -961,7 +961,7 @@ class ScoringController extends Controller
             if ($userscores['distance4']['total'] > $round->dist4max) {
                 $errors[] = 'Score for ' . $round->dist4 . $round->unit . ' must be less than ' . $round->dist4max;
             }
-            else if ($userscores['distance4']['total'] == 0) {
+            else if ($userscores['distance4']['total'] < 0) {
                 $errors[] = 'Score for ' . $round->dist4 . $round->unit . ' must be more than zero';
             }
             else {
