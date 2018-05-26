@@ -8,7 +8,6 @@ use App\Http\Requests\Events\EventRegisterValidator;
 use App\Jobs\SendEventEntryConfirmationEmail;
 use App\Jobs\SendEventEntryEmail;
 use App\Organisation;
-use App\Round;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +17,6 @@ use App\Event;
 use App\EventRound;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 
 class EventRegistrationController extends Controller
@@ -248,7 +246,6 @@ class EventRegistrationController extends Controller
      */
     public function eventRegister(EventRegisterValidator $request)
     {
-
         if ($request->input('submit') == 'remove') {
             $this->deleteUserEntry($request->input('userid'), $request->input('eventid'));
             return back()->with('message', 'Entry Removed');
@@ -611,8 +608,8 @@ class EventRegistrationController extends Controller
     public function deleteUserEntry($userid, $eventid)
     {
         return EventEntry::where('userid', $userid)
-                    ->where('eventid', $eventid)
-                    ->delete();
+                            ->where('eventid', $eventid)
+                            ->delete();
 
     } // deleteUserEntry
 
