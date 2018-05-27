@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\ArcherRelation;
 use App\EventEntry;
+use App\Http\Controllers\Scoring\EventScoringController;
 use App\Http\Requests\Events\EventRegisterValidator;
 use App\Jobs\SendEventEntryConfirmationEmail;
 use App\Jobs\SendEventEntryEmail;
 use App\Organisation;
+use App\Score;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -468,20 +470,23 @@ class EventRegistrationController extends Controller
      */
     public function singleEntryUpdate($request, $eventid)
     {
-
         // get all the rounds, if any is missing , delete it
         $userentry = EventEntry::where('userid', $request->userid)
                                 ->where('eventid', $eventid)
                                 ->get();
 
 
+
+
         $hash = '';
+
         // These are rounds that are already in the database
         $existingroundids = [];
         foreach ($userentry as $entry) {
             $existingroundids[$entry->eventroundid] = $entry->eventroundid;
             $hash = !empty($entry->hash) ? $entry->hash : '';
         }
+
         if (empty($hash)){
             $hash = $this->createHash();
         }
@@ -489,8 +494,6 @@ class EventRegistrationController extends Controller
         if (empty($request->input('eventroundid'))) {
             return false;
         }
-
-
 
         // Create a new array that has the new ones
         $newroundids = [];
@@ -504,7 +507,7 @@ class EventRegistrationController extends Controller
         }
 
         // remove those that need to be deleted
-        foreach(array_diff($existingroundids, $newroundids) as $delete) {
+        foreach (array_diff($existingroundids, $newroundids) as $delete) {
             $this->deleteUserEventRound($request->userid, $request->eventid, $delete);
         }
 
@@ -512,6 +515,16 @@ class EventRegistrationController extends Controller
         if (!empty($request->input('dateofbirth'))) {
             $dateofbirth = Carbon::createFromFormat('d/m/Y', $request->input('dateofbirth'));
         }
+
+        $scores = Score::where('userid', $request->userid)->where('eventid', $request->eventid)->get();
+
+
+        foreach ($scores as $score) {
+            if ($score->divisionid != $request->input('divisions')) {
+                $score->delete();
+            }
+        }
+
 
 
         // need to find rounds that have been unticked - IE removed
@@ -618,10 +631,12 @@ class EventRegistrationController extends Controller
      */
     public function deleteUserEventRound($userid, $eventid, $roundid)
     {
+        $scores = Score::where()->get()->delete();
+
         return EventEntry::where('userid', $userid)
-            ->where('eventid', $eventid)
-            ->where('eventroundid', $roundid)
-            ->delete();
+                            ->where('eventid', $eventid)
+                            ->where('eventroundid', $roundid)
+                            ->delete();
 
     } // deleteUserEventRound
 

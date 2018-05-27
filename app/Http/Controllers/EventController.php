@@ -317,9 +317,9 @@ class EventController extends Controller
                         ->first();
 
         $er = new EventRegistrationController();
+
         // Remove the users entry
         if ($request->input('submit') == 'remove') {
-
             $er->deleteUserEntry($request->input('userid'), $request->input('eventid'));
         }
 

@@ -15,6 +15,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 
 
@@ -35,6 +36,8 @@ class ScoringController extends Controller
     private $currentweek;
 
     /**
+     * POST
+     * League scoring
      * Creates the scores in the database
      *
      * @param Request $request
@@ -42,7 +45,6 @@ class ScoringController extends Controller
      */
     public function enterScores(Request $request)
     {
-
 
         $event = Event::where('eventid', $request->eventid)->get()->first();
         if (empty($event)) {
@@ -120,10 +122,18 @@ class ScoringController extends Controller
         return back()->with('message', 'Scores entered successfully')->withInput();
     }
 
+
+    /**
+     * POST
+     * Event Scoring
+     */
     public function enterEventScores(Request $request)
     {
 
-        $event = Event::where('eventid', $request->eventid)->get()->first();
+        $event = Event::where('eventid', $request->eventid)
+                        ->get()
+                        ->first();
+
         if (empty($event)) {
             return back()->with('failure', 'Oops, Event was not found. Please contact Admin')->withInput();
         }
@@ -135,10 +145,10 @@ class ScoringController extends Controller
         foreach ($userResults as $user) {
 
             $evententry = EventEntry::where('userid', $user['userid'])
-                ->where('evententryid', $user['evententryid'])
-                ->where('divisionid', $user['divisionid'])
-                ->get()
-                ->first();
+                                        ->where('evententryid', $user['evententryid'])
+                                        ->where('divisionid', $user['divisionid'])
+                                        ->get()
+                                        ->first();
 
             if (empty($evententry)) {
                 $errorstring = 'Error with score, please try again';
@@ -146,28 +156,37 @@ class ScoringController extends Controller
                 if (!empty($username)) {
                     $errorstring = 'Error with score for ' . ucwords($username->firstname) . ', please try again';
                 }
+                Log::info($errorstring);
                 $errors[] = $errorstring;
                 continue;
             }
 
-            $eventround = EventRound::where('eventroundid', $evententry->eventroundid)->get()->first();
+            $eventround = EventRound::where('eventroundid', $evententry->eventroundid)
+                                        ->get()
+                                        ->first();
             if (empty($eventround)) {
                 continue;
             }
 
-            $round = Round::where('roundid', $eventround->roundid)->get()->first();
+            $round = Round::where('roundid', $eventround->roundid)
+                            ->get()
+                            ->first();
 
+            // Validate scores
             $result = $this->validateUsersScores($user, $round);
 
             // Check if they have scored for this round already or not
             $score = $this->getExistingEventScore($user['userid'], $evententry->evententryid, $evententry->divisionid);
 
+
             if ($result === false && empty($score)) {
                 continue;
-            } else if (!empty($result)) {
+            }
+            else if (!empty($result)) {
                 foreach ($result as $error) {
                     $errors[] = $error;
                 }
+                Log::info(implode(',', $result));
                 continue;
             }
 
@@ -437,18 +456,20 @@ class ScoringController extends Controller
 
         if (!empty($results)) {
 
-            $results = DB::select("SELECT s.*, ee.`fullname`, ee.`gender`, u.`username`, d.`name` as divisonname, er.`name` as roundname
+            $results = DB::select("
+                SELECT s.*, ee.`fullname`, ee.`gender`, u.`username`, d.`name` as divisonname, er.`name` as roundname
                 FROM `scores` s 
                 JOIN `evententry` ee ON (ee.`evententryid` = s.`evententryid`)
                 JOIN `eventrounds` er ON (ee.`eventroundid` = er.`eventroundid`)
                 JOIN `users` u ON (s.`userid` = u.`userid`)
-                JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
+                JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid` AND s.divisionid = ee.divisionid)
                 WHERE s.`eventid` = :eventid
                 AND er.`date` = :date
                 
                 ", ['eventid' => $event->eventid, 'date' => $rounddate]
 
             );
+
 
             $resultssorted = [];
             foreach ($results as $result) {
@@ -530,8 +551,6 @@ class ScoringController extends Controller
 
     public function getLeagueEventResults(Request $request, $event)
     {
-
-
         $event->numberofweeks = ceil($event->daycount / 7);
 
         // Event Rounds stuff
@@ -844,6 +863,19 @@ class ScoringController extends Controller
     {
 
         return Score::where('userid', $userid)
+                        ->where('evententryid', $evententryid)
+                        ->where('divisionid', $divisionid)
+                        ->get()
+                        ->first();
+
+
+
+    }
+
+    private function getExistingLeagueScore($userid, $evententryid, $divisionid)
+    {
+
+        return Score::where('userid', $userid)
             ->where('evententryid', $evententryid)
             ->where('divisionid', $divisionid)
             ->get()
@@ -888,8 +920,8 @@ class ScoringController extends Controller
             $userResults[$index]['hits'] = $hits[$userevent]['hits'] ?? '';
             $userResults[$index]['count10'] = $count10[$userevent][10] ?? '';
             $userResults[$index]['countx'] = $countx[$userevent]['x'] ?? '';
-
         }
+
         return $userResults;
 
     }
@@ -908,8 +940,6 @@ class ScoringController extends Controller
         $user_totalx = 0;
 
         $errors = [];
-
-
 
         if (!empty($round->dist1max) && isset($userscores['distance1']['total'])) {
 
@@ -995,8 +1025,6 @@ class ScoringController extends Controller
                 $errors[] = 'Total X-count must be less than ' . $round->totalx;
             }
         }
-
-
 
         return $errors;
     }

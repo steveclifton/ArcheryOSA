@@ -83,7 +83,7 @@
                                         <tr>
                                         <th class="hidden">UserID</th>
                                         <th class="col-md-1 col-xs-1 col-sm-1">Archer</th>
-                                        <th class="col-md-1 col-xs-1 col-sm-1">Division</th>
+                                        {{--<th class="col-md-1 col-xs-1 col-sm-1">Division</th>--}}
 
                                         @if (!empty($user[0]->eventroundobj->dist1))
                                             <th class="col-md-1 col-xs-1 col-sm-1" style="text-align: center;">{!! $user[0]->eventroundobj->dist1 . $user[0]->eventroundobj->unit !!}*
@@ -116,7 +116,7 @@
                                                     <input type="hidden" name="divisionid[{{$u->evententryid}}]" value="{{$u->divisionid}}">
                                                 </td>
                                                 <td>{{$u->fullname}}</td>
-                                                <td>{{$u->divisionname}}</td>
+                                                {{--<td>{{$u->divisionname}}</td>--}}
 
                                                 @if (!empty($user[0]->eventroundobj->dist1))
                                                     <td>
