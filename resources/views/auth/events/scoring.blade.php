@@ -272,6 +272,7 @@
             </div>{{-- .box--}}
         </div>
 
-
+    <script src="{{URL::asset('js/scoring.js')}}"></script>
 @endsection
+
 
