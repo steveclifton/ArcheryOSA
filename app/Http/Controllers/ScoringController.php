@@ -872,18 +872,6 @@ class ScoringController extends Controller
 
     }
 
-    private function getExistingLeagueScore($userid, $evententryid, $divisionid)
-    {
-
-        return Score::where('userid', $userid)
-            ->where('evententryid', $evententryid)
-            ->where('divisionid', $divisionid)
-            ->get()
-            ->first();
-
-
-
-    }
 
     private function getUsersFormData($request)
     {

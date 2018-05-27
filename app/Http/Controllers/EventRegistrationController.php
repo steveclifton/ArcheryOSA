@@ -631,8 +631,6 @@ class EventRegistrationController extends Controller
      */
     public function deleteUserEventRound($userid, $eventid, $roundid)
     {
-        $scores = Score::where()->get()->delete();
-
         return EventEntry::where('userid', $userid)
                             ->where('eventid', $eventid)
                             ->where('eventroundid', $roundid)
