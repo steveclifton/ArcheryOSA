@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\EventEntry;
+use App\EventRound;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 use League\Csv\Writer;
 use Illuminate\Support\Facades\DB;
+use Mpdf\Mpdf;
 
 class ExportController extends Controller
 {
+
+
     public function exportevententries(Request $request)
     {
 
@@ -48,6 +53,28 @@ class ExportController extends Controller
         }
 
         $csv->output(str_replace(' ', '-', $event->name) .'-' . date('d-m', time()) . '.csv');
+        die();
+    }
+
+
+    public function exportTargetAllocations(Request $request)
+    {
+        $eventid = $this->geteventurlid($request->eventurl);
+
+        $event = Event::where('eventid', $eventid)->get()->first();
+        if (empty($event)) {
+            return false;
+        }
+
+        $data = EventEntry::where('eventid', $eventid)->orderby('targetallocation')->get();
+
+        $view = View::make('pdf.targetallocations', ['data' => $data]);
+        $html = $view->render();
+
+        $mpdf = new Mpdf([]);
+        $mpdf->WriteHTML($html);
+
+        $mpdf->Output('TargetAllocation.pdf', 'D');
         die();
     }
 }
