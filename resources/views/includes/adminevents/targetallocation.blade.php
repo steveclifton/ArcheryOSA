@@ -45,11 +45,13 @@
     </div>
 
     <div class="form-group">
-        <div class="col-md-6 col-md-offset-4">
-            <button type="submit" class="btn btn-success" id="savebutton" value="save" name="submit">
-                Save
-            </button>
-        </div>
+        <a href="/export/events/targetallocations/{{$event->first()->url}}" role="button" class="btn btn-warning col-md-offset-1 col-sm-offset-1">
+            Export
+        </a>
+
+        <button type="submit" class="btn btn-success col-md-offset-1 col-sm-offset-1" id="savebutton" value="save" name="submit">
+            Save
+        </button>
     </div>
 
 
