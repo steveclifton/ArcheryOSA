@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\ArcherRelation;
 use App\EventEntry;
-use App\Http\Controllers\Scoring\EventScoringController;
 use App\Http\Requests\Events\EventRegisterValidator;
 use App\Jobs\SendEventEntryConfirmationEmail;
 use App\Jobs\SendEventEntryEmail;
@@ -475,9 +474,6 @@ class EventRegistrationController extends Controller
                                 ->where('eventid', $eventid)
                                 ->get();
 
-
-
-
         $hash = '';
 
         // These are rounds that are already in the database
@@ -516,12 +512,13 @@ class EventRegistrationController extends Controller
             $dateofbirth = Carbon::createFromFormat('d/m/Y', $request->input('dateofbirth'));
         }
 
+
+        // Loop over anyscores that might exist and delete them
         $scores = Score::where('userid', $request->userid)->where('eventid', $request->eventid)->get();
-
-
         foreach ($scores as $score) {
             if ($score->divisionid != $request->input('divisions')) {
-                $score->delete();
+                $score->divisionid = $request->input('divisions');
+                $score->save();
             }
         }
 
