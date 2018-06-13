@@ -68,6 +68,10 @@ class ExportController extends Controller
 
         $data = EventEntry::where('eventid', $eventid)->orderby('targetallocation')->get();
 
+        if (empty($data)) {
+            return redirect()->back()->with('failure', 'Please save target entries before exporting');
+        }
+
         $view = View::make('pdf.targetallocations', ['data' => $data]);
         $html = $view->render();
 

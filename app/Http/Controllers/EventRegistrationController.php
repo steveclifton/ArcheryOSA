@@ -440,6 +440,7 @@ class EventRegistrationController extends Controller
             $dateofbirth = Carbon::createFromFormat('d/m/Y', $request->input('dateofbirth'));
         }
 
+
         $evententry = new EventEntry();
         $evententry->fullname = $request->input('name');
         $evententry->userid = $request->input('userid');
