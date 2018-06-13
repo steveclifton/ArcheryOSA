@@ -41,12 +41,19 @@
     <div class="form-group {{ $errors->has('clubid') ? ' has-error' : '' }}" id="club">
         <label for="organisation" class="col-md-4 control-label">Club</label>
 
+        @php
+            $clubid = '';
+            if (!empty($archerentry->eventregistration)) {
+                $clubid = $archerentry->eventregistration->first()->clubid;
+            }
+        @endphp
+
         <div class="col-md-6">
             <select name="clubid" class="form-control" id="clubselect" required autofocus>
                 <option value="0">None</option>
 
                 @foreach ($clubs as $club)
-                    <option value="{{$club->clubid}}" {!! $club->clubid == $archerentry->eventregistration->first()->clubid ?? '' ? 'selected':'' !!}>{{$club->name}}</option>
+                    <option value="{{$club->clubid}}" {!! $club->clubid == $clubid ? 'selected':'' !!}>{{$club->name}}</option>
                 @endforeach
 
             </select>
