@@ -23,11 +23,12 @@ class ExportController extends Controller
             die();
         }
 
-        $entries = DB::select("SELECT ee.`fullname`, c.`name` as clubname, ee.`email`, ee.`address`, ee.`phone`, d.`name` as divisionname, ee.`membershipcode`, ee.`paid`, ee.`gender`, ee.`notes`,
+        $entries = DB::select("SELECT ee.`fullname`, c.`name` as clubname, ee.`email`, ee.`address`, ee.`phone`, d.`name` as divisionname, er.name as roundname, ee.`membershipcode`, ee.`paid`, ee.`gender`, ee.`notes`,
               ee.`created_at`, ee.`updated_at`
             FROM `evententry` ee
             LEFT JOIN `clubs` c using (`clubid`)
             LEFT JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid`)
+            LEFT JOIN `eventrounds` er ON (ee.eventroundid = er.eventroundid)
             WHERE ee.`eventid` = :eventid
             ", [
             'eventid' => $request->eventid
@@ -37,7 +38,7 @@ class ExportController extends Controller
 
         $csv = Writer::createFromFileObject(new \SplTempFileObject());
 
-        $csv->insertOne(['Name', 'Club', 'Email', 'Address', 'Phone', 'Division', 'Membership', 'Paid Status', 'Gender', 'Notes', 'Created Date', 'Updated Date' ]);
+        $csv->insertOne(['Name', 'Club', 'Email', 'Address', 'Phone', 'Division', 'Round Name', 'Membership', 'Paid Status', 'Gender', 'Notes', 'Created Date', 'Updated Date' ]);
 
         foreach ($entries as $entry) {
             if ($entry->paid == 0) {
