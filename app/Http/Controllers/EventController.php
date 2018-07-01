@@ -324,9 +324,15 @@ class EventController extends Controller
         }
 
         /* non league */
-        else if ($event->eventtype == 0 && $event->multipledivisions == 0) {
-            // Multiple entry comp
-            $er->singleEntryUpdate($request, $event->eventid);
+        else if ($event->eventtype == 0) {
+
+            if ($event->multipledivisions == 1) {
+                // means it is a single event (non league) but also allows for people to enter in more than 1 division
+                $er->multiDivisionSingleEntryUpdate($request, $event->eventid);
+            }
+            else {
+                $er->singleEntryUpdate($request, $event->eventid);
+            }
         }
         /* league processing */
         else {
