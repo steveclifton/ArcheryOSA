@@ -280,12 +280,17 @@ class EventRegistrationController extends Controller
         }
 
 
-
         /* non league */
-        if ($event->eventtype == 0 && $event->multipledivisions == 0) {
+        if ($event->eventtype == 0) {
             // Multiple entry comp
 
-            $evententry = $this->singleEntryUpdate($request, $event->eventid);
+            if ($event->multipledivisions == 1) {
+                // means it is a single event (non league) but also allows for people to enter in more than 1 division
+                $evententry = $this->multiDivisionSingleEntryUpdate($request, $event->eventid);
+            }
+            else {
+                $evententry = $this->singleEntryUpdate($request, $event->eventid);
+            }
 
             if (empty($evententry)){
                 return redirect()->back()->withInput()->with('failure', 'Please check entry and try again');
@@ -309,13 +314,31 @@ class EventRegistrationController extends Controller
     /**
      * Registers a user for a league event
      */
-    private function league_eventRegister($request, $eventid)
+    public function league_eventRegister($request, $eventid)
     {
 
         if ($request->input('submit') == 'remove') {
             $this->deleteUserEntry($request->input('userid'), $eventid);
             return false;
         }
+
+        $currentdivisions = EventEntry::where('userid', $request->userid)
+                                        ->where('eventid', $request->eventid)
+                                        ->pluck('divisionid')
+                                        ->toArray();
+
+
+        $newdivisions = (array) $request->input('divisions');
+
+        foreach ($currentdivisions as $divisionid) {
+            if (!in_array($divisionid, $newdivisions)) {
+                EventEntry::where('userid', $request->userid)
+                            ->where('eventid', $request->eventid)
+                            ->where('divisionid', $divisionid)
+                            ->delete();
+            }
+        }
+
 
         foreach ($request->input('divisions') as $division) {
 
@@ -435,18 +458,24 @@ class EventRegistrationController extends Controller
      */
     public function createEntry($request, $eventroundid, $hash)
     {
+
         $dateofbirth = NULL;
         if (!empty($request->input('dateofbirth'))) {
             $dateofbirth = Carbon::createFromFormat('d/m/Y', $request->input('dateofbirth'));
         }
-
+        if (is_array($request->input('divisions'))) {
+            $divisionid = @array_shift($request->input('divisions'));
+        }
+        else {
+            $divisionid = intval($request->input('divisions'));
+        }
 
         $evententry = new EventEntry();
         $evententry->fullname = $request->input('name');
         $evententry->userid = $request->input('userid');
         $evententry->clubid = $request->input('clubid');
         $evententry->email = $request->input('email');
-        $evententry->divisionid = $request->input('divisions');
+        $evententry->divisionid = $divisionid;
         $evententry->membershipcode = $request->input('membershipcode');
         $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
         $evententry->phone = $request->input('phone');
@@ -523,15 +552,21 @@ class EventRegistrationController extends Controller
             }
         }
 
-
-
         // need to find rounds that have been unticked - IE removed
         foreach ($userentry as $entry) {
             // update anything that is needed
+
+            if (is_array($request->input('divisions'))) {
+                $divisionid = @array_shift($request->input('divisions'));
+            }
+            else {
+                $divisionid = intval($request->input('divisions'));
+            }
+
             $entry->fullname = $request->input('name');
             $entry->clubid = $request->input('clubid');
             $entry->email = $request->input('email');
-            $entry->divisionid = $request->input('divisions');
+            $entry->divisionid = $divisionid;
             $entry->membershipcode = $request->input('membershipcode');
             $entry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
             $entry->phone = $request->input('phone');
@@ -554,12 +589,12 @@ class EventRegistrationController extends Controller
      */
     public function multipleEntryUpdate($request)
     {
-
         // current divisions
         $currentdivisions = EventEntry::where('userid', Auth::id())
             ->where('eventid', $request->eventid)
             ->pluck('divisionid')
             ->toArray();
+
 
         // loop through those that are not in the current request (as they have been unticked) and delete them
         foreach (array_diff($currentdivisions, $request->divisions) as $division) {
@@ -612,6 +647,122 @@ class EventRegistrationController extends Controller
 
         return true;
     } // multipleEntryUpdate
+
+
+    public function multiDivisionSingleEntryUpdate($request, $eventid) {
+
+        if (empty($request->input('eventroundid'))) {
+            return false;
+        }
+        // get all the rounds, if any is missing , delete it
+        $userentry = EventEntry::where('userid', $request->userid)
+                                ->where('eventid', $eventid)
+                                ->get();
+
+        $hash = '';
+
+        // These are rounds that are already in the database
+        $existingrounds = [];
+        foreach ($userentry as $entry) {
+            $existingrounds[$entry->divisionid][] = $entry->eventroundid;
+            $hash = !empty($entry->hash) ? $entry->hash : '';
+        }
+
+        if (empty($hash)){
+            $hash = $this->createHash();
+        }
+
+        // Create a new array that has the new ones
+        $newrounds = [];
+        $neweventroundids = [];
+        foreach ($request->input('divisions') as $divisionid) {
+            foreach ($request->input('eventroundid') as $eventroundid) {
+                $newrounds[$divisionid][] = $neweventroundids[intval($eventroundid)] = intval($eventroundid);
+            }
+        }
+
+
+        EventEntry::where('userid', $request->userid)
+                    ->where('eventid', $eventid)
+                    ->whereNotIn('eventroundid', $neweventroundids)
+                    ->delete();
+
+        EventEntry::where('userid', $request->userid)
+                    ->where('eventid', $eventid)
+                    ->whereNotIn('divisionid', array_keys($newrounds))
+                    ->delete();
+
+
+
+        foreach ($newrounds as $divisionid => $eventroundids) {
+            $evententry = EventEntry::where('userid', $request->userid)
+                                    ->where('eventid', $eventid)
+                                    ->where('divisionid', $divisionid)
+                                    ->whereIn('eventroundid', $eventroundids)
+                                    ->get();
+
+            // loop over the new eventroundids, see if it exists
+            # if it exists, update it
+            # if not, create it
+            $existingroundids = [];
+            foreach ($evententry as $ee) {
+                $existingroundids[] = $ee->eventroundid;
+                // update the details HERE
+
+                $dateofbirth = NULL;
+                if (!empty($request->input('dateofbirth'))) {
+                    $dateofbirth = Carbon::createFromFormat('d/m/Y', $request->input('dateofbirth'));
+                }
+
+                $ee->fullname = $request->input('name');
+                $ee->userid = $request->input('userid');
+                $ee->clubid = $request->input('clubid');
+                $ee->email = $request->input('email');
+                $ee->membershipcode = $request->input('membershipcode');
+                $ee->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
+                $ee->phone = $request->input('phone');
+                $ee->address = $request->input('address');
+                $ee->notes = $request->input('notes');
+                $ee->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
+                $ee->hash = $hash;
+                $ee->dateofbirth = $dateofbirth;
+
+                $ee->save();
+            }
+
+            foreach (array_diff($eventroundids, $existingroundids) as $eventroundid) {
+                $dateofbirth = NULL;
+                if (!empty($request->input('dateofbirth'))) {
+                    $dateofbirth = Carbon::createFromFormat('d/m/Y', $request->input('dateofbirth'));
+                }
+
+                $evententry = new EventEntry();
+                $evententry->fullname = $request->input('name');
+                $evententry->userid = $request->input('userid');
+                $evententry->clubid = $request->input('clubid');
+                $evententry->email = $request->input('email');
+                $evententry->divisionid = $divisionid;
+                $evententry->membershipcode = $request->input('membershipcode');
+                $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
+                $evententry->phone = $request->input('phone');
+                $evententry->address = $request->input('address');
+                $evententry->notes = $request->input('notes');
+                $evententry->entrystatusid = '1';
+                $evententry->eventid = $request->eventid;
+                $evententry->eventroundid = $eventroundid;
+                $evententry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
+                $evententry->hash = $hash;
+                $evententry->dateofbirth = $dateofbirth;
+
+                $evententry->save();
+            }
+
+        }
+
+        return !empty($evententry) ? reset($evententry) : reset($ee);
+
+    } //multiDivisionSingleEntryUpdate
+
 
     /**
      * Deletes a users entry to the whole competition
