@@ -430,7 +430,8 @@ class EventRegistrationController extends Controller
 
                 if ($waseventstatus == 1 && intval($userstatus[$i] == 2)) {
 
-                    $this->sendEventRegisterConfirmation($ee->email, $ee->fullname, $event->name ?? '', $event->url ?? '');
+                    $eventurl = getenv('BASE_URL') . '/event/details/' . $event->url;
+                    $this->sendEventRegisterConfirmation($ee->email, $ee->fullname, $event->name ?? '', $eventurl);
 
                     $ee->confirmationemail = 1;
                 }
