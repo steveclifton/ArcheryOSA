@@ -418,7 +418,6 @@ class EventRegistrationController extends Controller
 
 
             foreach ($evententry as $ee) {
-
                 // Set the event on the first occurance of the loop
                 if (empty($event)){
                     $event = Event::where('eventid', $ee->eventid)->get()->first();
@@ -664,9 +663,11 @@ class EventRegistrationController extends Controller
 
         // These are rounds that are already in the database
         $existingrounds = [];
+        $entrystatusid = 1;
         foreach ($userentry as $entry) {
             $existingrounds[$entry->divisionid][] = $entry->eventroundid;
             $hash = !empty($entry->hash) ? $entry->hash : '';
+            $entrystatusid = $entry->entrystatusid;
         }
 
         if (empty($hash)){
@@ -727,6 +728,7 @@ class EventRegistrationController extends Controller
                 $ee->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
                 $ee->hash = $hash;
                 $ee->dateofbirth = $dateofbirth;
+                $ee->entrystatusid = $entrystatusid;
 
                 $ee->save();
             }
@@ -748,7 +750,7 @@ class EventRegistrationController extends Controller
                 $evententry->phone = $request->input('phone');
                 $evententry->address = $request->input('address');
                 $evententry->notes = $request->input('notes');
-                $evententry->entrystatusid = '1';
+                $evententry->entrystatusid = $entrystatusid;
                 $evententry->eventid = $request->eventid;
                 $evententry->eventroundid = $eventroundid;
                 $evententry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
