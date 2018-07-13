@@ -79,7 +79,7 @@ $(document).ready(function() {
                 }
             }).done(function( json ) {
                 if (json.success) {
-                    $('#sendmessage').empty().html('Email Sent!');
+                    $('#sendmessage').empty().html('Email Sent!').parent().removeClass('hidden');
                 }
                 else {
                     $('#sendmessage').empty().html('Message was unable to be sent').parent().removeClass('hidden');
