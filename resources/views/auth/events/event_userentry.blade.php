@@ -33,12 +33,33 @@
                     <form class="form-horizontal" method="POST" action="{{ route('updateuserentry', ['eventurl' => $event->url]) }}" >
                         {{ csrf_field() }}
 
+                        <meta name="csrf-token" content="{{ csrf_token() }}">
 
                         <input type="text" name="eventid" hidden value="{{$event->eventid}}">
 
                         <div id="formdata">
                             @include('includes.forms.entryform')
                         </div>
+
+                        @if(Auth::user()->usertype == 1)
+
+                            <div class="form-group">
+                                <label for="address" class="col-md-4 control-label">Email Text</label>
+                                <div class="col-md-6">
+                                    <textarea rows="5" id="useremail" type="text" class="form-control" placeholder="Optional"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-6">
+                                     <span class="help-block hidden">
+                                        <strong id="sendmessage" >&nbsp; Click to send the email</strong>
+                                    </span>
+                                    <a href="javascript:;" class="btn btn-success"
+                                       id="senduseremail" role="button" data-eventid="{!!($event->eventid) !!}">Send Email</a>
+                                </div>
+                            </div>
+                        @endif
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
