@@ -1,7 +1,7 @@
 <h3 style="text-align: center;padding-bottom: 5%">Event Entries</h3>
 
 <div class="table-responsive ">
-    <form class="form-horizontal" method="POST" action="{{route('updateregistrationstatus', $event->eventid)}}" id="eventformupdate">
+    <form class="form-horizontal " method="POST" action="{{route('updateregistrationstatus', $event->eventid)}}" id="eventformupdate">
         {{ csrf_field() }}
 
         <table class="table userentry">
@@ -73,3 +73,13 @@
 
     </form>
 </div>
+
+<script>
+
+    $('table.userentry').DataTable({
+        "paging": false,
+        "info": false,
+        "searching": false,
+        "order": []
+    });
+</script>
