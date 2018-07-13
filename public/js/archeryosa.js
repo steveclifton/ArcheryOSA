@@ -11,18 +11,7 @@ $(document).ready(function() {
         "info": false,
         "searching": false,
         "order": []
-
     });
-
-    $('table.userentry').DataTable({
-        "paging": false,
-        "info": false,
-        "searching": false,
-        "order": []
-    });
-
-
-
 
 
     $('.distance').on('keyup', function () {
