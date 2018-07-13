@@ -101,6 +101,7 @@ class EventController extends Controller
 
     private function sendEventUpdateEmail($email, $eventname, $message)
     {
+
         if ( filter_var($email, FILTER_VALIDATE_EMAIL ) ) {
             return $this->dispatch(new SendEventUpdateEmail($email, $eventname, $message));
         }
@@ -778,13 +779,21 @@ class EventController extends Controller
 
 
         // If the event is empty OR the user is not allowed to edit the event, return false
-        if (empty($event) || empty($caneditevent) || empty($request->type)) {
-            return response()->json([
-                'success' => false,
-            ]);
+        if ($request->type != 'senduseremail') {
+            if (empty($event) || empty($caneditevent) || empty($request->type)) {
+                return response()->json([
+                    'success' => false,
+                ]);
+            }
+        }
+        else {
+            if (Auth::user()->usertype != 1) {
+                die;
+            }
         }
 
         $data = [];
+        $html = '';
         switch ($request->type) {
             case 'summary' :
                 $data = $this->getEventData($event->eventid);
@@ -839,6 +848,20 @@ class EventController extends Controller
 
                 $view = View::make('includes.adminevents.targetallocation', $data);
                 $html = $view->render();
+                break;
+
+            case 'senduseremail':
+                $email = $request->email;
+                $message = $request->message;
+
+                if (empty($email) || empty($message)) {
+                    return response()->json([
+                        'success' => false,
+                    ]);
+                }
+
+                $this->sendEventUpdateEmail($email, ucwords($event->name), $message);
+
                 break;
 
         } // switch
