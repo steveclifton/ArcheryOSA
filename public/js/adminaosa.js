@@ -59,6 +59,45 @@ $(document).ready(function() {
 
     });
 
+    $(document).on('click', '#senduseremail', function () {
+        var email = $('#email').val();
+        var message = $('#useremail').val();
+        var eventid = $(this).attr('data-eventid');
+
+        if (message.length > 5) {
+            $.ajax({
+                method: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "/admin/geteventdata",
+                data: {
+                    type: 'senduseremail',
+                    email: email,
+                    message: message,
+                    eventid: eventid
+                }
+            }).done(function( json ) {
+                if (json.success) {
+                    $('#sendmessage').empty().html('Email Sent!');
+                }
+                else {
+                    $('#sendmessage').empty().html('Message was unable to be sent').parent().removeClass('hidden');
+                }
+
+            });
+
+        }
+        else {
+            $('#sendmessage').empty().html('Please enter a message').parent().removeClass('hidden');
+        }
+    });
+
+
+
+
+
+
     $(document).on('keyup','#searchuser', function (e) {
 
         var email = $('#searchuser').val();
