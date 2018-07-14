@@ -22,13 +22,19 @@
                                 <tbody>
                                     @foreach (array_slice($users, 0, 14) as $user)
                                         <tr>
-                                            <td><a href="{!! route('getpublicuserview', $user->username) !!}">{{ ucwords($user->fullname) }}</a></td>
+                                            @php
+                                                $route = !empty($user->username) ? route('getpublicuserview', $user->username) : 'javascript:;';
+                                            @endphp
+                                            <td><a href="{!! $route !!}">{{ ucwords($user->fullname) }}</a></td>
                                             <td>{{ $user->division }}</td>
                                         </tr>
                                     @endforeach
                                     @foreach (array_slice($users, 14) as $user)
                                         <tr class="item hidden">
-                                            <td><a href="{!! route('getpublicuserview', $user->username) !!}">{{ ucwords($user->fullname) }}</a></td>
+                                            @php
+                                                $route = !empty($user->username) ? route('getpublicuserview', $user->username) : 'javascript:;';
+                                            @endphp
+                                            <td><a href="{!! $route !!}">{{ ucwords($user->fullname) }}</a></td>
                                             <td>{{ $user->division }}</td>
                                         </tr>
                                     @endforeach
