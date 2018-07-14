@@ -77,7 +77,7 @@
                 }
             @endphp
 
-            <input id="email" type="text" class="form-control" name="email" value="{{  $email }}" required autofocus>
+            <input id="email" type="text" class="form-control" name="email" value="{{  $email }}"  >
 
             @if ($errors->has('email'))
                 <span class="help-block">
