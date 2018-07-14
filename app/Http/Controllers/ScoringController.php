@@ -435,6 +435,10 @@ class ScoringController extends Controller
         $daterange = new EventDateRange($event->startdate, $event->enddate);
         $daterange = $daterange->getDateRange();
 
+        if ($_GET['day'] ?? '' == 'overall') {
+            return $this->getoveralleventresults($event);
+        }
+
 
         $day = isset($_GET['day']) ? intval($_GET['day']) : 0;
 
@@ -512,7 +516,9 @@ class ScoringController extends Controller
 
 
 
-        $eventrounds = DB::select("SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, er.`location`, e.`status`, er.`eventroundid`, r.`unit`
+        $eventrounds = DB::select("
+            SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, 
+                  er.`location`, e.`status`, er.`eventroundid`, r.`unit`
             FROM `eventrounds` er
             JOIN `rounds` r USING (`roundid`)
             JOIN `events` e USING (`eventid`)
@@ -522,10 +528,6 @@ class ScoringController extends Controller
         );
 
         $resultdistances = $this->getDistances($eventrounds);
-
-
-
-
 
         // User Entry
         $userevententry = EventEntry::where('userid', Auth::id())
@@ -547,6 +549,97 @@ class ScoringController extends Controller
 
         return view ('publicevents.event_results', compact('daterange','event', 'canscore', 'eventrounds', 'userevententry', 'users', 'results', 'resultdistances', 'userevententry'));
 
+    }
+
+    public function getoveralleventresults($event)
+    {
+
+        $results = Score::where('eventid', $event->eventid)->get()->first();
+
+
+        if (!empty($results)) {
+
+            $results = DB::select("
+                SELECT s.*, ee.`fullname`, ee.`gender`, u.`username`, d.`name` as divisonname, er.`name` as roundname
+                FROM `scores` s 
+                JOIN `evententry` ee ON (ee.`evententryid` = s.`evententryid`)
+                JOIN `eventrounds` er ON (ee.`eventroundid` = er.`eventroundid`)
+                JOIN `users` u ON (s.`userid` = u.`userid`)
+                JOIN `divisions` d ON (ee.`divisionid` = d.`divisionid` AND s.divisionid = ee.divisionid)
+                WHERE s.`eventid` = :eventid
+                ", [
+                    'eventid' => $event->eventid
+                ]
+            );
+
+
+
+            $resultssorted = [];
+            foreach ($results as $result) {
+                if ($result->gender == 'F') {
+                    $result->gender = 'Female';
+                } else {
+                    $result->gender = 'Male';
+                }
+                $resultssorted[ $result->divisonname . " " . $result->gender][] = $result;
+            }
+
+            foreach ($resultssorted as $key => &$result) {
+                usort($result, function ($a, $b) {
+
+                    // return 1 when B greater than A
+                    //dump($a, $b);
+                    if (intval($b->total_score) == intval($a->total_score)) {
+                        if (intval($b->total_hits) == intval($a->total_hits)) {
+                            if (intval($b->total_10) > intval($a->total_10)) {
+                                return 1;
+                            }
+                        }
+
+                        else if (intval($b->total_hits) > intval($a->total_hits)) {
+                            return 1;
+                        }
+                    }
+
+                    else if (intval($b->total_score) > intval($a->total_score)) {
+                        return 1;
+                    }
+
+                    return -1;
+
+                });
+            }
+
+            $results = $resultssorted;
+        }
+
+        $eventrounds = DB::select("
+            SELECT r.`name`, r.`dist1`, r.`dist2`, r.`dist3`, r.`dist4`, er.`name` as roundname, 
+                  er.`location`, e.`status`, er.`eventroundid`, r.`unit`
+            FROM `eventrounds` er
+            JOIN `rounds` r USING (`roundid`)
+            JOIN `events` e USING (`eventid`)
+            WHERE er.`eventid` = :eventid
+            ",
+            ['eventid' => $event->eventid]
+        );
+
+        $resultdistances = $this->getDistances($eventrounds);
+
+        // User Entry
+        $userevententry = EventEntry::where('userid', Auth::id())
+            ->where('eventid', $event->eventid)
+            ->get()
+            ->first();
+
+        if (!empty($userevententry)) {
+            $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
+        }
+
+        $daterange = new EventDateRange($event->startdate, $event->enddate);
+        $daterange = $daterange->getDateRange();
+        $canscore = $this->canScore($event, $userevententry);
+        return view ('publicevents.event_results', compact('daterange','event', 'canscore', 'eventrounds', 'userevententry', 'users', 'results', 'resultdistances', 'userevententry'));
     }
 
     public function getLeagueEventResults(Request $request, $event)
