@@ -143,23 +143,49 @@ class EventRegistrationController extends Controller
 
         }
 
-
-        foreach ($request->input('eventroundid') as $eventroundid) {
-
-            $evententry = new EventEntry();
-            $evententry->fullname = $request->input('name');
-            $evententry->userid = $user->userid;
-            $evententry->email = $user->email;
-            $evententry->divisionid = $request->input('divisions');
-            $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
-            $evententry->entrystatusid = '1';
-            $evententry->eventid = $request->eventid;
-            $evententry->eventroundid = $eventroundid;
-            $evententry->membershipcode = '';
-            $evententry->hash = substr(md5(time()),0,10);
-            $evententry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
-            $evententry->save();
+        // Create a new array that has the new ones
+        $newrounds = [];
+        foreach ($request->input('divisions') as $divisionid) {
+            foreach ($request->input('eventroundid') as $eventroundid) {
+                $newrounds[$divisionid][] = intval($eventroundid);
+            }
         }
+
+        foreach ($newrounds as $divisionid => $eventroundids) {
+
+            // loop over the new eventroundids, see if it exists
+            # if it exists, update it
+            $hash = $this->createHash();
+            foreach ($eventroundids as $eventroundid) {
+                $dateofbirth = NULL;
+                if (!empty($request->input('dateofbirth'))) {
+                    $dateofbirth = Carbon::createFromFormat('d/m/Y', $request->input('dateofbirth'));
+                }
+
+                $evententry = new EventEntry();
+                $evententry->fullname = $request->input('name');
+                $evententry->userid = $request->input('userid') != -1 ? $request->input('userid') : $user->userid;
+                $evententry->clubid = !empty($request->input('clubid')) ? $request->input('clubid') : NULL;
+                $evententry->email = !empty($request->input('email')) ? $request->input('email') : NULL;
+                $evententry->divisionid = $divisionid;
+                $evententry->membershipcode = !empty($request->input('membershipcode')) ? $request->input('membershipcode') : NULL;
+                $evententry->enteredbyuserid = Auth::id(); // set the created by as the person who is logged in
+                $evententry->phone = !empty($request->input('phone')) ? $request->input('phone') : NULL;
+                $evententry->address = !empty($request->input('address')) ? $request->input('address') : NULL;
+                $evententry->notes = !empty($request->input('notes')) ? $request->input('notes') : NULL;
+                $evententry->entrystatusid = '2';
+                $evententry->eventid = $request->eventid ?? $request->input('eventid');
+                $evententry->eventroundid = $eventroundid;
+                $evententry->gender = in_array($request->input('gender'), ['M','F']) ? $request->input('gender') : '';
+                $evententry->hash = $hash;
+                $evententry->dateofbirth = $dateofbirth;
+
+                $evententry->save();
+            }
+
+        }
+
+
         return back()->with('message', 'Archer Added');
     }
 
