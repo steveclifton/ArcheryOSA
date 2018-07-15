@@ -145,6 +145,39 @@ $(document).ready(function() {
 
     });
 
+    $('#selectarcher').on('change', function (e) {
+        var optionSelected = $("option:selected", this).val();
+        var eventid = $('input[name="eventid"]').val();
+
+        $.ajax({
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "/ajaxgetusersentryform",
+            data: {
+                userid: optionSelected,
+                eventid: eventid
+            }
+        }).done(function( json ) {
+
+            if (json.success) {
+                $('#formdata').empty();
+                $('#formdata').append(json.html);
+
+                if (json.existing) {
+                    $('.enterbutton').addClass('hidden');
+                    $('.updateremovebutton').removeClass('hidden');
+                } else {
+                    $('.enterbutton').removeClass('hidden');
+                    $('.updateremovebutton').addClass('hidden');
+                }
+            }
+
+        });
+
+    });
+
 
     $('.shootingday').on('change', function (e) {
         var optionSelected = $("option:selected", this).val();
