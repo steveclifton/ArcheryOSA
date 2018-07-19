@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ArcherRelation;
 use App\Classes\EventDateRange;
 use App\EntryStatus;
 use App\EventEntry;
@@ -84,6 +85,11 @@ class EventController extends Controller
                                         ->first();
         if (!empty($userevententry)) {
             $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
+        }
+        else {
+            //check to see they can score on behalf
+            $users = ArcherRelation::where('userid', Auth::id())->pluck('relationuserid')->toArray();
+            $userevententry = EventEntry::whereIn('userid', $users)->where('eventid', $eventid)->get()->first();
         }
 
         $data['userevententry'] = $userevententry;

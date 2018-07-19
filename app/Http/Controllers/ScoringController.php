@@ -377,24 +377,34 @@ class ScoringController extends Controller
                             ->get()
                             ->first();
 
-        // User Entry
-        $userevententry = EventEntry::where('userid', Auth::id())
-            ->whereIn('entrystatusid', [2] )
-            ->where('eventid', $this->eventid)
-            ->get()
-            ->first();
+//        // User Entry
+//        $userevententry = EventEntry::where('userid', Auth::id())
+//            ->whereIn('entrystatusid', [2] )
+//            ->where('eventid', $this->eventid)
+//            ->get()
+//            ->first();
+//
+//        if (empty($userevententry)) {
+//            if (!empty($users)) {
+//
+//                $userevententry->status = 1;
+//            }
+//        }
+//        else {
+//            if (!empty($userevententry)) {
+//                $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
+//            } else {
+//                return back()->with('failure', 'Unable to score at this time')->withInput();
+//            }
+//        }
 
 
-        if (!empty($userevententry)) {
-            $userevententry->status = EntryStatus::where('entrystatusid', $userevententry->entrystatusid)->pluck('name')->first();
-        } else {
-            return back()->with('failure', 'Unable to score at this time')->withInput();
-        }
+
 
         // show scoring tab or not
-        $canscore = $this->canScore($event, $userevententry);
+        $canscore = true;//$this->canScore($event, $userevententry);
 
-        return view('auth.events.event_league_scoringrounds', compact('users', 'canscore', 'eventround', 'eventrounds', 'distances', 'event', 'userevententry', 'results'));
+        return view('auth.events.event_league_scoringrounds', compact('users', 'canscore', 'eventround', 'eventrounds', 'distances', 'event', 'results'));
 
     }
 
