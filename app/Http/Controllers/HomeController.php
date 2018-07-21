@@ -13,10 +13,12 @@ class HomeController extends Controller
 
         $events = DB::select("SELECT *
                         FROM `events`
-                        WHERE `status` IN ('open', 'waitlist', 'pending', 'entries-closed')
+                        WHERE `status` IN ('open', 'in-progress', 'waitlist', 'pending', 'entries-closed')
                         AND `visible` = 1
                         ORDER BY `startdate` ASC
                         ");
+
+
 
         $userevents = DB::select("SELECT e.`eventid`, e.`startdate`, es.`name` as usereventstatus, e.`name`, e.`status` as eventstatus, e.`url`
                         FROM `evententry` ee
