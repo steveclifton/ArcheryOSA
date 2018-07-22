@@ -103,9 +103,9 @@ class ExportController extends Controller
                 }
 
                 $data = [];
-                $data[] = strtolower($r->firstname);
-                $data[] = strtolower($r->lastname);
-                $data[] = strtolower($r->club ?? '');
+                $data[] = ucwords(strtolower($r->firstname));
+                $data[] = ucwords(strtolower($r->lastname));
+                $data[] = ucwords(strtolower($r->club ?? ''));
                 $data[] = $r->membershipcode;
                 $data[] = strtolower($r->divisonname);
                 $data[] = $r->gender;
