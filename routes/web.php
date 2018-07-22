@@ -11,6 +11,7 @@ Route::get('/authorisearcherrelation/{hash}', 'UserController@authoriseUserRelat
 Route::get('/event/results/{eventurl}', 'ScoringController@getResults')->name('geteventresults');
 Route::get('/users/{username}', 'UserController@getPublicProfile')->name('getpublicuserview');
 
+Route::get('/export/events/scores/{eventid}', 'ExportController@exportScores');
 
 // TouchURLS
 Route::get(getenv('SEND_PATH') .'sendconfirmationemail/{userid}/{evententryid}/{eventhash}', 'SenderController@sendconfirmationemail');

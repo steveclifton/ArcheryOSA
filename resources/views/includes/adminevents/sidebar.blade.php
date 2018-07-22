@@ -40,4 +40,9 @@
     </h4>
     <hr>
 
+    <h4>
+        <a href="{{'/export/events/scores/' . $event->eventid}}">Export Scores</a>
+    </h4>
+    <hr>
+
 </div>
