@@ -30,12 +30,24 @@
 
                             <div class="col-md-4">
                                 <select name="currentweek" class="form-control shootingday">
-                                    <option value="overall" {!! ( ($_GET['day'] ?? -1) == 'overall') ? 'selected' : '' !!}>Overall</option>
                                     @php
                                         $i = 0;
+                                        $day = !empty($_GET['day']) ? trim(strtolower($_GET['day'])) : '-1';
+                                        print($day);
                                     @endphp
+                                    <option value="overall" {!! ($day == 'overall') ? 'selected' : '' !!}>Overall</option>
+
                                     @foreach ($daterange as $date)
-                                        <option value="{!! $i; !!}" {!! ($_GET['day'] ?? -1 == $i || (empty($_GET['day']) && $i == 0)) ? 'selected' : '' !!} >{{ date('d F', strtotime($date)) }}</option>
+                                        @php
+                                            $selected = -1;
+                                            if (empty($_GET['day'])) {
+                                                $selected = 0;
+                                            }
+                                            else if (is_numeric($_GET['day'])){
+                                                $selected = intval($_GET['day']);
+                                            }
+                                        @endphp
+                                        <option value="{!! $i; !!}" {!! $i == $selected ? 'selected' : '' !!} >{{ date('d F', strtotime($date)) }}</option>
                                         @php $i++; @endphp
                                     @endforeach
                                 </select>
